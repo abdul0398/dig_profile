@@ -1,0 +1,330 @@
+body {
+    margin: 0;
+    line-height: normal;
+    background: #f4f4f4;
+    padding: 10px;
+  }
+  
+  :root {
+    /* fonts */
+    --font-quicksand: Quicksand;
+    --font-roboto: Roboto;
+  
+    /* font sizes */
+    --font-size-base: 1rem;
+  
+    /* Colors */
+    --color-white: #fff;
+    --color-red-100: #ff0000;
+    --color-black: #000;
+    --color-tomato: #f86954;
+  
+    /* Border radiuses */
+    --br-6xl: 25px;
+  }
+.group-child {
+    position: absolute;
+    top: 12.59rem;
+    left: 19.24rem;
+    width: 17.48rem;
+    height: 5.93rem;
+    object-fit: cover;
+  }
+  .group-item {
+    position: absolute;
+    top: 11.42rem;
+    left: 0;
+    border-radius: 170px;
+    background: linear-gradient(178.54deg, red 7.67%, #f10);
+    width: 17.34rem;
+    height: 34.05rem;
+    transform: rotate(-41.2deg);
+    transform-origin: 0 0;
+  }
+  .child,
+  .inner,
+  .vector-parent {
+    position: absolute;
+    width: 36.73rem;
+    height: 37.04rem;
+  }
+  .vector-parent {
+    top: 0;
+    left: 0;
+  }
+  .child,
+  .inner {
+    top: -13.44rem;
+    left: -9.87rem;
+  }
+  .child {
+    top: 4.31rem;
+    left: 6.38rem;
+    border-radius: 119px;
+    width: 14.19rem;
+    height: 14.13rem;
+    object-fit: cover;
+  }
+  .agent-name {
+    position: absolute;
+    top: 0;
+    color: #000;
+    left: calc(50% - 50.5px);
+  }
+  .avtive-listing {
+    position: absolute;
+    top: 2.5rem;
+    left: calc(50% - 51.5px);
+    font-size: var(--font-size-base);
+    font-weight: 600;
+    font-family: var(--font-quicksand);
+    color: var(--color-black);
+  }
+  .agent-name-parent {
+    position: absolute;
+    top: 0;
+    left: calc(50% - 82px);
+    width: 10.19rem;
+    height: 3.75rem;
+  }
+  .component-1-child {
+    position: absolute;
+    height: 100%;
+    width: 100%;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0;
+    border-radius: var(--br-6xl);
+    background-color: var(--color-red-100);
+  }
+  .property-guru {
+    position: absolute;
+    top: 30%;
+    left: 33.33%;
+  }
+  .component-1,
+  .group-parent {
+    position: absolute;
+    left: calc(50% - 165px);
+    width: 20.63rem;
+  }
+  .component-1 {
+    top: 5.31rem;
+    height: 3.13rem;
+    font-size: var(--font-size-base);
+    color: var(--color-white);
+    font-family: var(--font-quicksand);
+  }
+  .group-parent {
+    top: 23.91rem;
+    height: 8.44rem;
+  }
+  .co {
+    position: absolute;
+    top: 30%;
+    left: 44.24%;
+  }
+  .component-2 {
+    position: absolute;
+    top: 0;
+    left: calc(50% - 165px);
+    width: 20.63rem;
+    height: 3.13rem;
+  }
+  .edge-property {
+    position: absolute;
+    top: 30%;
+    left: 33.03%;
+  }
+  .component-3 {
+    position: absolute;
+    top: 4.38rem;
+    left: calc(50% - 165px);
+    width: 20.63rem;
+    height: 3.13rem;
+  }
+  .srx {
+    position: absolute;
+    top: 30%;
+    left: 45.15%;
+  }
+  .component-2-parent,
+  .component-4 {
+    position: absolute;
+    top: 8.75rem;
+    left: calc(50% - 165px);
+    width: 20.63rem;
+    height: 3.13rem;
+  }
+  .component-2-parent {
+    top: 44.98rem;
+    height: 11.88rem;
+    font-size: var(--font-size-base);
+    color: var(--color-white);
+    font-family: var(--font-quicksand);
+  }
+  .group-icon,
+  .group-inner {
+    width: 2.13rem;
+    object-fit: cover;
+  }
+  .group-inner {
+    position: absolute;
+    top: 0;
+    left: calc(50% - 66px);
+    height: 2.13rem;
+  }
+  .group-icon {
+    left: calc(50% - 17px);
+  }
+  .group-child1,
+  .group-div,
+  .group-icon {
+    position: absolute;
+    top: 0;
+    height: 2.13rem;
+  }
+  .group-child1 {
+    left: calc(50% + 32px);
+    width: 2.13rem;
+    object-fit: cover;
+  }
+  .group-div {
+    left: calc(50% - 66px);
+    width: 8.25rem;
+  }
+  .group-child2,
+  .line-icon {
+    position: absolute;
+    top: 1.06rem;
+    max-height: 100%;
+    width: 5.25rem;
+    object-fit: cover;
+  }
+  .line-icon {
+    left: 15.38rem;
+  }
+  .group-child2 {
+    left: 0;
+  }
+  .group-container {
+    position: absolute;
+    top: 58.41rem;
+    left: calc(50% - 165px);
+    width: 20.63rem;
+    height: 2.13rem;
+  }
+  .call-us {
+    position: absolute;
+    top: 0;
+    left: calc(50% - 43.5px);
+    text-transform: uppercase;
+  }
+  .rectangle-div {
+    position: absolute;
+    top: 0;
+    left: calc(50% - 165px);
+    border-radius: var(--br-6xl);
+    background: linear-gradient(178.54deg, #ff1212 7.67%, #ff2c1d);
+    width: 20.63rem;
+    height: 3.13rem;
+  }
+  .book-and-appointment {
+    position: absolute;
+    top: 0.94rem;
+    left: calc(50% - 90px);
+  }
+  .group-child3,
+  .rectangle-parent {
+    position: absolute;
+    top: 0;
+    left: calc(50% - 164.5px);
+    width: 20.63rem;
+    height: 3.13rem;
+  }
+  .group-child3 {
+    left: calc(50% - 165.5px);
+    border-radius: var(--br-6xl);
+    border: 1px solid var(--color-red-100);
+    box-sizing: border-box;
+    width: 20.69rem;
+  }
+  .whatsapp {
+    position: absolute;
+    top: 0.94rem;
+    left: calc(50% - 40.5px);
+  }
+  .rectangle-group {
+    top: 4.38rem;
+    left: calc(50% - 165.5px);
+    height: 3.13rem;
+    color: var(--color-red-100);
+  }
+  .call-us-parent,
+  .group-parent1,
+  .rectangle-group {
+    position: absolute;
+    width: 20.69rem;
+  }
+  .group-parent1 {
+    top: 3.19rem;
+    left: calc(50% - 165.5px);
+    height: 7.5rem;
+    text-align: left;
+    font-size: var(--font-size-base);
+    color: var(--color-white);
+    font-family: var(--font-quicksand);
+  }
+  .call-us-parent {
+    top: 62.41rem;
+    left: calc(50% - 166px);
+    height: 10.69rem;
+    text-align: center;
+    font-size: 1.38rem;
+    color: var(--color-black);
+  }
+  .wrapper-rectangle-14-child {
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+    position: absolute;
+    left: 0;
+    top: 0.13rem;
+    transform: scale(1.191);
+  }
+  .wrapper-rectangle-14 {
+    position: absolute;
+    top: 33.6rem;
+    left: calc(50% - 165px);
+    border-radius: 16px;
+    width: 20.56rem;
+    height: 9.81rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+  .image-11-icon {
+    position: absolute;
+    top: 73.81rem;
+    left: 19.5rem;
+    border-radius: 51.5px 0 var(--br-6xl) 0;
+    width: 7.38rem;
+    height: 2.94rem;
+    object-fit: cover;
+  }
+  .div {
+    position: relative;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+    border-radius: 30px;
+    background-color: var(--color-white);
+    width: 416px;
+    height: 1200px;
+    overflow: hidden;
+    text-align: left;
+    font-size: var(--font-size-base);
+    color: var(--color-white);
+    margin: auto;
+    font-family: var(--font-quicksand);
+  }
+  

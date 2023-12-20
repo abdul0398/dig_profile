@@ -1,0 +1,811 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <link rel="apple-touch-icon" sizes="76x76" href="/assets/img/apple-icon.png">
+  <link rel="icon" type="image/png" href="/logo.png">
+  <title>
+   Jome Journey
+  </title>
+  <!--     Fonts and icons     -->
+  <link rel="stylesheet" type="text/css" href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700,900|Roboto+Slab:400,700" />
+  <!-- Nucleo Icons -->
+  <link href="/assets/css/nucleo-icons.css" rel="stylesheet" />
+  <link href="/assets/css/nucleo-svg.css" rel="stylesheet" />
+  <link rel="stylesheet" href="/css/customselect.css">
+  <!-- Font Awesome Icons -->
+  <script src="https://kit.fontawesome.com/658a2960da.js"
+  crossorigin="anonymous"></script>
+  <!-- Material Icons -->
+  <link href="https://fonts.googleapis.com/icon?family=Material+Icons+Round" rel="stylesheet">
+  <!-- CSS Files -->
+  <link id="pagestyle" href="/assets/css/material-dashboard.css?v=3.1.0" rel="stylesheet" />
+  <!-- Nepcha Analytics (nepcha.com) -->
+  <!-- Nepcha is a easy-to-use web analytics. No cookies and fully compliant with GDPR, CCPA and PECR. -->
+  <script defer data-site="YOUR_DOMAIN_HERE" src="https://api.nepcha.com/js/nepcha-analytics.js"></script>
+  <link rel="stylesheet" type="text/css"
+  href="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.css" />
+  <script type="text/javascript"
+  src="https://cdn.jsdelivr.net/jquery/latest/jquery.min.js"></script>
+<script type="text/javascript"
+  src="https://cdn.jsdelivr.net/momentjs/latest/moment.min.js"></script>
+<script type="text/javascript"
+  src="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.min.js"></script>
+</head>
+<style>
+    table{
+        color:black;
+    }
+</style>
+<script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
+    new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
+    j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
+    'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
+    })(window,document,'script','dataLayer','GTM-K3SG3FFJ');  
+</script>
+<style>
+    table {
+                    width: 100%;
+                    border-collapse: collapse;
+                    margin-bottom: 20px;
+                }
+
+                th, td {
+                    border: 1px solid #ddd;
+                    padding: 8px;
+                    text-align: left;
+                }
+
+                th {
+                    background-color: #f2f2f2;
+                }
+                .beforeCollapse {
+                    margin-right: 30px;
+                }
+
+                .collapsible-column {
+                    white-space: nowrap;
+                    position: relative;
+                }
+
+                .collapsible-btn {
+                    cursor: pointer;
+                    position: absolute;
+                    top: -6px;
+                    right: 5px;
+                }
+
+                .content {
+                    display: table-cell;
+                }
+
+                .hidden {
+                    display: none;
+                }
+                .vertical-header {
+                    writing-mode: vertical-lr;
+                    transform: rotate(270 deg);
+                    white-space: nowrap;
+                    overflow: visible;
+                    margin-top: 20px;
+                }
+
+
+                .afterCollapsible {
+                    width: 10px;
+                }
+    .selected_client{
+            background-color: #56575B;
+            color: white;
+        }
+        .unselected_client{
+            background-color: white;
+            color: black;
+        }
+        .clients_div li{
+            width: 100%;
+            list-style: none;
+            height: 50px;
+            border-radius: 6px;
+            display: flex;
+            justify-content: start;
+            padding-left: 10px;
+            align-items: center;
+            margin-top: 15px;
+            font-weight: 400;
+        }
+        li:hover{
+            cursor: pointer;
+        }
+        .forms_div{
+            border-radius: 6px; height: 60px; background-color: #F1F2F5;
+        }
+        .clients_div{
+            border-radius: 10px;
+            background: #F1F2F5;
+            box-shadow: 0px 4px 3px -1px rgba(0, 0, 0, 0.25)
+        }
+        @media (max-width: 800px) {
+            .wrapper_div{
+                flex-wrap: wrap;
+                width: 100%;
+            }
+            .clients_div{
+                width: 100% !important;
+                margin: auto;
+            }
+        }
+        .table-container{
+            height:400px;
+            overflow: auto;
+            font-size: 12px;
+        }
+        /* td{
+            padding: 2px !important;
+        } */
+        .center_span{
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+        .select_container{
+            filter: drop-shadow(0px 4px 4px rgba(0, 0, 0, 0.25));
+        }
+</style>
+<body class="g-sidenav-show bg-gray-200">
+    <noscript><iframe
+        src="https://www.googletagmanager.com/ns.html?id=GTM-K3SG3FFJ"
+        height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
+        <aside style="background-color: #0E4884!important"
+        class="sidenav navbar navbar-vertical navbar-expand-xs border-0 border-radius-xl my-3 fixed-start ms-3"
+        id="sidenav-main">
+        <div class="sidenav-header">
+            <i
+                class="fas fa-times p-3 cursor-pointer text-white opacity-5 position-absolute end-0 top-0 d-none d-xl-none"
+                aria-hidden="true" id="iconSidenav"></i>
+                <a class="navbar-brand m-0"
+                href="/dashboard"
+                >
+                <img src="/logo.png" class="navbar-brand-img h-100"
+                    alt="main_logo">
+                <span class="ms-1 font-weight-bold text-white">Jome Journey</span>
+            </a>
+        </div>
+        <hr class="horizontal light mt-0 mb-2">
+        <div class="collapse navbar-collapse  w-auto "
+            id="sidenav-collapse-main">
+            <ul class="navbar-nav">
+                <li class="nav-item">
+                    <a class="nav-link text-white " href="/dashboard">
+                        <div
+                            class="text-white text-center me-2 d-flex align-items-center justify-content-center">
+                            <i class="material-icons opacity-10">dashboard</i>
+                        </div>
+                        <span class="nav-link-text ms-1">Dashboard</span>
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a
+                        class="nav-link text-white"
+                        href="/clients">
+                        <div
+                            class="text-white text-center me-2 d-flex align-items-center justify-content-center">
+                            <i class="fa-solid fa-list"
+                                style="color: #ffffff;"></i>
+                        </div>
+                        <span class="nav-link-text ms-1">Clients</span>
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link text-white" style="background-color: #002655;" href="/leads">
+                        <div
+                            class="text-white text-center me-2 d-flex align-items-center justify-content-center">
+                            <i class="fa-solid fa-database"></i>
+                        </div>
+                        <span class="nav-link-text ms-1">Master Leads</span>
+                    </a>
+                </li>
+                <li class="nav-item mt-3">
+                    <h6
+                        class="ps-4 ms-2 text-uppercase text-xs text-white font-weight-bolder opacity-8">Account
+                        pages</h6>
+                </li>
+                <%if(admin){%>
+                    <li class="nav-item">
+                        <a class="nav-link text-white " href="/profile">
+                          <div class="text-white text-center me-2 d-flex align-items-center justify-content-center">
+                              <i class="fa-solid fa-user" style="color: #ffffff;"></i>
+                          </div>
+                          <span class="nav-link-text ms-1">Profile</span>
+                        </a>
+                      </li>
+                <%}%>
+                <li class="nav-item">
+                    <a class="nav-link text-white "
+                        href="/logout">
+                        <div
+                            class="text-white text-center me-2 d-flex align-items-center justify-content-center">
+                            <i class="material-icons opacity-10">logout</i>
+                        </div>
+                        <span class="nav-link-text ms-1">Log Out</span>
+                    </a>
+                </li>
+            </ul>
+        </div>
+    </aside>
+  <main class="main-content position-relative max-height-vh-100 h-100 border-radius-lg ">
+    <!-- Navbar -->
+    <nav class="navbar navbar-main navbar-expand-lg px-0 mx-4 shadow-none border-radius-xl" id="navbarBlur" data-scroll="true">
+      <div class="container-fluid py-1 px-3">
+          <li class="ms-auto nav-item d-xl-none ps-3 d-flex align-items-center">
+              <a href="javascript:;" class="nav-link text-body p-0" id="iconNavbarSidenav">
+                <div class="sidenav-toggler-inner">
+                  <i class="sidenav-toggler-line"></i>
+                  <i class="sidenav-toggler-line"></i>
+                  <i class="sidenav-toggler-line"></i>
+                </div>
+              </a>
+            </li>
+      </div>
+    </nav>
+    <!-- End Navbar -->
+    <link rel="stylesheet" href="/css/loading.css">
+    <div class="overlay">
+        <div class="loader"></div>
+    </div>
+        <link rel="stylesheet" href="css/leads.css">
+        <div class="filter-container">
+            <div class="select_container" style=" border-radius: 7px; display: inline-block; background-color: white; padding: 1px 10px;">
+                <span><i
+                        class="fa-solid fa-list"
+                        style="color: #000000;"></i></span>
+                <select id="form-filter" class="filter-input">
+                    <option value selected disabled>Lead form type</option>
+                    <option value="all">All</option>
+                    <%for(let i=0; i < projects.length; i++){%>
+                    <option value="<%=projects[i]%>">
+                        <%=projects[i]%>
+                    </option>
+                    <%}%>
+                </select>
+            </div>
+            <div class="select_container" style="border-radius: 7px; display: inline-block; background-color: white; padding: 1px 10px;">
+                <span><i
+                class="fa-solid fa-list"
+                style="color: #000000;"></i></span>
+                <select id="junk-filter" class="filter-input">
+                    <option value="all">All</option>
+                    <option value="junk">Junk</option>
+                    <option value="clear">Clear</option>
+                    <option value="unknown">Unknown</option>
+                    <option selected value="unmarked">Unmarked</option>
+                </select>
+            </div>
+               
+            <div class="download-container ">
+                
+                    <input class="download_input"
+                        type="text"
+                        name="daterange" value="Date" />
+            </div>
+            <div class="search_input mt-2 d-inline-block">
+                <input class="input_search"
+                    style="padding: 13px 5px; filter: drop-shadow(0px 4px 4px rgba(0, 0, 0, 0.25)); border-radius: 5px;  background-color: #ffffff;  border: none; margin-top: 3px;"
+                    type="text" placeholder="Search..">
+            </div>
+            <div style="padding: 8px 13px; display: inline-block; background-color: #0A2558;" class="filter-input">
+                <button
+                    style=" border: none;margin: auto; color: white; background-color: #0A2558; border-radius: 5px;"
+                    id="downloadButton">
+                    Download
+                </button>
+            </div>
+            
+            <div style="padding: 8px 13px; display: inline-block; background-color: #0A2558;"
+                class="filter-input">
+                <button style=" border: none; background-color: transparent; color: white;" onclick="checkBoxHandler()"
+                    style="text-decoration: none; color: #ffffff;">Actions</button>
+            </div>
+            
+        </div>
+        <div class="d-flex wrapper_div">
+            <div class="p-3 ms-2 text-center clients_div w-30 height-400 border border-2 overflow-auto">
+                <div  class="d-flex w-100 border border-0 rounded-2 p-2"
+                style="background-color: white; box-shadow: 0px 4px 4px -2px rgba(0, 0, 0, 0.25);">
+                    <input id="search_client" class="w-100 border border-0 rounded-2 p-2" placeholder="Search Client" type="text">
+                    <span class="center_span"><i
+                        class="fa-solid fa-magnifying-glass fa-xl"></i></span>
+                </div>
+                <div class="clientsname_div">
+                    <%for(let i = 0; i < clients.length; i++){%>
+                        <%if(i == 0){%>
+                            <li  class="nav-link-text selected_client border-0" mid="<%=clients[i]%>" value="<%=clients[i].name%>" onclick="clientListener(this)" ><span
+                                style="display: flex; margin-right: 15px; border-radius: 50%; padding: 3px; background-color: #56575B;"><i
+                                    class="fa-solid fa-list"
+                                    style="color: #ffffff;"></i></span>
+                                    <%if(clients[i].length > 18){%>
+                                        <%=clients[i].substring(0, 14) + '...' %>
+                                        <%}else{%>
+                                            <%=clients[i]%>
+                                        <%}%>
+                                </li>
+                        <%}else{%>
+                            <li class="nav-link-text unselected_client border-0" mid="<%=clients[i]%>" value="<%=clients[i].name%>" onclick="clientListener(this)" ><span
+                                style="display: flex; margin-right: 15px; border-radius: 50%; padding: 3px; background-color: #56575B;"><i
+                                    class="fa-solid fa-list"
+                                    style="color: #ffffff;"></i></span>
+                                    <%if(clients[i].length > 18){%>
+                                        <%=clients[i].substring(0, 14) + '...' %>
+                                        <%}else{%>
+                                            <%=clients[i]%>
+                                        <%}%>
+                                </li>
+                        <%}%>
+                    <%}%>
+                </div>
+            </div>
+            <div class="d-flex w-100 overflow-auto table-container p-3">
+                <table id="myTable">
+                    <thead>
+                        <tr>
+                            <th><input type="checkbox" id="headingCheckbox"
+                                    name="myCheckbox"
+                                    onchange="mainCheckboxHandler()"></th>
+                            
+                            <th class="collapsible-column">    
+                                <div class="beforeCollapse" >Date</div>
+                                <button style="border: none; background-color: transparent; font-size: 24px;" class="collapsible-btn" collapseId="one" onclick="toggleColumn(this)">&#x2212;</button>
+                            </th>
+
+                            <th class="collapsible-column">    
+                                <div class="beforeCollapse" >Client Name</div>
+                                <button style="border: none; background-color: transparent; font-size: 24px;" class="collapsible-btn" collapseId="two" onclick="toggleColumn(this)">&#x2212;</button>
+                            </th>
+
+                            <th class="collapsible-column">    
+                                <div class="beforeCollapse">Project name</div>
+                                <button style="border: none; background-color: transparent; font-size: 24px;" class="collapsible-btn" collapseId="three" onclick="toggleColumn(this)">&#x2212;</button>
+                            </th>
+
+                            <th class="collapsible-column">    
+                                <div class="beforeCollapse" >Name</div>
+                                <button style="border: none; background-color: transparent; font-size: 24px;" class="collapsible-btn" collapseId="four" onclick="toggleColumn(this)">&#x2212;</button>
+                            </th>
+
+                            <th class="collapsible-column">    
+                                <div class="beforeCollapse">Mobile</div>
+                                <button style="border: none; background-color: transparent; font-size: 24px;" class="collapsible-btn" collapseId="five" onclick="toggleColumn(this)">&#x2212;</button>
+                            </th>
+
+                            <th class="collapsible-column">    
+                                <div class="beforeCollapse">Email</div>
+                                <button style="border: none; background-color: transparent; font-size: 24px;" class="collapsible-btn" collapseId="six" onclick="toggleColumn(this)">&#x2212;</button>
+                            </th>
+
+                            <th class="collapsible-column">    
+                                <div class="beforeCollapse">IP</div>
+                                <button style="border: none; background-color: transparent; font-size: 24px;" class="collapsible-btn" collapseId="seven" onclick="toggleColumn(this)">&#x2212;</button>
+                            </th>
+
+                            <th class="collapsible-column">
+                                <div class="beforeCollapse">Source</div>
+                                <button style="border: none; background-color: transparent; font-size: 24px;" class="collapsible-btn" collapseId="eight" onclick="toggleColumn(this)">&#x2212;</button>
+                            </th>
+                            
+                            <th class="collapsible-column">    
+                                <div class="beforeCollapse">Status</div>
+                                <button style="border: none; background-color: transparent; font-size: 24px;" class="collapsible-btn" collapseId="nine" onclick="toggleColumn(this)">&#x2212;</button>
+                            </th>
+                        </tr>
+                    </thead>
+                    <tbody id="table-body">
+                    </tbody>
+                </table>
+            </div>
+        </div>
+            <div class="loginPopup">
+                <div class="formPopup" id="popupForm">
+                    <form class="formContainer">
+                        <a class="btn" value="junk" id="junk-btn"
+                            onclick="markStatusCheck(this)"
+                            style="background-color: red; color: black; font-weight: 900;">Mark
+                            Junk
+                        </a>
+                        <a class="btn" value="unknown" id="junk-btn"
+                            style="background-color: #FFC22F;  color: black; font-weight: 900;"
+                            onclick="markStatusCheck(this)">Mark Unknown
+                        </a>
+                        <a class="btn" value="clear" id="clear-btn"
+                            onclick="markStatusCheck(this)"
+                            style="background-color: #54CA79;  color: black; font-weight: 900;">Mark
+                            Clear
+                            </a>
+                        <button type="button"
+                            style="background-color: #0A2558; font-weight: 900;"
+                            class="btn cancel" onclick="closeForm()">Close</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+        <script src="script/leadscript.js"></script>
+ 
+  <!--   Core JS Files   -->
+  <script src="/assets/js/core/popper.min.js"></script>
+  <script src="/assets/js/core/bootstrap.min.js"></script>
+  <script src="/assets/js/plugins/perfect-scrollbar.min.js"></script>
+  <script src="/assets/js/plugins/smooth-scrollbar.min.js"></script>
+  <script src="/assets/js/plugins/chartjs.min.js"></script>
+  <!-- Github buttons -->
+  <script async defer src="https://buttons.github.io/buttons.js"></script>
+  <!-- Control Center for Material Dashboard: parallax effects, scripts for the example pages etc -->
+  <script src="/assets/js/material-dashboard.min.js?v=3.1.0"></script>
+  <script>
+      let leads = [];
+        let leadids = [];
+        start();
+        filter();
+
+
+            function checkBoxHandler() {
+                let table = document.getElementById("table-body");
+                let checkboxes = table.querySelectorAll('input[type="checkbox"]');
+                const ids = [];
+                checkboxes.forEach(element => {
+                    if(element.checked){
+                        ids.push(element.getAttribute("id"));
+                    }
+                });
+                
+                if(ids.length == 0){
+                    alert("Please select a lead to do an action");
+                    return;
+                }else{
+                    leadids = ids;
+                    openForm();
+                }
+            }
+
+
+            function mainCheckboxHandler() {
+                let headingCheckbox = document.getElementById("headingCheckbox");
+                let table = document.getElementById("table-body");
+                let checkboxes = table.querySelectorAll('input[type="checkbox"]');
+                if (headingCheckbox.checked) {
+                    checkboxes.forEach(function (checkbox) {
+                        checkbox.checked = true;
+                    })
+                } else {
+                    checkboxes.forEach(function (checkbox) {
+                        checkbox.checked = false;
+                    })
+                }
+            }
+
+
+            async function start() {
+                const res = await fetch(`api/getLeads`);
+                const data = await res.json();
+                leads = data;
+                const name = document.querySelector(".selected_client").getAttribute("mid");
+                const nextLeads = leads.filter(elem=>{
+                    return elem.status === 'unmarked' && elem.clientName == name;
+                })
+                populateLeads(nextLeads);
+            }
+
+
+            function filter() { // ###### Calling the filters ######
+                // Search input 
+                const input_search = document.querySelector(".input_search");
+                const junkFilter = document.getElementById("junk-filter");
+                const form_filter = document.getElementById("form-filter");
+                const liElements = document.querySelectorAll('.nav-link-text');
+
+                
+                // const dateFilter = document.getElementById("date-filter");
+                let startDate = "";
+                let endDate = "";
+
+                $(function() {
+                    $('input[name="daterange"]').daterangepicker({
+                        autoUpdateInput: false,
+                        locale: {
+                            cancelLabel: 'Clear'
+                        }
+                    });
+                    $('input[name="daterange"]').on('apply.daterangepicker', function(ev, picker) {
+                        $(this).val(picker.startDate.format('MM/DD/YYYY') + ' - ' + picker.endDate.format('MM/DD/YYYY'));
+                        startDate =  picker.startDate;
+                        endDate =  picker.endDate;
+                        applyFilters();
+                    });
+                    $('input[name="daterange"]').on('cancel.daterangepicker', function(ev, picker) {
+                        $(this).val('');
+                        startDate =  "";
+                        endDate =  "";
+                        applyFilters();
+                    });
+                });
+                form_filter.addEventListener("change", applyFilters);
+                input_search.addEventListener("input", applyFilters);
+                junkFilter.addEventListener("change", applyFilters);
+
+
+                liElements.forEach(function (li) {
+                    li.addEventListener('click', ()=>{
+                        // const name = li.getAttribute("mid");
+                        applyFilters();
+                    });
+                });
+
+                function applyFilters() {
+                    const name = document.querySelector(".selected_client").getAttribute("mid");
+                    let filterleads = leads;
+                    selectedJunk = junkFilter.value;
+                    form_filter_value = form_filter.value
+                    search_value = input_search.value;
+    
+                        if(search_value){
+                            filterleads = filterleads.filter(elem=>{
+                                let objectAsString = JSON.stringify(elem);
+                                return objectAsString.toLocaleLowerCase().includes(search_value.toLocaleLowerCase());
+                            })
+                        }
+
+                        if(name){
+                            filterleads = filterleads.filter(elem => {
+                                return elem.clientName == name;
+                            })
+                        }
+                        
+                        if(form_filter_value && form_filter_value != 'all'){
+                            filterleads = filterleads.filter(elem => {
+                                return elem.projectName == form_filter_value;
+                            })
+                        }
+    
+                        if(selectedJunk && selectedJunk != 'all'){
+                            filterleads = filterleads.filter(elem => {
+                                return elem.status == selectedJunk;
+                            })
+                        }
+    
+                        if(startDate != "" && endDate != ""){
+                            filterleads = filterleads.filter((lead) => {
+                                    const createdAtDate = new Date(lead.createdAt);
+                                    const milliseconds = createdAtDate.getTime();
+                                    
+                                    return milliseconds >= startDate && milliseconds <= endDate;
+                                });
+                        }
+                        populateLeads(filterleads);
+                        
+                    }
+            }
+
+            function clearFilters(){
+                const clientFilter = document.getElementById("client-filter");
+                const projectFilter = document.getElementById("project-filter");
+                const junkFilter = document.getElementById("junk-filter");
+                clientFilter.value = "all";
+                projectFilter.value = "all";
+                junkFilter.value = "all";
+
+            }
+
+
+            function populateLeads(filterleads) {
+                const tbody = document.getElementById('table-body');
+                tbody.innerHTML = '';
+
+                document.querySelectorAll(".collapsible-btn").forEach((btn)=>{
+                    btn.innerHTML = '&#x2212;';
+                    btn.previousElementSibling.classList.remove('vertical-header');
+                    btn.parentElement.classList.remove('afterCollapsible');
+                    btn.previousElementSibling.classList.add('beforeCollapse');
+                    // btn.previousElementSibling.classList.remove('hidden');
+                });
+
+
+
+                for (let i = 0; i < filterleads.length; i++) {
+
+                    const newRow = document.createElement('tr');
+
+                    const cell0 = document.createElement('td');
+                    cell0.innerHTML = `<input type="checkbox" name="${filterleads[i]._id}" id=${filterleads[i]._id}>`
+                    cell0.style.width = "10px";
+                    newRow.appendChild(cell0);
+                    
+                    const cell1 = document.createElement('td');
+                    const timestamp = filterleads[i].createdAt;
+                    const date = new Date(timestamp);
+                    const formattedDate = date.toISOString().split('T')[0];
+                    cell1.innerHTML = `<p>${formattedDate}</p>`;
+                    cell1.style.whiteSpace = "nowrap";
+                    cell1.classList.add("one");
+                    newRow.appendChild(cell1);
+
+                    const cell2 = document.createElement('td');
+                    cell2.innerHTML = `<p>${filterleads[i].clientName}</p>`;
+                    cell2.classList.add("two");
+                    newRow.appendChild(cell2);
+
+                    const cell3 = document.createElement('td');
+                    cell3.innerHTML = `<p>${filterleads[i].projectName}</p>`;
+                    cell3.classList.add("three");
+                    newRow.appendChild(cell3);
+
+                    const cell4 = document.createElement('td');
+                    cell4.innerHTML = `<p>${filterleads[i].name}</p>`;
+                    cell4.classList.add("four");
+                    newRow.appendChild(cell4);
+
+                    const cell5 = document.createElement('td');
+                    cell5.innerHTML = `<p>${filterleads[i].phone}</p>`;
+                    cell5.classList.add("five");
+                    newRow.appendChild(cell5);
+
+                    const cell6 = document.createElement('td');
+                    cell6.innerHTML = `<p>${filterleads[i].email}</p>`;
+                    cell6.classList.add("six");
+                    newRow.appendChild(cell6);
+
+                    const cell7 = document.createElement('td');
+                    cell7.innerHTML = `<p>${filterleads[i].ip}</p>`;
+                    cell7.classList.add("seven");
+                    newRow.appendChild(cell7);
+
+                    const cell8 = document.createElement('td');
+                    cell8.innerHTML = `<p>${filterleads[i].source}</p>`;
+                    cell8.classList.add("eight");
+                    newRow.appendChild(cell8);
+
+                    const cell9 = document.createElement('td');
+                    cell9.innerHTML = `<p>${filterleads[i].status.toUpperCase()}</p>`;
+                    cell9.classList.add("nine");
+                    cell9.style.fontWeight = "900";
+                    if(filterleads[i].status == "clear"){
+                        cell9.style.backgroundColor = "#61D393";
+                    }else if (filterleads[i].status == "junk"){
+                        cell9.style.backgroundColor = "red";
+                    }else if(filterleads[i].status == "unknown"){
+                        cell9.style.backgroundColor = "#FFCA46";
+                    }
+                    newRow.appendChild(cell9);
+                    tbody.appendChild(newRow);
+                }
+            }
+
+
+            // ############Open form starts #################
+            function openForm() {
+                let popupForm = document.getElementById("popupForm");
+                popupForm.style.display = "block";
+                setTimeout(function () {
+                    popupForm.style.opacity = "1";
+                }, 10);
+            }
+            function closeForm() {
+                let popupForm = document.getElementById("popupForm");
+                popupForm.style.display = "none";
+            }
+            // ######## Open form ends ############
+
+
+            async function markStatusCheck(element) {
+                const value = element.getAttribute('value');
+                const ids = leadids;
+                disableAnchor(element);
+                showLoadingOverlay()
+                const res = await fetch(`/api/leads/setstatus?value=${value}`, {
+                    method:"POST",
+                    body:JSON.stringify({leadsId:leadids}),
+                    headers:{
+                        "Content-Type": "application/json"
+                    }
+                });
+                if (res.status === 200) {
+                    hideLoadingOverlay();
+                    return window.location.assign(`/leads`);
+                }
+                enableAnchor(element);
+            }
+
+
+            function dateFormat(dateString) {
+                let date = new Date(dateString);
+                let options = {
+                    month: "short",
+                    day: "numeric",
+                    hour: "numeric",
+                    minute: "numeric",
+                    timeZone: "Asia/Singapore"
+                };
+                let humanReadableDate = date.toLocaleString("en-SG", options);
+                return humanReadableDate;
+            }
+
+
+            function disableAnchor(anchor) {
+                anchor.classList.add("disabled");
+            }
+
+
+            function enableAnchor(anchor) {
+                anchor.classList.remove("disabled");
+            }
+
+
+            function showLoadingOverlay() {
+                const overlay = document.querySelector('.overlay');
+                overlay.style.display = 'block';
+            }
+
+
+            function hideLoadingOverlay() {
+                const overlay = document.querySelector('.overlay');
+                overlay.style.display = 'none';
+            }
+
+            clientListener = (curr_elem) => {
+                clearclientSelected(curr_elem);
+                // const input_search = document.querySelector(".input_search");
+                // const junkFilter = document.getElementById("junk-filter");
+                // const form_filter = document.getElementById("form-filter");
+                // applyFilters(curr_elem.innerText, form_filter, projectFilter, junkFilter, input_search );
+            }
+
+            clearclientSelected = (curr_elem)=>{
+              document.querySelectorAll('.clientsname_div li').forEach((element)=>{
+                element.classList.remove('selected_client');
+                element.classList.add('unselected_client');
+              })
+              curr_elem.classList.remove("unselected_client");
+                  curr_elem.classList.add("selected_client");
+            }
+
+
+            const searchInput = document.getElementById('search_client');
+            searchInput.addEventListener('input', function() {
+            const searchValue = searchInput.value.toLowerCase();
+
+            // Get the list of client names in the <li> elements
+            const clientItems = document.querySelectorAll('.clientsname_div li');
+
+            // Loop through the list items and hide those that don't match the search query
+            clientItems.forEach(function(item) {
+                // If the client name includes the search value, show the item; otherwise, hide it
+                if (item.textContent.toLowerCase().includes(searchValue)) {
+                item.style.display = ''; // or 'block' or 'flex' depending on your layout
+                } else {
+                item.style.display = 'none';
+                }
+            });
+            })
+  
+            function toggleColumn(btn) {
+                const collapseClass = btn.getAttribute('collapseId');
+                let contentRows = document.querySelectorAll('.' + collapseClass);
+                    console.log(contentRows);
+                contentRows.forEach(function(content) {
+                content.querySelector("p").classList.toggle('hidden')
+                });
+                    btn.previousElementSibling.classList.toggle('vertical-header');
+                    btn.innerHTML = contentRows[0].firstChild.classList.contains('hidden') ? '&#x208A;' : '&#x2212;';
+                    btn.parentElement.classList.toggle('afterCollapsible');
+                    btn.previousElementSibling.classList.toggle('beforeCollapse');
+                    
+            }
+  
+  
+  
+  </script>
+  <script src="/script/customselect.js">
+
+  </script>
+</body>
+
+</html>

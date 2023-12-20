@@ -1,0 +1,1686 @@
+<!DOCTYPE html>
+<html lang="en">
+    
+    <head>
+        <meta charset="utf-8" />
+        <meta name="viewport"
+            content="width=device-width, initial-scale=1, shrink-to-fit=no">
+        <link rel="apple-touch-icon" sizes="76x76"
+            href="/assets/img/apple-icon.png">
+        <link rel="stylesheet" href="/css/loading.css">
+        <link rel="icon" type="image/png" href="/logo.png">
+        <title>
+            Jome Journey
+        </title>
+        <!--     Fonts and icons     -->
+        <link rel="stylesheet" type="text/css"
+            href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700,900|Roboto+Slab:400,700" />
+        <!-- Nucleo Icons -->
+        <link href="/assets/css/nucleo-icons.css" rel="stylesheet" />
+        <link href="/assets/css/nucleo-svg.css" rel="stylesheet" />
+        <!-- Font Awesome Icons -->
+        <script src="https://kit.fontawesome.com/658a2960da.js"
+            crossorigin="anonymous"></script> <!-- Material Icons -->
+        <link
+            href="https://fonts.googleapis.com/icon?family=Material+Icons+Round"
+            rel="stylesheet">
+        <!-- CSS Files -->
+        <link id="pagestyle" href="/assets/css/material-dashboard.css?v=3.1.0"
+            rel="stylesheet" />
+        <!-- Nepcha Analytics (nepcha.com) -->
+        <!-- Nepcha is a easy-to-use web analytics. No cookies and fully compliant with GDPR, CCPA and PECR. -->
+        <script defer data-site="YOUR_DOMAIN_HERE"
+            src="https://api.nepcha.com/js/nepcha-analytics.js"></script>
+        <script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
+                new Date().getTime(),event:'gtm.js'});let f=d.getElementsByTagName(s)[0],
+                j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
+                'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
+                })(window,document,'script','dataLayer','GTM-K3SG3FFJ');  
+            </script>
+    </head>
+    <style>
+/* checkbox Style  */
+        .container_checkbox {
+        display: block;
+        position: relative;
+        padding-left: 35px;
+        margin-bottom: 12px;
+        cursor: pointer;
+        font-size: 22px;
+        -webkit-user-select: none;
+        -moz-user-select: none;
+        -ms-user-select: none;
+        user-select: none;
+        font-size: 14px;
+        }
+        .container_checkbox input {
+        position: absolute;
+        opacity: 0;
+        cursor: pointer;
+        height: 0;
+        width: 0;
+        }
+
+        .checkmark_discord {
+        position: absolute;
+        top: 0;
+        left: 0;
+        height: 25px;
+        width: 25px;
+        background-color: #eee;
+        border-radius: 10px;
+        }
+        .container_checkbox:hover input ~ .checkmark_discord {
+        background-color: #ccc;
+        }
+
+        /* When the checkbox is checked, add a blue background */
+        .container_checkbox input:checked ~ .checkmark_discord {
+        background-color: #2196F3;
+        }
+
+        /* Create the checkmark/indicator (hidden when not checked) */
+        .checkmark_discord:after {
+        content: "";
+        position: absolute;
+        display: none;
+        }
+
+        .container_checkbox input:checked ~ .checkmark_discord:after {
+        display: block;
+        }
+
+        /* Style the checkmark/indicator */
+        .container_checkbox .checkmark_discord:after {
+        left: 9px;
+        top: 5px;
+        width: 5px;
+        height: 10px;
+        border: solid white;
+        border-width: 0 3px 3px 0;
+        -webkit-transform: rotate(45deg);
+        -ms-transform: rotate(45deg);
+        transform: rotate(45deg);
+        }
+
+        .small_icon{
+                    display: none;
+                }
+        @media (max-width: 927px) {
+            .main_container{
+                flex-wrap: wrap;
+            }
+            .clients_div{
+                width: 100% !important;
+            }
+            #show_forms_div{
+                width: 100% !important;
+                margin-top: 15px;
+            }
+            #thankyoupagepopup{
+                width: 90% !important;
+                margin: auto;
+                height: fit-content !important;
+                padding: 0px !important;
+            }
+            #meta_form_popup_inner{
+                width: 90% !important;
+                margin: auto;
+            }
+            .form-container{
+                width: 90% !important;
+                margin: auto;
+            }
+            #Insurance_form{
+                width: 90% !important;
+                margin: auto;
+            }
+            #Add_hbd_popup{
+                width: 90% !important;
+                margin: auto;
+            }
+            .clientedit-popup,.clientadd-popup, .projectadd-popup{
+                width: 90% !important;
+                margin: auto;
+            }
+            .big_icon{
+                display: none;
+            }
+            .small_icon{
+                display: inline;
+                margin: 6px !important;
+            }
+            .options_div{
+                width: 190px!important;
+            }
+        }
+        
+
+        #inputField {
+            display: none;
+        }
+        #close_popup_btn {
+            position: absolute;
+            right: 8px;
+            top: 13px;
+            border-radius: 58%;
+            padding: 2px 7px;
+            width: 26px;
+            /* border: 1px solid; */
+            height: 25px;
+            }
+        #close_popup_btn:hover{
+            background-color: #002655;
+        }
+      
+      
+        .question-group {
+          margin-bottom: 20px;
+          padding: 15px;
+          background-color: #dad7d7;
+          border-radius: 5px;
+          width: fit-content;
+          margin-top: 5px;
+        }
+        .question-group button{
+          margin-top: 5px;
+        }
+      
+        .options-container {
+          margin-top: 10px;
+        }
+      
+        .option {
+          display: flex;
+          align-items: center;
+          margin-bottom: 10px;
+          flex-wrap: wrap;
+        }
+      
+        .option input {
+          margin-right: 10px;
+        }
+      
+        .add-option-button,
+        .delete-question-button,
+        .delete-option-button {
+         background-color: #002655;
+          /* background-color: #E64C71; */
+          border: none;
+          color: #fff;
+          padding: 10px 20px;
+          border-radius: 5px;
+          cursor: pointer;
+          font-size: 16px;
+          transition: background-color 0.3s;
+        }
+      
+        .add-option-button:hover,
+        .delete-question-button:hover,
+        .delete-option-button:hover {
+          background-color: #E64C71;
+        } 
+        .submit-button {
+          background-color: #2ecc71;
+          color: #fff;
+          padding: 10px 20px;
+          border: none;
+          border-radius: 5px;
+          font-size: 16px;
+          cursor: pointer;
+          transition: background-color 0.3s;
+          margin-bottom: 10px;
+        }
+        textarea{
+          padding: 5px;
+        }
+        .submit-button:hover {
+          background-color: #27ae60;
+        }
+        #discord_edit_client,.clientedit-popup,.clientadd-popup, .projectadd-popup{
+            background-color:white;
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            z-index: 1000;
+            box-shadow: 0px 2px 10px 1px rgba(0,0,0,0.45);
+            width: 400px;
+            border-radius: 5px;
+            padding: 20px;
+        }
+        .clientadd-popup input{
+            border: 1px solid #ced4da;
+            border-radius: 5px;
+            padding: 5px;
+            margin-bottom: 5px;
+        }
+        .close_popup{
+            display: none;
+        }
+        .open_popup{
+            display: block;
+        }
+        .overlay {
+            display: none;
+            position: fixed;
+            top: 0;
+            opacity: 0.4;
+            background-color: rgb(0, 0, 0);
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: 999;
+        }
+        button{
+            border: none;
+            background-color: #002655 !important;
+            color: white !important;
+        }
+        .overlay_loading {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.7); /* Semi-transparent black overlay */
+            display: none; /* Initially hidden */
+            z-index: 99999; /* Ensures it's on top of other content */
+        }
+        .loader {
+            border: 4px solid rgba(255, 255, 255, 0.3);
+            border-radius: 50%;
+            border-top: 4px solid #3498db;
+            width: 40px;
+            height: 40px;
+            animation: spin 1s linear infinite;
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            z-index: 10000; /* Ensure the loader is above the overlay */
+        }
+        @keyframes spin {
+            0% { transform: translate(-50%, -50%) rotate(0deg); }
+            100% { transform: translate(-50%, -50%) rotate(360deg); }
+        }
+        .menu_icon_div{
+            width: 30px;
+            height: 30px;
+            text-align: center;
+            border-radius: 50%;
+        }
+        .menu_icon_div:hover{
+            cursor: pointer;
+        }
+        .menu_popup li {
+            padding: 5px 18px;
+            list-style: none;
+            font-size: 16px;
+            border-radius: 3px;
+        }
+        .menu_popup li:hover{
+            cursor: pointer;
+            background-image:linear-gradient(195deg, #028090 0%, #00BFB2 100%);
+            color: white;
+        }
+        li:hover > a{
+            color: white;
+        }
+        li a{
+            text-decoration: none;
+            color: black;
+        }
+        .menu_popup{
+            background-color:white;
+            position: fixed; 
+            top: 50%; 
+            left: 50%;
+            transform: translate(-50%, -50%);
+            z-index: 1000; 
+            box-shadow: 0px 2px 10px 1px rgba(0,0,0,0.45);
+            width: 300px;
+            border-radius: 5px;
+            padding: 10px;
+            /* text-align: center; */
+        }
+        .clients_div{
+            border-radius: 10px;
+            background: #F1F2F5;
+            box-shadow: 0px 4px 4px 0px rgba(0, 0, 0, 0.25);
+        }
+      
+        .selected_client{
+            background-color: #56575B;
+            color: white;
+        }
+        .unselected_client{
+            background-color: white;
+            color: black;
+        }
+        #search_client:focus{
+            outline:none;
+        }
+
+        .clients_div li{
+            min-width: 100%;
+            width: max-content;
+            list-style: none;
+            height: 50px;
+            border-radius: 6px;
+            display: flex;
+            justify-content: start;
+            padding-left: 10px;
+            align-items: center;
+            margin-top: 15px;
+            font-weight: 400;
+            box-shadow: 0px 4px 11px -7px rgba(0,0,0,0.37)
+
+        }
+        .center_span{
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+        li:hover{
+            cursor: pointer;
+        }
+        .forms_div{
+            border-radius: 6px; height: 60px; background-color: #F1F2F5;
+        }
+        #meta_form_popup > div ::-webkit-scrollbar {
+             display: none;
+        }
+         #meta_form_popup ::-webkit-scrollbar {
+             display: none;
+        }
+        #thankyoupagepopup ::-webkit-scrollbar {
+             display: none;
+        }
+
+        #client_edit:hover{
+            cursor: pointer;
+            background-color: #bdbdbd;
+        }
+        #client_del:hover{
+            cursor: pointer;
+        }
+    </style>
+    <div class="overlay" id="overlay"></div>
+    <div class="overlay_loading">
+        <div class="loader"></div>
+    </div>
+    <body style="height: 100vh;" class="g-sidenav-show bg-gray-200">
+        <noscript><iframe
+                src="https://www.googletagmanager.com/ns.html?id=GTM-K3SG3FFJ"
+                height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
+
+        <!--################ Client Add Popup ######## -->
+        <div class="clientadd-popup close_popup">
+            <span onclick="closeAllPopups()" id="close_popup_btn"><i class="fa-solid fa-x"></i></span>
+            <h5 class="text-center">Add Client</h5>
+            <div class="form-group">
+                <input type="text" class="form-control  border p-1 mt-1 border-1" id="nameInput" placeholder="Enter Client Name">
+            </div>
+            <div class="form-group">
+                <input type="text" class="form-control  border p-1 mt-1 border-1" id="codeInput" placeholder="Enter Client Code">
+            </div>
+            
+            <div class="d-flex mt-3">
+                <button class="btn mx-auto" onclick="postData()">Add</button>
+            </div>
+        </div>           
+        
+
+        <!--############### Project Add Popup ######### -->
+        <div class="projectadd-popup close_popup"
+            style="text-align: center; height: 250px;">
+            <span onclick="closeAllPopups()" id="close_popup_btn" ><i class="fa-solid fa-x"></i></span>
+            <h3 class="text-center">Add Project</h3>
+            <select id="select_project_type" name="project_type" id
+                placeholder="Select" style="padding: 15px;
+            background-color: #0E4884;
+            color: white;
+            border-radius: 5px;
+            border: none;">
+                <option style="background-color: white; color: black;"
+                    value="Thankyou Page">Thankyou Page</option>
+                <option style="background-color: white; color: black;"
+                    value="Meta Lead Form">Meta Lead Form</option>
+                <option value="Insurance form"
+                    style="background-color: white; color: black;">Insurance
+                    form</option>
+                <option value="HBD Form"
+                    style="background-color: white; color: black;">HBD Form</option>
+            </select>
+            <div class="mt-5">
+                <button onclick="bringFormofProject()"
+                    style="background-color: #002655; color:white"
+                    class="btn btn-xl w-25">Add</button>
+            </div>
+        </div>
+
+        <!-- ######### Add HBD FORM popup########## -->
+        <%- include('../form/hbdhome/editpages/editform.ejs') %>
+
+        <!-- ######### Add Meta FORM popup########## -->
+        <%- include('../form/landingPageEdit.ejs') %>
+
+        <!-- ######### Add Insurance FORM popup########## -->
+        <%- include('../form/Insurance/editpages/editform.ejs') %>
+
+        <!-- ######### ThankyouPage############## -->
+        <%- include('../form/edithankyoupage.ejs') %>
+
+
+
+        <!--########## Client Edit Popup ############### -->
+        <div class="clientedit-popup close_popup">
+            <span onclick="closeAllPopups()" id="close_popup_btn" ><i class="fa-solid fa-x"></i></span>
+            <h5 class="text-center">Edit Client</h5>
+            <div class="form-group">
+                <input type="text" class="form-control border p-1 mt-1 border-1" id="client_name_edit"
+                    placeholder="Enter Name">
+            </div>
+            <div class="form-group">
+                <input type="text" class="form-control border p-1 mt-1 border-1" id="client_code_edit"
+                    placeholder="Enter Code of Client">
+            </div>
+            <div class="d-flex mt-3">
+                <button id="client_edit_post_btn" class="btn mx-auto" onclick="editclientPost()">Save</button>
+                <a  id="client_del" clientid="" onclick="deleteClient(this)" class="btn btn-danger me-auto" >
+                    Delete
+                    </a>
+            </div>
+        </div>
+
+
+
+        <aside style="background-color: #0E4884 !important; z-index: 10;"
+            class="sidenav navbar navbar-vertical navbar-expand-xs border-0 border-radius-xl my-3 fixed-start ms-3"
+            id="sidenav-main">
+            <div class="sidenav-header">
+                <i
+                    class="fas fa-times p-3 cursor-pointer text-white opacity-5 position-absolute end-0 top-0 d-none d-xl-none"
+                    aria-hidden="true" id="iconSidenav"></i>
+                <a class="navbar-brand m-0"
+                    href="/dashboard"
+                    >
+                    <img src="/logo.png" class="navbar-brand-img h-100"
+                        alt="main_logo">
+                    <span class="ms-1 font-weight-bold text-white">Jome Journey</span>
+                </a>
+            </div>
+            <hr class="horizontal light mt-0 mb-2">
+            <div class="collapse navbar-collapse  w-auto "
+                id="sidenav-collapse-main">
+                <ul class="navbar-nav">
+                    <li class="nav-item">
+                        <a class="nav-link text-white " href="/dashboard">
+                            <div
+                                class="text-white text-center me-2 d-flex align-items-center justify-content-center">
+                                <i class="material-icons opacity-10">dashboard</i>
+                            </div>
+                            <span class="nav-link-text ms-1">Dashboard</span>
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a
+                            class="nav-link text-white active"
+                            style="background-color: #002655;"
+                            href="/clients">
+                            <div
+                                class="text-white text-center me-2 d-flex align-items-center justify-content-center">
+                                <i class="fa-solid fa-list"
+                                    style="color: #ffffff;"></i>
+                            </div>
+                            <span class="nav-link-text ms-1">Clients</span>
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link text-white " href="/leads">
+                            <div
+                                class="text-white text-center me-2 d-flex align-items-center justify-content-center">
+                                <i class="fa-solid fa-database"></i>
+                            </div>
+                            <span class="nav-link-text ms-1">Master Leads</span>
+                        </a>
+                    </li>
+                    <li class="nav-item mt-3">
+                        <h6
+                            class="ps-4 ms-2 text-uppercase text-xs text-white font-weight-bolder opacity-8">Account
+                            pages</h6>
+                    </li>
+                    
+                    <%if(admin){%>
+                        <li class="nav-item">
+                            <a class="nav-link text-white " href="/profile">
+                              <div class="text-white text-center me-2 d-flex align-items-center justify-content-center">
+                                  <i class="fa-solid fa-user" style="color: #ffffff;"></i>
+                              </div>
+                              <span class="nav-link-text ms-1">Profile</span>
+                            </a>
+                          </li>
+                    <%}%>
+
+                    <li class="nav-item">
+                        <a class="nav-link text-white "
+                            href="/logout">
+                            <div
+                                class="text-white text-center me-2 d-flex align-items-center justify-content-center">
+                                <i class="material-icons opacity-10">logout</i>
+                            </div>
+                            <span class="nav-link-text ms-1">Log Out</span>
+                        </a>
+                    </li>
+                </ul>
+            </div>
+        </aside>
+        <main
+            class="main-content position-relative max-height-vh-100 h-100 border-radius-lg ">
+            <nav
+                class="ms-auto navbar navbar-main navbar-expand-lg px-0 mx-4 shadow-none border-radius-xl"
+                id="navbarBlur" data-scroll="true">
+                <div class="container-fluid py-1 px-3">
+                    <li
+                        class="ms-auto nav-item d-xl-none ps-3 d-flex align-items-center">
+                        <a href="javascript:;" class="nav-link text-body p-0"
+                            id="iconNavbarSidenav">
+                            <div class="sidenav-toggler-inner">
+                                <i class="sidenav-toggler-line"></i>
+                                <i class="sidenav-toggler-line"></i>
+                                <i class="sidenav-toggler-line"></i>
+                            </div>
+                        </a>
+                    </li>
+                </div>
+            </nav>
+            <div class="container-fluid py-4">
+                <div class="row">
+                    <div class="col-12">
+                        <div class="card my-4">
+                            <div
+                                class="card-header p-0 position-relative mt-n4 mx-3 z-index-2">
+                                <div style="background-color: #002655;"
+                                    class="d-flex shadow-primary border-radius-lg pt-4 pb-3">
+                                    <h6 class="text-white text-capitalize ps-3">Clients</h6>
+                                    <button
+                                        style="background-color: #3E3E45 !important; height: 44px;"
+                                        id="btn_addclient_popup"
+                                        class="d-flex btn ms-auto me-3"><h6
+                                            class="text-white text-capitalize">Add
+                                            Client</h6></button>
+                                </div>
+                            </div>
+
+                            <div
+                                class="main_container p-3 d-flex w-100 h-100 mt-3">
+                                <div
+                                    class="p-3 text-center clients_div w-25 height-400 border border-2 overflow-auto">
+                                    <div>
+                                        <div
+                                            class="d-flex w-100 border border-0 rounded-2 p-2"
+                                            style="background-color: white; box-shadow: 0px 4px 11px -7px rgba(0,0,0,0.37)">
+                                            <input id="search_client"
+                                                style="border: none;"
+                                                placeholder="Search Client"
+                                                type="text">
+                                            <span class="center_span"><i
+                                                    class="fa-solid fa-magnifying-glass fa-xl"></i></span>
+                                        </div>
+                                    </div>
+
+                                    <div class="clientsname_div">
+                                        <%for(let i = 0; i < clients.length;
+                                        i++){%>
+                                        <li style="width: 150px;"
+                                            class="nav-link-text unselected_client border-0"
+                                            mid="<%=clients[i]._id%>"
+                                            value="<%=clients[i].name%>"
+                                            onclick="clientListener(this)"><span
+                                                style=" display: flex; margin-right: 15px; border-radius: 50%; padding: 3px; background-color: #56575B;"><i
+                                                    class="fa-solid fa-list"
+                                                    style="color: #ffffff;"></i></span>
+                                                    <%if(clients[i].name.length > 18){%>
+                                                        <%=clients[i].name.substring(0, 14) + '...' %>
+                                                        <%}else{%>
+                                                            <%=clients[i].name%>
+                                                        <%}%>
+                                                    
+                                            <span clientid="<%=clients[i]._id%>" id="client_edit" onclick="client_edit_popup(this)" class=" ms-auto me-2 rounded-circle d-flex p-1"><i class="fa fa-gear"></i></i></i></i></span> </li>
+                                        <%}%>
+                                    </div>
+
+                                </div>
+                                <div id="show_forms_div" style="color: black;"
+                                    class="d-none w-75 h-500 ps-3">
+
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </main>
+        <!--   Core JS Files   -->
+        <script src="/assets/js/core/popper.min.js"></script>
+        <script src="/assets/js/core/bootstrap.min.js"></script>
+        <script src="/assets/js/plugins/perfect-scrollbar.min.js"></script>
+        <script src="/assets/js/plugins/smooth-scrollbar.min.js"></script>
+        <script>
+            let win = navigator.platform.indexOf('Win') > -1;
+            if (win && document.querySelector('#sidenav-scrollbar')) {
+            let options = {
+                damping: '0.5'
+            }
+            Scrollbar.init(document.querySelector('#sidenav-scrollbar'), options);
+            }
+        </script>
+        <!-- Github buttons -->
+        <script async defer src="https://buttons.github.io/buttons.js"></script>
+        <!-- Control Center for Material Dashboard: parallax effects, scripts for the example pages etc -->
+        <script src="/assets/js/material-dashboard.min.js?v=3.1.0"></script>
+        <script>
+            onStart()
+            //######## Saving client selected state in local storage ##########
+            function onStart(params) {
+                if(localStorage.getItem("selected_client")){
+                    const selected_client = localStorage.getItem("selected_client");
+                    const client = document.querySelector(`[mid="${selected_client}"]`);
+                    if(client){
+                        client.classList.add('selected_client');
+                        client.classList.remove("unselected_client");
+                        populateFormsBasedonCLient(client);
+                    }
+                }else{
+                    const client = document.querySelector('.clientsname_div li');
+                    console.log(client);
+                    if(client){
+                        client.classList.add('selected_client');
+                        client.classList.remove("unselected_client");
+                        populateFormsBasedonCLient(client);
+                    }
+
+                }
+            }
+            const overlay = document.getElementById("overlay");
+            overlay.addEventListener("click", () => {
+                closeAllPopups();
+                overlay.style.display = "none";
+            });
+            function closeAllPopups() {
+                document.getElementById("questionContainer").innerHTML = "";
+                let openPopups = document.querySelectorAll('.open_popup');
+                openPopups.forEach(function(element) {
+                    element.classList.remove('open_popup');
+                    element.classList.add('close_popup');
+                }); 
+                overlay.style.display = "none";
+               
+            }
+            function openpopup(event) {
+                closeAllPopups(); 
+                const menuDiv = document.getElementsByClassName('clientadd-popup');
+                menuDiv[0].classList.add("open_popup");
+                overlay.style.display = "block";
+            }
+            function openpopupaddproject(event) {
+                closeAllPopups(); 
+                const menuDiv = document.getElementsByClassName('projectadd-popup');
+                menuDiv[0].classList.add("open_popup");
+                overlay.style.display = "block";
+                clearForm();
+                const clientid = document.querySelector('.selected_client').getAttribute('mid');
+                document.getElementById("addthankyouform").setAttribute("action", `/thankyoupage-fb/create/${clientid}`);
+                document.getElementById("clientId_meta").value = clientid;
+                document.getElementById("clientId_Insurance").value = clientid;
+                document.getElementById("clientId_Insurance").value = clientid;
+                document.getElementById("client_id_hbd").setAttribute("action", `/api/addhbdform/${clientid}`);
+                document.getElementById("fetch_url").innerText = `/addinsurance/${clientid}`
+                document.getElementById("fetch_url_meta").innerText = `/addproject/${clientid}`
+            }
+            function clearForm() {
+                const formElements = document.querySelectorAll('input, textarea');
+
+                formElements.forEach(element => {
+                    element.value = '';
+                });
+                }
+
+            document.getElementById("btn_addclient_popup").addEventListener("click", ()=>{
+                openpopup();
+            })
+
+            async function postData() {
+                const name = document.getElementById("nameInput").value;
+                const code = document.getElementById("codeInput").value;
+                
+
+                if (!name || !code) {
+                    alert("Please fill in all fields.");
+                    return;
+                }
+
+                showLoadingOverlay();
+                try {
+                    const res = await fetch('/addclient', {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/json'
+                        },
+                        body: JSON.stringify({
+                            name: name,
+                            code: code,
+                        })
+                    })
+                    const resData = await res.json();
+                    if(res.status == 200){
+                        window.location.reload();
+                        localStorage.setItem("selected_client", resData.id);
+                    }else{
+                        hideLoadingOverlay();
+                        alert(resData.message);
+                        return;
+                    }
+                } catch (error) {
+                    alert(error.message);
+                }
+            }
+            function showLoadingOverlay() {
+                const overlay = document.querySelector('.overlay_loading');
+                overlay.style.display = 'block';
+            }
+            function hideLoadingOverlay() {
+                const overlay = document.querySelector('.overlay_loading');
+                overlay.style.display = 'none';
+            }
+            function open_popup_option(event) {
+                closeAllPopups(); 
+                const menuIconDiv = event.target.closest('.menu_icon_div');
+                if (!menuIconDiv) return;
+                const menu_popup = menuIconDiv.nextElementSibling;
+                if(menu_popup && menu_popup.classList.contains('close_popup')) {
+                    menu_popup.classList.remove("close_popup");
+                    menu_popup.classList.add("open_popup");
+                }
+                overlay.style.display = "block";
+            }
+
+            bringFormofProject = () => {
+                const projectType = document.getElementById('select_project_type').value;
+                const clientId = document.querySelector('.selected_client').getAttribute('mid');
+                if(projectType == 'HBD Form'){
+                    closeAllPopups();
+                    const Add_hbd_popup =  document.getElementById("Add_hbd_popup");
+                    Add_hbd_popup.classList.add("open_popup");
+                    Add_hbd_popup.classList.remove("close_popup");
+                    overlay.style.display = "block";
+                }else if(projectType == 'Meta Lead Form'){
+                    closeAllPopups();
+                    const meta_form_popup =  document.getElementById("meta_form_popup");
+                    meta_form_popup.classList.add("open_popup");
+                    meta_form_popup.classList.remove("close_popup");
+                    overlay.style.display = "block";
+                }else if(projectType == 'Thankyou Page'){
+                    closeAllPopups();
+                    const thankyoupagepopup =  document.getElementById("thankyoupagepopup");
+                    thankyoupagepopup.classList.add("open_popup");
+                    thankyoupagepopup.classList.remove("close_popup");
+                    overlay.style.display = "block";
+
+                }else{
+                  closeAllPopups();
+                  const Insurance_form =  document.getElementById("Insurance_form");
+                  Insurance_form.classList.add("open_popup");
+                  Insurance_form.classList.remove("close_popup");
+                  overlay.style.display = "block";
+                }
+            }
+
+            clearclientSelected = (curr_elem)=>{
+              document.querySelectorAll('.clientsname_div li').forEach((element)=>{
+                element.classList.remove('selected_client');
+                element.classList.add('unselected_client');
+              })
+              curr_elem.classList.remove("unselected_client");
+                  curr_elem.classList.add("selected_client");
+            }
+
+            async function populateFormsBasedonCLient(curr_elem){
+            document.getElementById("show_forms_div").classList.remove("d-none");
+            const clientid = curr_elem.getAttribute("mid");
+            const array = await fetchClientDetails(clientid);
+            const showformdiv = document.getElementById("show_forms_div");
+            showformdiv.innerHTML = "";
+            showformdiv.innerHTML = `
+            <div>
+                <button style="border-radius: 6px; background-color: #002655; color: white;" onclick="openpopupaddproject()" class="btn btn-lg">Add new Projects</button>
+            </div>`
+            const topicforms = array[0].topicform;
+            const projectforms = array[0].projects;
+
+            if (topicforms.length == 0 && projectforms.length == 0) {
+              showformdiv.innerHTML = `
+            <div>
+                <button style="border-radius: 6px; background-color: #002655; color: white;" onclick="openpopupaddproject()" class="btn btn-lg">Add new Projects</button>
+            </div>
+              <h3> No Project </h3>
+              `
+            }
+            projectforms.forEach(form=>{
+                showformdiv.innerHTML += `            
+              <div class="d-flex mt-3 forms_div">
+                  <div topic="project" form_id="${form._id}" contenteditable="true" style="outline: 0px solid transparent; align-items: center; width: 300px; height: 100%;" class="editable_div d-flex ps-4">${form.name}</div> 
+                  
+                  <div class="options_div ms-auto" > 
+                    
+
+                    <a target="_blank" href="/form/${array[0].code}/${form.name}" class="big_icon btn btn-sm btn-facebook mt-3 me-2" >
+                        View
+                    </a>
+
+                    <a target="_blank" href="/form/${array[0].code}/${form.name}" class="small_icon mt-3 ms-4">
+                        <i class="fa-solid fa-eye"></i>
+                    </a>
+                    
+                      
+                      
+                    <a href="/deleteproject?client=${clientid}&project=${form._id}" class="big_icon mt-3 btn-sm btn btn-danger me-2" >
+                    Delete
+                    </a>
+
+                    <a href="/deleteproject?client=${clientid}&project=${form._id}" class="small_icon mt-3 ms-4">
+                        <i class="fa-solid fa-trash"></i>
+                    </a>
+
+                    
+                    
+
+                    <button style="background-color:#002655" onclick="editHandler(this)" topic="${form.topic}" form_id="${form._id}"  class="big_icon btn btn-sm btn-facebook mt-3 me-2">
+                        Edit
+                    </button>
+
+                    <button style="background-color:transparent !important" onclick="editHandler(this)" topic="${form.topic}" form_id="${form._id}"  class="small_icon mt-3 ms-4 me-3">
+                        <i class="fa-solid fa-pen-to-square" style="color: #213454;"></i> 
+                    </button>
+                  </div>
+              </div> `
+
+
+            })
+            topicforms.forEach(form=>{
+                let viewUrl = ""
+                if(form.topic == "Insurance Form"){
+                    viewUrl = `/insuranceform/${clientid}`
+                }else if(form.topic == "HBD form"){
+                    viewUrl = `/topicform/first/${clientid}/${form._id}`
+                }else if(form.topic == "Thank You Page"){
+                    viewUrl = `/api/getthankyoupage/${form._id}`
+                }
+              showformdiv.innerHTML += `        
+              <div class="d-flex mt-3 forms_div">
+                  <div topic="topic" form_id="${form._id}" contenteditable="true" style="align-items: center; width: 300px; height: 100%; outline: 0px solid transparent; " class="editable_div d-flex ps-4">${form.name}</div> 
+                  <div class="options_div ms-auto" >
+                      
+                    
+                    <a target="_blank" href="${viewUrl}" class=" big_icon btn btn-sm btn-facebook mt-3 me-2" >
+                        View
+                    </a>
+
+                    <a target="_blank" href="${viewUrl}" class="small_icon mt-3 ms-4" >
+                        <i class="fa-solid fa-eye"></i>
+                    </a>
+                      
+
+                      
+                    <a href="/client/${clientid}/deleteTopicForm/${form._id}" class=" big_icon mt-3 btn-sm btn btn-danger me-2" >
+                    Delete
+                    </a>
+
+                    <a href="/client/${clientid}/deleteTopicForm/${form._id}" class="small_icon mt-3 ms-4" >
+                    <i class="fa-solid fa-trash"></i>
+                    </a>
+                    
+                    
+
+                    <button style="background-color: #002655;" onclick="editHandler(this)" topic="${form.topic}" form_id="${form._id}" class="big_icon btn btn-sm btn-facebook mt-3 me-2" >
+                    Edit
+                    </button>
+
+                    <button style="background-color:transparent!important" onclick="editHandler(this)" topic="${form.topic}" form_id="${form._id}" class="small_icon mt-3 ms-4 me-3" >
+                    <i class="fa-solid fa-pen-to-square" style="color: #213454; "></i> 
+                    </button>
+
+
+
+                  </div>
+              </div> `
+            })
+            document.getElementById("addthankyouform").setAttribute("action", `/thankyoupage-fb/create/${clientid}`);
+            document.getElementById("clientId_meta").value = clientid;
+            document.getElementById("clientId_Insurance").value = clientid;
+            document.getElementById("clientId_Insurance").value = clientid;
+            document.getElementById("client_id_hbd").setAttribute("action", `/api/addhbdform/${clientid}`);
+            document.getElementById("fetch_url").value = `/addinsurance/${clientid}`;
+            document.getElementById("fetch_url_meta").value = `/addproject/${clientid}`;
+            editableDivHandler();
+          }
+
+
+          async function fetchClientDetails(clientid){
+              try {
+                  const res = await fetch(`/client/${clientid}`, {
+                      method: 'GET',
+                  });
+                  if (!res.ok) {
+                      throw new Error(`Error: ${res.status} - ${res.statusText}`);
+                  }
+                  const data = await res.json();
+                  return data;
+              } catch (error) {
+                  console.error(error);
+              }
+          };
+            
+            clientListener = (curr_elem) => {
+                localStorage.setItem("selected_client", curr_elem.getAttribute("mid"));
+               document.querySelector(".overlay_loading").style.display = "block"
+                clearclientSelected(curr_elem);
+                populateFormsBasedonCLient(curr_elem);
+               document.querySelector(".overlay_loading").style.display = "none"
+
+
+            }
+
+            const searchInput = document.getElementById('search_client');
+            searchInput.addEventListener('input', function() {
+            const searchValue = searchInput.value.toLowerCase();
+
+            // Get the list of client names in the <li> elements
+            const clientItems = document.querySelectorAll('.clientsname_div li');
+
+            // Loop through the list items and hide those that don't match the search query
+            clientItems.forEach(function(item) {
+                // If the client name includes the search value, show the item; otherwise, hide it
+                if (item.textContent.toLowerCase().includes(searchValue)) {
+                item.style.display = ''; // or 'block' or 'flex' depending on your layout
+                } else {
+                item.style.display = 'none';
+                }
+            });
+            })
+
+            const fetchFormDetail = async (topic, id)=>{
+                const res = await fetch(`/api/getFormDetail/${topic}/${id}`,{
+                    method:"GET"
+                })
+                const data = await res.json();
+                return data;
+            }
+
+            const editableDivHandler = ()=>{
+                    const divs = document.querySelectorAll(".editable_div");
+                    divs.forEach(div=>{
+                        div.addEventListener("blur", async ()=>{
+                          const name = div.textContent; 
+                          const id = div.getAttribute("form_id");
+                          const type = div.getAttribute("topic");
+                          const res = await fetch(`/edit/${type}/${id}`, {
+                            method: 'POST',
+                            headers: {
+                                'Content-Type': 'application/json',
+                            },
+                            body: JSON.stringify({name}),
+                          })
+                          const data = await res.json();
+                          if (res.status !== 200) {
+                            alert("Something wrong with name change");
+                            return;
+                          }
+
+                        })
+                    })
+                }
+
+            const editHandler = async (curr_elem)=>{
+               clearForm();
+                const container = document.getElementById("questionsContainer_meta").innerHTML = "";
+               const topic = curr_elem.getAttribute("topic");
+               const id = curr_elem.getAttribute("form_id");
+               document.querySelector(".overlay_loading").style.display = "block"
+               const data = await fetchFormDetail(topic, id);
+               document.querySelector(".overlay_loading").style.display = "none"
+                if(topic == "HBD form"){
+                    closeAllPopups();
+                    const Add_hbd_popup =  document.getElementById("Add_hbd_popup");
+                    Add_hbd_popup.classList.add("open_popup");
+                    Add_hbd_popup.classList.remove("close_popup");
+                    overlay.style.display = "block";
+                    document.getElementById("name").value = data.name;
+                    document.getElementById("first_heading").value = data.firstPage.first_heading;
+                    document.getElementById("first_description").value = data.firstPage.first_desciption;
+                    document.getElementById("first_img_link").value = convertExportToDrive(data.firstPage.first_img_link);
+                    document.getElementById("first_btn_text").value = data.firstPage.first_btn_text;
+                    document.getElementById("last_heading").value = data.lastpage.last_heading;
+                    document.getElementById("last_subheading").value = data.lastpage.last_subheading;
+                    document.getElementById("last_description").value = data.lastpage.last_description;
+                    document.getElementById("last_btn_text").value = data.lastpage.last_btn_text;
+                    const dslink = data.dslink;
+                    if(dslink.length > 0){
+                        populateDiscordLinks(dslink);
+                    }
+                    function populateDiscordLinks(dslinkData) {
+                        const dslink_container = document.getElementById("discord_hbd_field");
+                        
+                        dslink_container.innerHTML = "";
+
+                        dslinkData.forEach((dslink,i) => {
+                            if(i == dslinkData.length - 1) return;
+                            const newInput = createDiscordInput(dslink);
+                            dslink_container.appendChild(newInput);
+                        });
+                        dslink_container.innerHTML += `
+                            <div class="discord-input-container">
+                                <input type="text" class="discord-hbd-input" name="dslink[]" value="${dslinkData[dslinkData.length - 1]}">
+                                <button type="button" class="my-1 add-discord-input" onclick="addDiscordHbd()">Add Discord Link</button>
+                            </div>`
+                    }
+
+                    function createDiscordInput(value = '') {
+                        const newInput = document.createElement('div');
+                        newInput.innerHTML = `
+                            <div class="discord-input-container">
+                                <input type="text" class="discord-hbd-input" name="dslink[]" value="${value}">
+                                <button type="button" class="my-1 remove-discord-input" onclick="removeDiscordHbd(this)">Remove</button>
+                            </div>`;
+                        return newInput;
+                    }
+
+                    function addDiscordHbd() {
+                        const dslink_container = document.getElementById("discord_hbd_field");
+                        const newInput = createDiscordInput();
+                        dslink_container.appendChild(newInput);
+                    }
+
+                    function removeDiscordHbd(button) {
+                        const container = button.parentNode;
+                        container.parentNode.removeChild(container);
+                    }
+
+                    document.getElementById("client_id_hbd").setAttribute("action", `/api/edithbdform/${id}`);
+                }else if(topic == "Insurance Form"){
+                    closeAllPopups();
+                    const Insurance_form =  document.getElementById("Insurance_form");
+                    Insurance_form.classList.add("open_popup");
+                    Insurance_form.classList.remove("close_popup");
+                    overlay.style.display = "block";
+                    document.getElementById("insurance_name").value = data.name;
+                    document.getElementById("bg_img_insurance").value = convertExportToDrive(data.firstPage.bg_img);
+                    document.getElementById("last_heading_insurance").value = data.lastpage.last_heading;
+                    document.getElementById("last_subheading_insurance").value = data.lastpage.last_subheading;
+                    document.getElementById("last_btn_text_insurance").value = data.lastpage.last_btn_text;
+                    document.getElementById("last_btn_link_insurance").value = data.lastpage.last_btn_link;
+                    document.getElementById("bg_insurance").value = convertExportToDrive(data.lastpage.bg);
+                    document.getElementById("fetch_url").innerText = `/api/insurance/edit/${id}`;
+                    populateQuestions(data.firstPage.questions);
+
+                    const dslink = data.dslink;
+
+                    if(dslink.length > 0){
+                        populateDiscordLinks(dslink);
+                    }
+
+                    function populateDiscordLinks(dslinkData) {
+                        const dslink_container = document.getElementById("discord_insurance_field");
+                        
+                        dslink_container.innerHTML = "";
+
+                        dslinkData.forEach((dslink,i) => {
+                            if(i == dslinkData.length - 1) return;
+                            const newInput = createDiscordInput(dslink);
+                            dslink_container.appendChild(newInput);
+                        });
+                        dslink_container.innerHTML += `
+                            <div class="discord-input-container">
+                                <input type="text" class="discord-insurance-input" name="dslink[]" value="${dslinkData[dslinkData.length - 1]}">
+                                <button type="button" class="my-1 add-discord-input" onclick="addDiscordinsurance()">Add Discord Link</button>
+                            </div>
+                        `
+                    }
+
+                    function createDiscordInput(value = '') {
+                        const newInput = document.createElement('div');
+                        newInput.innerHTML = `
+                            <div class="discord-input-container-insurance">
+                                <input type="text" class="discord-insurance-input" name="dslink[]" value="${value}">
+                                <button type="button" class="my-1 remove-discord-input" onclick="removeDiscordInsurance(this)">Remove</button>
+                            </div>`;
+                        return newInput;
+                    }
+
+                }else if(topic == "Meta Form"){
+                    closeAllPopups();
+                    const meta_form_popup =  document.getElementById("meta_form_popup");
+                    meta_form_popup.classList.add("open_popup");
+                    meta_form_popup.classList.remove("close_popup");
+                    overlay.style.display = "block";
+                    document.getElementById("project_name_meta").value = data.name;
+                    document.getElementById("meta_f_heading").value = data.landingpage.f_heading;
+                    document.getElementById("f_sub_heading").value = data.landingpage.f_sub_heading;
+                    document.getElementById("logo").value = convertExportToDrive(data.landingpage.logo);
+                    document.getElementById("background").value = convertExportToDrive(data.landingpage.background);
+                    document.getElementById("priv_link").value = data.landingpage.priv_link;
+                    document.getElementById("priv_link_text").value = data.landingpage.priv_link_text;
+                    document.getElementById("priv_text").value = data.landingpage.priv_text;
+                    document.getElementById("comp_heading").value = data.landingpage.comp_heading;
+                    document.getElementById("comp_desc").value = data.landingpage.comp_desc;
+                    document.getElementById("last_btn_text_meta").value = data.landingpage.last_btn_text;
+                    document.getElementById("last_btn_link").value = data.landingpage.last_btn_link;
+
+
+                    //########## Discord poulate ###############
+
+                        const dslink = data.dslink;
+
+                        if(dslink.length > 0){
+                            populateDiscordLinks(dslink);
+                        }
+
+                        function populateDiscordLinks(dslinkData) {
+                            const dslink_container = document.getElementById("discord_metaform_field");
+
+                        dslink_container.innerHTML = "";
+
+                        dslinkData.forEach((dslink,i) => {
+                            if(i == dslinkData.length - 1) return;
+                            const newInput = createDiscordInput(dslink);
+                            dslink_container.appendChild(newInput);
+                        });
+                        dslink_container.innerHTML += `
+                            <div class="discord-input-container-metaform">
+                                <input type="text" class="discord-metaform-input" name="dslink[]" value="${dslinkData[dslinkData.length - 1]}">
+                                <button type="button" class="my-1 add-discord-input" onclick="addDiscordMetaform()">Add Discord Link</button>
+                            </div>
+                        `
+                        }
+
+                        function createDiscordInput(value = '') {
+                        const newInput = document.createElement('div');
+                        newInput.innerHTML = `
+                            <div class="discord-input-container-metaform">
+                                <input type="text" class="discord-metaform-input" name="dslink[]" value="${value}">
+                                <button type="button" class="my-1 remove-discord-input" onclick="removeDiscordmetaform(this)">Remove</button>
+                            </div>`;
+                        return newInput;
+                        }
+
+
+
+
+
+
+
+
+
+
+
+
+                    
+                    document.getElementById("fetch_url_meta").innerText = `/api/meta/edit/${id}`;
+                    addQuestion(data.landingpage.questions);
+
+
+                    //############### Preview Poplulation ##############
+
+                    const preview_logo = document.getElementById('preview-logo');
+                    const logo_link = data.landingpage.logo;
+                    preview_logo.setAttribute('src',logo_link);
+                    const preview_background = document.getElementById('preview-background');
+                    const link = data.landingpage.background;
+                    preview_background.style.backgroundImage = `url("${link}")`;
+                    const p_heading = document.getElementById("preview-heading");
+                    p_heading.innerText = data.landingpage.f_heading;
+                    const sub_heading = document.getElementById("preview-para");
+                    sub_heading.innerText = data.landingpage.f_sub_heading;
+
+
+                    const preview_priv_text  = document.getElementById('preview_priv_text');
+                    preview_priv_text.innerText = priv_text
+                    const preview_priv_link = document.getElementById('preview_priv_link');
+                    preview_priv_link.setAttribute("href", `${priv_link}`)
+                    preview_priv_link.innerText = data.landingpage.priv_text;;
+                    const preview_logo_lastPage = document.getElementById('preview_logo_lastPage');
+                    preview_logo_lastPage.setAttribute('src',logo_link);
+                    const preview_comp_heading = document.getElementsByClassName('preview_comp_heading');
+                    preview_comp_heading[0].innerText = data.landingpage.comp_heading;
+                    const preview_comp_desc = document.getElementById('preview_comp_desc');
+                    preview_comp_desc.innerText = data.landingpage.comp_desc
+                    const preview_last_btn_link = document.getElementById('preview_last_btn_link');
+                    preview_last_btn_link.setAttribute('href', data.landingpage.last_btn_link);
+                    const preview_last_btn_text = document.getElementById('preview_last_btn_text');
+                    preview_last_btn_text.innerText = data.landingpage.last_btn_text;;
+                }else{
+                    closeAllPopups();
+                    const thankyoupagepopup =  document.getElementById("thankyoupagepopup");
+                    thankyoupagepopup.classList.add("open_popup");
+                    thankyoupagepopup.classList.remove("close_popup");
+                    overlay.style.display = "block";
+                    name_fbthankyoupage
+                    document.getElementById("name_fbthankyoupage").value = data.name;
+                    document.getElementById("background_fbthankyou").value = convertExportToDrive(data.firstPage.thankyou_background);
+                    document.getElementById("description_fbthankyou").value = data.firstPage.thankyou_text;
+                    document.getElementById("description_btn_text").value = data.firstPage.thankyou_btn_text;
+                    document.getElementById("description_btn_link").value = data.firstPage.thankyou_btn_link;
+                    
+                    document.getElementById("addthankyouform").setAttribute("action", `/thankyoupage-fb/edit/${id}`);
+
+                    const dslink = data.dslink;
+
+                    if(dslink.length > 0){
+                        populateDiscordLinks(dslink);
+                    }
+
+                    function populateDiscordLinks(dslinkData) {
+                        const dslink_container = document.getElementById("discord_fbthankyou_field");
+
+                    dslink_container.innerHTML = "";
+
+                    dslinkData.forEach((dslink,i) => {
+                        if(i == dslinkData.length - 1) return;
+                        const newInput = createDiscordInput(dslink);
+                        dslink_container.appendChild(newInput);
+                    });
+                    dslink_container.innerHTML += `
+                        <div class="discord-input-container-fbthankyou">
+                            <input type="text" class="discord-fbthankyou-input" name="dslink[]" value="${dslinkData[dslinkData.length - 1]}">
+                            <button type="button" class="my-1 add-discord-input" onclick="addDiscordFbThankyou()">Add Discord Link</button>
+                        </div>
+                    `
+                    }
+
+                    function createDiscordInput(value = '') {
+                    const newInput = document.createElement('div');
+                    newInput.innerHTML = `
+                        <div class="discord-input-container-fbthankyou">
+                            <input type="text" class="discord-fbthankyou-input" name="dslink[]" value="${value}">
+                            <button type="button" class="my-1 remove-discord-input" onclick="removeDiscordfbtahnkyou(this)">Remove</button>
+                        </div>`;
+                    return newInput;
+                    }
+                    
+                }
+            }
+
+
+            function convertExportToDrive(originalURL) {
+                const idMatch = originalURL.match(/\/uc\?export=view&id=([a-zA-Z0-9_-]+)/);
+                if (idMatch) {
+                    const id = idMatch[1];
+                    const newURL = `https://drive.google.com/file/d/${id}/view?usp=drive_link`;
+                    return newURL;
+                } else {
+                    return "";
+                }
+            }
+
+
+            function populateQuestions(questionsArray) {
+                const container = document.getElementById('questionContainer');
+
+                questionsArray.forEach((question, questionIndex) => {
+                    // Create the question container
+                    const questionGroup = document.createElement('div');
+                    questionGroup.className = 'question-group-insurance';
+
+                    // Create the question input
+                    const questionInput = document.createElement('input');
+                    questionInput.type = 'text';
+                    questionInput.className = 'border mt-1 border-3 p-2 form-control question';
+                    questionInput.name = 'question[]';
+                    questionInput.placeholder = 'Question';
+                    questionInput.value = question.question; // Assuming 'text' property holds the question text
+
+                    // Create the "Add Option" button
+                    const addOptionButton = document.createElement('button');
+                    addOptionButton.type = 'button';
+                    addOptionButton.className = 'add-option-button m-1';
+                    addOptionButton.textContent = 'Add Option';
+
+                    // Create the "Delete Question" button
+                    const deleteQuestionButton = document.createElement('button');
+                    deleteQuestionButton.type = 'button';
+                    deleteQuestionButton.className = 'delete-question-button m-1';
+                    deleteQuestionButton.textContent = 'Delete Question';
+
+                    // Create the options container
+                    const optionsContainer = document.createElement('div');
+                    optionsContainer.className = 'options-container';
+
+                    // Loop through each option in the question
+                    question.options.forEach((option, optionIndex) => {
+                    // Create the option container
+                    const optionContainer = document.createElement('div');
+                    optionContainer.className = 'option';
+
+                    // Create the option input
+                    const optionInput = document.createElement('input');
+                    optionInput.type = 'text';
+                    optionInput.className = 'border mt-1 border-3 p-2 form-control options';
+                    optionInput.name = 'option[]';
+                    optionInput.placeholder = 'Option';
+                    optionInput.value = option; // Assuming 'text' property holds the option text
+
+                    // Create the "Delete Option" button
+                    const deleteOptionButton = document.createElement('button');
+                    deleteOptionButton.type = 'button';
+                    deleteOptionButton.className = 'delete-option-button my-1';
+                    deleteOptionButton.textContent = 'Delete Option';
+
+                    // Add event listener to delete option button
+                    deleteOptionButton.addEventListener('click', () => {
+                        optionContainer.remove();
+                    });
+
+                    // Append option input and delete button to the option container
+                    optionContainer.appendChild(optionInput);
+                    optionContainer.appendChild(deleteOptionButton);
+
+                    // Append option container to the options container
+                    optionsContainer.appendChild(optionContainer);
+                    });
+
+                    // Add event listener to add option button
+                    addOptionButton.addEventListener('click', () => {
+                    // Add a new option when the button is clicked
+                    const optionContainer = document.createElement('div');
+                    optionContainer.className = 'option';
+
+                    const optionInput = document.createElement('input');
+                    optionInput.type = 'text';
+                    optionInput.className = 'border mt-1 border-3 p-2 form-control options';
+                    optionInput.name = 'option[]';
+                    optionInput.placeholder = 'Option';
+
+                    const deleteOptionButton = document.createElement('button');
+                    deleteOptionButton.type = 'button';
+                    deleteOptionButton.className = 'delete-option-button';
+                    deleteOptionButton.textContent = 'Delete Option';
+
+                    deleteOptionButton.addEventListener('click', () => {
+                        optionContainer.remove();
+                    });
+
+                    optionContainer.appendChild(optionInput);
+                    optionContainer.appendChild(deleteOptionButton);
+
+                    optionsContainer.appendChild(optionContainer);
+                    });
+
+                    // Add event listener to delete question button
+                    deleteQuestionButton.addEventListener('click', () => {
+                    questionGroup.remove();
+                    });
+
+                    // Append question input, buttons, and options container to the question group
+                    questionGroup.appendChild(questionInput);
+                    questionGroup.appendChild(addOptionButton);
+                    questionGroup.appendChild(deleteQuestionButton);
+                    questionGroup.appendChild(optionsContainer);
+
+                    // Append the question group to the target container
+                    container.appendChild(questionGroup);
+                });
+            }
+        
+
+            function addQuestion(questionsArray) {
+                    const container = document.getElementById("questionsContainer_meta");
+                    questionsArray.forEach((questionData) => {
+                    const questionGroup = document.createElement("div");
+                    questionGroup.className = "question-group";
+
+                    const questionInput = document.createElement("input");
+                    questionInput.type = "text";
+                    questionInput.value = questionData.question;
+                    questionInput.name = "question[]";
+                    questionInput.placeholder = "Question";
+                    questionInput.className = "question";
+
+                    questionInput.addEventListener("input", () => {
+                        question_populate_logic();
+                    });
+
+                    const addOptionButton = document.createElement("button");
+                    addOptionButton.type = "button";
+                    addOptionButton.className = "add-option-button";
+                    addOptionButton.textContent = "Add Option";
+
+                    const deleteQuestionButton = document.createElement("button");
+                    deleteQuestionButton.type = "button";
+                    deleteQuestionButton.className = "delete-question-button";
+                    deleteQuestionButton.textContent = "Delete Question";
+
+                    const optionsContainer = document.createElement("div");
+                    optionsContainer.className = "options-container";
+
+                    questionData.options.forEach((option) => {
+                        const optionDiv = document.createElement("div");
+                        optionDiv.className = "option";
+
+                        const optionInput = document.createElement("input");
+                        optionInput.type = "text";
+                        optionInput.value = option;
+                        optionInput.name = "option[]";
+                        optionInput.placeholder = "Option";
+                        optionInput.className = "options";
+
+                        optionInput.addEventListener("input", () => {
+                            console.log("input");
+                            question_populate_logic();
+                        });
+
+                        const deleteOptionButton = document.createElement("button");
+                        deleteOptionButton.type = "button";
+                        deleteOptionButton.className = "delete-option-button";
+                        deleteOptionButton.textContent = "Delete option";
+
+                        deleteOptionButton.addEventListener("click", () => {
+                            // Logic to handle deleting the option
+                            optionDiv.remove();
+                        });
+
+                        optionDiv.appendChild(optionInput);
+                        optionDiv.appendChild(deleteOptionButton);
+                        optionsContainer.appendChild(optionDiv);
+                    });
+
+                    addOptionButton.addEventListener("click", () => {
+                        // Add logic to handle adding a new option
+                        const optionDiv = document.createElement("div");
+                        optionDiv.className = "option";
+
+                        const optionInput = document.createElement("input");
+                        optionInput.type = "text";
+                        optionInput.name = "option[]";
+                        optionInput.placeholder = "Option";
+                        optionInput.className = "options";
+
+                        optionInput.addEventListener("input", () => {
+                            question_populate_logic();
+                        });
+
+
+                        const deleteOptionButton = document.createElement("button");
+                        deleteOptionButton.type = "button";
+                        deleteOptionButton.className = "delete-option-button";
+                        deleteOptionButton.textContent = "Delete option";
+
+                        deleteOptionButton.addEventListener("click", () => {
+                            // Logic to handle deleting the new option
+                            optionDiv.remove();
+                        });
+
+                        optionDiv.appendChild(optionInput);
+                        optionDiv.appendChild(deleteOptionButton);
+                        optionsContainer.appendChild(optionDiv);
+                    });
+
+                    deleteQuestionButton.addEventListener("click", () => {
+                        // Add logic to handle deleting the entire question group
+                        questionGroup.remove();
+                    });
+
+                    questionGroup.appendChild(questionInput);
+                    questionGroup.appendChild(addOptionButton);
+                    questionGroup.appendChild(deleteQuestionButton);
+                    questionGroup.appendChild(optionsContainer);
+
+                    // Append the question group to the document
+                    container.appendChild(questionGroup);
+                });
+
+                function question_populate_preview(params) {
+                    const questionInputs = document.querySelectorAll(".question");
+                    const answers = [];
+                
+                    questionInputs.forEach(questionInput => {
+                    let optionsContainer = questionInput;
+                    for (let i = 0; i < 3; i++) {
+                        optionsContainer = optionsContainer.nextElementSibling;
+                    }
+                    const questionText = questionInput.value;
+                    const optionsInputs = optionsContainer.querySelectorAll('.option input');
+                    // const optionsContainer = questionInput.closest(".question-group").querySelectorAll(".option input");
+                    const options = [];
+                    optionsInputs.forEach(optionInput => {
+                        options.push(optionInput.value);
+                    });
+                    answers.push({ question: questionText, options: options });
+                    });
+                    return answers;
+                }
+
+                function question_populate_logic() {
+                    const question_div = document.getElementById('question-div');
+                    const arr = question_populate_preview()
+                    question_div.innerHTML = "";
+                    for (let i = 0; i < arr.length; i++) {
+                        let optionsHTML = '';
+                        for (let j = 0; j < arr[i].options.length; j++) {
+                        optionsHTML += `
+                            <label class="container">
+                            <input type="radio" name="question${i}" value="${arr[i].options[j]}">
+                            <span class="checkmark" data-value="${arr[i].options[j]}">${arr[i].options[j]}</span>
+                            </label>
+                        `;
+                        }
+                        question_div.innerHTML += `
+                        <div class="inside-tab radio-div">
+                            <h3 class="heading">${arr[i].question}</h3>
+                            <div>
+                            ${optionsHTML}
+                            </div>
+                        </div>
+                        `;
+                    }
+                }
+          
+
+          question_populate_logic()
+            }
+
+           const client_edit_popup = async (elem)=>{
+               const clientID = elem.getAttribute("clientid");
+               document.querySelector(".overlay_loading").style.display = "block"
+               const data = await fetchClientDetails(clientID);
+               document.querySelector(".overlay_loading").style.display = "none"
+
+               document.getElementById("client_code_edit").value = data[0].code;
+               document.getElementById("client_name_edit").value = data[0].name;
+               document.getElementById("client_del").setAttribute("clientid",data[0]._id);
+               const clientedit_popup  = document.querySelector(".clientedit-popup");
+               document.getElementById("client_edit_post_btn").setAttribute("clientId", data[0]._id);
+               clientedit_popup.classList.add("open_popup");
+               clientedit_popup.classList.remove("close_popup");
+
+
+               overlay.style.display = "block";
+            }
+
+            const editclientPost = async ()=>{
+               const code = document.getElementById("client_code_edit").value
+               const name = document.getElementById("client_name_edit").value
+               const clientId = document.getElementById("client_edit_post_btn").getAttribute("clientId");
+               document.querySelector(".overlay_loading").style.display = "block"
+
+               const res = await fetch(`/editclient/${clientId}`, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({
+                        name: name,
+                        code: code,
+                    })
+                })
+                if(res.status == 400){
+                    return alert("Client already present with these details");
+                }else if(res.status == 200){
+                    window.location.reload();
+                }
+            }
+
+            const deleteClient = async (elem)=>{
+                const bool = window.confirm("Do you want to delete this Client?");
+                if(bool){
+                    const id = elem.getAttribute("clientid");
+                    const res = await fetch(`/api/deleteclient/${id}`, {
+                        method:"GET"
+                    });
+                    if(res.status == 200){
+                        window.location.reload();
+                    }else{
+                        alert("Something wrong");
+                    }
+                }
+
+            }
+
+            
+            const opendiscordPopup = async (elem)=>{
+                const popup = document.getElementById("discord_edit_client");
+                popup.classList.remove("close_popup");
+                popup.classList.add("open_popup");
+            }
+
+            const cancelDiscordEdit = async (elem)=>{
+                let elementsToDelete = document.querySelectorAll(".new_discord_link");
+                elementsToDelete.forEach(function(element) {
+                    element.parentNode.removeChild(element);
+                });
+                elem.parentNode.parentNode.classList.add("close_popup");
+                elem.parentNode.parentNode.classList.remove("open_popup");
+            }
+            editclientsDiscordSave = async (elem)=>{
+                const noDs = document.querySelectorAll(".discord-input-container_editclient").length;
+                console.log(noDs);
+                document.getElementById("numberOfDiscords").innerText = `Discord Attached ${noDs}`
+
+                elem.parentNode.parentNode.classList.add("close_popup");
+                elem.parentNode.parentNode.classList.remove("open_popup");
+
+            }
+            
+            closediscordedit = (elem)=>{
+                let elementsToDelete = document.querySelectorAll(".new_discord_link");
+                elementsToDelete.forEach(function(element) {
+                    element.parentNode.removeChild(element);
+                });
+
+                elem.parentNode.classList.add("close_popup")
+                elem.parentNode.classList.remove("open_popup")
+            }
+            </script>
+    </body>
+
+</html>

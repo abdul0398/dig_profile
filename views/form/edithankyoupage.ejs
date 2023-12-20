@@ -1,0 +1,111 @@
+<style>
+  input{
+      display: block;
+      width: 100%;
+      padding: 5px;
+  }
+  form{
+      margin: auto;
+      
+  }
+  button{
+      border: none;
+      background-color: #358855;
+      padding: 5px 9px;
+      color:white;
+      border-radius: 3px;
+  }
+  label{
+    margin: 0px;
+  }
+  </style>
+
+<div class="close_popup" id="thankyoupagepopup"
+  style="position: fixed; height: 80vh; border-radius: 20px; background-color: #ffffff;
+          top: 50%;
+          left: 50%;
+          transform: translate(-50%, -50%);z-index: 99999999; overflow: auto; width: 800px; padding: 50px 70px">
+  <span onclick="closeAllPopups()" id="close_popup_btn" ><i class="fa-solid fa-x"></i></span>
+
+  <div class="container-fluid py-4">
+    <div class="overview-boxes">
+      <form id="addthankyouform" method="post">
+        <h4 style="color: rgb(82, 82, 82);" class="text-center">Facebook
+          Thank you Page Details</h4>
+
+        <div class="form-group">
+          <label>Discord Link</label>
+          <div id="discord_fbthankyou_field" style="text-align: start;">
+            <div class="discord-input-container-fbthankyou" >
+                <input type="text" class="discord-fbthankyou-input" name="dslink[]">
+                <button type="button" class="my-1 add-discord-input" onclick="addDiscordFbThankyou()">Add Discord Link</button>
+            </div>
+            </div>
+        </div>
+        <div class="form-group">
+          <label for="background">Name</label>
+          <input class="border border-3 p-2 form-control" type="text"
+            id="name_fbthankyoupage"
+            value
+            name="name"
+            placeholder="Enter name"
+            style="margin-bottom: 3px;">
+        </div>
+        <div class="form-group">
+          <label for="background">Background Image Link</label>
+          <input class="border border-3 p-2 form-control" type="text"
+            id="background_fbthankyou"
+            value
+            name="thankyou_background"
+            placeholder="Enter Gdrive-link of background for thankyou page"
+            style="margin-bottom: 3px;">
+        </div>
+        <div class="form-group">
+          <label for="exampleInputEmail1">Description</label>
+          <input id="description_fbthankyou"
+            class="border border-3 p-2 form-control" style="margin-bottom: 3px;"
+            type="text"
+            value name="thankyou_text"
+            placeholder="Enter Text Of Thankyoupage">
+        </div>
+        <div class="form-group">
+          <label for="exampleInputEmail1">Button Text</label>
+          <input id="description_btn_text"
+            class="border border-3 p-2 form-control" style="margin-bottom: 3px;"
+            type="text"
+            value
+            name="thankyou_btn_text"
+            placeholder="Enter Text Of Thankyoupage Button">
+        </div>
+        <div class="form-group">
+          <label for="exampleInputEmail1">Button Link</label>
+          <input id="description_btn_link"
+            class="border border-3 p-2 form-control" style="margin-bottom: 3px;"
+            type="text"
+            value
+            name="thankyou_btn_link"
+            placeholder="Enter Link Of Thankyoupage Button">
+        </div>
+        <div class="btn-div mt-4" style="text-align: center;">
+          <button type="Submit">Submit</button>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>
+<script>
+      function addDiscordFbThankyou() {
+      let inputContainer = document.getElementById('discord_fbthankyou_field');
+      let newInput = document.createElement('div');
+          newInput.innerHTML ='<div class="discord-input-container-fbthankyou">' +
+                              '    <input type="text" class="discord-fbthankyou-input" name="dslink[]">' +
+                              '    <button type="button" class="my-1 remove-discord-input" onclick="removeDiscordfbtahnkyou(this)">Remove</button>' +
+                              '</div>';
+        inputContainer.insertBefore(newInput, inputContainer.firstChild);
+      }
+
+      function removeDiscordfbtahnkyou(element) {
+          let containerToRemove = element.parentNode.parentNode;
+          containerToRemove.parentNode.removeChild(containerToRemove);
+      }
+</script>
