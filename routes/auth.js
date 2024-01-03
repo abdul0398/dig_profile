@@ -19,7 +19,7 @@ router
             return res.redirect("/register");
         }
         
-        const [rows] = await __pool.query('SELECT * FROM users WHERE email = ?', [ email ]);
+        const [rows] = await __pool.query('SELECT * FROM users WHERE email = ? AND isVerified = ?', [email, true]);
         
         if(rows.length > 0){
             req.flash("error", "Email is Already present");
