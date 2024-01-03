@@ -1,13 +1,12 @@
 require('dotenv').config()
 const setMiddleWares = require("./middlewares/express.js");
-const {authroute, profileroute} = require("./routes");
+const {authroute, profileroute, clientroute, FormRoute, LeadRoute} = require("./routes");
 const setupDb = require("./services/dbHandler.js");
 async function start() {
-    const app = await setMiddleWares();
+    const {app, express} = await setMiddleWares();
     await setupDb();
-    app.use(authroute);
-    app.use(profileroute);
-
+    app.use("/uploads", express.static("uploads"));
+    app.use([authroute,profileroute, clientroute, FormRoute, LeadRoute]);
     app.use((req,res)=>{
         res.render("error.ejs");
     })

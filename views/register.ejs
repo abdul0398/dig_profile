@@ -49,15 +49,15 @@
               <div class="card-body">
                 <form action="/register" method="POST" class="form_register">
                   <div class="input-group my-3">
-                    <!-- <label class="form-label">Username</label> -->
+                    <input id="name" style="padding: 6px; border: 2px solid #002655;" type="text" name="name" placeholder="Name" class="form-control">
+                  </div>
+                  <div class="input-group my-3">
                     <input id="email" style="padding: 6px; border: 2px solid #002655;" type="text" name="email" placeholder="Email" class="form-control">
                   </div>
                   <div class="input-group mb-3">
-                    <!-- <label class="form-label">Password</label> -->
                     <input id="pass" style="padding: 6px; border: 2px solid #002655;" type="password" name="password" placeholder="Password" class="form-control">
                   </div>
                   <div class="input-group mb-3">
-                    <!-- <label class="form-label">Password</label> -->
                     <input id="con_pass" style="padding: 6px; border: 2px solid #002655;" type="password" name="con_password" placeholder="Confrim Password" class="form-control">
                   </div>
                   <div class="text-center">
@@ -95,6 +95,8 @@
         const password = document.getElementById("pass").value;
         const confirmPassword = document.getElementById("con_pass").value;
         const email = document.getElementById("email").value;
+        const name = document.getElementById("name").value;
+
 
         const emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
         const isEmailValid = emailPattern.test(email);
@@ -104,6 +106,16 @@
           Swal.fire({
             title: 'Error!',
             text: 'Please enter a valid email address.',
+            icon: 'error',
+            confirmButtonText: 'Okay'
+          });
+          return;
+        }
+
+        if(name == ''){
+          Swal.fire({
+            title: 'Error!',
+            text: 'Please enter a valid Name.',
             icon: 'error',
             confirmButtonText: 'Okay'
           });

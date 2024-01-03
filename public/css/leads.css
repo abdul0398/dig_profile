@@ -1,0 +1,166 @@
+body {
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+}
+
+.table-container {
+    /* max-width: 1000px; */
+    margin: 20px auto;
+    overflow-x: auto;
+}
+
+.download-container {
+    display: inline-flex;
+    width: 20%;
+}
+.junk-action,
+.clear-action {
+    cursor: pointer;
+    transition: color 0.3s;
+    text-decoration: none;
+    border-radius: 5px;
+    color: white;
+    font-weight: 500;
+    border: 1px solid black;
+    padding: 2px 5px;
+    background-color: #0A2558;
+    margin: 0px 2px;
+    max-width: 80px;
+}
+.junk-action{
+    background-color: #cc0000;
+}
+.clear-action{
+    background-color: green;
+}
+
+.junk-action:hover,
+.clear-action:hover {
+    background-color: white;
+    color: black;
+}
+
+.filter-container {
+    text-align: center;
+    margin-bottom: 30px;
+    /* display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+    grid-gap: 10px; */
+}
+
+.filter-label {
+    grid-column: span 1;
+    align-self: center;
+}
+
+.filter-input {
+    background-color: white;
+    color: rgb(100, 100, 100);
+    padding: 15px 10px;
+    margin: auto;
+    border: none;
+    border-radius: 7px;
+    
+}
+
+.filter-input select {
+    width: 100%;
+}
+
+.loginPopup {
+    position: relative;
+    width: 100%;
+}
+
+.formPopup {
+    display: none;
+    position: fixed;
+    left: 50%;
+    top: 25%;
+    width: 280px;
+    transform: translate(-50%, 5%);
+    border: 1px solid #999999;
+    border-radius: 10px;
+    z-index: 9;
+    opacity: 0;
+    /* Initial opacity set to 0 */
+    transition: opacity 0.2s ease-in-out;
+    /* Transition for opacity */
+}
+
+.formContainer {
+    max-width: 300px;
+    padding: 20px;
+    border-radius: 10px;
+    background-color: #fff;
+}
+
+.formContainer .btn {
+    padding: 12px 20px;
+    border: none;
+    background-color: #0A2558;
+    color: #fff;
+    cursor: pointer;
+    width: 100%;
+    margin-bottom: 15px;
+    opacity: 0.8;
+}
+
+.formContainer .cancel {
+    background-color: #cc0000;
+}
+
+.formContainer .btn:hover,
+.openButton:hover {
+    opacity: 1;
+}
+
+/* Added transition for button hover effect */
+.formContainer .btn,
+.openButton {
+    transition: opacity 0.3s ease-in-out;
+}
+
+@media (max-width: 768px) {
+    .filter-container {
+        display: block;
+    }
+
+    .filter-input {
+        width: 80%;
+        margin-bottom: 10px;
+    }
+    .download-container {
+        width: 100%;
+    }
+    .select_container{
+        width: 100%;
+        margin-bottom: 8px;
+    }
+    .download_input{
+        margin: 0px;
+    }
+    .search_input{
+        width: 100%;
+    }
+    .input_search{
+        width: 100%;
+    }
+}
+
+.download_input{
+    background-color: white;
+    width: 100%;
+    /* margin: 0px 3px; */
+    border: none;
+    border-radius: 7px;
+    padding: 13px 27px;
+    color: rgb(100, 100, 100);
+    filter: drop-shadow(0px 4px 4px rgba(0, 0, 0, 0.25));
+}
+
+.disabled {
+    pointer-events: none;
+    opacity: 0.6;
+}

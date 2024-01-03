@@ -1,0 +1,785 @@
+<script src="https://cdn.jsdelivr.net/npm/sortablejs@latest/Sortable.min.js"></script>
+
+<body>
+    <style>
+    * {
+        font-family: 'Arial', sans-serif;
+    }
+    
+    body {
+        font-family: 'Arial', sans-serif;
+        margin: 0;
+        padding: 0;
+        background-color: #f4f4f4;
+    }
+
+    .container {
+        max-width: 600px;
+        margin: 0 auto;
+        padding: 20px;
+        text-align: center;
+    }
+
+    .header, .footer {
+        padding: 10px 0;
+    }
+
+    .profile-image-options, .theme-options {
+        display: flex;
+        margin-bottom: 20px;
+    }
+
+    .profile-image {
+        width: 50px;
+        height: 50px;
+        border-radius: 50%;
+        background-color: #ddd;
+        margin-right: 5px;
+        cursor: pointer;
+    }
+
+    .profile-image.add-new::after {
+        content: '+';
+        display: block;
+        text-align: center;
+        line-height: 50px;
+        font-size: 24px;
+        color: #333;
+    }
+
+    .theme-card {
+        width: 30%;
+        border: 1px solid #ccc;
+        border-radius: 8px;
+        overflow: hidden;
+        background-color: #fff;
+    }
+
+    .theme-header {
+        background-color: #333;
+        color: #fff;
+        padding: 5px;
+    }
+
+    .theme-content {
+        padding: 10px;
+        height: 100px; /* Adjust as needed */
+    }
+
+    .select-button {
+        width: 100%;
+        padding: 10px;
+        border: none;
+        background-color: #0084ff;
+        color: #fff;
+        cursor: pointer;
+    }
+
+    .continue-button {
+        width: 50%;
+        height: 35px;
+        padding: 5px;
+        border: none;
+        background-color: #002655;
+        border-radius: 24px;
+        color: #fff;
+        font-size: 12px;
+    }
+    .continue-button:hover{
+        cursor: pointer;
+    }
+    .theme-options .image-container {
+        width: 100px;
+        overflow: hidden;
+        margin: 0px 10px;
+        border-radius: 13px;
+    }
+
+    .theme-options img {
+        width: 100%;
+        height: 100%;
+        object-position: center;
+    }
+    .profile_edit_container{
+        display: none;
+        padding: 0px 20px;
+        height: 100%;
+        
+    }
+    .selected{
+        box-shadow: 0px 0px 39px 5px rgba(0,0,0,1);
+    }
+    #add_profile{
+        background-size: cover !important;
+        background-position: center !important;
+    }
+    .footer{
+        position: absolute;
+        bottom: 10px;
+        width: 50%;
+    }
+    .link{
+        background-color: beige;
+        border-radius: 20px;
+        height: 120px;
+        display: flex;
+        padding: 20px;
+        flex-direction: column;
+        margin-top: 10px;
+    }
+    .link input{
+        border: none;
+        border-bottom: 1px solid rgb(180, 180, 180);
+        background-color: transparent;
+    } 
+    #addLinkButton, #addHeadingButton, #addFormBtn, #editFormBtn{
+        padding: 8px 16px;
+        border: 1px solid gray;
+        border-radius: 24px;
+        background-color: #FFFFFF !important;
+        color: gray !important;
+        cursor: pointer;
+        font-size: 16px;
+    }
+    .link_container, #link_container_dynamic{
+        width: 100%;
+        overflow: auto;
+        max-height: 400px ;
+        
+    }
+    .deleteButton{
+        display: inline;
+        width: fit-content;
+        cursor: pointer;
+        margin: auto;
+    }
+    .break_between_inputs{
+        width: 100%;
+    }
+    #drag_icon{
+        cursor: grab;
+    }
+    .fixed_link{
+        background-color: beige;
+        border-radius: 20px;
+        display: flex;
+        padding: 20px;
+        flex-direction: column;
+        margin-top: 10px;
+    }
+    .fixed_link input{
+        border: none;
+        border-bottom: 1px solid rgb(180, 180, 180);
+        background-color: transparent;
+    }
+    .d_wrap{
+        flex-wrap: nowrap;
+    }
+    @media only screen and (max-width: 600px) {
+      .d_wrap{
+        flex-wrap: wrap;
+    }
+    }
+
+    </style>
+
+<div class="profile_edit_container">
+    <p hidden id="profile_id"></p>
+    <section id="step1" class="profile-selection">
+      <header>
+        <h4 style="color: black;">Choose your appearance</h4>
+        <p style="font-size: 10px; opacity: 0.5;" >You can change this and view more options later.</p>
+      </header>
+    <div class="profile-image-options">
+      <button style="background-color: gray !important;" id="add_profile" class="profile-image add-new"></button>
+    <input type="file" id="profile_image_upload" name="profile_image" accept="image/*" style="display: none;">
+    </div>
+    
+    <div class="theme-options">
+        <div template_id="1" class="image-container">
+            <img src="./temp1.jpg">
+        </div>
+        
+        <div template_id="2" class="image-container">
+          <img src="./temp2.jpg">
+        </div>
+        
+        <div template_id="3" class="image-container">
+          <img src="./temp3.jpg" >
+        </div>
+      </div>
+      <button id="nextBtn" onclick="showNext(this)" class="continue-button">Continue</button>
+  </section>
+  <section style="display: none;" id="step2" class="section_two two">
+    <div>
+        <button id="addLinkButton">+ Add link</button>
+        <button id="addHeadingButton">+ Add Heading</button>
+        <button id="addFormBtn" onclick="addFormPopup()">+ Add Form</button>
+        <button id="editFormBtn" onclick="editFormHandler()">+ Edit Forms</button>
+    </div>
+
+    <div class="d_wrap" style="margin-bottom: 5px; display: flex; justify-content: space-between;">
+        <div class="link_container" id="linkContainer">   
+            <!-- Link items will be added here -->
+            <div id="link_container_dynamic">
+
+            </div>  
+            <div class="fixed_link">
+                <p>Whats App Number</p>
+                <input id="phone" type="text" placeholder="Enter you Whats App Number">
+            </div>
+            <div class="fixed_link">
+                <p>Book An Appointment</p>
+                <input id="appointment_link" type="text" placeholder="Book An Appointment link">
+            </div>
+            <div class="fixed_link">
+                <p>Facebook</p>
+                <input id="fb_link" type="text" placeholder="Facebook Link">
+            </div>
+            <div class="fixed_link">
+                <p>Instagram</p>
+                <input id="insta_link" type="text" placeholder="Instagram Link">
+            </div>
+            <div class="fixed_link">
+                <p>LinkedIn</p>
+                <input id="linkedin_link" type="text" placeholder="Linkin Link">
+            </div>
+            
+        </div>
+
+
+        <div>
+                <!-- Start of previewing Template 1 -->
+
+            <link rel="stylesheet" href="/css/profile_small.css" />
+            <div class="div temp1">
+                <section style="height: 250px;">
+                    <div class="child"></div>
+                    <div class="group-parent">
+                    <div class="rectangle-parent">
+                        <div class="group-child"></div>
+                        <div class="group-item"></div>
+                    </div>
+                    <img class="group-inner" alt="" src="./group-47@2x.png" />
+                    </div>
+                    <div class="rectangle-group">
+                    <div class="rectangle-div">
+                        <img id="preview_profile_img" class="polygon-icon" alt="" src="./dp.jpg" />
+                    </div>
+                    </div>
+                    <div class="item"></div>
+                </section>
+            
+                <section id="profile_preview_container">
+                    <p class="agent-name">AGENT NAME</p>
+                    <section id="profile_preview_innercontainer">
+                        
+                    </section>
+                    <p style="font-size: 12px;color: #000; margin: auto; width: 70px;" class="profile_heading">CALL US</p>
+                    <li style="font-size: 12px; margin:0px auto 5px auto; display: flex; justify-content: center; align-items: center; background-color: #0066C9; width: 160px; border-radius: 20px; height: 35px;">
+                        <a style="color: white;" href="">Book An Appointment</a>
+                    </li>
+                    <li style="font-size: 12px; margin:0px auto 5px auto; display: flex; justify-content: center; align-items: center; background-color: #0066C9; width: 160px; border-radius: 20px; height: 35px;">
+                        <a style="color: white;" href="">Whats App</a>
+                    </li>
+                    <style>
+                        
+                        .profile-card {
+                            display: none;
+                        position: absolute;
+                        bottom: 312px;
+                        left: 50%;
+                        background-color: #ffffff;
+                        border-radius: 8px;
+                        box-shadow: 0 4px 8px rgb(0 0 0 / 10%);
+                        width: 60%;
+                        padding: 20px;
+                        margin: 20px;
+                        font-family: 'Arial', sans-serif;
+                        translate: -55%;
+                        box-shadow: 1px -1px 13px 0px rgba(0,0,0,0.26);
+                
+                        }
+                        .profile-photo-container {
+                        display: flex;
+                        align-items: center;
+                        justify-content: center;
+                        
+                        }
+                        .profile-photo {
+                        border-radius: 50%;
+                        width: 80px;
+                        height: 80px;
+                        object-fit: cover;
+                        border: 3px solid #000;
+                        }
+                        .profile-name {
+                        font-size: 18px;
+                        font-weight: bold;
+                        margin: 0;
+                        }
+                        .profile-title {
+                        font-size: 14px;
+                        color: #555;
+                        margin: 0;
+                        }
+                        .profile-quote {
+                        font-size: 14px;
+                        color: #333;
+                        margin-top: 15px;
+                        }
+                    </style>
+                    <div class="profile-card">
+                        <div class="profile-photo-container">
+                            <img src="/dp.jpg" alt="Jackson Totham" class="profile-photo">
+                        </div>
+                        <h2 class="profile-name">Jackson Totham</h2>
+                        <p class="profile-title">CEO of Redbull</p>
+                        <p class="profile-quote">
+                            I really enjoyed working with them, they are Group of professionals and they know what they're Doing
+                        </p>
+                    </div>
+
+                </section>
+            </div>
+            <!-- End of previewing Template 1 -->
+
+        </div>
+    </div>
+<div style="display: flex;">
+    <button id="prevBtn" onclick="showPrev()" class="continue-button">Previous</button>
+    <button id="nextBtn" onclick="showNext(this)" class="continue-button">Submit</button>
+</div>
+</section>
+</div>
+
+</body>
+<script>
+    var profileDataState = {
+        templateSelected: 1,
+    }
+
+    onStart();
+
+    function onStart(){
+        sortableHandler();
+        eventListnerHandler();
+        linkAndHeadingHandler();
+    }
+
+    function sortableHandler(){
+        const el = document.getElementById("link_container_dynamic");
+        const sortable = Sortable.create(el);
+    }
+
+    function eventListnerHandler(params) {
+       const divs = document.getElementsByClassName("image-container");
+       for (let i = 0; i < divs.length; i++) {
+           divs[i].addEventListener("click", () => {
+               for (let j = 0; j < divs.length; j++) {
+                   divs[j].classList.remove("selected");
+               }
+               divs[i].classList.add("selected");
+               profileDataState.templateSelected =  divs[i].getAttribute("template_id");
+           });
+       }
+       document.getElementById("add_profile").addEventListener("click", () => {
+           document.getElementById("profile_image_upload").click();
+       });
+       document.getElementById("profile_image_upload").addEventListener("change", () => {
+            Swal.fire({
+                title: "Do you want to change the profile?",
+                showDenyButton: true,
+                showCancelButton: true,
+                confirmButtonText: "Save",
+                denyButtonText: `Don't save`
+                }).then(async (result) => {
+                if (result.isConfirmed) {
+                    const file = document.getElementById("profile_image_upload").files[0];
+                    await imageUploadHandler(file);
+                    const reader = new FileReader();
+                    reader.onload = function (e) {
+                        document.getElementById("add_profile").style.backgroundImage = `url(${e.target.result})`;
+                        document.getElementById("preview_profile_img").src = e.target.result;
+                    };
+                    reader.readAsDataURL(file);
+                    Swal.fire("Saved!", "", "success");
+                } else if (result.isDenied) {
+                    Swal.fire("Changes are not saved", "", "info");
+                }
+            });
+          
+       });
+   }
+
+    async function imageUploadHandler(file) {
+        const profile_id = document.getElementById("profile_id").getAttribute("profile_id");
+        const formdata = new FormData();
+        formdata.append("profile_image", file);
+        formdata.append("profile_id", profile_id);
+        try {
+            const res = await fetch("/api/profileupload", {
+                method: "POST",
+                body: formdata,
+            })
+
+            const data = await res.json();
+            console.log(data);
+        } catch (error) {
+            console.log(error.message);
+        }
+   }
+
+
+
+
+    function linkAndHeadingHandler(){
+        const addLinkButton = document.getElementById('addLinkButton');
+        const addHeadingButton = document.getElementById('addHeadingButton');
+        const linkContainer = document.getElementById('link_container_dynamic');
+
+    
+        addLinkButton.addEventListener('click', function() {
+            addLink();
+        });
+        addHeadingButton.addEventListener('click', function() {
+            addHeading();
+        });
+        async function addLink() {
+            const profile_id = document.getElementById("profile_id").getAttribute("profile_id");
+            const {forms} = await fetchProfileDetail(profile_id);
+            const linkCounter = linkContainer.children.length + 1;
+            const linkDiv = document.createElement('div');
+            linkDiv.classList.add('link');
+
+            // Flex container for horizontal radio buttons
+            const radioContainer = document.createElement('div');
+            radioContainer.classList.add('radio-container');
+
+
+            // Radio buttons for choosing between "Enter Link" and "Choose Form"
+            const enterLinkRadio = createRadio(`enterLink`, linkCounter, 'Enter Link', true);
+            const chooseFormRadio = createRadio(`chooseForm`, linkCounter, 'Choose Form', false);
+
+            // Dropdown for selecting predefined forms
+            const selectFormDropdown = document.createElement('select');
+            selectFormDropdown.style.display = "none"; // Initially disabled
+            // Add options to the dropdown (replace with your own options)
+            selectFormDropdown.classList.add("form_select")
+            forms.forEach(form => {
+                const option = document.createElement('option');
+                option.value = form._id;
+                option.textContent = form.name;
+                selectFormDropdown.appendChild(option);
+            });
+            selectFormDropdown.style.borderRadius = "30px"
+            selectFormDropdown.style.marginBottom = "3px"
+
+            // Input fields for link and name
+            const inputLink = createInput('text', 'Link', false);
+            const inputName = createInput('text', 'Name', false);
+            
+            
+            inputLink.addEventListener('input', function() {
+               const arrangement = extractData();
+               console.log(arrangement);
+                populateProfilePreview(arrangement);
+            });
+            
+            inputName.addEventListener('input', function() {
+                const arrangement = extractData();
+                populateProfilePreview(arrangement);
+            });
+
+            // Event listeners for radio buttons to enable/disable fields
+            enterLinkRadio.addEventListener('change', function() {
+                selectFormDropdown.style.display = 'none'; // Hide the dropdown
+                inputLink.style.display = 'block'; // Show the link input
+            });
+
+            chooseFormRadio.addEventListener('change', function() {
+            
+                selectFormDropdown.style.display = 'block'; // Show the dropdown
+                inputLink.style.display = 'none'; // Hide the link input
+            });
+
+            const deleteButton = document.createElement('div');
+            deleteButton.innerHTML = `<i class="fa-solid fa-trash"></i>`;
+            deleteButton.classList.add('deleteButton');
+            deleteButton.onclick = function() {
+                linkContainer.removeChild(linkDiv);
+                const arrangement = extractData();
+                populateProfilePreview(arrangement);
+            };
+
+            linkDiv.innerHTML += `<svg id="drag_icon" style="margin-left:auto" width="20px" height="30px" xmlns="http://www.w3.org/2000/svg">
+                        <!-- First row of dots -->
+                        <circle cx="5" cy="5" r="2" fill="black"></circle>
+                        <circle cx="15" cy="5" r="2" fill="black"></circle>
+
+                        <!-- Second row of dots -->
+                        <circle cx="5" cy="15" r="2" fill="black"></circle>
+                        <circle cx="15" cy="15" r="2" fill="black"></circle>
+                    </svg>`;
+
+            // Event listeners for input fields to track changes
+            inputLink.addEventListener('input', function() {
+                const arrangement = extractData();
+                populateProfilePreview(arrangement);
+            });
+
+            inputName.addEventListener('input', function() {
+                const arrangement = extractData();
+                populateProfilePreview(arrangement);
+            });
+
+            // Append radio buttons to the radio container
+            radioContainer.appendChild(enterLinkRadio);
+            radioContainer.appendChild(chooseFormRadio);
+
+            // Append all elements to linkDiv
+            linkDiv.appendChild(radioContainer);
+            linkDiv.appendChild(selectFormDropdown);
+            linkDiv.appendChild(inputLink);
+            linkDiv.appendChild(inputName);
+            linkDiv.appendChild(deleteButton);
+
+            // Append linkDiv to the linkContainer
+            linkContainer.appendChild(linkDiv);
+        }
+
+        // Helper function to create radio buttons
+        function createRadio(name, linkCount, label, checked) {
+            const radio = document.createElement('input');
+            radio.type = 'radio';
+            radio.name = `linkChoice${linkCount}`;
+            radio.value = name;
+            radio.checked = checked;
+            radio.style.marginLeft = "10px"
+            
+            const labelElement = document.createElement('label');
+            labelElement.textContent = label;
+            labelElement.appendChild(radio);
+            
+            return labelElement;
+        }
+
+        // Helper function to create input fields
+        function createInput(type, placeholder, disabled) {
+            const input = document.createElement('input');
+            input.type = type;
+            input.placeholder = placeholder;
+            input.disabled = disabled;
+            input.style.marginTop = "2px";
+            input.style.marginBottom = "2px"
+            return input;
+        }
+
+
+        
+        function addHeading(){
+            const linkDiv = document.createElement('div');
+            linkDiv.classList.add('link');
+            linkDiv.classList.add('break_between_inputs');
+
+            const inputHeading = document.createElement('input');
+            inputHeading.type = 'text';
+            inputHeading.placeholder = 'Heading';
+
+            const deleteButton = document.createElement('div');
+            deleteButton.innerHTML = `<i class="fa-solid fa-trash"></i>`;
+            deleteButton.classList.add('deleteButton');
+            deleteButton.onclick = function() {
+                linkContainer.removeChild(linkDiv);
+                const arrangement = extractData();
+                populateProfilePreview(arrangement);
+            };
+            linkDiv.innerHTML += `<svg id="drag_icon" style="margin-left:auto" width="20px" height="30px" xmlns="http://www.w3.org/2000/svg">
+                        <!-- First row of dots -->
+                        <circle cx="5" cy="5" r="2" fill="black"></circle>
+                        <circle cx="15" cy="5" r="2" fill="black"></circle>
+
+                        <!-- Second row of dots -->
+                        <circle cx="5" cy="15" r="2" fill="black"></circle>
+                        <circle cx="15" cy="15" r="2" fill="black"></circle>
+
+                    </svg>`
+
+            //#### Adding event Listner to track the changes in input into previw ####
+            inputHeading.addEventListener('input', function() {
+                const arrangement = extractData();
+                console.log(arrangement);
+                populateProfilePreview(arrangement);
+            });
+            linkDiv.appendChild(inputHeading);
+            linkDiv.appendChild(deleteButton);
+
+            linkContainer.appendChild(linkDiv);
+        }
+    }
+
+    function showNext(elem) {
+        const selectedTemplate = document.querySelector('div.image-container.selected').getAttribute('template_id');
+        console.log(selectedTemplate);
+        document.getElementById('step1').style.display = 'none';
+        document.getElementById('step2').style.display = 'block';
+        if(elem.innerText === "Submit"){
+            submitProfile();
+        }
+    }
+
+    function showPrev() {
+    document.getElementById('step1').style.display = 'block';
+    document.getElementById('step2').style.display = 'none';
+}
+
+function extractData() {
+    const linkContainer = document.getElementById('link_container_dynamic');
+    const children = linkContainer.children;
+    const data = [];
+
+    for (let i = 0; i < children.length; i++) {
+        const child = children[i];
+        const inputs = child.getElementsByTagName('input');
+
+        if (inputs.length === 4) {
+            let link = '';
+            let type = '';
+            
+            if(inputs[0].checked) {
+                type = "link";
+                link = inputs[2].value;
+            } else {
+                type = "form";
+                const formSelect = child.querySelector('.form_select');
+                if (formSelect) {
+                    link = formSelect.value;
+                }
+            }
+
+            const name = inputs[3].value;
+            data.push({ type: type, link, name, order: i });
+        } else if (inputs.length === 1) {
+            const heading = inputs[0].value;
+            data.push({ type: 'heading', heading, order: i });
+        }
+    }
+    return data;
+}
+
+
+
+    function populateProfilePreview(arrangment) {
+        const profile_preview_container  = document.getElementById("profile_preview_innercontainer");
+        profile_preview_container.innerHTML = "";
+        arrangment.forEach(element => {
+            if(element.type === "link"){
+                profile_preview_container.innerHTML += `<li style="font-size: 12px; margin:0px auto 5px auto; display: flex; justify-content: center; align-items: center; background-color: #0066C9; width: 160px; border-radius: 20px; height: 32px;">
+                <a style="color: white;" href="${element.link}">${element.name}</a>
+            </li>`
+            }else if(element.type === "heading"){
+                profile_preview_container.innerHTML += `<p style="font-size: 12px; color: #000; padding-left:10px ;" class="profile_heading">${element.heading}</p>`
+            }else{
+                profile_preview_container.innerHTML += `<li style="font-size: 12px; margin:0px auto 5px auto; display: flex; justify-content: center; align-items: center; background-color: #0066C9; width: 160px; border-radius: 20px; height: 32px;">
+                <a style="color: white;" href="${element.link}">${element.name}</a>
+            </li>`
+            }
+        });
+        
+    }
+
+
+    function validation() {
+        const inputs = document.querySelectorAll('#linkContainer input[type="text"]:not([style*="display:none"])');
+        console.log(inputs);
+        // validate all inputs of type text
+        let valid = true;
+        for (let i = 0; i < inputs.length; i++) {
+            inputs[i].style.border = 'none';
+            if (inputs[i].value === '') {
+                if(inputs[i].style.display === "none"){
+                    continue;
+                }
+                valid = false;
+                inputs[i].style.border = '1px solid red';
+            }
+        }
+        if(!valid){
+            Swal.fire({
+                title: "Please fill all the fields",
+                icon: "error",
+                confirmButtonText: "Ok",
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    return false;
+                }
+            });
+        }
+        return valid;
+    }
+
+
+    async function submitProfile() {
+        if(!validation()){
+            return;
+        }
+        const data = extractData();
+        console.log(data)
+        // extract all fixed input data
+        const phone = document.getElementById("phone").value;
+        const appointment_link = document.getElementById("appointment_link").value;
+        const fb_link = document.getElementById("fb_link").value;
+        const insta_link = document.getElementById("insta_link").value;
+        const linkedin_link = document.getElementById("linkedin_link").value;
+        
+
+        const profile_id = document.getElementById("profile_id").getAttribute("profile_id");
+        const response = await fetch("/updateLinks", {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json",
+            },
+            body: JSON.stringify({
+                data: data,
+                profile_id:profile_id,
+                templateSelected: profileDataState.templateSelected,
+                phone:phone,
+                appointment_link:appointment_link,
+                fb_link:fb_link,
+                insta_link:insta_link,
+                linkedin_link:linkedin_link
+            }),
+        })
+        if(response.status === 200){
+            Swal.fire({
+                title: "Profile Updated",
+                icon: "success",
+                confirmButtonText: "Ok",
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    window.location.href = "/clients";
+                }
+            });
+               
+    }
+}
+
+
+async function addFormPopup(){
+    document.getElementById("form_submit_btn").setAttribute("onclick", "saveForm()");
+    const overlay = document.getElementById("overlay");
+    overlay.style.display = "block";
+    document.getElementById("form_popup").classList.add("open_popup");
+    document.getElementById("form_popup").classList.remove("close_popup");
+}
+async function editFormHandler(){
+    const overlay = document.getElementById("overlay");
+    overlay.style.display = "block";
+    const modal = document.querySelector(".form_edit_popup");
+    modal.classList.add("open_popup");
+    modal.classList.remove("close_popup");   
+}
+
+
+
+</script>

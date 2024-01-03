@@ -69,7 +69,8 @@ body {
     position: absolute;
     top: 0;
     color: #000;
-    left: calc(50% - 50.5px);
+    left: 50%;
+    transform: translateX(-50%);
   }
   .avtive-listing {
     position: absolute;
@@ -210,7 +211,7 @@ body {
   }
   .group-container {
     position: absolute;
-    top: 58.41rem;
+   bottom: 280px;
     left: calc(50% - 165px);
     width: 20.63rem;
     height: 2.13rem;
@@ -277,7 +278,7 @@ body {
     font-family: var(--font-quicksand);
   }
   .call-us-parent {
-    top: 62.41rem;
+    bottom: 77px;
     left: calc(50% - 166px);
     height: 10.69rem;
     text-align: center;
@@ -295,7 +296,7 @@ body {
   }
   .wrapper-rectangle-14 {
     position: absolute;
-    top: 33.6rem;
+    top: 22.6rem;
     left: calc(50% - 165px);
     border-radius: 16px;
     width: 20.56rem;
@@ -306,7 +307,7 @@ body {
   }
   .image-11-icon {
     position: absolute;
-    top: 73.81rem;
+    bottom: 0px;
     left: 19.5rem;
     border-radius: 51.5px 0 var(--br-6xl) 0;
     width: 7.38rem;
@@ -319,10 +320,10 @@ body {
     border-radius: 30px;
     background-color: var(--color-white);
     width: 416px;
-    height: 1200px;
+    min-height: 1200px;
     overflow: hidden;
     text-align: left;
-    font-size: var(--font-size-base);
+    /* font-size: var(--font-size-base); */
     color: var(--color-white);
     margin: auto;
     font-family: var(--font-quicksand);

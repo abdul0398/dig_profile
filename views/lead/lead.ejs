@@ -204,24 +204,9 @@
                             class="text-white text-center me-2 d-flex align-items-center justify-content-center">
                             <i class="fa-solid fa-database"></i>
                         </div>
-                        <span class="nav-link-text ms-1">Master Leads</span>
+                        <span class="nav-link-text ms-1">Leads</span>
                     </a>
                 </li>
-                <li class="nav-item mt-3">
-                    <h6
-                        class="ps-4 ms-2 text-uppercase text-xs text-white font-weight-bolder opacity-8">Account
-                        pages</h6>
-                </li>
-                <%if(admin){%>
-                    <li class="nav-item">
-                        <a class="nav-link text-white " href="/profile">
-                          <div class="text-white text-center me-2 d-flex align-items-center justify-content-center">
-                              <i class="fa-solid fa-user" style="color: #ffffff;"></i>
-                          </div>
-                          <span class="nav-link-text ms-1">Profile</span>
-                        </a>
-                      </li>
-                <%}%>
                 <li class="nav-item">
                     <a class="nav-link text-white "
                         href="/logout">
@@ -264,23 +249,11 @@
                 <select id="form-filter" class="filter-input">
                     <option value selected disabled>Lead form type</option>
                     <option value="all">All</option>
-                    <%for(let i=0; i < projects.length; i++){%>
-                    <option value="<%=projects[i]%>">
-                        <%=projects[i]%>
+                    <%for(let i=0; i < clients.length; i++){%>
+                    <option value="<%=clients[i]%>">
+                        <%=clients[i]%>
                     </option>
                     <%}%>
-                </select>
-            </div>
-            <div class="select_container" style="border-radius: 7px; display: inline-block; background-color: white; padding: 1px 10px;">
-                <span><i
-                class="fa-solid fa-list"
-                style="color: #000000;"></i></span>
-                <select id="junk-filter" class="filter-input">
-                    <option value="all">All</option>
-                    <option value="junk">Junk</option>
-                    <option value="clear">Clear</option>
-                    <option value="unknown">Unknown</option>
-                    <option selected value="unmarked">Unmarked</option>
                 </select>
             </div>
                
@@ -332,16 +305,16 @@
                                         <%}%>
                                 </li>
                         <%}else{%>
-                            <li class="nav-link-text unselected_client border-0" mid="<%=clients[i]%>" value="<%=clients[i].name%>" onclick="clientListener(this)" ><span
-                                style="display: flex; margin-right: 15px; border-radius: 50%; padding: 3px; background-color: #56575B;"><i
+                            <li class="nav-link-text unselected_client border-0" mid="<%=clients[i]%>" value="<%=clients[i].name%>" onclick="clientListener(this)" >
+                                <span style="display: flex; margin-right: 15px; border-radius: 50%; padding: 3px; background-color: #56575B;"><i
                                     class="fa-solid fa-list"
                                     style="color: #ffffff;"></i></span>
-                                    <%if(clients[i].length > 18){%>
-                                        <%=clients[i].substring(0, 14) + '...' %>
-                                        <%}else{%>
-                                            <%=clients[i]%>
-                                        <%}%>
-                                </li>
+                            <%if(clients[i].length > 18){%>
+                                <%=clients[i].substring(0, 14) + '...' %>
+                                <%}else{%>
+                                    <%=clients[i]%>
+                                <%}%>
+                            </li>
                         <%}%>
                     <%}%>
                 </div>

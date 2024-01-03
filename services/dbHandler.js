@@ -1,5 +1,5 @@
 const mysql = require('mysql2/promise');
-const User = require("../models/User.js");
+const {User,Client, Link, Profile, Form, Lead} = require("../models");
 
 async function setupDb() {
     const pool = await mysql.createPool({
@@ -22,6 +22,11 @@ async function setupDb() {
 
 async function createTables() {
     await __pool.query(User);
+    await __pool.query(Client);
+    await __pool.query(Profile);
+    await __pool.query(Link);
+    await __pool.query(Form);
+    await __pool.query(Lead);
 }
 
 

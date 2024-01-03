@@ -50,7 +50,7 @@ async function setMiddleWares() {
         next();
     });
 
-    return app;
+    return {app, express};
 
 }
 

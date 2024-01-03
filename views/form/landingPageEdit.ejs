@@ -1,4 +1,4 @@
-<div id="meta_form_popup" class="close_popup">
+<div id="form_popup" class="close_popup">
   <div class="d-flex p-3 " id="meta_form_popup_inner"
   style="position: fixed; height: 70vh; border-radius: 20px; background-color: #e5e5e5;
   top: 50%;
@@ -7,337 +7,154 @@
   <span onclick="closeAllPopups()" id="close_popup_btn" ><i class="fa-solid fa-x"></i></span>
     <div class="form-container w-75">
       <h4 class="text-center">Dynamic Form</h4>
-      <p id="clientId_meta" hidden></p>
-      <p id="fetch_url_meta" hidden></p>
-
-      
       <form id="dynamic-form">
         <div
-          style="text-align: center; margin-bottom: 5px; padding: 10px; background-color: #ffffff; border-radius: 5px;">
+          style="text-align: center; margin: 5px; padding: 10px; background-color: #ffffff; border-radius: 5px;">
+          <input class="form_input" id="form_name" type="text" placeholder="Form Name">
           <label>Discord Links</label>
           <div id="discord_metaform_field" style="text-align: start;">
+            <div id="discord_container">
+
+            </div>
             <div class="discord-input-container-metaform" >
-                <input type="text" class="discord-metaform-input" name="dslink[]">
-                <button type="button" class="my-1 add-discord-input" onclick="addDiscordMetaform()">Add Discord Link</button>
+                <input type="text" class="form_input discord-metaform-input" placeholder="Discord Link" name="dslink[]">
+                <button type="button" class="my-1 add-option-button" onclick="addDiscordMetaform()">Add Discord Link</button>
             </div>
-            </div>
-          Starting
-          <input class="border border-3 p-2 form-control" type="text" value
-            id="project_name_meta"
-            placeholder="Enter project Name"
-            style="margin-bottom: 3px; width: 100%;">
-          <textarea class="border border-3 p-2 form-control" type="text" value
-            id="meta_f_heading" placeholder="Enter Heading"
-            style="margin-bottom: 3px; width: 100%;"></textarea>
-          <textarea class="border border-3 p-2 form-control" type="text" value
-            id="f_sub_heading" placeholder="Enter sub-heading"
-            style="margin-bottom: 3px; width: 100%;"></textarea>
-          Logo
-          <input class="border border-3 p-2 form-control" type="text" value
-            id="logo"
-            placeholder="Enter Gdrive-link of logo"
-            style="margin-bottom: 3px; width: 100%;">
-          Background Image
-          <input class="border border-3 p-2 form-control" type="text" value
-            id="background"
-            placeholder="Enter Gdrive-link of background"
-            style="margin-bottom: 3px; width: 100%;">
+          </div>
           <p>QUESTIONS</p>
           <div id="questionsContainer_meta">
-              <%for(let i = 0; i < 0; i++){%>
-              <div class="question-group">
-                <input class="border border-3 p-2 form-control" type="text" value
-                  name="question[]" placeholder="Question"
-                  class="question">
-                <button type="button" class="add-option-button">Add Option</button>
-                <button type="button" class="delete-question-button">Delete Question</button>
-                <div class="options-container">
-                  <%for(let j = 0; j < 0;
-                  j++){%>
-                  <div class="option">
-                    <input class="border border-3 p-2 form-control" type="text"
-                      class="options"
-                      value
-                      name="option[]" placeholder="Option">
-                    <button type="button" class="delete-option-button">Delete option</button>
-                  </div>
-                  <% } %>
-                </div>
-              </div>
-              <% } %>
+          
+            <button style="display: block;" type="button" id="add-question"
+              class="add-option-button">Add
+              Question</button>
           </div>
-          <button style="display: block;" type="button" id="add-question"
-            class="add-option-button">Add
-            Question</button>
-          Privacy policy
-          <input class="border border-3 p-2 form-control" type="text" value
-            id="priv_link"
-            placeholder="Enter Privacy Policy Link Here"
-            style="margin-bottom: 3px; width: 100%;">
-          <input class="border border-3 p-2 form-control" type="text" value
-            id="priv_link_text" placeholder="Enter Privacy Policy Text Here"
-            style="margin-bottom: 3px; width: 100%;">
-          <input class="border border-3 p-2 form-control" type="text" value
-            id="priv_text"
-            placeholder="Enter Page Name Here"
-            style="margin-bottom: 3px; width: 100%;">
-          Completion
-          <input class="border border-3 p-2 form-control" name value
-            placeholder="Headline" id="comp_heading"
-            style="width: 100%; margin-bottom: 3px;">
-          <textarea class="border border-3 p-2 form-control" name id="comp_desc"
-            placeholder="Description"
-            style="width: 100%; "></textarea>
-          <input class="border border-3 p-2 form-control" type="text" value
-            id="last_btn_text_meta"
-            placeholder="Enter call to action text  here "
-            style="margin-bottom: 3px; width: 100%;">
-          <input class="border border-3 p-2 form-control" type="text" value
-            id="last_btn_link" placeholder="Enter call to action link  here"
-            style="margin-bottom: 3px; width: 100%;">
-        </div>
-        <div class="text-center">
-          <button type="submit" id="btn-submit" class="submit-button">Submit</button>
+            <div class="text-center">
+              <button type="submit" id="form_submit_btn" onclick="saveForm(event)" class="submit-button">Submit</button>
+            </div>
         </div>
       </form>
     </div>
-    <div class="preview" id="preview-background"
-      style="width: fit-content; overflow-y: auto; height: 600px; border-radius: 5px; margin:10px 0px 0px 5px;">
-      <link rel="stylesheet" href="/css/form.css">
-      <link rel="preconnect" href="https://fonts.googleapis.com">
-      <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-      <link
-        href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600&display=swap"
-        rel="stylesheet">
 
-      <style>
-    .error-message {
-        color: red;
-        font-size: 12px;
-        margin-top: 4px;
-      }
-    .inner-design {
-        background-color: #fff;
+    <div class="preview" id="preview-background">
+
+    <style>
+      .hide_scroll::-webkit-scrollbar {
+      display: none;
+    }
+    .hide_scroll {
+        -ms-overflow-style: none;
+        scrollbar-width: none;
+    }
+    .overlay {
+        display: none;
+        position: fixed;
+        top: 0;
+        opacity: 0.4;
+        background-color: rgb(0, 0, 0);
+        left: 0;
+        width: 100%;
+        height: 100%;
+        z-index: 999;
+    }
+    .text_style{
+        color: #FFF;
+        font-family: Quicksand;
+        font-size: 16px;
+        font-style: normal;
+        font-weight: 600;
+        line-height: normal;
+    }
+    .heading_style{
+        position: relative;
+    }
+    .form_input{
+        border: none;
+        height: 49.936px;
+        width: 100%;
+        flex-shrink: 0; 
+        margin-bottom: 15px;
+        border-radius: 4px;
+        background: #ECECEC; 
+        padding: 15px 0px 15px 20px; 
+        box-sizing: border-box;
+    }
+    .btn_submit{
+        width: 100%;
+        margin: 15px 0px;
+        height: 49.936px;
+        flex-shrink: 0;
+        bottom: 20px;
+        color: white;
+        left: 50%; 
+        border: none;
+        cursor: pointer;
+        border-radius: 25px;
+        background: linear-gradient(0deg, #002773 0%, #002773 100%), #FF6012;
+    }
+    select {
+        height: 49.936px;
+        width: 100%;
+        background-color: #ECECEC;
+        border-radius: 4px;
+        border: none;
+        padding: 0px 5px;
+    }
+    .close_btn{
+        cursor: pointer;
+        position: absolute; 
+        right: 20px; 
+        top:20px;
+    }
+    #popupform{
+        box-sizing: border-box;
+        padding: 66px 15px 20px 15px;
+        background-color: #FFF;
         border-radius: 10px;
-        box-shadow: 0 0 20px 0 #0000001f;
-        padding: 40px 25px;
-        margin-bottom: 30px;
-     }
-    .logo img {
-        width: 20%;
-        background-color: #fff;
-        box-shadow: 0 0 20px 0 #0000001f;
-        border-radius: 100px;
-        padding: 8px;
-        margin-top: -100px;
+        max-height: 600px;
+        overflow-x: auto;
     }
-    .heading{
-        font-size: 20px; font-weight: 600;
+    @media only screen and (max-width: 700px) {
+      #preview-background{
+        display: none;
+      }
     }
-    #regForm {
-      /* background-color: #ffffff; */
-      margin: auto;
-      padding: 20px;
-      max-width: 550px;
-      margin-top: 40px;
-     }
-    .tab {
-      display: block;
-    }
-  @media (max-width: 1000px) {
-          .preview{
-              display: none;
-          }
+    </style>
+      <div class="hide_scroll" id="popupform">
+    <input class="form_input"  type="text"  placeholder="Full Name">
+      <input class="form_input" type="text"  placeholder="Email address">
+      <div style="display: flex; justify-content: space-between;">
+        <div style="width: 15%; display: flex; justify-content: center; align-items: center; padding: 0px; font-size: 16px;" class="form_input">+65</div>
+        <input style="width: 83%;" class="form_input" type="text"  placeholder="Mobile">
+      </div>
+      <input style="height: 70px;" class="form_input" placeholder="Message"></input>
+      <!-- Example of dynamic fields -->
+      <div class="preview_question_container">
+      </div>
+
+    <button class="btn_submit">Send</button>
+  </div>  
+      
+    </div>
+      <script>
+        function addDiscordMetaform() {
+        let inputContainer = document.getElementById('discord_metaform_field');
+        let discord_container = document.createElement('div');
+        discord_container.innerHTML ='<div class="discord-input-container-metaform">' +
+                                '    <input type="text" class="form_input discord-metaform-input" placeholder="Discord Link" name="dslink[]">' +
+                                '    <button type="button" class="my-1 p-2 rounded-2 remove-discord-input" onclick="removeDiscordmetaform(this)">Remove</button>' +
+                                '</div>';
+          inputContainer.insertBefore(discord_container, inputContainer.firstChild);
         }
-  </style>
-      <form style="display: contents;" id="regForm" action="/formsubmit"
-        method="post">
-        <div class="tab" style="margin-top: 50px;">
-          <div class="first-brand-box">
-            <div class="inner-design" style="text-align: center;">
-              <span class="logo"><img id="preview-logo" src alt></span>
-              <h3 class="heading" id="preview-heading"></h3>
-              <p id="preview-para"
-                style="font-size: 14px; text-align: center;  font-weight: 400; color: #6c6c6c;"></p>
-            </div>
-          </div>
-          <div id="question-div">
-            <div class="inside-tab radio-div">
-              <h3 class="heading"></h3>
-              <div>
-                <label class="container">
-                  <input type="radio"
-                    name
-                    value>
-                  <span class="checkmark" data-value="Three"></span>
-                </label>
-              </div>
-            </div>
-          </div>
-        </div>
-        <div class="tab" style="margin-top: 50px;">
-          <div class="inside-tab2 input-div">
-            <div>
-              <h3 style="margin: 0px 0px 13px 0px;">Contact information</h3>
-              <p class="second-form-para">We'll use your information to contact
-                you</p>
-            </div>
-            <div>
-              <label for>Full Name</label>
-              <input placeholder="Full name" required
-                oninput="this.className = ''"
-                name="name">
-            </div>
-            <div>
-              <label>Phone number</label>
-              <p style="display: flex;"><span style="display: flex;
-            align-items: center;
-            margin: 0px 5px 17px 1px; font-size: smaller;min-width: 60px;
-  color: dimgrey;">SG +65</span><input type="number" minlength="8"
-                  maxlength="8" required placeholder="Phone..."
-                  oninput="this.className = ''"
-                  name="phone"></p>
-            </div>
-            <div>
-              <label>Email</label>
-              <input type="email" placeholder="Email..." required
-                oninput="this.className = ''"
-                name="email">
-            </div>
-          </div>
-        </div>
-        <div class="tab">
-          <div class="inside-tab">
-            <h3>Privacy Policy</h3>
-            <p style="color: rgb(116, 113, 113);">By clicking Submit, you agree
-              to send your info to <span id="preview_priv_text"></span> who
-              agrees to use it according to their privacy policy. Facebook will
-              also use it subject to our Data Policy, including to auto-fill
-              forms for ads. <a style="text-decoration: none;"
-                href="https://www.facebook.com/privacy/policy/">View meta
-                privacy
-                policy</a> and <a id="preview_priv_link"
-                style="text-decoration: none;"
-                href></a></p>
-          </div>
-        </div>
-      </form>
-      <div class="from-wrapper" style="display: block;">
-        <form tyle="display: content;" id="regForm">
-          <div class="thank-you" id="step-4">
-            <div class="inner-design" style="text-align: center;">
-              <span class="logo"><img style="width: 20%;"
-                  id="preview_logo_lastPage" src alt></span>
-              <h5 class="preview_comp_heading"
-                style="font-family: Poppins, sans-serif; font-size: 20px;"></h5>
-              <p id="preview_comp_desc" class="lis-top"
-                style="color: #747171; font-family: myriad_regular, sans-serif; white-space: pre-line; font-weight: 400; font-size: 16px;"></p>
-              <div class="list-bottom">
-                <p class="submitted-msg"
-                  style="font-weight: 300; color: #838383; font-size: 12px;"><span
-                    class="icon"><img src="list-icon.svg" alt></span>You
-                  successfully submitted your responses.</p>
-              </div>
-            </div>
-          </div>
-          <!-- One "tab" for each step in the form: -->
-          <!-- next button start  -->
-          <div style="overflow:auto;">
-            <div style="position: relative;" class="button-main">
-              <a id="preview_last_btn_link" href> <button
-                  style="background-color: #226DDA;
-                  color: white;
-                  width: 100%;
-                  border-radius: 8px;" id="preview_last_btn_text" disabled
-                  type="button" id="nextBtn"></button></a>
-            </div>
-          </div>
-          <!-- next button end  -->
-        </form>
-        <script>
-          function addDiscordMetaform() {
-          let inputContainer = document.getElementById('discord_metaform_field');
-          let newInput = document.createElement('div');
-              newInput.innerHTML ='<div class="discord-input-container-metaform">' +
-                                  '    <input type="text" class="discord-metaform-input" name="dslink[]">' +
-                                  '    <button type="button" class="my-1 remove-discord-input" onclick="removeDiscordmetaform(this)">Remove</button>' +
-                                  '</div>';
-            inputContainer.insertBefore(newInput, inputContainer.firstChild);
-          }
 
-          function removeDiscordmetaform(element) {
-              let containerToRemove = element.parentNode.parentNode;
-              containerToRemove.parentNode.removeChild(containerToRemove);
-          }
-        </script>
-
-
-
-        <script>
-        start();
-          function start() {
-            question_populate_logic();
-                  const f_heading = document.getElementById('meta_f_heading').value
-                  const f_sub_heading = document.getElementById('f_sub_heading').value
-                  const logo = document.getElementById('logo').value
-                  const background = document.getElementById('background').value
-                  const priv_link = document.getElementById('priv_link').value
-                  const priv_link_text = document.getElementById('priv_link_text').value
-                  const priv_text = document.getElementById('priv_text').value
-                  const comp_heading = document.getElementById('comp_heading').value
-                  const comp_desc = document.getElementById('comp_desc').value
-                  const last_btn_text = document.getElementById('last_btn_text_meta').value
-                  const last_btn_link = document.getElementById('last_btn_link').value
-  
-                  //######### First step preview Form ##############
-                  const preview_logo = document.getElementById('preview-logo');
-                  const logo_link = changelink(logo);
-                  preview_logo.setAttribute('src',logo_link);
-  
-  
-                  const preview_background = document.getElementById('preview-background');
-                  const link = changelink(background);
-                  preview_background.style.backgroundImage = `url("${link}")`;
-  
-  
-                  const p_heading = document.getElementById("preview-heading");
-                  p_heading.innerText = f_heading;
-  
-  
-                  const sub_heading = document.getElementById("preview-para");
-                  sub_heading.innerText = f_sub_heading;
-  
-                  //############# Second step preview form ##############
-                  const preview_priv_text  = document.getElementById('preview_priv_text');
-                  preview_priv_text.innerText = priv_text
-  
-                  const preview_priv_link = document.getElementById('preview_priv_link');
-                  preview_priv_link.setAttribute("href", `${priv_link}`)
-                  preview_priv_link.innerText = priv_link_text;
-  
-                  const preview_logo_lastPage = document.getElementById('preview_logo_lastPage');
-                  preview_logo_lastPage.setAttribute('src',logo_link);
-  
-                  const preview_comp_heading = document.getElementsByClassName('preview_comp_heading');
-                  preview_comp_heading[0].innerText = comp_heading;
-  
-                  const preview_comp_desc = document.getElementById('preview_comp_desc');
-                  preview_comp_desc.innerText = comp_desc
-  
-                  const preview_last_btn_link = document.getElementById('preview_last_btn_link');
-                  preview_last_btn_link.setAttribute('href', last_btn_link);
-  
-                  const preview_last_btn_text = document.getElementById('preview_last_btn_text');
-                  preview_last_btn_text.innerText = last_btn_text;
-  
-  
-          }
-  
-  
-  
-            document.addEventListener("DOMContentLoaded", function() {
+        function removeDiscordmetaform(element) {
+            let containerToRemove = element.parentNode.parentNode;
+            containerToRemove.parentNode.removeChild(containerToRemove);
+        }
+      </script>
+    <script>
+          document.addEventListener("DOMContentLoaded", function() {
               const addQuestionButton = document.getElementById("add-question");
-              const formContainer = document.getElementById("dynamic-form");
+              const formContainer = document.getElementById("questions_container");
   
               function attachEventListeners(questionGroup) {
                 const addOptionButton = questionGroup.querySelector(".add-option-button");
@@ -356,7 +173,7 @@
                    //########## for preview Page #########//
                    const optionsInput = document.querySelectorAll(".options");
                     optionsInput.forEach(optionInput =>{
-                      optionInput.addEventListener('input',question_populate_logic);
+                      optionInput.addEventListener('input',populateQuestionsOnpreview);
                     })
                   //########## for preview Page #########//
                 });
@@ -389,6 +206,8 @@
   
             
               addQuestionButton.addEventListener("click", function() {
+                const data = extractQuestionsAndOptions();
+                console.log(data);
                 const questionGroup = document.createElement("div");
                 questionGroup.classList.add("question-group");
                 questionGroup.innerHTML = `
@@ -412,159 +231,18 @@
                 //##############For preview Page ############
                 const questionInputs = document.querySelectorAll(".question");
                   questionInputs.forEach(questionInput => {
-                    questionInput.addEventListener('input',question_populate_logic)
+                    questionInput.addEventListener('input',populateQuestionsOnpreview)
                   })
   
                   const optionsInput = document.querySelectorAll(".options");
                     optionsInput.forEach(optionInput =>{
-                      optionInput.addEventListener('input',question_populate_logic);
+                      optionInput.addEventListener('input',populateQuestionsOnpreview);
                     })
-          //##############For preview Page ############
-              });
-        
-              
-            formContainer.addEventListener("submit", async function(event) {
-              event.preventDefault();
-              const answers = question_populate_preview();
-  
-  
-            //#################Validation function#######################
-            if(answers.length == 0){
-              alert("Please add atleast one Question");
-              return;
-            }
-            
-            for (let index = 0; index < answers.length; index++) {
-              if (answers[index].question == '') {
-                alert("Please fill all the fields");
-                return; // Exit the submit handler
-              }
-              const options = answers[index].options;
-              for (let j = 0; j < options.length; j++) {
-                if(options[j] == ''){
-                  alert("Please fill all the fields.")
-                }
-              }
-            }
-          function validateURL(url) {
-          const pattern = /https:\/\/drive\.google\.com\/file\/d\/([a-zA-Z0-9_-]+)\/view/;
-              return pattern.test(url);
-          }
-            function validateInputs() {
-                const f_heading = document.getElementById("meta_f_heading");
-                const f_sub_heading = document.getElementById("f_sub_heading");
-                const logo = document.getElementById("logo");
-                const background = document.getElementById("background");
-                const priv_link = document.getElementById("priv_link");
-                const priv_link_text = document.getElementById('priv_link_text');
-                const priv_text = document.getElementById("priv_text");
-                const comp_heading = document.getElementById("comp_heading");
-                const comp_desc = document.getElementById("comp_desc");
-                const last_btn_text = document.getElementById('last_btn_text_meta')
-                const last_btn_link = document.getElementById('last_btn_link')
-                const project_name_meta = document.getElementById("project_name_meta");
-                
-  
-  
-                if (!validateURL(logo.value)) {
-                    alert("Invalid logo URL. Please provide a valid Google Drive URL.");
-                    return false;
-                }
-  
-                if (!validateURL(background.value)) {
-                    alert("Invalid logo URL. Please provide a valid Google Drive URL.");
-                    return false;
-                }
-                if (priv_text.value.trim() === "" || priv_link.value.trim() === "" || comp_heading.value.trim() === ""|| comp_desc.value.trim() === "" || priv_link_text.value.trim() === "") {
-                    alert("fill all inputs.");
-                    return false;
-                }
-  
-                if (f_heading.value.trim() === "") {
-                    alert("Heading cannot be empty.");
-                    return false;
-                }
-  
-                if (last_btn_link.value.trim() === "") {
-                    alert("Link cannot be empty.");
-                    return false;
-                }
-  
-                if (last_btn_text.value.trim() === "") {
-                    alert("Text cannot be empty.");
-                    return false;
-                }
-  
-                if (f_sub_heading.value.trim() === "") {
-                    alert("Sub-heading cannot be empty.");
-                    return false;
-                }
-                if (f_sub_heading.value.trim() === "") {
-                    alert("Sub-heading cannot be empty.");
-                    return false;
-                }
-                if (project_name_meta.value.trim() === "") {
-                  alert("Fields can not be empty");
-                  return false;
-                }
-  
-                return true
-            }
-
-            const arrayDs = document.querySelectorAll(".discord-metaform-input");
-            console.log(arrayDs);
-            const dslinks = [];
-
-            arrayDs.forEach(elem=>{
-              dslinks.push(elem.value);
-            })
-  
-            //#################Validation function End##################
-            if(!validateInputs()){
-              return;
-            }else{
-              const inputValues = {
-                  dslink_meta: dslinks,
-                  f_heading: document.getElementById('meta_f_heading').value,
-                  f_sub_heading: document.getElementById('f_sub_heading').value,
-                  logo: document.getElementById('logo').value,
-                  background: document.getElementById('background').value,
-                  priv_link: document.getElementById('priv_link').value,
-                  priv_link_text: document.getElementById('priv_link_text').value,
-                  priv_text: document.getElementById('priv_text').value,
-                  comp_heading: document.getElementById('comp_heading').value,
-                  comp_desc: document.getElementById('comp_desc').value,
-                  last_btn_text: document.getElementById('last_btn_text_meta').value,
-                  last_btn_link: document.getElementById('last_btn_link').value,
-                  project_name: document.getElementById('project_name_meta').value,
-              };
-              const id = document.getElementById("clientId_meta").value;
-              const fetch_url_meta = document.getElementById("fetch_url_meta").innerText;
-
-              console.log(inputValues);
-                const res = await fetch(fetch_url_meta, {
-                    method:"POST",
-                    body:JSON.stringify({
-                      data:answers,
-                      landingPageInfo:inputValues
-                    }),
-                    headers:{
-                      "Content-type": "application/json; charset=UTF-8"
-                    }
-                })
-              const resData = await res.json();
-                if(res.status == 400){
-                    alert("Project with this name Already exists");
-                    return;
-                }else{
-                    window.location.assign(`/clients`);
-                }
-              }
-          });
+                  //##############For preview Page ############
             });
+    });
   
-  
-          function question_populate_preview(params) {
+          function extractQuestionsAndOptions(params) {
             const questionInputs = document.querySelectorAll(".question");
             const answers = [];
         
@@ -575,7 +253,6 @@
               }
               const questionText = questionInput.value;
               const optionsInputs = optionsContainer.querySelectorAll('.option input');
-              // const optionsContainer = questionInput.closest(".question-group").querySelectorAll(".option input");
               const options = [];
               optionsInputs.forEach(optionInput => {
                 options.push(optionInput.value);
@@ -585,70 +262,154 @@
             return answers;
           }
   
-  
           const questionInputs = document.querySelectorAll(".question");
           questionInputs.forEach(questionInput => {
-            questionInput.addEventListener('input',question_populate_logic)
+            questionInput.addEventListener('input',populateQuestionsOnpreview)
           })
           const optionsInput = document.querySelectorAll(".options");
           optionsInput.forEach(optionInput =>{
-            optionInput.addEventListener('input',question_populate_logic);
+            optionInput.addEventListener('input',populateQuestionsOnpreview);
           })
   
-          function question_populate_logic() {
-            const question_div = document.getElementById('question-div');
-              const arr = question_populate_preview()
-              question_div.innerHTML = "";
-              for (let i = 0; i < arr.length; i++) {
-                let optionsHTML = '';
-                for (let j = 0; j < arr[i].options.length; j++) {
-                  optionsHTML += `
-                    <label class="container">
-                      <input type="radio" name="question${i}" value="${arr[i].options[j]}">
-                      <span class="checkmark" data-value="${arr[i].options[j]}">${arr[i].options[j]}</span>
-                    </label>
-                  `;
-                }
-                question_div.innerHTML += `
-                  <div class="inside-tab radio-div">
-                    <h3 class="heading">${arr[i].question}</h3>
-                    <div>
-                      ${optionsHTML}
-                    </div>
-                  </div>
-                `;
-            }
-          }
+          
             const form = document.querySelector("#dynamic-form");
             const inputsAndTextareas = form.querySelectorAll("input, textarea");
-  
+
             inputsAndTextareas.forEach((element) => {
               element.addEventListener("input", function(event) {
-                start();
+                populateQuestionsOnpreview();
               });
             });
-  
-          function changelink(originalURL) {
-      try {
-          const idMatch = originalURL.match(/\/d\/(.*?)\//);
-          if (idMatch) {
-              const id = idMatch[1];
-              const newURL = "https://drive.google.com/uc?export=view&id=" + id;
-              return newURL;
-          } else {
-              // If the URL doesn't match the expected pattern, return a default value or handle the error
-              return "false";
-          }
-      } catch (error) {
-          // Handle any other errors that might occur
-          console.error("An error occurred:", error);
-          return "Error occurred";
-      }
-  }
-            </script>
-      </div>
-      <!-- <script src="/script/formscript.js"></script> -->
-    </div>
-  </div>
+            function populateQuestionsOnpreview() {
+                  const preview_question_container = document.querySelector('.preview_question_container');
+                  const question_div = document.createElement('div');
+                  const arr = extractQuestionsAndOptions()
+                  preview_question_container.innerHTML = "";
+                  
+                  for (let i = 0; i < arr.length; i++) {
+                      let optionsHTML = '';
+                      if(arr[i].options.length == 0){
+                          question_div.innerHTML += `
+                          <p style="margin-bottom: 3px; color: black">${arr[i].question}</p>
+                          <input class="form_input" placeholder="Type here..."></input>
+                          `
+                      }else{
+                          for (let j = 0; j < arr[i].options.length; j++) {
+                          optionsHTML += `
+                              <option value=${arr[i].options[j]}>${arr[i].options[j]}</option>
+                              `;
+                          }
+                          question_div.innerHTML += `
+                          <p style="margin-bottom: 3px; color: black">${arr[i].question}</p>
+                          <select>
+                          ${optionsHTML}  
+                          </select>
+                          `
+                      }
+                      preview_question_container.appendChild(question_div);
+                  }
+              }
 
+      
+
+      function validate() {
+        const answers = extractQuestionsAndOptions();
+            //#################Validation function#######################
+          for (let index = 0; index < answers.length; index++) {
+            if (answers[index].question == '') {
+              alert("Please fill all the fields");
+              return false;
+            }
+            const options = answers[index].options;
+            for (let j = 0; j < options.length; j++) {
+              if(options[j] == ''){
+                alert("Please fill all the fields.");
+                return false;
+              }
+            }
+          }
+          if(document.getElementById("form_name").value == ''){
+            alert("Please fill all the fields.");
+            return false;
+          }
+          return true;
+      }
+
+
+
+      async function saveForm() {
+        event.preventDefault();
+        if(!validate()){
+          return;
+        }
+        const discordArray = extractDiscord();  
+        const name = document.getElementById("form_name").value;
+        const questions = extractQuestionsAndOptions();
+        const profileId = document.getElementById("profile_id").getAttribute("profile_id");
+        const res = await fetch(`/api/addform/${profileId}`, {
+          method: "POST",
+          body: JSON.stringify({
+            name: name,
+            questions: questions,
+            discord: discordArray,
+            profileId: profileId
+          }),
+          headers: {
+            "Content-type": "application/json; charset=UTF-8"
+          }
+        })
+        const resData = await res.json();
+        if(res.status == 200){
+          alert("Form Saved Successfully");
+          window.location.assign(`/clients`);
+        }else{
+          alert(resData.message);
+          return;
+        }
+        
+      }
+
+      function extractDiscord(params) {
+          let discordLinks = document.querySelectorAll('input[name="dslink[]"]');
+
+          let discordLinkValues = [];
+
+          for (var i = 0; i < discordLinks.length; i++) {
+            discordLinkValues.push(discordLinks[i].value);
+          }
+          return discordLinkValues;
+      }
+      
+      
+
+      async function editForm(formId) {
+        event.preventDefault();
+        if(!validate()){
+          return;
+        }
+        const discordArray = extractDiscord();  
+        const name = document.getElementById("form_name").value;
+        const questions = extractQuestionsAndOptions();
+        const res = await fetch(`/api/updateForm/${formId}`, {
+          method: "POST",
+          body: JSON.stringify({
+            name: name,
+            questions: questions,
+            discord: discordArray
+          }),
+          headers: {
+            "Content-type": "application/json; charset=UTF-8"
+          }
+        })
+        const resData = await res.json();
+        if(res.status == 200){
+          alert(resData.message);
+          window.location.assign(`/clients`);
+        }else{
+          alert(resData.message);
+          return;
+        }
+      }
+      </script>
+      </div>
 </div>

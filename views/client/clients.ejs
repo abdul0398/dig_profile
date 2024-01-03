@@ -1,6 +1,5 @@
 <!DOCTYPE html>
 <html lang="en">
-    
     <head>
         <meta charset="utf-8" />
         <meta name="viewport"
@@ -27,8 +26,6 @@
         <!-- CSS Files -->
         <link id="pagestyle" href="/assets/css/material-dashboard.css?v=3.1.0"
             rel="stylesheet" />
-        <!-- Nepcha Analytics (nepcha.com) -->
-        <!-- Nepcha is a easy-to-use web analytics. No cookies and fully compliant with GDPR, CCPA and PECR. -->
         <script defer data-site="YOUR_DOMAIN_HERE"
             src="https://api.nepcha.com/js/nepcha-analytics.js"></script>
         <script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
@@ -36,54 +33,58 @@
                 j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
                 'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
                 })(window,document,'script','dataLayer','GTM-K3SG3FFJ');  
-            </script>
+        </script>
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
+         <!-- Sweet alert -->
+        <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
     </head>
     <style>
 /* checkbox Style  */
         .container_checkbox {
-        display: block;
-        position: relative;
-        padding-left: 35px;
-        margin-bottom: 12px;
-        cursor: pointer;
-        font-size: 22px;
-        -webkit-user-select: none;
-        -moz-user-select: none;
-        -ms-user-select: none;
-        user-select: none;
-        font-size: 14px;
+            display: block;
+            position: relative;
+            padding-left: 35px;
+            margin-bottom: 12px;
+            cursor: pointer;
+            font-size: 22px;
+            -webkit-user-select: none;
+            -moz-user-select: none;
+            -ms-user-select: none;
+            user-select: none;
+            font-size: 14px;
         }
         .container_checkbox input {
-        position: absolute;
-        opacity: 0;
-        cursor: pointer;
-        height: 0;
-        width: 0;
+            position: absolute;
+            opacity: 0;
+            cursor: pointer;
+            height: 0;
+            width: 0;
         }
 
         .checkmark_discord {
-        position: absolute;
-        top: 0;
-        left: 0;
-        height: 25px;
-        width: 25px;
-        background-color: #eee;
-        border-radius: 10px;
+            position: absolute;
+            top: 0;
+            left: 0;
+            height: 25px;
+            width: 25px;
+            background-color: #eee;
+            border-radius: 10px;
         }
         .container_checkbox:hover input ~ .checkmark_discord {
-        background-color: #ccc;
+            background-color: #ccc;
         }
 
         /* When the checkbox is checked, add a blue background */
         .container_checkbox input:checked ~ .checkmark_discord {
-        background-color: #2196F3;
+            background-color: #2196F3;
         }
 
         /* Create the checkmark/indicator (hidden when not checked) */
         .checkmark_discord:after {
-        content: "";
-        position: absolute;
-        display: none;
+            content: "";
+            position: absolute;
+            display: none;
         }
 
         .container_checkbox input:checked ~ .checkmark_discord:after {
@@ -92,15 +93,15 @@
 
         /* Style the checkmark/indicator */
         .container_checkbox .checkmark_discord:after {
-        left: 9px;
-        top: 5px;
-        width: 5px;
-        height: 10px;
-        border: solid white;
-        border-width: 0 3px 3px 0;
-        -webkit-transform: rotate(45deg);
-        -ms-transform: rotate(45deg);
-        transform: rotate(45deg);
+            left: 9px;
+            top: 5px;
+            width: 5px;
+            height: 10px;
+            border: solid white;
+            border-width: 0 3px 3px 0;
+            -webkit-transform: rotate(45deg);
+            -ms-transform: rotate(45deg);
+            transform: rotate(45deg);
         }
 
         .small_icon{
@@ -113,7 +114,7 @@
             .clients_div{
                 width: 100% !important;
             }
-            #show_forms_div{
+            #show_profiles_div{
                 width: 100% !important;
                 margin-top: 15px;
             }
@@ -139,7 +140,7 @@
                 width: 90% !important;
                 margin: auto;
             }
-            .clientedit-popup,.clientadd-popup, .projectadd-popup{
+            .clientedit-popup,.clientadd-popup, .profileadd_popup{
                 width: 90% !important;
                 margin: auto;
             }
@@ -237,7 +238,7 @@
         .submit-button:hover {
           background-color: #27ae60;
         }
-        #discord_edit_client,.clientedit-popup,.clientadd-popup, .projectadd-popup{
+        #discord_edit_client,.clientedit-popup,.clientadd-popup, .profileadd_popup, .form_edit_popup{
             background-color:white;
             position: fixed;
             top: 50%;
@@ -427,50 +428,26 @@
             </div>
             
             <div class="d-flex mt-3">
-                <button class="btn mx-auto" onclick="postData()">Add</button>
+                <button class="btn mx-auto" onclick="addclientHandler()">Add</button>
             </div>
         </div>           
         
 
         <!--############### Project Add Popup ######### -->
-        <div class="projectadd-popup close_popup"
-            style="text-align: center; height: 250px;">
+        <div class="profileadd_popup close_popup"
+            style="text-align: center;">
             <span onclick="closeAllPopups()" id="close_popup_btn" ><i class="fa-solid fa-x"></i></span>
-            <h3 class="text-center">Add Project</h3>
-            <select id="select_project_type" name="project_type" id
-                placeholder="Select" style="padding: 15px;
-            background-color: #0E4884;
-            color: white;
-            border-radius: 5px;
-            border: none;">
-                <option style="background-color: white; color: black;"
-                    value="Thankyou Page">Thankyou Page</option>
-                <option style="background-color: white; color: black;"
-                    value="Meta Lead Form">Meta Lead Form</option>
-                <option value="Insurance form"
-                    style="background-color: white; color: black;">Insurance
-                    form</option>
-                <option value="HBD Form"
-                    style="background-color: white; color: black;">HBD Form</option>
-            </select>
+            <h3 class="text-center">Add Profile</h3>
+            <div class="form-group">
+                <input type="text" class="form-control border p-1 mt-1 border-1" id="profile_name"
+                    placeholder="Enter Profile Name">
+            </div>
             <div class="mt-5">
-                <button onclick="bringFormofProject()"
+                <button onclick="createProfile()"
                     style="background-color: #002655; color:white"
                     class="btn btn-xl w-25">Add</button>
             </div>
         </div>
-
-        <!-- ######### Add HBD FORM popup########## -->
-        <%- include('../form/hbdhome/editpages/editform.ejs') %>
-
-        <!-- ######### Add Meta FORM popup########## -->
-        <%- include('../form/landingPageEdit.ejs') %>
-
-        <!-- ######### Add Insurance FORM popup########## -->
-        <%- include('../form/Insurance/editpages/editform.ejs') %>
-
-        <!-- ######### ThankyouPage############## -->
-        <%- include('../form/edithankyoupage.ejs') %>
 
 
 
@@ -494,6 +471,28 @@
             </div>
         </div>
 
+
+
+
+        <!--########## Add Form Popup ############### -->
+
+        <%- include('../form/landingPageEdit.ejs') %>
+
+
+
+
+        <!--########## Form Edit Popup ############### -->
+        <div class="form_edit_popup close_popup">
+            <span onclick="closeAllPopups()" id="close_popup_btn" ><i class="fa-solid fa-x"></i></span>
+            <h5 class="text-center">Edit Forms</h5>
+            <div class="form-group">
+                <select name="" id="forms_edit_select">
+                </select>
+            </div>
+            <div class="d-flex mt-3">
+                <button id="form_edit" class="btn mx-auto" onclick="edit_Form_show()">Edit</button>
+            </div>
+        </div>
 
 
         <aside style="background-color: #0E4884 !important; z-index: 10;"
@@ -531,37 +530,22 @@
                             href="/clients">
                             <div
                                 class="text-white text-center me-2 d-flex align-items-center justify-content-center">
-                                <i class="fa-solid fa-list"
-                                    style="color: #ffffff;"></i>
+                                    <i class="fa-solid fa-users"  style="color: #ffffff;"></i>
                             </div>
                             <span class="nav-link-text ms-1">Clients</span>
                         </a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link text-white " href="/leads">
+                        <a class="nav-link text-white" href="/leads">
                             <div
                                 class="text-white text-center me-2 d-flex align-items-center justify-content-center">
                                 <i class="fa-solid fa-database"></i>
                             </div>
-                            <span class="nav-link-text ms-1">Master Leads</span>
+                            <span class="nav-link-text ms-1">Leads</span>
                         </a>
                     </li>
-                    <li class="nav-item mt-3">
-                        <h6
-                            class="ps-4 ms-2 text-uppercase text-xs text-white font-weight-bolder opacity-8">Account
-                            pages</h6>
-                    </li>
                     
-                    <%if(admin){%>
-                        <li class="nav-item">
-                            <a class="nav-link text-white " href="/profile">
-                              <div class="text-white text-center me-2 d-flex align-items-center justify-content-center">
-                                  <i class="fa-solid fa-user" style="color: #ffffff;"></i>
-                              </div>
-                              <span class="nav-link-text ms-1">Profile</span>
-                            </a>
-                          </li>
-                    <%}%>
+                    
 
                     <li class="nav-item">
                         <a class="nav-link text-white "
@@ -616,13 +600,13 @@
                             <div
                                 class="main_container p-3 d-flex w-100 h-100 mt-3">
                                 <div
-                                    class="p-3 text-center clients_div w-25 height-400 border border-2 overflow-auto">
+                                    class="p-3 text-center clients_div w-25 height-500 border border-2 overflow-auto">
                                     <div>
                                         <div
                                             class="d-flex w-100 border border-0 rounded-2 p-2"
                                             style="background-color: white; box-shadow: 0px 4px 11px -7px rgba(0,0,0,0.37)">
                                             <input id="search_client"
-                                                style="border: none;"
+                                                style="width: 100%; border: none;"
                                                 placeholder="Search Client"
                                                 type="text">
                                             <span class="center_span"><i
@@ -635,7 +619,7 @@
                                         i++){%>
                                         <li style="width: 150px;"
                                             class="nav-link-text unselected_client border-0"
-                                            mid="<%=clients[i]._id%>"
+                                            mid="<%=clients[i].id%>"
                                             value="<%=clients[i].name%>"
                                             onclick="clientListener(this)"><span
                                                 style=" display: flex; margin-right: 15px; border-radius: 50%; padding: 3px; background-color: #56575B;"><i
@@ -647,14 +631,16 @@
                                                             <%=clients[i].name%>
                                                         <%}%>
                                                     
-                                            <span clientid="<%=clients[i]._id%>" id="client_edit" onclick="client_edit_popup(this)" class=" ms-auto me-2 rounded-circle d-flex p-1"><i class="fa fa-gear"></i></i></i></i></span> </li>
+                                            <span clientid="<%=clients[i].id%>" id="client_edit" onclick="client_edit_popup(this)" class=" ms-auto me-2 rounded-circle d-flex p-1"><i class="fa fa-gear"></i></i></i></i></span> </li>
                                         <%}%>
                                     </div>
 
                                 </div>
-                                <div id="show_forms_div" style="color: black;"
+                                <div id="show_profiles_div" style="color: black;"
                                     class="d-none w-75 h-500 ps-3">
-
+                                <%- include('../editprofile.ejs') %>
+                                <div id="show_profiles">
+                                </div>
                                 </div>
                             </div>
                         </div>
@@ -709,7 +695,7 @@
                 overlay.style.display = "none";
             });
             function closeAllPopups() {
-                document.getElementById("questionContainer").innerHTML = "";
+                document.getElementsByClassName("questionContainer").innerHTML = "";
                 let openPopups = document.querySelectorAll('.open_popup');
                 openPopups.forEach(function(element) {
                     element.classList.remove('open_popup');
@@ -725,19 +711,12 @@
                 overlay.style.display = "block";
             }
             function openpopupaddproject(event) {
-                closeAllPopups(); 
-                const menuDiv = document.getElementsByClassName('projectadd-popup');
+                // closeAllPopups();
+                const menuDiv = document.getElementsByClassName('profileadd_popup');
                 menuDiv[0].classList.add("open_popup");
                 overlay.style.display = "block";
                 clearForm();
                 const clientid = document.querySelector('.selected_client').getAttribute('mid');
-                document.getElementById("addthankyouform").setAttribute("action", `/thankyoupage-fb/create/${clientid}`);
-                document.getElementById("clientId_meta").value = clientid;
-                document.getElementById("clientId_Insurance").value = clientid;
-                document.getElementById("clientId_Insurance").value = clientid;
-                document.getElementById("client_id_hbd").setAttribute("action", `/api/addhbdform/${clientid}`);
-                document.getElementById("fetch_url").innerText = `/addinsurance/${clientid}`
-                document.getElementById("fetch_url_meta").innerText = `/addproject/${clientid}`
             }
             function clearForm() {
                 const formElements = document.querySelectorAll('input, textarea');
@@ -751,7 +730,7 @@
                 openpopup();
             })
 
-            async function postData() {
+            async function addclientHandler() {
                 const name = document.getElementById("nameInput").value;
                 const code = document.getElementById("codeInput").value;
                 
@@ -774,12 +753,25 @@
                         })
                     })
                     const resData = await res.json();
+                    hideLoadingOverlay();
                     if(res.status == 200){
-                        window.location.reload();
-                        localStorage.setItem("selected_client", resData.id);
+                        swal.fire({
+                            title: "Success",
+                            text: resData.message,
+                            icon: "success",
+                            confirmButtonText: "Ok",
+                            confirmButtonColor: "#002655",
+                        }).then(()=>{
+                            window.location.reload();
+                        })
                     }else{
-                        hideLoadingOverlay();
-                        alert(resData.message);
+                        swal.fire({
+                            title: "Error",
+                            text: resData.message,
+                            icon: "error",
+                            confirmButtonText: "Ok",
+                            confirmButtonColor: "#002655",
+                        });
                         return;
                     }
                 } catch (error) {
@@ -806,35 +798,41 @@
                 overlay.style.display = "block";
             }
 
-            bringFormofProject = () => {
-                const projectType = document.getElementById('select_project_type').value;
-                const clientId = document.querySelector('.selected_client').getAttribute('mid');
-                if(projectType == 'HBD Form'){
-                    closeAllPopups();
-                    const Add_hbd_popup =  document.getElementById("Add_hbd_popup");
-                    Add_hbd_popup.classList.add("open_popup");
-                    Add_hbd_popup.classList.remove("close_popup");
-                    overlay.style.display = "block";
-                }else if(projectType == 'Meta Lead Form'){
-                    closeAllPopups();
-                    const meta_form_popup =  document.getElementById("meta_form_popup");
-                    meta_form_popup.classList.add("open_popup");
-                    meta_form_popup.classList.remove("close_popup");
-                    overlay.style.display = "block";
-                }else if(projectType == 'Thankyou Page'){
-                    closeAllPopups();
-                    const thankyoupagepopup =  document.getElementById("thankyoupagepopup");
-                    thankyoupagepopup.classList.add("open_popup");
-                    thankyoupagepopup.classList.remove("close_popup");
-                    overlay.style.display = "block";
-
-                }else{
-                  closeAllPopups();
-                  const Insurance_form =  document.getElementById("Insurance_form");
-                  Insurance_form.classList.add("open_popup");
-                  Insurance_form.classList.remove("close_popup");
-                  overlay.style.display = "block";
+            createProfile = async () => {
+                overlay.style.display = "block";
+               const name = document.getElementById("profile_name").value;
+               const clientID = document.getElementsByClassName("selected_client")[0].getAttribute("mid");
+               showLoadingOverlay();
+               try {
+                const res = await fetch('/addprofile', {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/json'
+                        },
+                        body: JSON.stringify({
+                            name: name,
+                            clientID:clientID
+                        })
+                    })
+                    const resData = await res.json();
+                    if(res.status == 200){
+                        window.location.reload();
+                    }else{
+                        hideLoadingOverlay();
+                        // use sweet alert 
+                        swal.fire({
+                            title: "Error",
+                            text: resData.message,
+                            icon: "error",
+                            confirmButtonText: "Ok",
+                            confirmButtonColor: "#002655",
+                        });
+                        return;
+                    }
+                } catch (error) {
+                       alert(error.message);
                 }
+
             }
 
             clearclientSelected = (curr_elem)=>{
@@ -847,127 +845,72 @@
             }
 
             async function populateFormsBasedonCLient(curr_elem){
-            document.getElementById("show_forms_div").classList.remove("d-none");
-            const clientid = curr_elem.getAttribute("mid");
-            const array = await fetchClientDetails(clientid);
-            const showformdiv = document.getElementById("show_forms_div");
-            showformdiv.innerHTML = "";
-            showformdiv.innerHTML = `
-            <div>
-                <button style="border-radius: 6px; background-color: #002655; color: white;" onclick="openpopupaddproject()" class="btn btn-lg">Add new Projects</button>
-            </div>`
-            const topicforms = array[0].topicform;
-            const projectforms = array[0].projects;
+                document.getElementById("show_profiles_div").classList.remove("d-none");
+                const clientid = curr_elem.getAttribute("mid");
+                const {client, profiles} = await fetchClientDetails(clientid);
+                document.querySelector(".profile_edit_container").style.display = "none";
+                const showformdiv = document.getElementById("show_profiles");
+                showformdiv.innerHTML = "";
+                showformdiv.innerHTML = `
+                <div>
+                    <button style="border-radius: 30px; background-color: #002655; color: white;" onclick="openpopupaddproject()" class="btn btn-lg">Add New Profile</button>
+                </div>`
 
-            if (topicforms.length == 0 && projectforms.length == 0) {
-              showformdiv.innerHTML = `
-            <div>
-                <button style="border-radius: 6px; background-color: #002655; color: white;" onclick="openpopupaddproject()" class="btn btn-lg">Add new Projects</button>
-            </div>
-              <h3> No Project </h3>
-              `
-            }
-            projectforms.forEach(form=>{
-                showformdiv.innerHTML += `            
-              <div class="d-flex mt-3 forms_div">
-                  <div topic="project" form_id="${form._id}" contenteditable="true" style="outline: 0px solid transparent; align-items: center; width: 300px; height: 100%;" class="editable_div d-flex ps-4">${form.name}</div> 
-                  
-                  <div class="options_div ms-auto" > 
-                    
+                if (!profiles || profiles.length == 0) {
+                showformdiv.innerHTML = `
+                <div>
+                    <button style="border-radius: 30px; background-color: #002655; color: white;" onclick="openpopupaddproject()" class="btn btn-lg">Add New Profile</button>
+                </div>
+                <h4 class="text-center" > No profiles </h4>
+                `
+                }else{
 
-                    <a target="_blank" href="/form/${array[0].code}/${form.name}" class="big_icon btn btn-sm btn-facebook mt-3 me-2" >
-                        View
-                    </a>
-
-                    <a target="_blank" href="/form/${array[0].code}/${form.name}" class="small_icon mt-3 ms-4">
-                        <i class="fa-solid fa-eye"></i>
-                    </a>
-                    
-                      
-                      
-                    <a href="/deleteproject?client=${clientid}&project=${form._id}" class="big_icon mt-3 btn-sm btn btn-danger me-2" >
-                    Delete
-                    </a>
-
-                    <a href="/deleteproject?client=${clientid}&project=${form._id}" class="small_icon mt-3 ms-4">
-                        <i class="fa-solid fa-trash"></i>
-                    </a>
-
-                    
-                    
-
-                    <button style="background-color:#002655" onclick="editHandler(this)" topic="${form.topic}" form_id="${form._id}"  class="big_icon btn btn-sm btn-facebook mt-3 me-2">
-                        Edit
-                    </button>
-
-                    <button style="background-color:transparent !important" onclick="editHandler(this)" topic="${form.topic}" form_id="${form._id}"  class="small_icon mt-3 ms-4 me-3">
-                        <i class="fa-solid fa-pen-to-square" style="color: #213454;"></i> 
-                    </button>
-                  </div>
-              </div> `
-
-
-            })
-            topicforms.forEach(form=>{
-                let viewUrl = ""
-                if(form.topic == "Insurance Form"){
-                    viewUrl = `/insuranceform/${clientid}`
-                }else if(form.topic == "HBD form"){
-                    viewUrl = `/topicform/first/${clientid}/${form._id}`
-                }else if(form.topic == "Thank You Page"){
-                    viewUrl = `/api/getthankyoupage/${form._id}`
+                    profiles.forEach(profile=>{
+                        showformdiv.innerHTML += `            
+                    <div class="d-flex mt-3 forms_div">
+                        <div topic="project" profile_id="${profile.id}" contenteditable="true" style="outline: 0px solid transparent; align-items: center; width: 300px; height: 100%;" class="editable_div d-flex ps-4">${profile.name}</div> 
+                        
+                        <div class="options_div ms-auto" > 
+                            
+    
+                            <a target="_blank" href="/profile/${profile.id}" class="big_icon btn btn-sm btn-facebook mt-3 me-2" >
+                                View
+                            </a>
+    
+                            <a target="_blank"  href="/profile/${profile.id}" class="small_icon mt-3 ms-4">
+                                <i class="fa-solid fa-eye"></i>
+                            </a>
+                            
+                            
+                            
+                            <a href="/api/delete/profile/${profile.id}" class="big_icon mt-3 btn-sm btn btn-danger me-2" >
+                            Delete
+                            </a>
+    
+                            <a href="/api/delete/profile/${profile.id}" class="small_icon mt-3 ms-4">
+                                <i class="fa-solid fa-trash"></i>
+                            </a>
+    
+                            
+                            
+    
+                            <button style="background-color:#002655" onclick="editHandler(this)" profile_id="${profile.id}"  class="big_icon btn btn-sm btn-facebook mt-3 me-2">
+                                Edit
+                            </button>
+    
+                            <button style="background-color:transparent !important" onclick="editHandler(this)" profile_id="${profile.id}"  class="small_icon mt-3 ms-4 me-3">
+                                <i class="fa-solid fa-pen-to-square" style="color: #213454;"></i> 
+                            </button>
+                        </div>
+                    </div> `
+    
+                    })
                 }
-              showformdiv.innerHTML += `        
-              <div class="d-flex mt-3 forms_div">
-                  <div topic="topic" form_id="${form._id}" contenteditable="true" style="align-items: center; width: 300px; height: 100%; outline: 0px solid transparent; " class="editable_div d-flex ps-4">${form.name}</div> 
-                  <div class="options_div ms-auto" >
-                      
-                    
-                    <a target="_blank" href="${viewUrl}" class=" big_icon btn btn-sm btn-facebook mt-3 me-2" >
-                        View
-                    </a>
-
-                    <a target="_blank" href="${viewUrl}" class="small_icon mt-3 ms-4" >
-                        <i class="fa-solid fa-eye"></i>
-                    </a>
-                      
-
-                      
-                    <a href="/client/${clientid}/deleteTopicForm/${form._id}" class=" big_icon mt-3 btn-sm btn btn-danger me-2" >
-                    Delete
-                    </a>
-
-                    <a href="/client/${clientid}/deleteTopicForm/${form._id}" class="small_icon mt-3 ms-4" >
-                    <i class="fa-solid fa-trash"></i>
-                    </a>
-                    
-                    
-
-                    <button style="background-color: #002655;" onclick="editHandler(this)" topic="${form.topic}" form_id="${form._id}" class="big_icon btn btn-sm btn-facebook mt-3 me-2" >
-                    Edit
-                    </button>
-
-                    <button style="background-color:transparent!important" onclick="editHandler(this)" topic="${form.topic}" form_id="${form._id}" class="small_icon mt-3 ms-4 me-3" >
-                    <i class="fa-solid fa-pen-to-square" style="color: #213454; "></i> 
-                    </button>
+                editableDivHandler();
+            }
 
 
-
-                  </div>
-              </div> `
-            })
-            document.getElementById("addthankyouform").setAttribute("action", `/thankyoupage-fb/create/${clientid}`);
-            document.getElementById("clientId_meta").value = clientid;
-            document.getElementById("clientId_Insurance").value = clientid;
-            document.getElementById("clientId_Insurance").value = clientid;
-            document.getElementById("client_id_hbd").setAttribute("action", `/api/addhbdform/${clientid}`);
-            document.getElementById("fetch_url").value = `/addinsurance/${clientid}`;
-            document.getElementById("fetch_url_meta").value = `/addproject/${clientid}`;
-            editableDivHandler();
-          }
-
-
-          async function fetchClientDetails(clientid){
+            async function fetchClientDetails(clientid){
               try {
                   const res = await fetch(`/client/${clientid}`, {
                       method: 'GET',
@@ -1010,8 +953,8 @@
             });
             })
 
-            const fetchFormDetail = async (topic, id)=>{
-                const res = await fetch(`/api/getFormDetail/${topic}/${id}`,{
+            const fetchProfileDetail = async (id)=>{
+                const res = await fetch(`/api/getprofile/${id}`,{
                     method:"GET"
                 })
                 const data = await res.json();
@@ -1023,9 +966,8 @@
                     divs.forEach(div=>{
                         div.addEventListener("blur", async ()=>{
                           const name = div.textContent; 
-                          const id = div.getAttribute("form_id");
-                          const type = div.getAttribute("topic");
-                          const res = await fetch(`/edit/${type}/${id}`, {
+                          const id = div.getAttribute("profile_id");
+                          const res = await fetch(`api/edit/profilename/${id}`, {
                             method: 'POST',
                             headers: {
                                 'Content-Type': 'application/json',
@@ -1043,286 +985,363 @@
                 }
 
             const editHandler = async (curr_elem)=>{
-               clearForm();
-                const container = document.getElementById("questionsContainer_meta").innerHTML = "";
-               const topic = curr_elem.getAttribute("topic");
-               const id = curr_elem.getAttribute("form_id");
-               document.querySelector(".overlay_loading").style.display = "block"
-               const data = await fetchFormDetail(topic, id);
-               document.querySelector(".overlay_loading").style.display = "none"
-                if(topic == "HBD form"){
-                    closeAllPopups();
-                    const Add_hbd_popup =  document.getElementById("Add_hbd_popup");
-                    Add_hbd_popup.classList.add("open_popup");
-                    Add_hbd_popup.classList.remove("close_popup");
-                    overlay.style.display = "block";
-                    document.getElementById("name").value = data.name;
-                    document.getElementById("first_heading").value = data.firstPage.first_heading;
-                    document.getElementById("first_description").value = data.firstPage.first_desciption;
-                    document.getElementById("first_img_link").value = convertExportToDrive(data.firstPage.first_img_link);
-                    document.getElementById("first_btn_text").value = data.firstPage.first_btn_text;
-                    document.getElementById("last_heading").value = data.lastpage.last_heading;
-                    document.getElementById("last_subheading").value = data.lastpage.last_subheading;
-                    document.getElementById("last_description").value = data.lastpage.last_description;
-                    document.getElementById("last_btn_text").value = data.lastpage.last_btn_text;
-                    const dslink = data.dslink;
-                    if(dslink.length > 0){
-                        populateDiscordLinks(dslink);
+                const id = curr_elem.getAttribute("profile_id");
+                const {profile, links, forms} = await fetchProfileDetail(id);
+                console.log(profile, forms, links)
+                document.querySelector(".profile_edit_container").style.display = "block";
+                const showformdiv = document.getElementById("show_profiles").innerHTML = "";
+                
+
+                // ########### Filling all the prexisting details to the edit page ###########
+                const templates = document.querySelectorAll(".image-container");
+                templates.forEach(template=>{
+                    if(template.getAttribute("template_id") == profile.template_selected){
+                        template.classList.add("selected");
+                    }else{
+                        template.classList.remove("selected");
                     }
-                    function populateDiscordLinks(dslinkData) {
-                        const dslink_container = document.getElementById("discord_hbd_field");
-                        
-                        dslink_container.innerHTML = "";
-
-                        dslinkData.forEach((dslink,i) => {
-                            if(i == dslinkData.length - 1) return;
-                            const newInput = createDiscordInput(dslink);
-                            dslink_container.appendChild(newInput);
-                        });
-                        dslink_container.innerHTML += `
-                            <div class="discord-input-container">
-                                <input type="text" class="discord-hbd-input" name="dslink[]" value="${dslinkData[dslinkData.length - 1]}">
-                                <button type="button" class="my-1 add-discord-input" onclick="addDiscordHbd()">Add Discord Link</button>
-                            </div>`
-                    }
-
-                    function createDiscordInput(value = '') {
-                        const newInput = document.createElement('div');
-                        newInput.innerHTML = `
-                            <div class="discord-input-container">
-                                <input type="text" class="discord-hbd-input" name="dslink[]" value="${value}">
-                                <button type="button" class="my-1 remove-discord-input" onclick="removeDiscordHbd(this)">Remove</button>
-                            </div>`;
-                        return newInput;
-                    }
-
-                    function addDiscordHbd() {
-                        const dslink_container = document.getElementById("discord_hbd_field");
-                        const newInput = createDiscordInput();
-                        dslink_container.appendChild(newInput);
-                    }
-
-                    function removeDiscordHbd(button) {
-                        const container = button.parentNode;
-                        container.parentNode.removeChild(container);
-                    }
-
-                    document.getElementById("client_id_hbd").setAttribute("action", `/api/edithbdform/${id}`);
-                }else if(topic == "Insurance Form"){
-                    closeAllPopups();
-                    const Insurance_form =  document.getElementById("Insurance_form");
-                    Insurance_form.classList.add("open_popup");
-                    Insurance_form.classList.remove("close_popup");
-                    overlay.style.display = "block";
-                    document.getElementById("insurance_name").value = data.name;
-                    document.getElementById("bg_img_insurance").value = convertExportToDrive(data.firstPage.bg_img);
-                    document.getElementById("last_heading_insurance").value = data.lastpage.last_heading;
-                    document.getElementById("last_subheading_insurance").value = data.lastpage.last_subheading;
-                    document.getElementById("last_btn_text_insurance").value = data.lastpage.last_btn_text;
-                    document.getElementById("last_btn_link_insurance").value = data.lastpage.last_btn_link;
-                    document.getElementById("bg_insurance").value = convertExportToDrive(data.lastpage.bg);
-                    document.getElementById("fetch_url").innerText = `/api/insurance/edit/${id}`;
-                    populateQuestions(data.firstPage.questions);
-
-                    const dslink = data.dslink;
-
-                    if(dslink.length > 0){
-                        populateDiscordLinks(dslink);
-                    }
-
-                    function populateDiscordLinks(dslinkData) {
-                        const dslink_container = document.getElementById("discord_insurance_field");
-                        
-                        dslink_container.innerHTML = "";
-
-                        dslinkData.forEach((dslink,i) => {
-                            if(i == dslinkData.length - 1) return;
-                            const newInput = createDiscordInput(dslink);
-                            dslink_container.appendChild(newInput);
-                        });
-                        dslink_container.innerHTML += `
-                            <div class="discord-input-container">
-                                <input type="text" class="discord-insurance-input" name="dslink[]" value="${dslinkData[dslinkData.length - 1]}">
-                                <button type="button" class="my-1 add-discord-input" onclick="addDiscordinsurance()">Add Discord Link</button>
-                            </div>
-                        `
-                    }
-
-                    function createDiscordInput(value = '') {
-                        const newInput = document.createElement('div');
-                        newInput.innerHTML = `
-                            <div class="discord-input-container-insurance">
-                                <input type="text" class="discord-insurance-input" name="dslink[]" value="${value}">
-                                <button type="button" class="my-1 remove-discord-input" onclick="removeDiscordInsurance(this)">Remove</button>
-                            </div>`;
-                        return newInput;
-                    }
-
-                }else if(topic == "Meta Form"){
-                    closeAllPopups();
-                    const meta_form_popup =  document.getElementById("meta_form_popup");
-                    meta_form_popup.classList.add("open_popup");
-                    meta_form_popup.classList.remove("close_popup");
-                    overlay.style.display = "block";
-                    document.getElementById("project_name_meta").value = data.name;
-                    document.getElementById("meta_f_heading").value = data.landingpage.f_heading;
-                    document.getElementById("f_sub_heading").value = data.landingpage.f_sub_heading;
-                    document.getElementById("logo").value = convertExportToDrive(data.landingpage.logo);
-                    document.getElementById("background").value = convertExportToDrive(data.landingpage.background);
-                    document.getElementById("priv_link").value = data.landingpage.priv_link;
-                    document.getElementById("priv_link_text").value = data.landingpage.priv_link_text;
-                    document.getElementById("priv_text").value = data.landingpage.priv_text;
-                    document.getElementById("comp_heading").value = data.landingpage.comp_heading;
-                    document.getElementById("comp_desc").value = data.landingpage.comp_desc;
-                    document.getElementById("last_btn_text_meta").value = data.landingpage.last_btn_text;
-                    document.getElementById("last_btn_link").value = data.landingpage.last_btn_link;
-
-
-                    //########## Discord poulate ###############
-
-                        const dslink = data.dslink;
-
-                        if(dslink.length > 0){
-                            populateDiscordLinks(dslink);
-                        }
-
-                        function populateDiscordLinks(dslinkData) {
-                            const dslink_container = document.getElementById("discord_metaform_field");
-
-                        dslink_container.innerHTML = "";
-
-                        dslinkData.forEach((dslink,i) => {
-                            if(i == dslinkData.length - 1) return;
-                            const newInput = createDiscordInput(dslink);
-                            dslink_container.appendChild(newInput);
-                        });
-                        dslink_container.innerHTML += `
-                            <div class="discord-input-container-metaform">
-                                <input type="text" class="discord-metaform-input" name="dslink[]" value="${dslinkData[dslinkData.length - 1]}">
-                                <button type="button" class="my-1 add-discord-input" onclick="addDiscordMetaform()">Add Discord Link</button>
-                            </div>
-                        `
-                        }
-
-                        function createDiscordInput(value = '') {
-                        const newInput = document.createElement('div');
-                        newInput.innerHTML = `
-                            <div class="discord-input-container-metaform">
-                                <input type="text" class="discord-metaform-input" name="dslink[]" value="${value}">
-                                <button type="button" class="my-1 remove-discord-input" onclick="removeDiscordmetaform(this)">Remove</button>
-                            </div>`;
-                        return newInput;
-                        }
+                })
+                document.getElementById("profile_id").setAttribute("profile_id",id);
+                document.querySelector(".agent-name").innerHTML = profile.name;
+                document.getElementById("add_profile").style.backgroundImage = `url(${profile.profile_img_path})`;
+                document.getElementById("preview_profile_img").src = profile.profile_img_path;
+                profileDataState.templateSelected = profile.template_selected;
+                document.getElementById("phone").value = profile.phone;
+                document.getElementById("fb_link").value = profile.fb_link;
+                document.getElementById("insta_link").value = profile.insta_link;
+                document.getElementById("linkedin_link").value = profile.linkedin_link;
+                document.getElementById("appointment_link").value = profile.personal_link;
 
 
 
-
-
-
-
-
-
-
-
-
-                    
-                    document.getElementById("fetch_url_meta").innerText = `/api/meta/edit/${id}`;
-                    addQuestion(data.landingpage.questions);
-
-
-                    //############### Preview Poplulation ##############
-
-                    const preview_logo = document.getElementById('preview-logo');
-                    const logo_link = data.landingpage.logo;
-                    preview_logo.setAttribute('src',logo_link);
-                    const preview_background = document.getElementById('preview-background');
-                    const link = data.landingpage.background;
-                    preview_background.style.backgroundImage = `url("${link}")`;
-                    const p_heading = document.getElementById("preview-heading");
-                    p_heading.innerText = data.landingpage.f_heading;
-                    const sub_heading = document.getElementById("preview-para");
-                    sub_heading.innerText = data.landingpage.f_sub_heading;
-
-
-                    const preview_priv_text  = document.getElementById('preview_priv_text');
-                    preview_priv_text.innerText = priv_text
-                    const preview_priv_link = document.getElementById('preview_priv_link');
-                    preview_priv_link.setAttribute("href", `${priv_link}`)
-                    preview_priv_link.innerText = data.landingpage.priv_text;;
-                    const preview_logo_lastPage = document.getElementById('preview_logo_lastPage');
-                    preview_logo_lastPage.setAttribute('src',logo_link);
-                    const preview_comp_heading = document.getElementsByClassName('preview_comp_heading');
-                    preview_comp_heading[0].innerText = data.landingpage.comp_heading;
-                    const preview_comp_desc = document.getElementById('preview_comp_desc');
-                    preview_comp_desc.innerText = data.landingpage.comp_desc
-                    const preview_last_btn_link = document.getElementById('preview_last_btn_link');
-                    preview_last_btn_link.setAttribute('href', data.landingpage.last_btn_link);
-                    const preview_last_btn_text = document.getElementById('preview_last_btn_text');
-                    preview_last_btn_text.innerText = data.landingpage.last_btn_text;;
-                }else{
-                    closeAllPopups();
-                    const thankyoupagepopup =  document.getElementById("thankyoupagepopup");
-                    thankyoupagepopup.classList.add("open_popup");
-                    thankyoupagepopup.classList.remove("close_popup");
-                    overlay.style.display = "block";
-                    name_fbthankyoupage
-                    document.getElementById("name_fbthankyoupage").value = data.name;
-                    document.getElementById("background_fbthankyou").value = convertExportToDrive(data.firstPage.thankyou_background);
-                    document.getElementById("description_fbthankyou").value = data.firstPage.thankyou_text;
-                    document.getElementById("description_btn_text").value = data.firstPage.thankyou_btn_text;
-                    document.getElementById("description_btn_link").value = data.firstPage.thankyou_btn_link;
-                    
-                    document.getElementById("addthankyouform").setAttribute("action", `/thankyoupage-fb/edit/${id}`);
-
-                    const dslink = data.dslink;
-
-                    if(dslink.length > 0){
-                        populateDiscordLinks(dslink);
-                    }
-
-                    function populateDiscordLinks(dslinkData) {
-                        const dslink_container = document.getElementById("discord_fbthankyou_field");
-
-                    dslink_container.innerHTML = "";
-
-                    dslinkData.forEach((dslink,i) => {
-                        if(i == dslinkData.length - 1) return;
-                        const newInput = createDiscordInput(dslink);
-                        dslink_container.appendChild(newInput);
-                    });
-                    dslink_container.innerHTML += `
-                        <div class="discord-input-container-fbthankyou">
-                            <input type="text" class="discord-fbthankyou-input" name="dslink[]" value="${dslinkData[dslinkData.length - 1]}">
-                            <button type="button" class="my-1 add-discord-input" onclick="addDiscordFbThankyou()">Add Discord Link</button>
-                        </div>
-                    `
-                    }
-
-                    function createDiscordInput(value = '') {
-                    const newInput = document.createElement('div');
-                    newInput.innerHTML = `
-                        <div class="discord-input-container-fbthankyou">
-                            <input type="text" class="discord-fbthankyou-input" name="dslink[]" value="${value}">
-                            <button type="button" class="my-1 remove-discord-input" onclick="removeDiscordfbtahnkyou(this)">Remove</button>
-                        </div>`;
-                    return newInput;
-                    }
-                    
+                //Populating the Edit Form dropdown
+                const forms_edit_select = document.getElementById("forms_edit_select");
+                forms_edit_select.innerHTML = "";
+                if(forms && forms.length > 0){
+                    forms.forEach(elem=>{
+                        const option = document.createElement("option");
+                        option.value = elem.id;
+                        option.innerHTML = elem.name;
+                        forms_edit_select.appendChild(option);
+                    })
                 }
-            }
+
+                function populateLinksAndPreview(params) {
+                    const linkContainer = document.getElementById("link_container_dynamic");
+                    linkContainer.innerHTML = "";
+                    links.forEach(link=>{
+                        if (link.type == "link") {
+                            const linkCounter = linkContainer.children.length + 1;
+                            const linkDiv = document.createElement('div');
+                            linkDiv.classList.add('link');
+
+                            // Flex container for horizontal radio buttons
+                            const radioContainer = document.createElement('div');
+                            radioContainer.classList.add('radio-container');
 
 
-            function convertExportToDrive(originalURL) {
-                const idMatch = originalURL.match(/\/uc\?export=view&id=([a-zA-Z0-9_-]+)/);
-                if (idMatch) {
-                    const id = idMatch[1];
-                    const newURL = `https://drive.google.com/file/d/${id}/view?usp=drive_link`;
-                    return newURL;
-                } else {
-                    return "";
+                            // Radio buttons for choosing between "Enter Link" and "Choose Form"
+                            const enterLinkRadio = createRadio(`enterLink`, linkCounter, 'Enter Link', true);
+                            const chooseFormRadio = createRadio(`chooseForm`, linkCounter, 'Choose Form', false);
+
+                            // Dropdown for selecting predefined forms
+                            const selectFormDropdown = document.createElement('select');
+                            selectFormDropdown.style.display = "none"; // Initially disabled
+                            // Add options to the dropdown (replace with your own options)
+                            selectFormDropdown.classList.add("form_select")
+                            forms.forEach(form=>{
+                                if(form.id == link.link){
+                                    selectFormDropdown.innerHTML += `<option selected value="${form.id}">${form.name}</option>`
+                                }else{
+                                    selectFormDropdown.innerHTML += `<option value="${form.id}">${form.name}</option>`
+                                }
+                            })
+                            selectFormDropdown.style.borderRadius = "30px"
+                            selectFormDropdown.style.marginBottom = "3px"
+
+                            // Input fields for link and name
+                            const inputLink = createInput('text', 'Link', false);
+                            const inputName = createInput('text', 'Name', false);
+                            
+                            inputLink.style.display = "block"; // Initially enabled
+                            inputName.value = link.name;
+                            inputLink.value = link.link;
+
+
+                            // Event listeners for input fields to track changes
+
+                            inputLink.addEventListener('input', function() {
+                                const arrangement = extractData();
+                                populateProfilePreview(arrangement);
+                            });
+
+                            inputName.addEventListener('input', function() {
+                                const arrangement = extractData();
+                                populateProfilePreview(arrangement);
+                            });
+
+
+                            // Event listeners for radio buttons to enable/disable fields
+                            enterLinkRadio.addEventListener('change', function() {
+                                selectFormDropdown.style.display = 'none'; // Hide the dropdown
+                                inputLink.style.display = 'block'; // Show the link input
+                            });
+
+                            chooseFormRadio.addEventListener('change', function() {
+                            
+                                selectFormDropdown.style.display = 'block'; // Show the dropdown
+                                inputLink.style.display = 'none'; // Hide the link input
+                            });
+
+                            const deleteButton = document.createElement('div');
+                            deleteButton.innerHTML = `<i class="fa-solid fa-trash"></i>`;
+                            deleteButton.classList.add('deleteButton');
+                            deleteButton.onclick = function() {
+                                linkContainer.removeChild(linkDiv);
+                                const arrangement = extractData();
+                                populateProfilePreview(arrangement);
+                            };
+
+                            linkDiv.innerHTML += `<svg id="drag_icon" style="margin-left:auto" width="20px" height="30px" xmlns="http://www.w3.org/2000/svg">
+                                        <!-- First row of dots -->
+                                        <circle cx="5" cy="5" r="2" fill="black"></circle>
+                                        <circle cx="15" cy="5" r="2" fill="black"></circle>
+
+                                        <!-- Second row of dots -->
+                                        <circle cx="5" cy="15" r="2" fill="black"></circle>
+                                        <circle cx="15" cy="15" r="2" fill="black"></circle>
+                                    </svg>`;
+
+
+                            // Append radio buttons to the radio container
+                            radioContainer.appendChild(enterLinkRadio);
+                            radioContainer.appendChild(chooseFormRadio);
+
+                            // Append all elements to linkDiv
+                            linkDiv.appendChild(radioContainer);
+                            linkDiv.appendChild(selectFormDropdown);
+                            linkDiv.appendChild(inputLink);
+                            linkDiv.appendChild(inputName);
+                            linkDiv.appendChild(deleteButton);
+
+                            // Append linkDiv to the linkContainer
+                            linkContainer.appendChild(linkDiv);
+                        
+
+                        // Helper function to create radio buttons
+                            function createRadio(name, linkCount, label, checked) {
+                                const radio = document.createElement('input');
+                                radio.type = 'radio';
+                                radio.name = `linkChoice${linkCount}`;
+                                radio.value = name;
+                                radio.checked = checked;
+                                radio.style.marginLeft = "10px"
+                                
+                                const labelElement = document.createElement('label');
+                                labelElement.textContent = label;
+                                labelElement.appendChild(radio);
+                                
+                                return labelElement;
+                            }
+
+                            // Helper function to create input fields
+                            function createInput(type, placeholder, disabled) {
+                                const input = document.createElement('input');
+                                input.type = type;
+                                input.placeholder = placeholder;
+                                input.style.marginTop = "2px";
+                                input.style.marginBottom = "2px"
+                                return input;
+                            }
+
+                        }else if(link.type == "heading"){
+                            const linkDiv = document.createElement('div');
+                            linkDiv.classList.add('link', 'break_between_inputs');
+
+                            // Create SVG element
+                            const svg = document.createElementNS('http://www.w3.org/2000/svg', 'svg');
+                            svg.setAttribute('id', 'drag_icon');
+                            svg.setAttribute('width', '20px');
+                            svg.setAttribute('height', '30px');
+                            svg.style.marginLeft = 'auto';
+
+                            // Create circles for the SVG
+                            for (let i = 0; i < 4; i++) {
+                                const circle = document.createElementNS('http://www.w3.org/2000/svg', 'circle');
+                                circle.setAttribute('cx', (i % 2) * 10 + 5); // 5, 15, 5, 15
+                                circle.setAttribute('cy', Math.floor(i / 2) * 10 + 5); // 5, 5, 15, 15
+                                circle.setAttribute('r', '2');
+                                circle.setAttribute('fill', 'black');
+                                svg.appendChild(circle);
+                            }
+
+                            // Append SVG to linkDiv
+                            linkDiv.appendChild(svg);
+
+                            // Create input for heading
+                            if (link.type === 'heading') {
+                                const inputHeading = document.createElement('input');
+                                inputHeading.type = 'text';
+                                inputHeading.value = link.heading;
+                                inputHeading.placeholder = 'Heading';
+                                linkDiv.appendChild(inputHeading);
+
+                                // Add event listener for the heading input
+                                inputHeading.addEventListener('input', function() {
+                                    const arrangement = extractData();
+                                    populateProfilePreview(arrangement);
+                                });
+                            }
+
+                            // Create the delete button
+                            const deleteButton = document.createElement('div');
+                            deleteButton.classList.add('deleteButton');
+                            deleteButton.innerHTML = `<i class="fa-solid fa-trash" aria-hidden="true"></i>`;
+
+                            // Event listener for the delete button
+                            deleteButton.addEventListener('click', function() {
+                                linkContainer.removeChild(linkDiv);
+                                const arrangement = extractData();
+                                populateProfilePreview(arrangement);
+                            });
+
+                            // Append delete button to linkDiv
+                            linkDiv.appendChild(deleteButton);
+
+                            // Append linkDiv to the linkContainer
+                            linkContainer.appendChild(linkDiv);
+                        }else{
+                            const linkCounter = linkContainer.children.length + 1;
+                            const linkDiv = document.createElement('div');
+                            linkDiv.classList.add('link');
+
+                            // Flex container for horizontal radio buttons
+                            const radioContainer = document.createElement('div');
+                            radioContainer.classList.add('radio-container');
+
+
+                            // Radio buttons for choosing between "Enter Link" and "Choose Form"
+                            const enterLinkRadio = createRadio(`enterLink`, linkCounter, 'Enter Link', false);
+                            const chooseFormRadio = createRadio(`chooseForm`, linkCounter, 'Choose Form', true);
+
+                            // Dropdown for selecting predefined forms
+                            const selectFormDropdown = document.createElement('select');
+                            selectFormDropdown.style.display = "block"; // Initially disabled
+                            // Add options to the dropdown (replace with your own options)
+                            selectFormDropdown.classList.add("form_select")
+                            forms.forEach(form=>{
+                                if(form.id == link.link){
+                                    selectFormDropdown.innerHTML += `<option selected value="${form.id}">${form.name}</option>`
+                                }else{
+                                    selectFormDropdown.innerHTML += `<option value="${form.id}">${form.name}</option>`
+                                }
+                            })
+                            selectFormDropdown.style.borderRadius = "30px"
+                            selectFormDropdown.style.marginBottom = "3px"
+
+                            // Input fields for link and name
+                            const inputLink = createInput('text', 'Link', false);
+                            const inputName = createInput('text', 'Name', false);
+                            
+                            inputLink.style.display = "none"; // Initially enabled
+                            inputName.value = link.name;
+
+
+                            // Event listeners for input fields to track changes
+
+                            inputLink.addEventListener('input', function() {
+                                const arrangement = extractData();
+                                populateProfilePreview(arrangement);
+                            });
+
+                            inputName.addEventListener('input', function() {
+                                const arrangement = extractData();
+                                populateProfilePreview(arrangement);
+                            });
+
+
+                            // Event listeners for radio buttons to enable/disable fields
+                            enterLinkRadio.addEventListener('change', function() {
+                                selectFormDropdown.style.display = 'none'; // Hide the dropdown
+                                inputLink.style.display = 'block'; // Show the link input
+                            });
+
+                            chooseFormRadio.addEventListener('change', function() {
+                            
+                                selectFormDropdown.style.display = 'block'; // Show the dropdown
+                                inputLink.style.display = 'none'; // Hide the link input
+                            });
+
+                            const deleteButton = document.createElement('div');
+                            deleteButton.innerHTML = `<i class="fa-solid fa-trash"></i>`;
+                            deleteButton.classList.add('deleteButton');
+                            deleteButton.onclick = function() {
+                                linkContainer.removeChild(linkDiv);
+                                const arrangement = extractData();
+                                populateProfilePreview(arrangement);
+                            };
+
+                            linkDiv.innerHTML += `<svg id="drag_icon" style="margin-left:auto" width="20px" height="30px" xmlns="http://www.w3.org/2000/svg">
+                                        <!-- First row of dots -->
+                                        <circle cx="5" cy="5" r="2" fill="black"></circle>
+                                        <circle cx="15" cy="5" r="2" fill="black"></circle>
+
+                                        <!-- Second row of dots -->
+                                        <circle cx="5" cy="15" r="2" fill="black"></circle>
+                                        <circle cx="15" cy="15" r="2" fill="black"></circle>
+                                    </svg>`;
+
+
+                            // Append radio buttons to the radio container
+                            radioContainer.appendChild(enterLinkRadio);
+                            radioContainer.appendChild(chooseFormRadio);
+
+                            // Append all elements to linkDiv
+                            linkDiv.appendChild(radioContainer);
+                            linkDiv.appendChild(selectFormDropdown);
+                            linkDiv.appendChild(inputLink);
+                            linkDiv.appendChild(inputName);
+                            linkDiv.appendChild(deleteButton);
+
+                            // Append linkDiv to the linkContainer
+                            linkContainer.appendChild(linkDiv);
+                        
+
+                        // Helper function to create radio buttons
+                            function createRadio(name, linkCount, label, checked) {
+                                const radio = document.createElement('input');
+                                radio.type = 'radio';
+                                radio.name = `linkChoice${linkCount}`;
+                                radio.value = name;
+                                radio.checked = checked;
+                                radio.style.marginLeft = "10px"
+                                
+                                const labelElement = document.createElement('label');
+                                labelElement.textContent = label;
+                                labelElement.appendChild(radio);
+                                
+                                return labelElement;
+                            }
+
+                            // Helper function to create input fields
+                            function createInput(type, placeholder, disabled) {
+                                const input = document.createElement('input');
+                                input.type = type;
+                                input.placeholder = placeholder;
+                                input.style.marginTop = "2px";
+                                input.style.marginBottom = "2px"
+                                return input;
+                            }
+
+                        }
+                    })
                 }
-            }
 
+                populateLinksAndPreview();
+                const arrangement = extractData();
+                populateProfilePreview(arrangement);
+
+            }
 
             function populateQuestions(questionsArray) {
                 const container = document.getElementById('questionContainer');
@@ -1418,7 +1437,7 @@
 
                     // Add event listener to delete question button
                     deleteQuestionButton.addEventListener('click', () => {
-                    questionGroup.remove();
+                        questionGroup.remove();
                     });
 
                     // Append question input, buttons, and options container to the question group
@@ -1589,17 +1608,17 @@
           question_populate_logic()
             }
 
-           const client_edit_popup = async (elem)=>{
+            const client_edit_popup = async (elem)=>{
                const clientID = elem.getAttribute("clientid");
                document.querySelector(".overlay_loading").style.display = "block"
-               const data = await fetchClientDetails(clientID);
+               const {client} = await fetchClientDetails(clientID);
                document.querySelector(".overlay_loading").style.display = "none"
 
-               document.getElementById("client_code_edit").value = data[0].code;
-               document.getElementById("client_name_edit").value = data[0].name;
-               document.getElementById("client_del").setAttribute("clientid",data[0]._id);
+               document.getElementById("client_code_edit").value = client.code;
+               document.getElementById("client_name_edit").value = client.name;
+               document.getElementById("client_del").setAttribute("clientid",client.id);
                const clientedit_popup  = document.querySelector(".clientedit-popup");
-               document.getElementById("client_edit_post_btn").setAttribute("clientId", data[0]._id);
+               document.getElementById("client_edit_post_btn").setAttribute("clientId", client.id);
                clientedit_popup.classList.add("open_popup");
                clientedit_popup.classList.remove("close_popup");
 
@@ -1624,6 +1643,7 @@
                     })
                 })
                 if(res.status == 400){
+                    hideLoadingOverlay();
                     return alert("Client already present with these details");
                 }else if(res.status == 200){
                     window.location.reload();
@@ -1631,19 +1651,34 @@
             }
 
             const deleteClient = async (elem)=>{
-                const bool = window.confirm("Do you want to delete this Client?");
-                if(bool){
-                    const id = elem.getAttribute("clientid");
-                    const res = await fetch(`/api/deleteclient/${id}`, {
-                        method:"GET"
-                    });
-                    if(res.status == 200){
-                        window.location.reload();
-                    }else{
-                        alert("Something wrong");
+                Swal.fire({
+                title: "Do you want to Delete the Client?",
+                showCancelButton: true,
+                confirmButtonText: "Delete",
+                }).then(async (result) => {
+                    if (result.isConfirmed) {
+                        showLoadingOverlay();
+                        const id = elem.getAttribute("clientid");
+                        const res = await fetch(`/api/deleteclient/${id}`, {
+                            method:"GET"
+                        });
+                        if(res.status == 200){
+                            window.location.reload();
+                        }else{
+                        swal.fire({
+                                title: "Error",
+                                text: resData.message,
+                                icon: "error",
+                                confirmButtonText: "Ok",
+                                confirmButtonColor: "#002655",
+                            });
+                            hideLoadingOverlay();
+                        }
+                    } else if (result.isDenied) {
+                        hideLoadingOverlay();
+                        Swal.fire("Changes are not saved", "", "info");
                     }
-                }
-
+            });
             }
 
             
@@ -1680,6 +1715,235 @@
                 elem.parentNode.classList.add("close_popup")
                 elem.parentNode.classList.remove("open_popup")
             }
+            
+
+            const fetchFormDetail = async (id)=>{
+                const res = await fetch(`/api/getForm/${id}`,{
+                    method:"GET"
+                })
+                const data = await res.json();
+                return data;
+            }
+
+
+            function populateEditForm(form){
+
+                document.getElementById("form_submit_btn").setAttribute("onclick", `editForm(${form.id})`);
+                // ################ Populate Discord ####################
+                form.discords.forEach((discord, index)=>{
+                    if(index == 0){
+                        document.getElementsByClassName("discord-metaform-input")[0].value = discord;
+                    }else{
+                        const ds_container = document.getElementById("discord_metaform_field")
+                        let newInput = document.createElement('div');
+                        newInput.innerHTML ='<div class="discord-input-container-metaform">' +
+                                        `    <input type="text" value="${discord}" class="form_input discord-metaform-input" placeholder="Discord Link" name="dslink[]">` +
+                                        '    <button type="button" class="my-1 p-2 rounded-2 remove-discord-input" onclick="removeDiscordmetaform(this)">Remove</button>' +
+                                        '</div>';
+                        ds_container.insertBefore(newInput, ds_container.firstChild);
+                    }
+                })
+               
+                // ##################### Populate Questions#######################
+                const questions_container = document.getElementById("questionsContainer_meta");
+                document.getElementById("form_name").value = form.name;
+                questions_container.innerHTML = "";
+                    form.questions.forEach((question, index)=>{
+                        let optionsHTML = '';
+                        for (let j = 0; j < question.options.length; j++) {
+                            optionsHTML += `
+                            <div class="option">
+                                <input type="text" value="${question.options[j]}" name="option[${j}]" placeholder="Option" class="options">
+                                <button type="button" class="delete-option-button">Delete option</button>
+                            </div>
+                            `;
+                        }
+                        questions_container.innerHTML += `
+                        <div class="question-group">
+                            <input type="text" value="${question.question}" name="question[${index}]" placeholder="Question" class="question">
+                            <button type="button" class="add-option-button">Add Option</button>
+                            <button type="button" class="delete-question-button">Delete Question</button>
+                            <div class="options-container">
+                               ${optionsHTML}
+                            </div>
+                        </div>
+                        `;
+                    })
+
+                        questions_container.innerHTML += `<button style="display: block;" type="button" id="add-question"
+                    class="add-option-button">Add
+                    Question</button>`
+              
+            
+                    const existingQuestionGroups = document.querySelectorAll(".question-group");
+                      existingQuestionGroups.forEach(function(questionGroup) {
+                        attachEventListeners(questionGroup);
+  
+                  // Attach event listeners to existing options within this question group
+                  const existingOptions = questionGroup.querySelectorAll(".options-container .option");
+                      existingOptions.forEach(function(optionDiv) {
+                        attachDeleteOptionButton(optionDiv);
+                    });
+                });
+
+
+
+                    const addQuestionButton = document.getElementById("add-question");
+                    addQuestionButton.addEventListener("click", function() {
+                        const data = extractQuestionsAndOptions();
+                        const questionGroup = document.createElement("div");
+                        questionGroup.classList.add("question-group");
+                        questionGroup.innerHTML = `
+                        <input type="text" name="question[]" placeholder="Question" class="question">
+                        <button type="button" class="add-option-button">Add Option</button>
+                        <button type="button" class="delete-question-button">Delete Question</button>
+                        <div class="options-container">
+                            <div class="option">
+                            <input type="text" name="option[]" placeholder="Option" class="options">
+                            <button type="button" class="delete-option-button">Delete option</button>
+                            </div>
+                        </div>
+                        `;
+                        addQuestionButton.parentNode.insertBefore(questionGroup, addQuestionButton);
+                        attachEventListeners(questionGroup);
+                        const optionDiv = questionGroup.querySelector(".options-container .option");
+                        attachDeleteOptionButton(optionDiv);
+                  
+  
+  
+                        //##############For preview Page ############
+                        const questionInputs = document.querySelectorAll(".question");
+                        const inputs = question.querySelectorAll("input");
+                        questionInputs.forEach(questionInput => {
+                            questionInput.addEventListener('input',populateQuestionsOnpreview)
+                        })
+        
+                        const optionsInput = document.querySelectorAll(".options");
+                            optionsInput.forEach(optionInput =>{
+                            optionInput.addEventListener('input',populateQuestionsOnpreview);
+                        })
+                        //##############For preview Page ############
+                    });
+                    const questionInputs = document.querySelectorAll(".question");
+                    questionInputs.forEach(questionInput => {
+                        questionInput.addEventListener('input',populateQuestionsOnpreview)
+                    })
+    
+                    const optionsInput = document.querySelectorAll(".options");
+                        optionsInput.forEach(optionInput =>{
+                        optionInput.addEventListener('input',populateQuestionsOnpreview);
+                    })
+
+
+
+
+              function attachEventListeners(questionGroup) {
+                const addOptionButton = questionGroup.querySelector(".add-option-button");
+                const deleteQuestionButton = questionGroup.querySelector(".delete-question-button");
+                
+                addOptionButton.addEventListener("click", function() {
+                        const optionsContainer = questionGroup.querySelector(".options-container");
+                        const optionDiv = document.createElement("div");
+                        optionDiv.classList.add("option");
+                        optionDiv.innerHTML = `
+                        <input type="text" class="options" name="option[]" placeholder="Option">
+                        <button type="button" class="delete-option-button">Delete option</button>
+                        `;
+                        optionsContainer.appendChild(optionDiv);
+                        attachDeleteOptionButton(optionDiv);
+                        //########## for preview Page #########//
+                        const optionsInput = optionDiv.querySelectorAll(".options");
+                            optionsInput.forEach(optionInput =>{
+                            optionInput.addEventListener('input',populateQuestionsOnpreview);
+                            })
+                        //########## for preview Page #########//
+                        });
+                    
+                        deleteQuestionButton.addEventListener("click", function() {
+                        populateQuestionsOnpreview();
+                        questionGroup.remove();
+                        });
+                    }
+
+
+
+
+                    function attachDeleteOptionButton(optionDiv) {
+                        const deleteOptionButton = optionDiv.querySelector(".delete-option-button");
+                        deleteOptionButton.addEventListener("click", function() {
+                        optionDiv.remove();
+                        });
+                    }
+
+
+                    populateQuestionsOnpreview();
+                    function populateQuestionsOnpreview() {
+                        const preview_question_container = document.querySelector('.preview_question_container');
+                        const question_div = document.createElement('div');
+                        const arr = extractQuestionsAndOptions()
+                        preview_question_container.innerHTML = "";
+                        
+                        for (let i = 0; i < arr.length; i++) {
+                            let optionsHTML = '';
+                            if(arr[i].options.length == 0){
+                                question_div.innerHTML += `
+                                <p style="margin-bottom: 3px; color: black">${arr[i].question}</p>
+                                <input class="form_input" placeholder="Type here..."></input>
+                                `
+                            }else{
+                                for (let j = 0; j < arr[i].options.length; j++) {
+                                optionsHTML += `
+                                    <option value=${arr[i].options[j]}>${arr[i].options[j]}</option>
+                                    `;
+                                }
+                                question_div.innerHTML += `
+                                <p style="margin-bottom: 3px; color: black">${arr[i].question}</p>
+                                <select>
+                                ${optionsHTML}  
+                                </select>
+                                `
+                            }
+                            preview_question_container.appendChild(question_div);
+                        }
+                    }
+
+                    function extractQuestionsAndOptions(params) {
+                    const questionInputs = document.querySelectorAll(".question");
+                    const answers = [];
+                
+                    questionInputs.forEach(questionInput => {
+                    let optionsContainer = questionInput;
+                    for (let i = 0; i < 3; i++) {
+                        optionsContainer = optionsContainer.nextElementSibling;
+                    }
+                    const questionText = questionInput.value;
+                    const optionsInputs = optionsContainer.querySelectorAll('.option input');
+                    const options = [];
+                    optionsInputs.forEach(optionInput => {
+                        options.push(optionInput.value);
+                    });
+                    answers.push({ question: questionText, options: options });
+                    });
+                    return answers;
+                }
+
+
+
+
+
+
+            }
+
+
+            async function edit_Form_show() {
+                const formId = document.getElementById("forms_edit_select").value;
+                const {form} = await fetchFormDetail(formId);
+                populateEditForm(form);
+                document.getElementById("form_popup").classList.add("open_popup");
+                document.getElementById("form_popup").classList.remove("close_popup");
+            }
+            
+            
             </script>
     </body>
 

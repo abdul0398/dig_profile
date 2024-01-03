@@ -1,47 +1,58 @@
 const express = require("express");
 const router = express.Router();
 const crypto = require("crypto");
+const {verify, isAuthenticated} = require("../middlewares/verify.js");
 const {sendVerificationEmail} = require("../utils/mailHandler.js");
 const passport = require("passport");
 
 
 router
 .get("/register", (req,res)=>{
-    res.render("register.ejs");
+    if(isAuthenticated){
+        return res.redirect("/dashboard");
+    }
+    return res.render("register.ejs");
 })
 .post("/register", async (req, res)=>{
+    if(isAuthenticated){
+        return res.redirect("/dashboard");
+    }
+
     try {
+
         const {email, password} = req.body;
         if(!email || !password){
             req.flash("error", "Email or password in invalid");
             return res.redirect("/register");
         }
+        
         const [rows] = await __pool.query('SELECT * FROM users WHERE email = ?', [ email ]);
+        
         if(rows.length > 0){
             req.flash("error", "Email is Already present");
             return res.redirect("/register");
         }
+
         const salt = crypto.randomBytes(16);
         const insertUserQuery = `
-        INSERT IGNORE INTO users (email, hashed_password, salt, verificationToken) VALUES (?, ?, ?, ?)
-      `;
-      const verificationToken = crypto.randomBytes(30).toString('hex');
-      await __pool.query(insertUserQuery, [email, crypto.pbkdf2Sync(password, salt, 310000, 32, 'sha256'), salt, verificationToken]);
-      await sendVerificationEmail(email, `http://localhost:3000/verify?token=${verificationToken}`);
-      res.render("verifyEmail.ejs")
-    } catch (error) {
+            INSERT IGNORE INTO users (email, hashed_password, salt, verificationToken) VALUES (?, ?, ?, ?)
+        `;
+        const verificationToken = crypto.randomBytes(30).toString('hex');
+        await __pool.query(insertUserQuery, [email, crypto.pbkdf2Sync(password, salt, 310000, 32, 'sha256'), salt, verificationToken]);
+        await sendVerificationEmail(email, `http://localhost:3000/verify?token=${verificationToken}`);
+        res.render("verifyEmail.ejs");
+    }catch(error){
         console.log(error);
         res.redirect("/error");
     }
-
 })
 .get("/login", (req,res)=>{
     res.render("login.ejs");
 })
-.post("/login",passport.authenticate('local', {
+.post("/login", passport.authenticate('local', {
     failureRedirect: '/login',
     failureFlash: true
-}), (req,res)=>{
+}), (req, res)=>{
     res.redirect("/dashboard");
 })
 .get("/verify", async (req, res)=>{
@@ -54,7 +65,7 @@ router
         res.redirect("/error");
     }
 })
-.get("/logout", (req,res)=>{
+.get("/logout",verify, (req,res)=>{
     req.logout(function (err) {
         if (err) {
             return next(err);
@@ -65,34 +76,32 @@ router
 .get("/forget", (req, res)=>{
     res.render("forget.ejs");
 })
-.post("/forgot_password",async (req, res)=>{
+.post("/forgot_password", async (req, res)=>{
     const {email} = req.body
     try {
         const resetPasswordToken = crypto.randomBytes(30).toString('hex');
         const resetPasswordExpires = new Date().setHours(new Date().getHours() + 1);
-    
-        // Checking if mail is Already Sent 
-        const tokenQuery = `
-            SELECT * FROM users 
-            WHERE email = ? AND resetPasswordExpires > UNIX_TIMESTAMP()
-        `;
-        const [user] = await __pool.query(tokenQuery, [email]);
-        if(user.length > 0){
-            req.flash("success", "Mail has already been sent please check");
+
+        const checkifMailExistsQuery = `SELECT * FROM users 
+        WHERE email = ?`
+        const [userExists] = await __pool.query(checkifMailExistsQuery, [email]);
+        if(userExists.length === 0){
+            req.flash("error", "Email is not registered");
             return res.redirect("/forget");
         }
+
         const insertUserQuery = `
             UPDATE users 
             SET resetPasswordToken = ?, resetPasswordExpires = ? 
             WHERE email = ?
           `;
         await __pool.query(insertUserQuery, [resetPasswordToken, resetPasswordExpires, email]); 
-        await sendVerificationEmail(email, `http://localhost:3000/reset?token=${resetPasswordToken}`)
+        await sendVerificationEmail(email, `${process.env.SERVER_URL}/reset?token=${resetPasswordToken}`)
         req.flash("success","Please Check your Mail");
         res.redirect("/forget");
     } catch (error) {
-        console.log(error);
-        res.redirect("/error");
+        req.flash("error", error.message);
+        res.redirect("/forget");
     }
 })
 .get("/reset", async (req,res)=>{
@@ -142,6 +151,6 @@ router
     }
 
 }).get("/test", (req,res)=>{
-    res.render("digital_pic1.ejs");
+    res.render("temp1.ejs");
 })
 module.exports = router;
