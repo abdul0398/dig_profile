@@ -8,9 +8,6 @@ const passport = require("passport");
 
 router
 .get("/register", (req,res)=>{
-    if(isAuthenticated){
-        return res.redirect("/dashboard");
-    }
     return res.render("register.ejs");
 })
 .post("/register", async (req, res)=>{
