@@ -11,10 +11,6 @@ router
     return res.render("register.ejs");
 })
 .post("/register", async (req, res)=>{
-    if(isAuthenticated){
-        return res.redirect("/dashboard");
-    }
-
     try {
 
         const {email, password} = req.body;
