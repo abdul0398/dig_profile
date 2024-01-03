@@ -32,7 +32,7 @@ router
         `;
         const verificationToken = crypto.randomBytes(30).toString('hex');
         await __pool.query(insertUserQuery, [email, crypto.pbkdf2Sync(password, salt, 310000, 32, 'sha256'), salt, verificationToken]);
-        await sendVerificationEmail(email, `http://localhost:3000/verify?token=${verificationToken}`);
+        await sendVerificationEmail(email, `${process.env.SERVER_URL}/verify?token=${verificationToken}`);
         res.render("verifyEmail.ejs");
     }catch(error){
         console.log(error);
