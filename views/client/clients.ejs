@@ -1004,8 +1004,12 @@
                 })
                 document.getElementById("profile_id").setAttribute("profile_id",id);
                 document.querySelector(".agent-name").innerHTML = profile.name;
+                document.getElementById("temp2_name").innerText = profile.name;
+                document.getElementById("temp3_name").innerText = profile.name;
                 document.getElementById("add_profile").style.backgroundImage = `url(${profile.profile_img_path})`;
                 document.getElementById("preview_profile_img").src = profile.profile_img_path;
+                document.getElementById("temp2_img").src = profile.profile_img_path;
+                
                 profileDataState.templateSelected = profile.template_selected;
                 document.getElementById("phone").value = profile.phone;
                 document.getElementById("fb_link").value = profile.fb_link;

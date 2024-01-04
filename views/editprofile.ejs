@@ -248,11 +248,10 @@
         </div>
 
 
-        <div>
+        <div class="temp" id="temp1">
                 <!-- Start of previewing Template 1 -->
-
             <link rel="stylesheet" href="/css/profile_small.css" />
-            <div class="div temp1">
+            <div class="div">
                 <section style="height: 250px;">
                     <div class="child"></div>
                     <div class="group-parent">
@@ -275,13 +274,7 @@
                     <section id="profile_preview_innercontainer">
                         
                     </section>
-                    <p style="font-size: 12px;color: #000; margin: auto; width: 70px;" class="profile_heading">CALL US</p>
-                    <li style="font-size: 12px; margin:0px auto 5px auto; display: flex; justify-content: center; align-items: center; background-color: #0066C9; width: 160px; border-radius: 20px; height: 35px;">
-                        <a style="color: white;" href="">Book An Appointment</a>
-                    </li>
-                    <li style="font-size: 12px; margin:0px auto 5px auto; display: flex; justify-content: center; align-items: center; background-color: #0066C9; width: 160px; border-radius: 20px; height: 35px;">
-                        <a style="color: white;" href="">Whats App</a>
-                    </li>
+                   
                     <style>
                         
                         .profile-card {
@@ -342,9 +335,62 @@
 
                 </section>
             </div>
-            <!-- End of previewing Template 1 -->
+        </div>
+        
+        <!-- Start of previewing Template 2 -->
+        <div class="temp" id="temp2">
+        
+            <div class="div" style="overflow: auto;
+            position: relative; background-color: #1D1D1D;">
+            <img id="temp2_img" src="" style="width: 110px;
+            height: 110px;
+            position: absolute;
+            top: 42px;
+            left: 49px;
+            z-index: 1;
+            border-radius: 64px;" alt="">
+            <img src="./temp2_ss.png" alt="" style=" width: 100%; height: 100%; object-fit: cover; position: absolute;">
+            <p id="temp2_name" style="position: absolute;
+            top: 200px;
+            left: 50%;
+            transform: translateX(-50%);">Hello</p>
+                <section id="profile_preview_container_temp2" style="position: absolute; top: 250px; width: 100%;" class="links_container">
+                    <li style="font-size: 12px; margin:0px auto 5px auto; display: flex; justify-content: center; align-items: center; background-color: #b68e00; width: 160px; border-radius: 20px; height: 35px;">
+                        <a style="color: white;" href="">Book An Appointment</a>
+                    </li>
+                </section>
+            </div>
 
         </div>
+        
+        <!-- Start of previewing Template 2 -->
+        <div class="temp" id="temp3">
+        
+            <div class="div" style="overflow: auto;
+            position: relative; background-color: #1D1D1D;">
+            <img id="temp2_img" src="./dp.jpg" style="    width: 130px;
+            height: 130px;
+            position: absolute;
+            top: 38px;
+            left: 44px;
+            z-index: 1;
+            border-radius: 64px;" alt="">
+            <img src="./temp3_ss.png" alt="" style=" width: 100%; height: 100%; object-fit: cover; position: absolute;">
+            <p id="temp3_name" style="position: absolute;
+            top: 290px;
+            color: black;
+            left: 50%;
+            transform: translateX(-50%);">Hello</p>
+                <section id="profile_preview_container_temp3" style="position: absolute; top: 325px; width: 100%;" class="links_container">
+                    <li style="font-size: 12px; margin:0px auto 5px auto; display: flex; justify-content: center; align-items: center; background-image: linear-gradient(178.54deg, #ff1212 7.67%, #ff2c1d); width: 160px; border-radius: 20px; height: 35px;">
+                        <a style="color: white;" href="">Book An Appointment</a>
+                    </li>
+                </section>
+            </div>
+
+        </div>
+
+
     </div>
 <div style="display: flex;">
     <button id="prevBtn" onclick="showPrev()" class="continue-button">Previous</button>
@@ -403,7 +449,11 @@
                         document.getElementById("preview_profile_img").src = e.target.result;
                     };
                     reader.readAsDataURL(file);
-                    Swal.fire("Saved!", "", "success");
+                    Swal.fire("Saved!", "", "success").then((result) => {
+                        if (result.isConfirmed) {
+                            window.location.reload();
+                        }
+                    })
                 } else if (result.isDenied) {
                     Swal.fire("Changes are not saved", "", "info");
                 }
@@ -429,9 +479,6 @@
             console.log(error.message);
         }
    }
-
-
-
 
     function linkAndHeadingHandler(){
         const addLinkButton = document.getElementById('addLinkButton');
@@ -620,6 +667,13 @@
 
     function showNext(elem) {
         const selectedTemplate = document.querySelector('div.image-container.selected').getAttribute('template_id');
+        profileDataState.templateSelected =  selectedTemplate
+        const arrangement = extractData();
+        populateProfilePreview(arrangement);
+        document.querySelectorAll(".temp").forEach(element => {
+            element.style.display = "none";
+        });
+        document.getElementById(`temp${selectedTemplate}`).style.display = "block";
         console.log(selectedTemplate);
         document.getElementById('step1').style.display = 'none';
         document.getElementById('step2').style.display = 'block';
@@ -633,7 +687,7 @@
     document.getElementById('step2').style.display = 'none';
 }
 
-function extractData() {
+    function extractData() {
     const linkContainer = document.getElementById('link_container_dynamic');
     const children = linkContainer.children;
     const data = [];
@@ -667,27 +721,61 @@ function extractData() {
     return data;
 }
 
-
-
     function populateProfilePreview(arrangment) {
-        const profile_preview_container  = document.getElementById("profile_preview_innercontainer");
-        profile_preview_container.innerHTML = "";
-        arrangment.forEach(element => {
-            if(element.type === "link"){
-                profile_preview_container.innerHTML += `<li style="font-size: 12px; margin:0px auto 5px auto; display: flex; justify-content: center; align-items: center; background-color: #0066C9; width: 160px; border-radius: 20px; height: 32px;">
-                <a style="color: white;" href="${element.link}">${element.name}</a>
-            </li>`
-            }else if(element.type === "heading"){
-                profile_preview_container.innerHTML += `<p style="font-size: 12px; color: #000; padding-left:10px ;" class="profile_heading">${element.heading}</p>`
-            }else{
-                profile_preview_container.innerHTML += `<li style="font-size: 12px; margin:0px auto 5px auto; display: flex; justify-content: center; align-items: center; background-color: #0066C9; width: 160px; border-radius: 20px; height: 32px;">
-                <a style="color: white;" href="${element.link}">${element.name}</a>
-            </li>`
-            }
-        });
-        
+        console.log(profileDataState.templateSelected)
+        if(profileDataState.templateSelected == 1){
+            // Poluplating template 1
+            const profile_preview_container  = document.getElementById("profile_preview_innercontainer");
+            profile_preview_container.innerHTML = "";
+            arrangment.forEach(element => {
+                if(element.type === "link"){
+                    profile_preview_container.innerHTML += `<li style="font-size: 12px; margin:0px auto 5px auto; display: flex; justify-content: center; align-items: center; background-color: #0066C9; width: 160px; border-radius: 20px; height: 32px;">
+                    <a style="color: white;" href="${element.link}">${element.name}</a>
+                </li>`
+                }else if(element.type === "heading"){
+                    profile_preview_container.innerHTML += `<p style="font-size: 12px; color: #000; padding-left:10px ;" class="profile_heading">${element.heading}</p>`
+                }else{
+                    profile_preview_container.innerHTML += `<li style="font-size: 12px; margin:0px auto 5px auto; display: flex; justify-content: center; align-items: center; background-color: #0066C9; width: 160px; border-radius: 20px; height: 32px;">
+                    <a style="color: white;" href="${element.link}">${element.name}</a>
+                </li>`
+                }
+            });
+        }else if(profileDataState.templateSelected == 2){
+            // populating template 2
+            const profile_preview_container_temp2  = document.getElementById("profile_preview_container_temp2");
+            profile_preview_container_temp2.innerHTML = "";
+            arrangment.forEach(element => {
+                if(element.type === "link"){
+                    profile_preview_container_temp2.innerHTML += `<li style="font-size: 12px; margin:0px auto 5px auto; display: flex; justify-content: center; align-items: center; background-color: #b68e00; width: 160px; border-radius: 20px; height: 35px;">
+                        <a style="color: white;" href="${element.link}">${element.name}</a>
+                    </li>`
+                }else if(element.type === "heading"){
+                    profile_preview_container_temp2.innerHTML += `<p style="font-size: 12px;color: #fff;padding-left:10px;" class="profile_heading">${element.heading}</p>`;
+                }else{
+                    profile_preview_container_temp2.innerHTML += `<li style="font-size: 12px; margin:0px auto 5px auto; display: flex; justify-content: center; align-items: center; background-color: #b68e00; width: 160px; border-radius: 20px; height: 32px;">
+                    <a style="color: white;" href="${element.link}">${element.name}</a>
+                </li>`
+                }
+            });
+        }else{
+            const profile_preview_container_temp3  = document.getElementById("profile_preview_container_temp3");
+            profile_preview_container_temp3.innerHTML = "";
+            arrangment.forEach(element => {
+                if(element.type === "link"){
+                    profile_preview_container_temp3.innerHTML += `<li style="font-size: 12px; margin:0px auto 5px auto; display: flex; justify-content: center; align-items: center; background-image: linear-gradient(178.54deg, #ff1212 7.67%, #ff2c1d); width: 160px; border-radius: 20px; height: 35px;">
+                        <a style="color: white;" href="${element.link}">${element.name}</a>
+                    </li>`
+                }else if(element.type === "heading"){
+                    profile_preview_container_temp3.innerHTML += `<p style="font-size: 12px; margin-bottom:2px; color: #000;padding-left:10px;" class="profile_heading">${element.heading}</p>`;
+                }else{
+                    profile_preview_container_temp3.innerHTML += `<li style="font-size: 12px; margin:0px auto 5px auto; display: flex; justify-content: center; align-items: center; background-image: linear-gradient(178.54deg, #ff1212 7.67%, #ff2c1d); width: 160px; border-radius: 20px; height: 32px;">
+                    <a style="color: white;" href="${element.link}">${element.name}</a>
+                </li>`
+                }
+            });
+            
+        }        
     }
-
 
     function validation() {
         const inputs = document.querySelectorAll('#link_container_dynamic input[type="text"]:not([style*="display:none"])');
@@ -717,7 +805,6 @@ function extractData() {
         }
         return valid;
     }
-
 
     async function submitProfile() {
         if(!validation()){
@@ -764,22 +851,20 @@ function extractData() {
     }
 }
 
-
-async function addFormPopup(){
+    async function addFormPopup(){
     document.getElementById("form_submit_btn").setAttribute("onclick", "saveForm()");
     const overlay = document.getElementById("overlay");
     overlay.style.display = "block";
     document.getElementById("form_popup").classList.add("open_popup");
     document.getElementById("form_popup").classList.remove("close_popup");
 }
-async function editFormHandler(){
+
+    async function editFormHandler(){
     const overlay = document.getElementById("overlay");
     overlay.style.display = "block";
     const modal = document.querySelector(".form_edit_popup");
     modal.classList.add("open_popup");
     modal.classList.remove("close_popup");   
 }
-
-
 
 </script>

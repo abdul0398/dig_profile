@@ -143,7 +143,6 @@ router.get("/", verify, (req,res)=>{
 }).post('/updateLinks', verify, async (req, res) => {
     const { profile_id, data, templateSelected, phone, appointment_link, fb_link, insta_link, linkedin_link} = req.body;
     const connection = await __pool.getConnection();
-    console.log(req.body);
         try {
             // Start a transaction
             await connection.beginTransaction();
