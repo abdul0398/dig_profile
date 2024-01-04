@@ -515,7 +515,7 @@
             selectFormDropdown.classList.add("form_select")
             forms.forEach(form => {
                 const option = document.createElement('option');
-                option.value = form._id;
+                option.value = form.id;
                 option.textContent = form.name;
                 selectFormDropdown.appendChild(option);
             });
@@ -811,7 +811,6 @@
             return;
         }
         const data = extractData();
-        console.log(data)
         // extract all fixed input data
         const phone = document.getElementById("phone").value;
         const appointment_link = document.getElementById("appointment_link").value;

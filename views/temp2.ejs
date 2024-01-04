@@ -114,7 +114,7 @@
       <body>
         <div class="overlay" id="overlay"></div>
           <div class="div">
-            <section style="height: 400px;">
+            <section style="height: 440px;">
                 <div class="child"></div>
                 <div class="item"></div>
                 <div class="inner"></div>
@@ -243,13 +243,13 @@
   })
 
           async function showForm(e){
-    const formId = e.getAttribute("form_id");
-    const {form} = await fetchFormDetail(formId);
-    console.log(form);
-    populateFormbasedOnBtn(form.questions);
-    document.querySelector("#popupform").style.display = "block";
-    overlay.style.display = "block";
-  }
+              const formId = e.getAttribute("form_id");
+              const {form} = await fetchFormDetail(formId);
+              console.log(form);
+              populateFormbasedOnBtn(form.questions);
+              document.querySelector("#popupform").style.display = "block";
+              overlay.style.display = "block";
+        }
 
 
   const fetchFormDetail = async (id)=>{
