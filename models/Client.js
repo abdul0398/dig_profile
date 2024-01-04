@@ -18,6 +18,7 @@ CREATE TABLE IF NOT EXISTS profiles (
   phone VARCHAR(255),
   fb_link VARCHAR(255),
   insta_link VARCHAR(255),
+  personal_link VARCHAR(255),
   linkedin_link VARCHAR(255),
   views INT DEFAULT 0,
   client_id INT NOT NULL,

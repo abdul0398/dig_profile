@@ -46,7 +46,7 @@ router
     failureRedirect: '/login',
     failureFlash: true
 }), (req, res)=>{
-    res.redirect("/dashboard");
+    res.redirect("/");
 })
 .get("/verify", async (req, res)=>{
     const {token } = req.query;

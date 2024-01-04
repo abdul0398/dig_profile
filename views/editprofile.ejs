@@ -690,10 +690,10 @@ function extractData() {
 
 
     function validation() {
-        const inputs = document.querySelectorAll('#linkContainer input[type="text"]:not([style*="display:none"])');
-        console.log(inputs);
+        const inputs = document.querySelectorAll('#link_container_dynamic input[type="text"]:not([style*="display:none"])');
         // validate all inputs of type text
         let valid = true;
+        console.log(inputs);
         for (let i = 0; i < inputs.length; i++) {
             inputs[i].style.border = 'none';
             if (inputs[i].value === '') {

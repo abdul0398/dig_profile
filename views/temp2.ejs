@@ -146,32 +146,45 @@
                     <b class="call-us">Call us</b>
                     <div class="group-container">
                       <div class="rectangle-group">
-                        <a href="">
-                          <div class="rectangle-div">
-                            <b class="book-and-appointment">Book and Appointment</b>
-                          </div>
-                        </a>
+                        <%if(profile.personal_link){%>
+                          <a href="<%=profile.personal_link%>">
+                            <div class="rectangle-div">
+                              <b class="book-and-appointment">Book and Appointment</b>
+                            </div>
+                          </a>
+                        <%}%>
+                       
                       </div>
-                      <div class="rectangle-container">
-                        <a href="https://wa.me/<%=profile.phone%>" target="_blank">
-                          <div class="group-child1">
-                            <b class="whatsapp">Whatsapp</b>
-                          </div>
-                        </a>
-                      </div>
+                      <%if(profile.phone){%>
+                        <div class="rectangle-container">
+                          <a href="https://wa.me/<%=profile.phone%>" target="_blank">
+                            <div class="group-child1">
+                              <b class="whatsapp">Whatsapp</b>
+                            </div>
+                          </a>
+                        </div>
+                      <%}%>
+                      
                     </div>
                   </div>
                   <div class="group-div">
                     <div class="group-parent1">
-                      <a href="<%=profile.fb_link%>" target="_blank">
-                        <img class="group-icon" alt="" src="/fb_logo_temp3.png" />
-                      </a>
-                      <a href="<%=profile.linkedin_link%>" target="_blank">
-                        <img class="group-child2" alt="" src="/linkdin_logo_temp3.png" />
-                      </a>
-                      <a href="<%=profile.insta_link%>" target="_blank">
-                        <img class="group-child3" alt="" src="/insta_logo_temp3.png" />
-                      </a>
+                      <%if(profile.fb_link){%>
+                        <a href="<%=profile.fb_link%>" target="_blank">
+                          <img class="group-icon" alt="" src="/fb_logo_temp3.png" />
+                        </a>
+                      <%}%>
+                      <%if(profile.linkedin_link){%>
+                        <a href="<%=profile.linkedin_link%>" target="_blank">
+                          <img class="group-child2" alt="" src="/linkdin_logo_temp3.png" />
+                        </a>
+                      <%}%>
+                      <%if(profile.insta_link){%>
+                        <a href="<%=profile.insta_link%>" target="_blank">
+                          <img class="group-child3" alt="" src="/insta_logo_temp3.png" />
+                        </a>
+                      <%}%>
+                      
                     </div>
                     <img class="line-icon" alt="" src="./public/line-2@2x.png" />
     

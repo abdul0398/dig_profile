@@ -146,38 +146,60 @@
 
   <div style="height: 350px;">
     <div class="group-container">
-      <div class="group-div">
-        <a target="_blank" href="<%=profile.insta_link%>">
-          <img class="group-inner" alt="" src="/group-29@2x.png" />
-        </a>
-        <a target="_blank" href="<%=profile.linkedin_link%>">
-          <img class="group-icon" alt="" src="/group-28@2x.png" />
-        </a>
-        <a target="_blank" href="<%=profile.fb_link%>">
-          <img class="group-child1" alt="" src="/facebook.png" />
-        </a>
+      <div>
+        <%if(profile.insta_link){%>
+          <span>
+            <a target="_blank" href="<%=profile.insta_link%>">
+              <img style="width: 40px;" alt="" src="/group-29@2x.png" />
+            </a>
+          </span>
+        <%}%>
+        <%if(profile.linkedin_link){%>
+          <span>
+            <a target="_blank" href="<%=profile.insta_link%>">
+              <img style="width: 40px;" alt="" src="/group-28@2x.png" />
+            </a>
+          </span>
+        <%}%>
+        <%if(profile.fb_link){%>
+          <span>
+            <a target="_blank" href="<%=profile.fb_link%>">
+              <img style="width: 40px;" alt="" src="/facebook.png" />
+            </a>
+          </span>
+        <%}%>
       </div>
-      <img class="line-icon" alt="" src="/line-2@2x.png" />
+      
+      
+       
+     
+    </div>
 
-      <img class="group-child2" alt="" src="/line-2@2x.png" />
-    </div>
-    <div class="call-us-parent">
-      <b class="call-us">Call us</b>
-      <div class="group-parent1">
-        <div class="rectangle-parent">
-          <a href="<%=profile.personal_link%>">
-            <div class="rectangle-div"></div>
-            <b class="book-and-appointment">Book and Appointment</b>
-          </a>
-        </div>
-        <div class="rectangle-group">
-          <a target="_blank" href="https://wa.me/<%=profile.phone%>" style="color: black;">
-            <div class="group-child3"></div>
-            <b class="whatsapp">Whatsapp</b>
-          </a>
+    <%if(profile.personal_link || profile.phone){%>
+      <div class="call-us-parent">
+        <b class="call-us">Call us</b>
+        <div class="group-parent1">
+          <%if(profile.personal_link){%>
+            <div class="rectangle-parent">
+              <a href="<%=profile.personal_link%>">
+                <div class="rectangle-div"></div>
+                <b class="book-and-appointment">Book and Appointment</b>
+              </a>
+            </div>
+          <%}%>
+         
+          <%if(profile.phone){%>
+            <div class="rectangle-group">
+              <a target="_blank" href="https://wa.me/<%=profile.phone%>" style="color: black;">
+                <div class="group-child3"></div>
+                <b class="whatsapp">Whatsapp</b>
+              </a>
+            </div>
+          <%}%>
+          
         </div>
       </div>
-    </div>
+    <%}%>
   </div>        
         <div class="wrapper-rectangle-14">
           <img

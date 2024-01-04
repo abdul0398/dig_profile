@@ -15,7 +15,7 @@ const storage = multer.diskStorage({
   })  
   const upload = multer({ storage: storage })
 
-router.get("/dashboard", verify, (req,res)=>{
+router.get("/", verify, (req,res)=>{
     res.render("dashboard.ejs");
 }).post("/addprofile", verify, async (req,res)=>{
     const {name, clientID} = req.body;
@@ -63,7 +63,11 @@ router.get("/dashboard", verify, (req,res)=>{
         res.redirect("/error");
     }
 }).get("/profile/:profileId", async (req,res)=>{
-    const {profileId} = req.params;
+    const profile_base64 = req.params.profileId;
+    const decodedString = Buffer.from(profile_base64, 'base64').toString('ascii');
+    const delimiter = "--";
+    const parts = decodedString.split(delimiter);
+    const profileId = parts[0];
     try {
         const [profile] = await __pool.query(`SELECT * FROM profiles WHERE id = ?`, [profileId]);
         if(profile.length === 0){
@@ -149,7 +153,7 @@ router.get("/dashboard", verify, (req,res)=>{
             await connection.query(deleteQuery, [profile_id]);
             
             // Changing the template 
-            await connection.query('UPDATE profiles SET personal_link = ?, template_selected = ?, phone = ?, fb_link = ?, insta_link = ?, linkedin_link = ? WHERE id = ?', [appointment_link, templateSelected, phone, fb_link, insta_link, linkedin_link, profile_id]);
+            await connection.query('UPDATE profiles SET personal_link = ?, template_selected = ?, phone = ?, fb_link = ?, insta_link = ?, linkedin_link = ? WHERE id = ?', [appointment_link ==''?null:appointment_link, templateSelected, phone == ""?null:phone, fb_link ==""? null:fb_link, insta_link == ""?null:insta_link, linkedin_link == ""?null:linkedin_link, profile_id]);
             // Insert new link data
             for (const item of data) {
                 const query = 'INSERT INTO links (profilesId, type, link, name, heading, sort_order) VALUES (?, ?, ?, ?, ?, ?)';

@@ -172,29 +172,46 @@
           </section>
           <div class="social_icons">
             <li>
-              <a target="_blank" href="<%=profile.linkedin_link%>">
-              <img src="/group-28@2x.png" style="width: 30px; margin: 0px 5px;" alt="">
-              </a>
+              <%if(profile.linkedin_link){%>
+                <a target="_blank" href="<%=profile.linkedin_link%>">
+                <img src="/group-28@2x.png" style="width: 30px; margin: 0px 5px;" alt="">
+                </a>
+              <%}%>
             </li>
             <li>
-              <a target="_blank" href="<%=profile.insta_link%>">
-                <img src="/group-29@2x.png" style="margin: 0px 5px; width: 30px;" alt="">
-              </a>
+              <%if(profile.insta_link){%>
+                <a target="_blank" href="<%=profile.insta_link%>">
+                  <img src="/group-29@2x.png" style="margin: 0px 5px; width: 30px;" alt="">
+                </a>
+              <%}%>
+
             </li>
             <li>
-              <a target="_blank" href="<%=profile.fb_link%>">
-                <img src="/facebook.png" style="margin: 0px 5px; width: 30px;" alt="">
-              </a>
+              <%if(profile.fb_link){%>
+                <a target="_blank" href="<%=profile.fb_link%>">
+                  <img src="/facebook.png" style="margin: 0px 5px; width: 30px;" alt="">
+                </a>
+              <%}%>
             </li>
           </div>
 
-          <p style="color: #000; margin: 50px auto 15px auto; width: fit-content;" class="profile_heading">CALL US</p>
-          <li style=" margin:5px auto 5px auto; display: flex; justify-content: center; align-items: center; background-color: #002773; width: 330px; border-radius: 35px; height: 50px;">
+
+          <%if(profile.personal_link || profile.phone){%>
+            <p style="color: #000; margin: 50px auto 15px auto; width: fit-content;" class="profile_heading">CALL US</p>
+          <%}%>
+          
+          <%if(profile.personal_link){%>
+            <li style=" margin:5px auto 5px auto; display: flex; justify-content: center; align-items: center; background-color: #002773; width: 330px; border-radius: 35px; height: 50px;">
               <a style="text-decoration: none; color: white;" href="<%=profile.personal_link%>">Book An Appointment</a>
           </li>
-          <li style="margin:0px auto 5px auto; display: flex; justify-content: center; align-items: center; border: 1px solid black; width: 330px; border-radius: 35px; height: 50px;">
+          <%}%>
+          
+          <%if(profile.phone){%>
+            <li style="margin:0px auto 5px auto; display: flex; justify-content: center; align-items: center; border: 1px solid black; width: 330px; border-radius: 35px; height: 50px;">
               <a target="_blank" style="text-decoration: none; color: rgb(0, 0, 0);" href="https://wa.me/<%=profile.phone%>">Whats App</a>
           </li>
+          <%}%>
+         
 
       </section>
 </div>

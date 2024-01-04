@@ -211,10 +211,12 @@ body {
   }
   .group-container {
     position: absolute;
-   bottom: 280px;
+    bottom: 280px;
     left: calc(50% - 165px);
     width: 20.63rem;
     height: 2.13rem;
+    display: flex;
+    justify-content: space-around;
   }
   .call-us {
     position: absolute;
@@ -320,7 +322,7 @@ body {
     border-radius: 30px;
     background-color: var(--color-white);
     width: 416px;
-    min-height: 1200px;
+    min-height: 1000px;
     overflow: hidden;
     text-align: left;
     /* font-size: var(--font-size-base); */

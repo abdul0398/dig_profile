@@ -503,7 +503,7 @@
                     class="fas fa-times p-3 cursor-pointer text-white opacity-5 position-absolute end-0 top-0 d-none d-xl-none"
                     aria-hidden="true" id="iconSidenav"></i>
                 <a class="navbar-brand m-0"
-                    href="/dashboard"
+                    href="/"
                     >
                     <img src="/logo.png" class="navbar-brand-img h-100"
                         alt="main_logo">
@@ -515,7 +515,7 @@
                 id="sidenav-collapse-main">
                 <ul class="navbar-nav">
                     <li class="nav-item">
-                        <a class="nav-link text-white " href="/dashboard">
+                        <a class="nav-link text-white " href="/">
                             <div
                                 class="text-white text-center me-2 d-flex align-items-center justify-content-center">
                                 <i class="material-icons opacity-10">dashboard</i>
@@ -866,6 +866,7 @@
                 }else{
 
                     profiles.forEach(profile=>{
+                        const uniqueID = generateLongStringWithDelimiter(profile.id);
                         showformdiv.innerHTML += `            
                     <div class="d-flex mt-3 forms_div">
                         <div topic="project" profile_id="${profile.id}" contenteditable="true" style="outline: 0px solid transparent; align-items: center; width: 300px; height: 100%;" class="editable_div d-flex ps-4">${profile.name}</div> 
@@ -873,11 +874,11 @@
                         <div class="options_div ms-auto" > 
                             
     
-                            <a target="_blank" href="/profile/${profile.id}" class="big_icon btn btn-sm btn-facebook mt-3 me-2" >
+                            <a target="_blank" href="/profile/${uniqueID}" class="big_icon btn btn-sm btn-facebook mt-3 me-2" >
                                 View
                             </a>
     
-                            <a target="_blank"  href="/profile/${profile.id}" class="small_icon mt-3 ms-4">
+                            <a target="_blank"  href="/profile/${uniqueID}" class="small_icon mt-3 ms-4">
                                 <i class="fa-solid fa-eye"></i>
                             </a>
                             
@@ -1943,7 +1944,25 @@
                 document.getElementById("form_popup").classList.remove("close_popup");
             }
             
-            
+            function generateRandomHexString(length) {
+                const arr = new Uint8Array(length / 2);
+                window.crypto.getRandomValues(arr);
+                return Array.from(arr, byte => byte.toString(16).padStart(2, '0')).join('');
+            }
+
+            function generateLongStringWithDelimiter(id) {
+                // Create a random string
+                const randomString = generateRandomHexString(16);
+
+                // Combine the ID with the random string, separated by a delimiter
+                // Use a delimiter that won't appear in the ID or random string
+                const delimiter = "--"; // Make sure this doesn't conflict with ID or random string characters
+                const combinedString = id + delimiter + randomString;
+
+                // Return the Base64 encoded result
+                return btoa(combinedString);
+            }
+
             </script>
     </body>
 

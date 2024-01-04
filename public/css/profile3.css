@@ -183,7 +183,7 @@ body {
   }
   .rectangle-div {
     position: absolute;
-    top: 0;
+    top: -10px;
     left: calc(50% - 111.5px);
     border-radius: var(--br-6xl);
     background-color: var(--color-darkgoldenrod);
@@ -199,16 +199,17 @@ body {
   .rectangle-group {
     position: absolute;
     top: 0;
-    left: calc(50% - 181px);
+    left: 50%;
     width: 13.94rem;
     height: 3.13rem;
+    transform: translateX(-50%);
   }
   .group-child1 {
-    left: calc(50% - 64.5px);
+    left: 50%;
     border-radius: var(--br-6xl);
     border: 1px solid var(--color-darkgoldenrod);
     box-sizing: border-box;
-    width: 8.06rem;
+    transform: translateX(-50%);
   }
   .whatsapp {
     position: absolute;
@@ -217,11 +218,12 @@ body {
   }
   .rectangle-container {
     position: absolute;
-    top: 0;
-    left: calc(50% + 52px);
-    width: 8.06rem;
+    top: 50px;
+    left: 50%;
+    width: 13.94rem;
     height: 3.13rem;
     color: var(--color-darkgoldenrod);
+    transform: translateX(-50%);
   }
   .call-us-parent,
   .group-container {
@@ -325,10 +327,9 @@ body {
     background: linear-gradient(-90deg, #fec600 5%, #9f7c00 70.83%);
     width: 423px;
     margin: auto;
-    min-height: 73rem;
+    min-height: 51rem;
     overflow: hidden;
     text-align: left;
-    /* font-size: var(--font-size-3xl); */
     color: var(--color-white);
     font-family: var(--font-roboto);
     box-shadow: 0 2px 5px rgba(0,0,0,0.1);
