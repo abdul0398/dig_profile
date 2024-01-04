@@ -135,6 +135,8 @@ body {
   position: absolute;
   top: 442.64px;
   left: 50%;
+  width: 330px;
+  text-align: center;
   transform: translateX(-50%);
   font-size: 26px;
   font-family: var(--font-roboto);
