@@ -30,21 +30,12 @@
     }
 
     .profile-image {
-        width: 50px;
-        height: 50px;
-        border-radius: 50%;
-        background-color: #ddd;
+        width: 120px;
+        padding: 8px 16px;
+        border-radius: 24px;
+        color: black;
         margin-right: 5px;
         cursor: pointer;
-    }
-
-    .profile-image.add-new::after {
-        content: '+';
-        display: block;
-        text-align: center;
-        line-height: 50px;
-        font-size: 24px;
-        color: #333;
     }
 
     .theme-card {
@@ -76,7 +67,7 @@
     }
 
     .continue-button {
-        width: 50%;
+        width: 35%;
         height: 35px;
         padding: 5px;
         border: none;
@@ -91,13 +82,14 @@
     .theme-options .image-container {
         width: 100px;
         overflow: hidden;
+        height: 85px;
         margin: 0px 10px;
+        border: 1px solid #cdcdcd;
         border-radius: 13px;
     }
 
     .theme-options img {
         width: 100%;
-        height: 100%;
         object-position: center;
     }
     .profile_edit_container{
@@ -144,7 +136,7 @@
     .link_container, #link_container_dynamic{
         width: 100%;
         overflow: auto;
-        max-height: 400px ;
+        max-height: 460px ;
         
     }
     .deleteButton{
@@ -184,17 +176,15 @@
     </style>
 
 <div class="profile_edit_container">
+    <div style="text-align: end;">
+        <span style="text-align: end; cursor: pointer;" onclick="closeEditDiv()">X</span>
+    </div>
     <p hidden id="profile_id"></p>
     <section id="step1" class="profile-selection">
       <header>
         <h4 style="color: black;">Choose your appearance</h4>
         <p style="font-size: 10px; opacity: 0.5;" >You can change this and view more options later.</p>
       </header>
-    <div class="profile-image-options">
-      <button style="background-color: gray !important;" id="add_profile" class="profile-image add-new"></button>
-    <input type="file" id="profile_image_upload" name="profile_image" accept="image/*" style="display: none;">
-    </div>
-    
     <div class="theme-options">
         <div template_id="1" class="image-container">
             <img src="./temp1.jpg">
@@ -208,14 +198,18 @@
           <img src="./temp3.jpg" >
         </div>
       </div>
-      <button id="nextBtn" onclick="showNext(this)" class="continue-button">Continue</button>
+      <button id="nextBtn" style="position: absolute; bottom: 10px;" onclick="showNext(this)" class="continue-button">Continue</button>
   </section>
   <section style="display: none;" id="step2" class="section_two two">
     <div>
         <button id="addLinkButton">+ Add link</button>
         <button id="addHeadingButton">+ Add Heading</button>
         <button id="addFormBtn" onclick="addFormPopup()">+ Add Form</button>
-        <button id="editFormBtn" onclick="editFormHandler()">+ Edit Forms</button>
+            <button style="border: 1px solid gray;
+            border-radius: 24px;
+            background-color: #FFFFFF !important;
+            color: gray !important;" id="add_profile" class="profile-image add-new">+ Add photo</button>
+          <input type="file" id="profile_image_upload" name="profile_image" accept="image/*" style="display: none;">
     </div>
 
     <div class="d_wrap" style="margin-bottom: 5px; display: flex; justify-content: space-between;">
@@ -244,6 +238,9 @@
                 <p>LinkedIn</p>
                 <input id="linkedin_link" type="text" placeholder="Linkin Link">
             </div>
+            <p  style="margin-top: 20px;">Edit Forms</p>
+            <section id="forms_edit_container">
+            </section>
             
         </div>
 
@@ -366,10 +363,9 @@
         
         <!-- Start of previewing Template 3 -->
         <div class="temp" id="temp3">
-        
             <div class="div" style="overflow: auto;
-            position: relative; background-color: #1D1D1D;">
-            <img id="temp2_img" src="./dp.jpg" style="    width: 130px;
+            position: relative; background-color: #ffffff;">
+            <img id="temp3_img" src="" style="    width: 130px;
             height: 130px;
             position: absolute;
             top: 38px;
@@ -387,6 +383,7 @@
                         <a style="color: white;" href="">Book An Appointment</a>
                     </li>
                 </section>
+                
             </div>
 
         </div>
@@ -446,15 +443,10 @@
                     await imageUploadHandler(file);
                     const reader = new FileReader();
                     reader.onload = function (e) {
-                        document.getElementById("add_profile").style.backgroundImage = `url(${e.target.result})`;
                         document.getElementById("preview_profile_img").src = e.target.result;
                     };
                     reader.readAsDataURL(file);
-                    Swal.fire("Saved!", "", "success").then((result) => {
-                        if (result.isConfirmed) {
-                            window.location.reload();
-                        }
-                    })
+                    Swal.fire("Saved!", "", "success");
                 } else if (result.isDenied) {
                     Swal.fire("Changes are not saved", "", "info");
                 }
@@ -667,6 +659,10 @@
     }
 
     function showNext(elem) {
+        if(elem.innerText === "Submit"){
+            submitProfile();
+            return;
+        }
         const selectedTemplate = document.querySelector('div.image-container.selected').getAttribute('template_id');
         profileDataState.templateSelected =  selectedTemplate
         const arrangement = extractData();
@@ -675,12 +671,9 @@
             element.style.display = "none";
         });
         document.getElementById(`temp${selectedTemplate}`).style.display = "block";
-        console.log(selectedTemplate);
         document.getElementById('step1').style.display = 'none';
         document.getElementById('step2').style.display = 'block';
-        if(elem.innerText === "Submit"){
-            submitProfile();
-        }
+        
     }
 
     function showPrev() {
@@ -723,7 +716,6 @@
 }
 
     function populateProfilePreview(arrangment) {
-        console.log(profileDataState.templateSelected)
         if(profileDataState.templateSelected == 1){
             // Poluplating template 1
             const profile_preview_container  = document.getElementById("profile_preview_innercontainer");
@@ -842,12 +834,7 @@
                 title: "Profile Updated",
                 icon: "success",
                 confirmButtonText: "Ok",
-            }).then((result) => {
-                if (result.isConfirmed) {
-                    window.location.href = "/clients";
-                }
             });
-               
     }
 }
 

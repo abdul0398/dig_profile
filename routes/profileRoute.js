@@ -24,15 +24,47 @@ router.get("/", verify, (req,res)=>{
         const checkQuery = `SELECT * FROM profiles WHERE name = ? AND client_id = ?`;
         const [existingProfiles] = await __pool.query(checkQuery, [name, clientID]);
 
-        if (existingProfiles.length > 0) {
-            // Profile already exists
+        if (existingProfiles.length > 0){
             return res.status(400).json({ message: "Profile with this name already exists for the client." });
         }
+        
+        const query = `INSERT INTO links 
+        (profilesId, type, link, name, heading, sort_order) 
+VALUES  (${profileId}, 'heading', NULL, NULL, 'My active listings', 1),
+        (${profileId}, 'link', 'https://www.propertyguru.com.sg/', 'Property Guru', NULL, 2),
+        (${profileId}, 'link', 'https://www.99.co/singapore', '99.co', NULL, 3),
+        (${profileId}, 'link', '#', 'Edge Property', NULL, 4),
+        (${profileId}, 'link', '#', 'SRX', NULL, 5),
+        (${profileId}, 'heading', NULL, NULL, 'Digital Profile', 6),
+        (${profileId}, 'link', '#', 'About', NULL, 7),
+        (${profileId}, 'link', '#', 'My Personal site', NULL, 8),
+        (${profileId}, 'link', '#', 'My Awards', NULL, 9),
+        (${profileId}, 'heading', NULL, NULL, 'FREE Tools', 10),
+        (${profileId}, 'link', '#', 'Free Valuation Form', NULL, 11),
+        (${profileId}, 'link', '#', 'Mortgage calculator', NULL, 12),
+        (${profileId}, 'link', '#', 'Book an Appointment', NULL, 13),
+        (${profileId}, 'link', '#', 'Lead form', NULL, 14)
+        `;
+        
+
+
+
+
+
+
+
+
+
+
+
+
+
+
         const insertQuery = `INSERT INTO profiles (name, client_id) VALUES (?, ?)`
-        await __pool.query(insertQuery, [name, clientID]);
-        res.status(200).json("Profile created Successfully");
+        const [rows] = await __pool.query(insertQuery, [name, clientID]);
+        res.status(200).json({message:"Profile created Successfully", id: rows.insertId});
     } catch (error) {
-        console.log('Error in creating profile', error.message)        
+        console.log('Error in creating profile', error.message);
     }
 }).post("/api/edit/profilename/:profileId", verify, async (req,res)=>{
     const {profileId} = req.params;

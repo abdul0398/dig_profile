@@ -122,6 +122,14 @@
       color: #002773;
       list-style: none;
     }
+    input[type="date"]{
+      width: 100%;
+    height: 40px;
+    background-color: #ECECEC;
+    border: none;
+    padding: 5px;
+    box-sizing: border-box;
+    }
     @media only screen and (max-width: 1000px) {
       #popupform{
         width: 90%;
@@ -245,6 +253,7 @@
         <input class="form_input" placeholder="Example"></input>
         </div>
       </div>
+      <input type="date" id="datePicker">
 
     <button profile_id="<%=profile.id%>" class="btn_submit" onclick="submitLead(this)">Send</button>
   </div>
@@ -421,6 +430,27 @@
     }
 
 
+      function formatDate(date) {
+        let d = new Date(date),
+            month = '' + (d.getMonth() + 1),
+            day = '' + d.getDate(),
+            year = d.getFullYear();
+
+        if (month.length < 2) 
+            month = '0' + month;
+        if (day.length < 2) 
+            day = '0' + day;
+
+        return [year, month, day].join('-');
+      }
+
+      // Set the min attribute to today's date
+      document.addEventListener('DOMContentLoaded', function() {
+          let today = new Date();
+          let todayFormatted = formatDate(today);
+
+          document.getElementById('datePicker').setAttribute('min', todayFormatted);
+      });
 </script>
   </body>
 </html>

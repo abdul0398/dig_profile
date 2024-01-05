@@ -3,7 +3,7 @@
   style="position: fixed; height: 70vh; border-radius: 20px; background-color: #e5e5e5;
   top: 50%;
   left: 50%;
-  transform: translate(-50%, -50%);z-index: 99999999; overflow: auto; width: 800px;">
+  transform: translate(-50%, -50%);z-index: 999; overflow: auto; width: 800px;">
   <span onclick="closeAllPopups()" id="close_popup_btn" ><i class="fa-solid fa-x"></i></span>
     <div class="form-container w-75">
       <h4 class="text-center">Dynamic Form</h4>
@@ -360,8 +360,14 @@
         })
         const resData = await res.json();
         if(res.status == 200){
-          alert("Form Saved Successfully");
-          window.location.assign(`/clients`);
+          Swal.fire({
+            title: "Form Created Successfully",
+            icon: "success",
+            confirmButtonText: "Ok",
+          })
+          const id = document.getElementById("profile_id").getAttribute("profile_id");
+          const {forms} = await fetchProfileDetail(id);
+          populateEditFormSection(forms);
         }else{
           alert(resData.message);
           return;
@@ -369,6 +375,51 @@
         
       }
 
+
+      async function fetchProfileDetail (id){
+          const res = await fetch(`/api/getprofile/${id}`,{
+              method:"GET"
+          })
+          const data = await res.json();
+          return data;
+      }
+
+
+
+      function populateEditFormSection(forms) {
+                const forms_edit_container = document.getElementById("forms_edit_container");
+                forms_edit_container.innerHTML = "";
+                if(forms && forms.length > 0){
+                    forms.forEach(form=>{
+                        forms_edit_container.innerHTML +=
+                        `
+                        <div class="fixed_link">
+                            <p>${form.name}</p>
+                                <div style="
+                                display: flex;
+                            ">
+                            <button form_id="${form.id}" onclick="edit_Form_show(this)" style="
+                                border-radius: 10px;
+                                width: 40%;
+                                margin: auto;
+                                height: 30px;
+                            ">Edit</button>
+                                <button form_id="${form.id}" onclick="formDeleteHandler(this)" style="
+                                border-radius: 10px;
+                                width: 40%;
+                                height: 30px;
+                                margin: auto;
+                            ">Delete</button>
+                                </div>
+                        </div>`
+                        
+                    })
+                }else{
+                    forms_edit_container.innerHTML = `<h4 class="text-center">No Forms</h4>`
+                }
+            }
+
+      
       function extractDiscord(params) {
           let discordLinks = document.querySelectorAll('input[name="dslink[]"]');
 
@@ -380,36 +431,6 @@
           return discordLinkValues;
       }
       
-      
-
-      async function editForm(formId) {
-        event.preventDefault();
-        if(!validate()){
-          return;
-        }
-        const discordArray = extractDiscord();  
-        const name = document.getElementById("form_name").value;
-        const questions = extractQuestionsAndOptions();
-        const res = await fetch(`/api/updateForm/${formId}`, {
-          method: "POST",
-          body: JSON.stringify({
-            name: name,
-            questions: questions,
-            discord: discordArray
-          }),
-          headers: {
-            "Content-type": "application/json; charset=UTF-8"
-          }
-        })
-        const resData = await res.json();
-        if(res.status == 200){
-          alert(resData.message);
-          window.location.assign(`/clients`);
-        }else{
-          alert(resData.message);
-          return;
-        }
-      }
       </script>
       </div>
 </div>

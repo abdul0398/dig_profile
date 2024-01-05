@@ -47,6 +47,16 @@ router.post("/api/addform/:profileId", verify, async (req,res)=>{
         console.log("Error in updating form", error.message);
         res.status(400).json({message: "Error in updating form"});
     }  
+}).get("/api/deleteform/:formId", verify, async (req,res)=>{
+    const {formId} = req.params;
+    try {
+        const deleteQuery = `DELETE FROM form WHERE id = ?`;
+        await __pool.query(deleteQuery, [formId]);
+        res.status(200).json({message: "Form deleted successfully"});
+    } catch (error) {
+        console.log("Error in deleting form", error.message);
+        res.status(400).json({message: "Error in deleting form"});
+    }
 })
 
 module.exports = router;
