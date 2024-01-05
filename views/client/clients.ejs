@@ -2009,41 +2009,47 @@
             async function editForm(formId) {
                 event.preventDefault();
                 if(!validate()){
-                return;
+                    return;
                 }
                 const discordArray = extractDiscord();  
                 const name = document.getElementById("form_name").value;
                 const questions = extractQuestionsAndOptions();
                 const res = await fetch(`/api/updateForm/${formId}`, {
-                method: "POST",
-                body: JSON.stringify({
-                    name: name,
-                    questions: questions,
-                    discord: discordArray
-                }),
-                headers: {
-                    "Content-type": "application/json; charset=UTF-8"
-                }
+                    method: "POST",
+                    body: JSON.stringify({
+                        name: name,
+                        questions: questions,
+                        discord: discordArray
+                    }),
+                    headers: {
+                        "Content-type": "application/json; charset=UTF-8"
+                    }
                 })
                 const resData = await res.json();
                 if(res.status == 200){
-                Swal.fire({
-                    title: "Form Edited Successfully",
-                    icon: "success",
-                    confirmButtonText: "Ok",
-                })
-                const id = document.getElementById("profile_id").getAttribute("profile_id");
-                const {forms} = await fetchProfileDetail(id);
-                populateEditFormSection(forms);
+                    Swal.fire({
+                        title: "Form Edited Successfully",
+                        icon: "success",
+                        confirmButtonText: "Ok",
+                    })
+                    const id = document.getElementById("profile_id").getAttribute("profile_id");
+                    const {forms} = await fetchProfileDetail(id);
+                    populateEditFormSection(forms);
+                    document.getElementById("form_popup").classList.remove("open_popup");
+                    document.getElementById("form_popup").classList.add("close_popup");
+                    const overlay = document.getElementById("overlay");
+                    overlay.style.display = "none";
                 }else{
-                alert(resData.message);
-                return;
+                    alert(resData.message);
+                    return;
                 }
             }
             
             async function closeEditDiv(){
                 document.querySelector(".profile_edit_container").style.display = "none"
                 const elem = document.getElementsByClassName("selected_client")[0];
+                document.getElementById('step1').style.display = 'block';
+                document.getElementById('step2').style.display = 'none';
                 populateFormsBasedonCLient(elem);
             }
             

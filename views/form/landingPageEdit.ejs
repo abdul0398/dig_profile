@@ -368,6 +368,11 @@
           const id = document.getElementById("profile_id").getAttribute("profile_id");
           const {forms} = await fetchProfileDetail(id);
           populateEditFormSection(forms);
+          document.getElementById("form_popup").classList.remove("open_popup");
+          document.getElementById("form_popup").classList.add("close_popup");
+          const overlay = document.getElementById("overlay");
+          overlay.style.display = "none";
+
         }else{
           alert(resData.message);
           return;

@@ -384,7 +384,7 @@
         
 
         // Extract mobile number (special case because of the split fields)
-        const mobile = form.querySelector('input[type="tel"]').value;
+        const mobile = form.querySelector('input[type="number"]').value;
         const countryCode = form.querySelector('.form_input[style*="width: 15%"]').textContent.trim();
         formData['Mobile'] = countryCode + mobile;
 

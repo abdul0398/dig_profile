@@ -148,8 +148,9 @@
                   <%}%>
                   <%}%>
               </section>
-              <div style="height: 400px;">
+              <div style="height: 300px;">
                 <div class="group-parent">
+                  <%if(profile.personal_link || profile.phone){%>
                   <div class="call-us-parent">
                     <b class="call-us">Call us</b>
                     <div class="group-container">
@@ -175,6 +176,7 @@
                       
                     </div>
                   </div>
+                  <%}%>
                   <div class="group-div">
                     <div class="group-parent1">
                       <%if(profile.fb_link){%>
@@ -367,7 +369,7 @@
         
 
         // Extract mobile number (special case because of the split fields)
-        const mobile = form.querySelector('input[type="tel"]').value;
+        const mobile = form.querySelector('input[type="number"]').value;
         const countryCode = form.querySelector('.form_input[style*="width: 15%"]').textContent.trim();
         formData['Mobile'] = countryCode + mobile;
 
