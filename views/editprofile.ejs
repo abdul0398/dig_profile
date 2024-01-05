@@ -440,7 +440,9 @@
                 }).then(async (result) => {
                 if (result.isConfirmed) {
                     const file = document.getElementById("profile_image_upload").files[0];
+                    showLoadingOverlay();
                     await imageUploadHandler(file);
+                    hideLoadingOverlay();
                     const reader = new FileReader();
                     reader.onload = function (e) {
                         document.getElementById("preview_profile_img").src = e.target.result;
@@ -853,5 +855,18 @@
     modal.classList.add("open_popup");
     modal.classList.remove("close_popup");   
 }
+
+    function showLoadingOverlay() {
+        const overlay = document.querySelector('.overlay_loading');
+        overlay.style.display = 'block';
+    }
+
+    function hideLoadingOverlay() {
+        const overlay = document.querySelector('.overlay_loading');
+        overlay.style.display = 'none';
+    }
+
+
+
 
 </script>
