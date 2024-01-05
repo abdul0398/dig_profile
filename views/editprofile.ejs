@@ -260,7 +260,7 @@
                     </div>
                     <div class="rectangle-group">
                     <div class="rectangle-div">
-                        <img id="preview_profile_img" class="polygon-icon" alt="" src="./dp.jpg" />
+                        <img class="preview_profile_img polygon-icon" alt="" src="./dp.jpg" />
                     </div>
                     </div>
                     <div class="item"></div>
@@ -339,7 +339,7 @@
         
             <div class="div" style="overflow: auto;
             position: relative; background-color: #1D1D1D;">
-            <img id="temp2_img" src="" style="width: 110px;
+            <img class="preview_profile_img" src="" style="width: 110px;
             height: 110px;
             position: absolute;
             top: 42px;
@@ -365,7 +365,7 @@
         <div class="temp" id="temp3">
             <div class="div" style="overflow: auto;
             position: relative; background-color: #ffffff;">
-            <img id="temp3_img" src="" style="    width: 130px;
+            <img class="preview_profile_img" src="" style="    width: 130px;
             height: 130px;
             position: absolute;
             top: 38px;
@@ -442,10 +442,13 @@
                     const file = document.getElementById("profile_image_upload").files[0];
                     showLoadingOverlay();
                     await imageUploadHandler(file);
-                    hideLoadingOverlay();
+                    hideLoadingOverlay()
                     const reader = new FileReader();
                     reader.onload = function (e) {
-                        document.getElementById("preview_profile_img").src = e.target.result;
+                        const preview_profile_img = document.getElementsByClassName("preview_profile_img");
+                        for (let i = 0; i < preview_profile_img.length; i++) {
+                            preview_profile_img[i].src = e.target.result;
+                        }
                     };
                     reader.readAsDataURL(file);
                     Swal.fire("Saved!", "", "success");

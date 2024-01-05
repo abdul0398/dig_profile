@@ -1038,9 +1038,10 @@
                 document.querySelector(".agent-name").innerHTML = profile.name;
                 document.getElementById("temp2_name").innerText = profile.name;
                 document.getElementById("temp3_name").innerText = profile.name;
-                document.getElementById("preview_profile_img").src = profile.profile_img_path;
-                document.getElementById("temp2_img").src = profile.profile_img_path;
-                document.getElementById("temp3_img").src = profile.profile_img_path;
+                const preview_profile_img = document.getElementsByClassName("preview_profile_img");
+                    for (let i = 0; i < preview_profile_img.length; i++) {
+                        preview_profile_img[i].src = profile.profile_img_path;
+                    }
 
                 
                 profileDataState.templateSelected = profile.template_selected;
