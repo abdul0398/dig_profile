@@ -242,44 +242,25 @@
     </div>
         <link rel="stylesheet" href="css/leads.css">
         <div class="filter-container">
-            <div class="select_container" style=" border-radius: 7px; display: inline-block; background-color: white; padding: 1px 10px;">
+            <div class="select_container" style=" width: 20%; border-radius: 7px; display: inline-block; background-color: white; padding: 1px 10px;">
                 <span><i
                         class="fa-solid fa-list"
                         style="color: #000000;"></i></span>
-                <select id="form-filter" class="filter-input">
-                    <option value selected disabled>Lead form type</option>
+                <select style="width: 88%;" id="profile-filter" class="filter-input">
+                    <option value selected disabled>Profiles</option>
                     <option value="all">All</option>
-                    <%for(let i=0; i < clients.length; i++){%>
-                    <option value="<%=clients[i]%>">
-                        <%=clients[i]%>
-                    </option>
-                    <%}%>
                 </select>
             </div>
                
             <div class="download-container ">
-                
-                    <input class="download_input"
-                        type="text"
-                        name="daterange" value="Date" />
+                <input class="download_input"
+                    type="text"
+                    name="daterange" value="Date" />
             </div>
             <div class="search_input mt-2 d-inline-block">
                 <input class="input_search"
                     style="padding: 13px 5px; filter: drop-shadow(0px 4px 4px rgba(0, 0, 0, 0.25)); border-radius: 5px;  background-color: #ffffff;  border: none; margin-top: 3px;"
                     type="text" placeholder="Search..">
-            </div>
-            <div style="padding: 8px 13px; display: inline-block; background-color: #0A2558;" class="filter-input">
-                <button
-                    style=" border: none;margin: auto; color: white; background-color: #0A2558; border-radius: 5px;"
-                    id="downloadButton">
-                    Download
-                </button>
-            </div>
-            
-            <div style="padding: 8px 13px; display: inline-block; background-color: #0A2558;"
-                class="filter-input">
-                <button style=" border: none; background-color: transparent; color: white;" onclick="checkBoxHandler()"
-                    style="text-decoration: none; color: #ffffff;">Actions</button>
             </div>
             
         </div>
@@ -294,25 +275,25 @@
                 <div class="clientsname_div">
                     <%for(let i = 0; i < clients.length; i++){%>
                         <%if(i == 0){%>
-                            <li  class="nav-link-text selected_client border-0" mid="<%=clients[i]%>" value="<%=clients[i].name%>" onclick="clientListener(this)" ><span
+                            <li  class="nav-link-text selected_client border-0" mid="<%=clients[i].id%>" value="<%=clients[i].name%>" onclick="clientListener(this)" ><span
                                 style="display: flex; margin-right: 15px; border-radius: 50%; padding: 3px; background-color: #56575B;"><i
                                     class="fa-solid fa-list"
                                     style="color: #ffffff;"></i></span>
                                     <%if(clients[i].length > 18){%>
-                                        <%=clients[i].substring(0, 14) + '...' %>
+                                        <%=clients[i].name.substring(0, 14) + '...' %>
                                         <%}else{%>
-                                            <%=clients[i]%>
+                                            <%=clients[i].name%>
                                         <%}%>
                                 </li>
                         <%}else{%>
-                            <li class="nav-link-text unselected_client border-0" mid="<%=clients[i]%>" value="<%=clients[i].name%>" onclick="clientListener(this)" >
+                            <li class="nav-link-text unselected_client border-0" mid="<%=clients[i].id%>" value="<%=clients[i].name%>" onclick="clientListener(this)" >
                                 <span style="display: flex; margin-right: 15px; border-radius: 50%; padding: 3px; background-color: #56575B;"><i
                                     class="fa-solid fa-list"
                                     style="color: #ffffff;"></i></span>
                             <%if(clients[i].length > 18){%>
-                                <%=clients[i].substring(0, 14) + '...' %>
+                                <%=clients[i].name.substring(0, 14) + '...' %>
                                 <%}else{%>
-                                    <%=clients[i]%>
+                                    <%=clients[i].name%>
                                 <%}%>
                             </li>
                         <%}%>
@@ -323,23 +304,9 @@
                 <table id="myTable">
                     <thead>
                         <tr>
-                            <th><input type="checkbox" id="headingCheckbox"
-                                    name="myCheckbox"
-                                    onchange="mainCheckboxHandler()"></th>
-                            
                             <th class="collapsible-column">    
                                 <div class="beforeCollapse" >Date</div>
                                 <button style="border: none; background-color: transparent; font-size: 24px;" class="collapsible-btn" collapseId="one" onclick="toggleColumn(this)">&#x2212;</button>
-                            </th>
-
-                            <th class="collapsible-column">    
-                                <div class="beforeCollapse" >Client Name</div>
-                                <button style="border: none; background-color: transparent; font-size: 24px;" class="collapsible-btn" collapseId="two" onclick="toggleColumn(this)">&#x2212;</button>
-                            </th>
-
-                            <th class="collapsible-column">    
-                                <div class="beforeCollapse">Project name</div>
-                                <button style="border: none; background-color: transparent; font-size: 24px;" class="collapsible-btn" collapseId="three" onclick="toggleColumn(this)">&#x2212;</button>
                             </th>
 
                             <th class="collapsible-column">    
@@ -356,20 +323,9 @@
                                 <div class="beforeCollapse">Email</div>
                                 <button style="border: none; background-color: transparent; font-size: 24px;" class="collapsible-btn" collapseId="six" onclick="toggleColumn(this)">&#x2212;</button>
                             </th>
-
                             <th class="collapsible-column">    
-                                <div class="beforeCollapse">IP</div>
-                                <button style="border: none; background-color: transparent; font-size: 24px;" class="collapsible-btn" collapseId="seven" onclick="toggleColumn(this)">&#x2212;</button>
-                            </th>
-
-                            <th class="collapsible-column">
-                                <div class="beforeCollapse">Source</div>
-                                <button style="border: none; background-color: transparent; font-size: 24px;" class="collapsible-btn" collapseId="eight" onclick="toggleColumn(this)">&#x2212;</button>
-                            </th>
-                            
-                            <th class="collapsible-column">    
-                                <div class="beforeCollapse">Status</div>
-                                <button style="border: none; background-color: transparent; font-size: 24px;" class="collapsible-btn" collapseId="nine" onclick="toggleColumn(this)">&#x2212;</button>
+                                <div class="beforeCollapse">Profile</div>
+                                <button style="border: none; background-color: transparent; font-size: 24px;" class="collapsible-btn" collapseId="six" onclick="toggleColumn(this)">&#x2212;</button>
                             </th>
                         </tr>
                     </thead>
@@ -416,64 +372,34 @@
   <script src="/assets/js/material-dashboard.min.js?v=3.1.0"></script>
   <script>
       let leads = [];
-        let leadids = [];
+      let leadids = [];
+      let profiles = [];
         start();
         filter();
-
-
-            function checkBoxHandler() {
-                let table = document.getElementById("table-body");
-                let checkboxes = table.querySelectorAll('input[type="checkbox"]');
-                const ids = [];
-                checkboxes.forEach(element => {
-                    if(element.checked){
-                        ids.push(element.getAttribute("id"));
-                    }
-                });
-                
-                if(ids.length == 0){
-                    alert("Please select a lead to do an action");
-                    return;
-                }else{
-                    leadids = ids;
-                    openForm();
-                }
-            }
-
-
-            function mainCheckboxHandler() {
-                let headingCheckbox = document.getElementById("headingCheckbox");
-                let table = document.getElementById("table-body");
-                let checkboxes = table.querySelectorAll('input[type="checkbox"]');
-                if (headingCheckbox.checked) {
-                    checkboxes.forEach(function (checkbox) {
-                        checkbox.checked = true;
-                    })
-                } else {
-                    checkboxes.forEach(function (checkbox) {
-                        checkbox.checked = false;
-                    })
-                }
-            }
-
-
             async function start() {
                 const res = await fetch(`api/getLeads`);
                 const data = await res.json();
-                leads = data;
-                const name = document.querySelector(".selected_client").getAttribute("mid");
+                leads = data.leads;
+                profiles = data.profiles;
+                console.log(data);
+                const id = document.querySelector(".selected_client").getAttribute("mid");
+
                 const nextLeads = leads.filter(elem=>{
-                    return elem.status === 'unmarked' && elem.clientName == name;
+                    return elem.clientId == id;
                 })
+                const selectedProfiles = profiles.filter(elem=>{
+                    return elem.client_id == id;
+                })
+                console.log(selectedProfiles);
                 populateLeads(nextLeads);
+                populateProfileFilter(selectedProfiles);
             }
 
 
             function filter() { // ###### Calling the filters ######
                 // Search input 
                 const input_search = document.querySelector(".input_search");
-                const junkFilter = document.getElementById("junk-filter");
-                const form_filter = document.getElementById("form-filter");
+                const profile_filter = document.getElementById("profile-filter");
                 const liElements = document.querySelectorAll('.nav-link-text');
 
                 
@@ -501,9 +427,8 @@
                         applyFilters();
                     });
                 });
-                form_filter.addEventListener("change", applyFilters);
+                profile_filter.addEventListener("change", applyFilters);
                 input_search.addEventListener("input", applyFilters);
-                junkFilter.addEventListener("change", applyFilters);
 
 
                 liElements.forEach(function (li) {
@@ -514,44 +439,44 @@
                 });
 
                 function applyFilters() {
-                    const name = document.querySelector(".selected_client").getAttribute("mid");
+                    const id = document.querySelector(".selected_client").getAttribute("mid");
                     let filterleads = leads;
-                    selectedJunk = junkFilter.value;
-                    form_filter_value = form_filter.value
+                    profile_filter_value = profile_filter.value
                     search_value = input_search.value;
     
                         if(search_value){
-                            filterleads = filterleads.filter(elem=>{
-                                let objectAsString = JSON.stringify(elem);
+                            filterleads = filterleads.filter(lead=>{
+                                const profile = profiles.find(elem=>{
+                                    return elem.id == lead.profileId;
+                                })
+                                let objectAsString = JSON.stringify(lead + profile.name);
                                 return objectAsString.toLocaleLowerCase().includes(search_value.toLocaleLowerCase());
                             })
                         }
 
-                        if(name){
+                        if(id){
                             filterleads = filterleads.filter(elem => {
-                                return elem.clientName == name;
+                                return elem.clientId == id;
                             })
                         }
                         
-                        if(form_filter_value && form_filter_value != 'all'){
+                        if(profile_filter_value && profile_filter_value != 'all'){
                             filterleads = filterleads.filter(elem => {
-                                return elem.projectName == form_filter_value;
+                                return elem.profileId == profile_filter_value;
                             })
-                        }
-    
-                        if(selectedJunk && selectedJunk != 'all'){
-                            filterleads = filterleads.filter(elem => {
-                                return elem.status == selectedJunk;
-                            })
+                            console.log(filterleads)
+
                         }
     
                         if(startDate != "" && endDate != ""){
                             filterleads = filterleads.filter((lead) => {
-                                    const createdAtDate = new Date(lead.createdAt);
+                                    const createdAtDate = new Date(lead.created_at);
                                     const milliseconds = createdAtDate.getTime();
-                                    
-                                    return milliseconds >= startDate && milliseconds <= endDate;
-                                });
+                                    const start = new Date(startDate);
+                                    const end = new Date(endDate);
+                                    console.log(start, end);
+                                    return milliseconds >= start && milliseconds <= end;
+                            });
                         }
                         populateLeads(filterleads);
                         
@@ -573,43 +498,27 @@
                 const tbody = document.getElementById('table-body');
                 tbody.innerHTML = '';
 
-                document.querySelectorAll(".collapsible-btn").forEach((btn)=>{
-                    btn.innerHTML = '&#x2212;';
-                    btn.previousElementSibling.classList.remove('vertical-header');
-                    btn.parentElement.classList.remove('afterCollapsible');
-                    btn.previousElementSibling.classList.add('beforeCollapse');
-                    // btn.previousElementSibling.classList.remove('hidden');
-                });
+                // document.querySelectorAll(".collapsible-btn").forEach((btn)=>{
+                //     btn.innerHTML = '&#x2212;';
+                //     btn.previousElementSibling.classList.remove('vertical-header');
+                //     btn.parentElement.classList.remove('afterCollapsible');
+                //     btn.previousElementSibling.classList.add('beforeCollapse');
+                //     btn.previousElementSibling.classList.remove('hidden');
+                // });
 
 
 
                 for (let i = 0; i < filterleads.length; i++) {
 
                     const newRow = document.createElement('tr');
-
-                    const cell0 = document.createElement('td');
-                    cell0.innerHTML = `<input type="checkbox" name="${filterleads[i]._id}" id=${filterleads[i]._id}>`
-                    cell0.style.width = "10px";
-                    newRow.appendChild(cell0);
                     
                     const cell1 = document.createElement('td');
-                    const timestamp = filterleads[i].createdAt;
+                    const timestamp = filterleads[i].created_at;
                     const date = new Date(timestamp);
-                    const formattedDate = date.toISOString().split('T')[0];
-                    cell1.innerHTML = `<p>${formattedDate}</p>`;
+                    cell1.innerHTML = `<p>${dateFormat(date)}</p>`;
                     cell1.style.whiteSpace = "nowrap";
                     cell1.classList.add("one");
                     newRow.appendChild(cell1);
-
-                    const cell2 = document.createElement('td');
-                    cell2.innerHTML = `<p>${filterleads[i].clientName}</p>`;
-                    cell2.classList.add("two");
-                    newRow.appendChild(cell2);
-
-                    const cell3 = document.createElement('td');
-                    cell3.innerHTML = `<p>${filterleads[i].projectName}</p>`;
-                    cell3.classList.add("three");
-                    newRow.appendChild(cell3);
 
                     const cell4 = document.createElement('td');
                     cell4.innerHTML = `<p>${filterleads[i].name}</p>`;
@@ -627,111 +536,36 @@
                     newRow.appendChild(cell6);
 
                     const cell7 = document.createElement('td');
-                    cell7.innerHTML = `<p>${filterleads[i].ip}</p>`;
-                    cell7.classList.add("seven");
+                    const profile = profiles.find(elem=>{
+                        return elem.id == filterleads[i].profileId;
+                    })
+                    cell7.innerHTML = `<p>${profile.name}</p>`;
+                    cell7.classList.add("six");
                     newRow.appendChild(cell7);
-
-                    const cell8 = document.createElement('td');
-                    cell8.innerHTML = `<p>${filterleads[i].source}</p>`;
-                    cell8.classList.add("eight");
-                    newRow.appendChild(cell8);
-
-                    const cell9 = document.createElement('td');
-                    cell9.innerHTML = `<p>${filterleads[i].status.toUpperCase()}</p>`;
-                    cell9.classList.add("nine");
-                    cell9.style.fontWeight = "900";
-                    if(filterleads[i].status == "clear"){
-                        cell9.style.backgroundColor = "#61D393";
-                    }else if (filterleads[i].status == "junk"){
-                        cell9.style.backgroundColor = "red";
-                    }else if(filterleads[i].status == "unknown"){
-                        cell9.style.backgroundColor = "#FFCA46";
-                    }
-                    newRow.appendChild(cell9);
+                
                     tbody.appendChild(newRow);
                 }
             }
 
-
-            // ############Open form starts #################
-            function openForm() {
-                let popupForm = document.getElementById("popupForm");
-                popupForm.style.display = "block";
-                setTimeout(function () {
-                    popupForm.style.opacity = "1";
-                }, 10);
-            }
-            function closeForm() {
-                let popupForm = document.getElementById("popupForm");
-                popupForm.style.display = "none";
-            }
-            // ######## Open form ends ############
-
-
-            async function markStatusCheck(element) {
-                const value = element.getAttribute('value');
-                const ids = leadids;
-                disableAnchor(element);
-                showLoadingOverlay()
-                const res = await fetch(`/api/leads/setstatus?value=${value}`, {
-                    method:"POST",
-                    body:JSON.stringify({leadsId:leadids}),
-                    headers:{
-                        "Content-Type": "application/json"
-                    }
-                });
-                if (res.status === 200) {
-                    hideLoadingOverlay();
-                    return window.location.assign(`/leads`);
-                }
-                enableAnchor(element);
-            }
-
-
             function dateFormat(dateString) {
-                let date = new Date(dateString);
-                let options = {
-                    month: "short",
-                    day: "numeric",
-                    hour: "numeric",
-                    minute: "numeric",
-                    timeZone: "Asia/Singapore"
-                };
-                let humanReadableDate = date.toLocaleString("en-SG", options);
-                return humanReadableDate;
+                const simplifiedDate = dateString.toLocaleDateString('en-US', {
+                    year: 'numeric',
+                    month: 'long',
+                    day: 'numeric'
+                });
+                return simplifiedDate;
             }
 
-
-            function disableAnchor(anchor) {
-                anchor.classList.add("disabled");
-            }
-
-
-            function enableAnchor(anchor) {
-                anchor.classList.remove("disabled");
-            }
-
-
-            function showLoadingOverlay() {
-                const overlay = document.querySelector('.overlay');
-                overlay.style.display = 'block';
-            }
-
-
-            function hideLoadingOverlay() {
-                const overlay = document.querySelector('.overlay');
-                overlay.style.display = 'none';
-            }
-
-            clientListener = (curr_elem) => {
+            function clientListener(curr_elem){
                 clearclientSelected(curr_elem);
+                start();
                 // const input_search = document.querySelector(".input_search");
                 // const junkFilter = document.getElementById("junk-filter");
-                // const form_filter = document.getElementById("form-filter");
-                // applyFilters(curr_elem.innerText, form_filter, projectFilter, junkFilter, input_search );
+                // const profile_filter = document.getElementById("profile-filter");
+                // applyFilters(curr_elem.innerText, profile_filter, projectFilter, junkFilter, input_search );
             }
 
-            clearclientSelected = (curr_elem)=>{
+            function clearclientSelected(curr_elem){
               document.querySelectorAll('.clientsname_div li').forEach((element)=>{
                 element.classList.remove('selected_client');
                 element.classList.add('unselected_client');
@@ -752,9 +586,9 @@
             clientItems.forEach(function(item) {
                 // If the client name includes the search value, show the item; otherwise, hide it
                 if (item.textContent.toLowerCase().includes(searchValue)) {
-                item.style.display = ''; // or 'block' or 'flex' depending on your layout
+                    item.style.display = ''; // or 'block' or 'flex' depending on your layout
                 } else {
-                item.style.display = 'none';
+                    item.style.display = 'none';
                 }
             });
             })
@@ -773,7 +607,20 @@
                     
             }
   
-  
+
+
+            function populateProfileFilter(profiles){
+                const profileFilter = document.getElementById("profile-filter");
+                profileFilter.innerHTML = "";
+                profileFilter.innerHTML = ` <option value selected disabled>Profiles</option>
+                    <option value="all">All</option>`
+                profiles.forEach((profile)=>{
+                    const option = document.createElement("option");
+                    option.value = profile.id;
+                    option.innerHTML = profile.name;
+                    profileFilter.appendChild(option);
+                });
+            }
   
   </script>
   <script src="/script/customselect.js">
