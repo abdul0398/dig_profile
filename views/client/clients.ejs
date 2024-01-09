@@ -423,6 +423,15 @@
             <div class="form-group">
                 <input type="text" class="form-control  border p-1 mt-1 border-1" id="nameInput" placeholder="Enter Client Name">
             </div>
+            <div class="form-group">
+                <input type="text" class="form-control  border p-1 mt-1 border-1" id="emailInput" placeholder="Enter Client Email">
+            </div>
+            <div class="form-group">
+                <input type="password" class="form-control  border p-1 mt-1 border-1" id="passInput" placeholder="Password">
+            </div>
+            <div class="form-group">
+                <input type="password" class="form-control  border p-1 mt-1 border-1" id="confirmPassInput" placeholder="Confirm Password">
+            </div>
             <div class="d-flex mt-3">
                 <button class="btn mx-auto" onclick="addclientHandler()">Add</button>
             </div>
@@ -559,60 +568,64 @@
                                 class="card-header p-0 position-relative mt-n4 mx-3 z-index-2">
                                 <div style="background-color: #002655;"
                                     class="d-flex shadow-primary border-radius-lg pt-4 pb-3">
-                                    <h6 class="text-white text-capitalize ps-3">Clients</h6>
-                                    <button
-                                        style="background-color: #3E3E45 !important; height: 44px;"
-                                        id="btn_addclient_popup"
-                                        class="d-flex btn ms-auto me-3"><h6
-                                            class="text-white text-capitalize">Add
-                                            Client</h6></button>
+                                    <%if(currentUser.role == "admin"){%>
+                                        <h6 class="text-white text-capitalize ps-3">Clients</h6>
+                                        <button
+                                            style="background-color: #3E3E45 !important; height: 44px;"
+                                            id="btn_addclient_popup"
+                                            class="d-flex btn ms-auto me-3"><h6
+                                                class="text-white text-capitalize">Add
+                                                Client</h6></button>
+                                    <%}else{%>
+                                        <h6 class="text-white text-capitalize ps-3"><%=currentUser.email%></h6>
+                                    <%}%>
                                 </div>
                             </div>
 
                             <div
                                 class="main_container p-3 d-flex w-100 h-100 mt-3">
-                                <div
-                                    class="p-3 text-center clients_div w-25 height-500 border border-2 overflow-auto">
-                                    <div>
+                                <%if(currentUser.role == "admin"){%>
                                         <div
-                                            class="d-flex w-100 border border-0 rounded-2 p-2"
-                                            style="background-color: white; box-shadow: 0px 4px 11px -7px rgba(0,0,0,0.37)">
-                                            <input id="search_client"
-                                                style="width: 100%; border: none;"
-                                                placeholder="Search Client"
-                                                type="text">
-                                            <span class="center_span"><i
-                                                    class="fa-solid fa-magnifying-glass fa-xl"></i></span>
+                                            class="p-3 text-center clients_div w-25 height-500 border border-2 overflow-auto">
+                                            <div>
+                                                <div
+                                                    class="d-flex w-100 border border-0 rounded-2 p-2"
+                                                    style="background-color: white; box-shadow: 0px 4px 11px -7px rgba(0,0,0,0.37)">
+                                                    <input id="search_client"
+                                                        style="width: 100%; border: none;"
+                                                        placeholder="Search Client"
+                                                        type="text">
+                                                    <span class="center_span"><i
+                                                            class="fa-solid fa-magnifying-glass fa-xl"></i></span>
+                                                </div>
+                                            </div>
+
+                                            <div class="clientsname_div">
+                                                <%for(let i = 0; i < clients.length;
+                                                i++){%>
+                                                <li style="width: 150px;"
+                                                    class="nav-link-text unselected_client border-0"
+                                                    mid="<%=clients[i].id%>"
+                                                    value="<%=clients[i].name%>"
+                                                    onclick="clientListener(this)"><span
+                                                        style=" display: flex; margin-right: 15px; border-radius: 50%; padding: 3px; background-color: #56575B;"><i
+                                                            class="fa-solid fa-list"
+                                                            style="color: #ffffff;"></i></span>
+                                                            <%if(clients[i].name.length > 18){%>
+                                                                <%=clients[i].name.substring(0, 14) + '...' %>
+                                                                <%}else{%>
+                                                                    <%=clients[i].name%>
+                                                                <%}%>
+                                                            
+                                                    <span clientid="<%=clients[i].id%>" id="client_edit" onclick="client_edit_popup(this)" class=" ms-auto me-2 rounded-circle d-flex p-1"><i class="fa fa-gear"></i></i></i></i></span> </li>
+                                                <%}%>
+                                            </div>
                                         </div>
-                                    </div>
-
-                                    <div class="clientsname_div">
-                                        <%for(let i = 0; i < clients.length;
-                                        i++){%>
-                                        <li style="width: 150px;"
-                                            class="nav-link-text unselected_client border-0"
-                                            mid="<%=clients[i].id%>"
-                                            value="<%=clients[i].name%>"
-                                            onclick="clientListener(this)"><span
-                                                style=" display: flex; margin-right: 15px; border-radius: 50%; padding: 3px; background-color: #56575B;"><i
-                                                    class="fa-solid fa-list"
-                                                    style="color: #ffffff;"></i></span>
-                                                    <%if(clients[i].name.length > 18){%>
-                                                        <%=clients[i].name.substring(0, 14) + '...' %>
-                                                        <%}else{%>
-                                                            <%=clients[i].name%>
-                                                        <%}%>
-                                                    
-                                            <span clientid="<%=clients[i].id%>" id="client_edit" onclick="client_edit_popup(this)" class=" ms-auto me-2 rounded-circle d-flex p-1"><i class="fa fa-gear"></i></i></i></i></span> </li>
-                                        <%}%>
-                                    </div>
-
-                                </div>
-                                <div id="show_profiles_div" style="color: black;"
+                                <%}%>
+                                <div id="show_profiles_div" style="height: 100vh; color: black;"
                                     class="d-none w-75 h-500 ps-3">
                                 <%- include('../editprofile.ejs') %>
-                                <div id="show_profiles">
-                                </div>
+                                <div id="show_profiles"></div>
                                 </div>
                             </div>
                         </div>
@@ -636,9 +649,29 @@
         </script>
         <!-- Github buttons -->
         <script async defer src="https://buttons.github.io/buttons.js"></script>
-        <!-- Control Center for Material Dashboard: parallax effects, scripts for the example pages etc -->
         <script src="/assets/js/material-dashboard.min.js?v=3.1.0"></script>
         <script>
+            function generateRandomHexString(length) {
+                const arr = new Uint8Array(length / 2);
+                window.crypto.getRandomValues(arr);
+                return Array.from(arr, byte => byte.toString(16).padStart(2, '0')).join('');
+            }
+
+            function generateLongStringWithDelimiter(id) {
+                // Create a random string
+                const randomString = generateRandomHexString(16);
+
+                // Combine the ID with the random string, separated by a delimiter
+                // Use a delimiter that won't appear in the ID or random string
+                const delimiter = "--"; // Make sure this doesn't conflict with ID or random string characters
+                const combinedString = id + delimiter + randomString;
+
+                // Return the Base64 encoded result
+                return btoa(combinedString);
+            }
+    
+            
+        
             const defaltLinks = {
                 temp1:[
                         { type: 'heading', link: null, name: null, heading: 'My active listings', sort_order: 1 },
@@ -657,6 +690,27 @@
                         { type: 'link', link: '#', name: 'Lead form', heading: null, sort_order: 14 }
                     ]
             }
+            
+            async function closeEditDiv(){
+                document.querySelector(".profile_edit_container").style.display = "none"
+                const elem = document.getElementsByClassName("selected_client")[0];
+                document.getElementById('step1').style.display = 'block';
+                document.getElementById('step2').style.display = 'none';
+                populateFormsBasedonCLient(elem);
+            }
+            
+            function showLoadingOverlay() {
+                const overlay = document.querySelector('.overlay_loading');
+                overlay.style.display = 'block';
+            }
+
+            function hideLoadingOverlay() {
+                const overlay = document.querySelector('.overlay_loading');
+                overlay.style.display = 'none';
+            }
+            </script>
+        <%if(currentUser.role == "admin"){%>
+        <script>
             onStart()
             //######## Saving client selected state in local storage ##########
             function onStart(params) {
@@ -730,22 +784,70 @@
 
             async function addclientHandler() {
                 const name = document.getElementById("nameInput").value;
+                const email = document.getElementById("emailInput").value;
+                const pass = document.getElementById("passInput").value;
+                const confirmPass = document.getElementById("confirmPassInput").value;
                 
 
-                if (!name) {
-                    alert("Please fill in all fields.");
+                if (!name || !email || !pass || !confirmPass) {
+                    swal.fire({
+                        title: "Missing Fields",
+                        text: "",
+                        icon: "question",
+                        confirmButtonText: "Ok",
+                        confirmButtonColor: "#002655",
+                    });
                     return;
                 }
 
+                // verify email format
+                let emailRegex = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
+                if (!emailRegex.test(email)) {
+                    swal.fire({
+                        title: "Error",
+                        text: "Please enter a valid email address.",
+                        icon: "error",
+                        confirmButtonText: "Ok",
+                        confirmButtonColor: "#002655",
+                    });
+                    return;
+                }
+
+                // verify password and confirm password and email password should be same and more than 8 characters
+                if (pass != confirmPass) {
+                    swal.fire({
+                        title: "Error",
+                        text: "Password and Confirm Password should be same.",
+                        icon: "error",
+                        confirmButtonText: "Ok",
+                        confirmButtonColor: "#002655",
+                    });
+                    return;
+                }
+                if (pass.length < 8) {
+                    swal.fire({
+                        title: "Error",
+                        text: "Password should be more than 8 characters.",
+                        icon: "error",
+                        confirmButtonText: "Ok",
+                        confirmButtonColor: "#002655",
+                    });
+                    return;
+                }
+
+
                 showLoadingOverlay();
                 try {
-                    const res = await fetch('/addclient', {
+                    const res = await fetch('/api/client/register', {
                         method: 'POST',
                         headers: {
                             'Content-Type': 'application/json'
                         },
                         body: JSON.stringify({
                             name: name,
+                            email: email,
+                            password: pass,
+
                         })
                     })
                     const resData = await res.json();
@@ -774,16 +876,6 @@
                 } catch (error) {
                     alert(error.message);
                 }
-            }
-
-            function showLoadingOverlay() {
-                const overlay = document.querySelector('.overlay_loading');
-                overlay.style.display = 'block';
-            }
-
-            function hideLoadingOverlay() {
-                const overlay = document.querySelector('.overlay_loading');
-                overlay.style.display = 'none';
             }
 
             function open_popup_option(event) {
@@ -908,21 +1000,6 @@
                 }
                 editableDivHandler();
             }
-
-            async function fetchClientDetails(clientid){
-              try {
-                  const res = await fetch(`/client/${clientid}`, {
-                      method: 'GET',
-                  });
-                  if (!res.ok) {
-                      throw new Error(`Error: ${res.status} - ${res.statusText}`);
-                  }
-                  const data = await res.json();
-                  return data;
-              } catch (error) {
-                  console.error(error);
-              }
-          };
             
             function clientListener (curr_elem){
                 localStorage.setItem("selected_client", curr_elem.getAttribute("mid"));
@@ -932,6 +1009,14 @@
                document.querySelector(".overlay_loading").style.display = "none"
 
 
+            }
+
+            async function fetchClientDetails(clientid){
+                const res = await fetch(`/api/getClient/${clientid}`,{
+                    method:"GET"
+                })
+                const data = await res.json();
+                return data;
             }
 
             const searchInput = document.getElementById('search_client');
@@ -1809,7 +1894,6 @@
   
                         //##############For preview Page ############
                         const questionInputs = document.querySelectorAll(".question");
-                        const inputs = question.querySelectorAll("input");
                         questionInputs.forEach(questionInput => {
                             questionInput.addEventListener('input',populateQuestionsOnpreview)
                         })
@@ -1938,26 +2022,7 @@
                 document.getElementById("form_popup").classList.add("open_popup");
                 document.getElementById("form_popup").classList.remove("close_popup");
             }
-            
-            function generateRandomHexString(length) {
-                const arr = new Uint8Array(length / 2);
-                window.crypto.getRandomValues(arr);
-                return Array.from(arr, byte => byte.toString(16).padStart(2, '0')).join('');
-            }
-
-            function generateLongStringWithDelimiter(id) {
-                // Create a random string
-                const randomString = generateRandomHexString(16);
-
-                // Combine the ID with the random string, separated by a delimiter
-                // Use a delimiter that won't appear in the ID or random string
-                const delimiter = "--"; // Make sure this doesn't conflict with ID or random string characters
-                const combinedString = id + delimiter + randomString;
-
-                // Return the Base64 encoded result
-                return btoa(combinedString);
-            }
-
+   
             function openLastCreatedProfile() {
                 const lastCreatedProfileID = localStorage.getItem('lastCreatedProfileID');
                 if (lastCreatedProfileID) {
@@ -2046,17 +2111,811 @@
                 }
             }
             
-            async function closeEditDiv(){
-                document.querySelector(".profile_edit_container").style.display = "none"
-                const elem = document.getElementsByClassName("selected_client")[0];
-                document.getElementById('step1').style.display = 'block';
-                document.getElementById('step2').style.display = 'none';
-                populateFormsBasedonCLient(elem);
+            
+            
+        </script>
+        <%}else{%>
+            <script>
+                async function fetchClientDetails(clientid){
+                    const res = await fetch(`/api/getClient/${clientid}`,{
+                        method:"GET"
+                    })
+                    const data = await res.json();
+                    return data;
+                }
+                
+                populateFormsBasedonCLient();
+                async function createProfile(){
+                overlay.style.display = "block";
+                const name = document.getElementById("profile_name").value;
+                const clientID = `<%=currentUser.id%>`
+                showLoadingOverlay();
+                try {
+                    const res = await fetch('/addprofile', {
+                            method: 'POST',
+                            headers: {
+                                'Content-Type': 'application/json'
+                            },
+                            body: JSON.stringify({
+                                name: name,
+                                clientID:clientID
+                            })
+                        })
+                        const resData = await res.json();
+                        if(res.status == 200){
+                            localStorage.setItem('lastCreatedProfileID', resData.id);
+                            window.location.reload();
+                        }else{
+                            hideLoadingOverlay(); 
+                            swal.fire({
+                                title: "Error",
+                                text: resData.message,
+                                icon: "error",
+                                confirmButtonText: "Ok",
+                                confirmButtonColor: "#002655",
+                            });
+                            return;
+                        }
+                    } catch (error) {
+                        alert(error.message);
+                    }
+                }
+                async function populateFormsBasedonCLient(){
+                    document.getElementById("show_profiles_div").classList.remove("d-none");
+                    const clientid = `<%=currentUser.id%>`;
+                    const {client, profiles} = await fetchClientDetails(clientid);
+                    document.querySelector(".profile_edit_container").style.display = "none";
+                    const showformdiv = document.getElementById("show_profiles");
+                    showformdiv.innerHTML = "";
+                    showformdiv.innerHTML = `
+                    <div>
+                        <button style="border-radius: 30px; background-color: #002655; color: white;" onclick="openpopupaddproject()" class="btn btn-lg">Add New Profile</button>
+                    </div>`
+
+                    if (!profiles || profiles.length == 0) {
+                    showformdiv.innerHTML = `
+                    <div>
+                        <button style="border-radius: 30px; background-color: #002655; color: white;" onclick="openpopupaddproject()" class="btn btn-lg">Add New Profile</button>
+                    </div>
+                    <h4 class="text-center" > No profiles </h4>
+                    `
+                    }else{
+
+                        profiles.forEach(profile=>{
+                            const uniqueID = generateLongStringWithDelimiter(profile.id);
+                            showformdiv.innerHTML += `            
+                        <div class="d-flex mt-3 forms_div">
+                            <div topic="project" profile_id="${profile.id}" contenteditable="true" style="outline: 0px solid transparent; align-items: center; width: 300px; height: 100%;" class="editable_div d-flex ps-4">${profile.name}</div> 
+                            
+                            <div class="options_div ms-auto" > 
+                                
+        
+                                <a target="_blank" href="/profile/${uniqueID}" class="big_icon btn btn-sm btn-facebook mt-3 me-2" >
+                                    View
+                                </a>
+        
+                                <a target="_blank"  href="/profile/${uniqueID}" class="small_icon mt-3 ms-4">
+                                    <i class="fa-solid fa-eye"></i>
+                                </a>
+                                
+                                
+                                
+                                <a href="/api/delete/profile/${profile.id}" class="big_icon mt-3 btn-sm btn btn-danger me-2" >
+                                Delete
+                                </a>
+        
+                                <a href="/api/delete/profile/${profile.id}" class="small_icon mt-3 ms-4">
+                                    <i class="fa-solid fa-trash"></i>
+                                </a>
+        
+                                
+                                
+        
+                                <button style="background-color:#002655" onclick="editHandler(this)" profile_id="${profile.id}"  class="big_icon btn btn-sm btn-facebook mt-3 me-2">
+                                    Edit
+                                </button>
+        
+                                <button style="background-color:transparent !important" onclick="editHandler(this)" profile_id="${profile.id}"  class="small_icon mt-3 ms-4 me-3">
+                                    <i class="fa-solid fa-pen-to-square" style="color: #213454;"></i> 
+                                </button>
+                            </div>
+                        </div> `
+        
+                        })
+                    }
+                }
+
+
+                async function editHandler(curr_elem){
+                    const id = curr_elem.getAttribute("profile_id");
+                    const {profile, links, forms} = await fetchProfileDetail(id);
+                    console.log(profile, forms, links)
+                    document.querySelector(".profile_edit_container").style.display = "block";
+                    const showformdiv = document.getElementById("show_profiles").innerHTML = "";
+                    
+
+                    // ########### Filling all the prexisting details to the edit page ###########
+                    const templates = document.querySelectorAll(".image-container");
+                    templates.forEach(template=>{
+                        if(template.getAttribute("template_id") == profile.template_selected){
+                            template.classList.add("selected");
+                        }else{
+                            template.classList.remove("selected");
+                        }
+                    })
+                    document.getElementById("profile_id").setAttribute("profile_id",id);
+                    document.querySelector(".agent-name").innerHTML = profile.name;
+                    document.getElementById("temp2_name").innerText = profile.name;
+                    document.getElementById("temp3_name").innerText = profile.name;
+                    const preview_profile_img = document.getElementsByClassName("preview_profile_img");
+                        for (let i = 0; i < preview_profile_img.length; i++) {
+                            preview_profile_img[i].src = profile.profile_img_path;
+                        }
+
+                    
+                    profileDataState.templateSelected = profile.template_selected;
+                    document.getElementById("phone").value = profile.phone;
+                    document.getElementById("fb_link").value = profile.fb_link;
+                    document.getElementById("insta_link").value = profile.insta_link;
+                    document.getElementById("linkedin_link").value = profile.linkedin_link;
+                    document.getElementById("appointment_link").value = profile.personal_link;
+
+
+
+                    //Populating the Edit Form dropdown
+                    populateEditFormSection(forms);
+
+                    function populateLinksAndPreview(links) {
+                        const linkContainer = document.getElementById("link_container_dynamic");
+                        linkContainer.innerHTML = "";
+                        console.log(links)
+                        links.forEach(link=>{
+                            if (link.type == "link") {
+                                const linkCounter = linkContainer.children.length + 1;
+                                const linkDiv = document.createElement('div');
+                                linkDiv.classList.add('link');
+
+                                // Flex container for horizontal radio buttons
+                                const radioContainer = document.createElement('div');
+                                radioContainer.classList.add('radio-container');
+
+                                // Radio buttons for choosing between "Enter Link" and "Choose Form"
+                                const enterLinkRadio = createRadio(`enterLink`, linkCounter, 'Enter Link', true);
+                                const chooseFormRadio = createRadio(`chooseForm`, linkCounter, 'Choose Form', false);
+
+                                // Dropdown for selecting predefined forms
+                                const selectFormDropdown = document.createElement('select');
+                                selectFormDropdown.style.display = "none"; // Initially disabled
+                                // Add options to the dropdown (replace with your own options)
+                                selectFormDropdown.classList.add("form_select")
+                                forms.forEach(form=>{
+                                    if(form.id == link.link){
+                                        selectFormDropdown.innerHTML += `<option selected value="${form.id}">${form.name}</option>`
+                                    }else{
+                                        selectFormDropdown.innerHTML += `<option value="${form.id}">${form.name}</option>`
+                                    }
+                                })
+                                selectFormDropdown.style.borderRadius = "30px"
+                                selectFormDropdown.style.marginBottom = "3px"
+
+                                // Input fields for link and name
+                                const inputLink = createInput('text', 'Link', false);
+                                const inputName = createInput('text', 'Name', false);
+                                
+                                inputLink.style.display = "block"; // Initially enabled
+                                inputName.value = link.name;
+                                inputLink.value = link.link;
+
+
+                                // Event listeners for input fields to track changes
+
+                                inputLink.addEventListener('input', function() {
+                                    const arrangement = extractData();
+                                    populateProfilePreview(arrangement);
+                                });
+
+                                inputName.addEventListener('input', function() {
+                                    const arrangement = extractData();
+                                    populateProfilePreview(arrangement);
+                                });
+
+
+                                // Event listeners for radio buttons to enable/disable fields
+                                enterLinkRadio.addEventListener('change', function() {
+                                    selectFormDropdown.style.display = 'none'; // Hide the dropdown
+                                    inputLink.style.display = 'block'; // Show the link input
+                                });
+
+                                chooseFormRadio.addEventListener('change', function() {
+                                
+                                    selectFormDropdown.style.display = 'block'; // Show the dropdown
+                                    inputLink.style.display = 'none'; // Hide the link input
+                                });
+
+                                const deleteButton = document.createElement('div');
+                                deleteButton.innerHTML = `<i class="fa-solid fa-trash"></i>`;
+                                deleteButton.classList.add('deleteButton');
+                                deleteButton.onclick = function() {
+                                    linkContainer.removeChild(linkDiv);
+                                    const arrangement = extractData();
+                                    populateProfilePreview(arrangement);
+                                };
+
+                                linkDiv.innerHTML += `<svg id="drag_icon" style="margin-left:auto" width="20px" height="30px" xmlns="http://www.w3.org/2000/svg">
+                                            <!-- First row of dots -->
+                                            <circle cx="5" cy="5" r="2" fill="black"></circle>
+                                            <circle cx="15" cy="5" r="2" fill="black"></circle>
+
+                                            <!-- Second row of dots -->
+                                            <circle cx="5" cy="15" r="2" fill="black"></circle>
+                                            <circle cx="15" cy="15" r="2" fill="black"></circle>
+                                        </svg>`;
+
+
+                                // Append radio buttons to the radio container
+                                radioContainer.appendChild(enterLinkRadio);
+                                radioContainer.appendChild(chooseFormRadio);
+
+                                // Append all elements to linkDiv
+                                linkDiv.appendChild(radioContainer);
+                                linkDiv.appendChild(selectFormDropdown);
+                                linkDiv.appendChild(inputLink);
+                                linkDiv.appendChild(inputName);
+                                linkDiv.appendChild(deleteButton);
+
+                                // Append linkDiv to the linkContainer
+                                linkContainer.appendChild(linkDiv);
+                            
+
+                                // Helper function to create radio buttons
+                                function createRadio(name, linkCount, label, checked) {
+                                    const radio = document.createElement('input');
+                                    radio.type = 'radio';
+                                    radio.name = `linkChoice${linkCount}`;
+                                    radio.value = name;
+                                    radio.checked = checked;
+                                    radio.style.marginLeft = "10px"
+                                    
+                                    const labelElement = document.createElement('label');
+                                    labelElement.textContent = label;
+                                    labelElement.appendChild(radio);
+                                    
+                                    return labelElement;
+                                }
+
+                                // Helper function to create input fields
+                                function createInput(type, placeholder, disabled) {
+                                    const input = document.createElement('input');
+                                    input.type = type;
+                                    input.placeholder = placeholder;
+                                    input.style.marginTop = "2px";
+                                    input.style.marginBottom = "2px"
+                                    return input;
+                                }
+
+                            }else if(link.type == "heading"){
+                                const linkDiv = document.createElement('div');
+                                linkDiv.classList.add('link', 'break_between_inputs');
+
+                                // Create SVG element
+                                const svg = document.createElementNS('http://www.w3.org/2000/svg', 'svg');
+                                svg.setAttribute('id', 'drag_icon');
+                                svg.setAttribute('width', '20px');
+                                svg.setAttribute('height', '30px');
+                                svg.style.marginLeft = 'auto';
+
+                                // Create circles for the SVG
+                                for (let i = 0; i < 4; i++) {
+                                    const circle = document.createElementNS('http://www.w3.org/2000/svg', 'circle');
+                                    circle.setAttribute('cx', (i % 2) * 10 + 5); // 5, 15, 5, 15
+                                    circle.setAttribute('cy', Math.floor(i / 2) * 10 + 5); // 5, 5, 15, 15
+                                    circle.setAttribute('r', '2');
+                                    circle.setAttribute('fill', 'black');
+                                    svg.appendChild(circle);
+                                }
+
+                                // Append SVG to linkDiv
+                                linkDiv.appendChild(svg);
+
+                                // Create input for heading
+                                if (link.type === 'heading') {
+                                    const inputHeading = document.createElement('input');
+                                    inputHeading.type = 'text';
+                                    inputHeading.value = link.heading;
+                                    inputHeading.placeholder = 'Heading';
+                                    linkDiv.appendChild(inputHeading);
+
+                                    // Add event listener for the heading input
+                                    inputHeading.addEventListener('input', function() {
+                                        const arrangement = extractData();
+                                        populateProfilePreview(arrangement);
+                                    });
+                                }
+
+                                // Create the delete button
+                                const deleteButton = document.createElement('div');
+                                deleteButton.classList.add('deleteButton');
+                                deleteButton.innerHTML = `<i class="fa-solid fa-trash" aria-hidden="true"></i>`;
+
+                                // Event listener for the delete button
+                                deleteButton.addEventListener('click', function() {
+                                    linkContainer.removeChild(linkDiv);
+                                    const arrangement = extractData();
+                                    populateProfilePreview(arrangement);
+                                });
+
+                                // Append delete button to linkDiv
+                                linkDiv.appendChild(deleteButton);
+
+                                // Append linkDiv to the linkContainer
+                                linkContainer.appendChild(linkDiv);
+                            }else{
+                                const linkCounter = linkContainer.children.length + 1;
+                                const linkDiv = document.createElement('div');
+                                linkDiv.classList.add('link');
+
+                                // Flex container for horizontal radio buttons
+                                const radioContainer = document.createElement('div');
+                                radioContainer.classList.add('radio-container');
+
+
+                                // Radio buttons for choosing between "Enter Link" and "Choose Form"
+                                const enterLinkRadio = createRadio(`enterLink`, linkCounter, 'Enter Link', false);
+                                const chooseFormRadio = createRadio(`chooseForm`, linkCounter, 'Choose Form', true);
+
+                                // Dropdown for selecting predefined forms
+                                const selectFormDropdown = document.createElement('select');
+                                selectFormDropdown.style.display = "block"; // Initially disabled
+                                // Add options to the dropdown (replace with your own options)
+                                selectFormDropdown.classList.add("form_select")
+                                forms.forEach(form=>{
+                                    if(form.id == link.link){
+                                        selectFormDropdown.innerHTML += `<option selected value="${form.id}">${form.name}</option>`
+                                    }else{
+                                        selectFormDropdown.innerHTML += `<option value="${form.id}">${form.name}</option>`
+                                    }
+                                })
+                                selectFormDropdown.style.borderRadius = "30px"
+                                selectFormDropdown.style.marginBottom = "3px"
+
+                                // Input fields for link and name
+                                const inputLink = createInput('text', 'Link', false);
+                                const inputName = createInput('text', 'Name', false);
+                                
+                                inputLink.style.display = "none"; // Initially enabled
+                                inputName.value = link.name;
+
+
+                                // Event listeners for input fields to track changes
+
+                                inputLink.addEventListener('input', function() {
+                                    const arrangement = extractData();
+                                    populateProfilePreview(arrangement);
+                                });
+
+                                inputName.addEventListener('input', function() {
+                                    const arrangement = extractData();
+                                    populateProfilePreview(arrangement);
+                                });
+
+
+                                // Event listeners for radio buttons to enable/disable fields
+                                enterLinkRadio.addEventListener('change', function() {
+                                    selectFormDropdown.style.display = 'none'; // Hide the dropdown
+                                    inputLink.style.display = 'block'; // Show the link input
+                                });
+
+                                chooseFormRadio.addEventListener('change', function() {
+                                
+                                    selectFormDropdown.style.display = 'block'; // Show the dropdown
+                                    inputLink.style.display = 'none'; // Hide the link input
+                                });
+
+                                const deleteButton = document.createElement('div');
+                                deleteButton.innerHTML = `<i class="fa-solid fa-trash"></i>`;
+                                deleteButton.classList.add('deleteButton');
+                                deleteButton.onclick = function() {
+                                    linkContainer.removeChild(linkDiv);
+                                    const arrangement = extractData();
+                                    populateProfilePreview(arrangement);
+                                };
+
+                                linkDiv.innerHTML += `<svg id="drag_icon" style="margin-left:auto" width="20px" height="30px" xmlns="http://www.w3.org/2000/svg">
+                                            <!-- First row of dots -->
+                                            <circle cx="5" cy="5" r="2" fill="black"></circle>
+                                            <circle cx="15" cy="5" r="2" fill="black"></circle>
+
+                                            <!-- Second row of dots -->
+                                            <circle cx="5" cy="15" r="2" fill="black"></circle>
+                                            <circle cx="15" cy="15" r="2" fill="black"></circle>
+                                        </svg>`;
+
+
+                                // Append radio buttons to the radio container
+                                radioContainer.appendChild(enterLinkRadio);
+                                radioContainer.appendChild(chooseFormRadio);
+
+                                // Append all elements to linkDiv
+                                linkDiv.appendChild(radioContainer);
+                                linkDiv.appendChild(selectFormDropdown);
+                                linkDiv.appendChild(inputLink);
+                                linkDiv.appendChild(inputName);
+                                linkDiv.appendChild(deleteButton);
+
+                                // Append linkDiv to the linkContainer
+                                linkContainer.appendChild(linkDiv);
+                            
+
+                            // Helper function to create radio buttons
+                                function createRadio(name, linkCount, label, checked) {
+                                    const radio = document.createElement('input');
+                                    radio.type = 'radio';
+                                    radio.name = `linkChoice${linkCount}`;
+                                    radio.value = name;
+                                    radio.checked = checked;
+                                    radio.style.marginLeft = "10px"
+                                    
+                                    const labelElement = document.createElement('label');
+                                    labelElement.textContent = label;
+                                    labelElement.appendChild(radio);
+                                    
+                                    return labelElement;
+                                }
+
+                                // Helper function to create input fields
+                                function createInput(type, placeholder, disabled) {
+                                    const input = document.createElement('input');
+                                    input.type = type;
+                                    input.placeholder = placeholder;
+                                    input.style.marginTop = "2px";
+                                    input.style.marginBottom = "2px"
+                                    return input;
+                                    }
+
+                                }
+                            })
+                        }
+
+
+                        if(links && links.length > 0){
+                            populateLinksAndPreview(links);
+                        }else{
+                            populateLinksAndPreview(defaltLinks.temp1);
+                        }
+                        const arrangement = extractData();
+                        populateProfilePreview(arrangement);
+
+                }
+                            
+                function openpopupaddproject(event) {
+                    // closeAllPopups();
+                    const menuDiv = document.getElementsByClassName('profileadd_popup');
+                    menuDiv[0].classList.add("open_popup");
+                    overlay.style.display = "block";
+                    clearForm();
+                }
+            
+                function closeAllPopups() {
+                    document.getElementsByClassName("questionContainer").innerHTML = "";
+                    let openPopups = document.querySelectorAll('.open_popup');
+                    openPopups.forEach(function(element) {
+                        element.classList.remove('open_popup');
+                        element.classList.add('close_popup');
+                    }); 
+                    overlay.style.display = "none";
+                
+                }
+            
+                function clearForm() {
+                    const formElements = document.querySelectorAll('input, textarea');
+
+                    formElements.forEach(element => {
+                        element.value = '';
+                    });
+                }
+            
+                function formDeleteHandler(btn) {
+                    const form_id = btn.getAttribute("form_id");
+                    swal.fire({
+                        title: "Do you want to Delete the Form?",
+                        showCancelButton: true,
+                        confirmButtonText: "Delete",
+                        }).then(async (result) => {
+                            if (result.isConfirmed) {
+                                showLoadingOverlay();
+                                const res = await fetch(`/api/deleteform/${form_id}`, {
+                                    method:"GET"
+                                });
+                                if(res.status == 200){
+                                    hideLoadingOverlay();
+                                    Swal.fire({
+                                        title: "Form Deleted Successfully",
+                                        icon: "success",
+                                        confirmButtonText: "Ok",
+                                    })
+                                    const id = document.getElementById("profile_id").getAttribute("profile_id");
+                                    const {forms} = await fetchProfileDetail(id);
+                                    populateEditFormSection(forms);
+                                }else{
+                                swal.fire({
+                                        title: "Error",
+                                        text: resData.message,
+                                        icon: "error",
+                                        confirmButtonText: "Ok",
+                                        confirmButtonColor: "#002655",
+                                    });
+                                    hideLoadingOverlay();
+                                }
+                            } else if (result.isDenied) {
+                                hideLoadingOverlay();
+                                Swal.fire("Changes are not saved", "", "info");
+                            }
+                    });   
+                }
+                
+                async function editForm(formId) {
+                    event.preventDefault();
+                    if(!validate()){
+                        return;
+                    }
+                    const discordArray = extractDiscord();  
+                    const name = document.getElementById("form_name").value;
+                    const questions = extractQuestionsAndOptions();
+                    const res = await fetch(`/api/updateForm/${formId}`, {
+                        method: "POST",
+                        body: JSON.stringify({
+                            name: name,
+                            questions: questions,
+                            discord: discordArray
+                        }),
+                        headers: {
+                            "Content-type": "application/json; charset=UTF-8"
+                        }
+                    })
+                    const resData = await res.json();
+                    if(res.status == 200){
+                        Swal.fire({
+                            title: "Form Edited Successfully",
+                            icon: "success",
+                            confirmButtonText: "Ok",
+                        })
+                        const id = document.getElementById("profile_id").getAttribute("profile_id");
+                        const {forms} = await fetchProfileDetail(id);
+                        populateEditFormSection(forms);
+                        document.getElementById("form_popup").classList.remove("open_popup");
+                        document.getElementById("form_popup").classList.add("close_popup");
+                        const overlay = document.getElementById("overlay");
+                        overlay.style.display = "none";
+                    }else{
+                        alert(resData.message);
+                        return;
+                    }
+                }
+            
+                async function fetchFormDetail(id){
+                const res = await fetch(`/api/getForm/${id}`,{
+                    method:"GET"
+                })
+                const data = await res.json();
+                return data;
             }
+
+                function populateEditForm(form){
+
+                    document.getElementById("form_submit_btn").setAttribute("onclick", `editForm(${form.id})`);
+                    // ################ Populate Discord ####################
+                    form.discords.forEach((discord, index)=>{
+                        if(index == 0){
+                            document.getElementsByClassName("discord-metaform-input")[0].value = discord;
+                        }else{
+                            const ds_container = document.getElementById("discord_metaform_field")
+                            let newInput = document.createElement('div');
+                            newInput.innerHTML ='<div class="discord-input-container-metaform">' +
+                                            `    <input type="text" value="${discord}" class="form_input discord-metaform-input" placeholder="Discord Link" name="dslink[]">` +
+                                            '    <button type="button" class="my-1 p-2 rounded-2 remove-discord-input" onclick="removeDiscordmetaform(this)">Remove</button>' +
+                                            '</div>';
+                            ds_container.insertBefore(newInput, ds_container.firstChild);
+                        }
+                    })
+                
+                    // ##################### Populate Questions#######################
+                    const questions_container = document.getElementById("questionsContainer_meta");
+                    document.getElementById("form_name").value = form.name;
+                    console.log(form);
+                    questions_container.innerHTML = "";
+                        form.questions.forEach((question, index)=>{
+                            let optionsHTML = '';
+                            for (let j = 0; j < question.options.length; j++) {
+                                optionsHTML += `
+                                <div class="option">
+                                    <input type="text" value="${question.options[j]}" name="option[${j}]" placeholder="Option" class="options">
+                                    <button type="button" class="delete-option-button">Delete option</button>
+                                </div>
+                                `;
+                            }
+                            questions_container.innerHTML += `
+                            <div class="question-group">
+                                <input type="text" value="${question.question}" name="question[${index}]" placeholder="Question" class="question">
+                                <button type="button" class="add-option-button">Add Option</button>
+                                <button type="button" class="delete-question-button">Delete Question</button>
+                                <div class="options-container">
+                                ${optionsHTML}
+                                </div>
+                            </div>
+                            `;
+                        })
+
+                            questions_container.innerHTML += `<button style="display: block;" type="button" id="add-question"
+                        class="add-option-button">Add
+                        Question</button>`
+                
+                
+                        const existingQuestionGroups = document.querySelectorAll(".question-group");
+                        existingQuestionGroups.forEach(function(questionGroup) {
+                            attachEventListeners(questionGroup);
+    
+                        // Attach event listeners to existing options within this question group
+                        const existingOptions = questionGroup.querySelectorAll(".options-container .option");
+                            existingOptions.forEach(function(optionDiv) {
+                                attachDeleteOptionButton(optionDiv);
+                            });
+                        });
+
+
+
+                        const addQuestionButton = document.getElementById("add-question");
+                        addQuestionButton.addEventListener("click", function() {
+                            const data = extractQuestionsAndOptions();
+                            const questionGroup = document.createElement("div");
+                            questionGroup.classList.add("question-group");
+                            questionGroup.innerHTML = `
+                            <input type="text" name="question[]" placeholder="Question" class="question">
+                            <button type="button" class="add-option-button">Add Option</button>
+                            <button type="button" class="delete-question-button">Delete Question</button>
+                            <div class="options-container">
+                                <div class="option">
+                                <input type="text" name="option[]" placeholder="Option" class="options">
+                                <button type="button" class="delete-option-button">Delete option</button>
+                                </div>
+                            </div>
+                            `;
+                            addQuestionButton.parentNode.insertBefore(questionGroup, addQuestionButton);
+                            attachEventListeners(questionGroup);
+                            const optionDiv = questionGroup.querySelector(".options-container .option");
+                            attachDeleteOptionButton(optionDiv);
+                    
+    
+    
+                            //##############For preview Page ############
+                            const questionInputs = document.querySelectorAll(".question");
+                            questionInputs.forEach(questionInput => {
+                                questionInput.addEventListener('input',populateQuestionsOnpreview)
+                            })
             
-            
-            
-            </script>
-    </body>
+                            const optionsInput = document.querySelectorAll(".options");
+                                optionsInput.forEach(optionInput =>{
+                                optionInput.addEventListener('input',populateQuestionsOnpreview);
+                            })
+                            //##############For preview Page ############
+                        });
+                        const questionInputs = document.querySelectorAll(".question");
+                        questionInputs.forEach(questionInput => {
+                            questionInput.addEventListener('input',populateQuestionsOnpreview)
+                        })
+        
+                        const optionsInput = document.querySelectorAll(".options");
+                            optionsInput.forEach(optionInput =>{
+                            optionInput.addEventListener('input',populateQuestionsOnpreview);
+                        })
+
+
+
+
+                        function attachEventListeners(questionGroup) {
+                    const addOptionButton = questionGroup.querySelector(".add-option-button");
+                    const deleteQuestionButton = questionGroup.querySelector(".delete-question-button");
+                    
+                    addOptionButton.addEventListener("click", function() {
+                            const optionsContainer = questionGroup.querySelector(".options-container");
+                            const optionDiv = document.createElement("div");
+                            optionDiv.classList.add("option");
+                            optionDiv.innerHTML = `
+                            <input type="text" class="options" name="option[]" placeholder="Option">
+                            <button type="button" class="delete-option-button">Delete option</button>
+                            `;
+                            optionsContainer.appendChild(optionDiv);
+                            attachDeleteOptionButton(optionDiv);
+                            //########## for preview Page #########//
+                            const optionsInput = optionDiv.querySelectorAll(".options");
+                                optionsInput.forEach(optionInput =>{
+                                optionInput.addEventListener('input',populateQuestionsOnpreview);
+                                })
+                            //########## for preview Page #########//
+                            });
+                        
+                            deleteQuestionButton.addEventListener("click", function() {
+                            populateQuestionsOnpreview();
+                            questionGroup.remove();
+                            });
+                        }
+
+
+
+
+                        function attachDeleteOptionButton(optionDiv) {
+                            const deleteOptionButton = optionDiv.querySelector(".delete-option-button");
+                            deleteOptionButton.addEventListener("click", function() {
+                            optionDiv.remove();
+                            });
+                        }
+
+
+                        populateQuestionsOnpreview();
+                        function populateQuestionsOnpreview() {
+                            const preview_question_container = document.querySelector('.preview_question_container');
+                            const question_div = document.createElement('div');
+                            const arr = extractQuestionsAndOptions()
+                            preview_question_container.innerHTML = "";
+                            
+                            for (let i = 0; i < arr.length; i++) {
+                                let optionsHTML = '';
+                                if(arr[i].options.length == 0){
+                                    question_div.innerHTML += `
+                                    <p style="margin-bottom: 3px; color: black">${arr[i].question}</p>
+                                    <input class="form_input" placeholder="Type here..."></input>
+                                    `
+                                }else{
+                                    for (let j = 0; j < arr[i].options.length; j++) {
+                                    optionsHTML += `
+                                        <option value=${arr[i].options[j]}>${arr[i].options[j]}</option>
+                                        `;
+                                    }
+                                    question_div.innerHTML += `
+                                    <p style="margin-bottom: 3px; color: black">${arr[i].question}</p>
+                                    <select>
+                                    ${optionsHTML}  
+                                    </select>
+                                    `
+                                }
+                                preview_question_container.appendChild(question_div);
+                            }
+                        }
+
+                        function extractQuestionsAndOptions(params) {
+                        const questionInputs = document.querySelectorAll(".question");
+                        const answers = [];
+                    
+                        questionInputs.forEach(questionInput => {
+                        let optionsContainer = questionInput;
+                        for (let i = 0; i < 3; i++) {
+                            optionsContainer = optionsContainer.nextElementSibling;
+                        }
+                        const questionText = questionInput.value;
+                        const optionsInputs = optionsContainer.querySelectorAll('.option input');
+                        const options = [];
+                        optionsInputs.forEach(optionInput => {
+                            options.push(optionInput.value);
+                        });
+                        answers.push({ question: questionText, options: options });
+                        });
+                        return answers;
+                    }
+
+
+                }
+
+                async function edit_Form_show(btn) {
+                const formId = btn.getAttribute("form_id")
+                overlay.style.display = "block";
+                const {form} = await fetchFormDetail(formId);
+                populateEditForm(form);
+                document.getElementById("form_popup").classList.add("open_popup");
+                document.getElementById("form_popup").classList.remove("close_popup");
+            }
+   
+                </script>
+        <%}%>
+    </script>
+        </body>
 
 </html>

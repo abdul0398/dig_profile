@@ -7,7 +7,7 @@ const flash = require('connect-flash');
 const passport = require('passport');
 const LocalStrategy = require('passport-local');
 const MySQLStore = require('express-mysql-session')(session);
-const {verify, serializeUser, deserializeUser} = require("./passport.js");
+const {verifyForUser, verifyForClient, serializeUser, deserializeUser} = require("./passport.js");
 
 
 async function setMiddleWares() {
@@ -38,7 +38,8 @@ async function setMiddleWares() {
     app.use(passport.session());
     app.use(passport.authenticate('session'));
 
-    passport.use(new LocalStrategy({usernameField : 'email'},verify));
+    passport.use("user", new LocalStrategy({usernameField : 'email'},verifyForUser));
+    passport.use("client", new LocalStrategy({usernameField : 'email'},verifyForClient));
     passport.serializeUser(serializeUser);
     passport.deserializeUser(deserializeUser)
 

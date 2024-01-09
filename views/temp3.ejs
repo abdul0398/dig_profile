@@ -13,6 +13,8 @@
       rel="stylesheet"
       href="https://fonts.googleapis.com/css2?family=Quicksand:wght@600;700&display=swap"
     />
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
   </head>
   <style>
       .hide_scroll::-webkit-scrollbar {
@@ -96,7 +98,6 @@
       top: 50%;
       left: 50%;
       transform: translate(-50%, -50%);
-      /* Existing styles for #popupform */
       box-sizing: border-box;
       padding: 66px 15px 20px 15px;
       background-color: #FFF;
@@ -110,12 +111,13 @@
       color: white;
     }
     input[type="date"]{
-        width: 100%;
+      width: 100%;
       height: 40px;
       background-color: #ECECEC;
       border: none;
       padding: 5px;
       box-sizing: border-box;
+      margin-top: 10px;
     }
     @media only screen and (max-width: 1000px) {
       #popupform{
@@ -140,7 +142,8 @@
           <%for(let i = 0; i < links.length; i++){%>
             <%if(links[i].type == "link"){%>
               <li style="position: relative; margin:10px auto 10px auto; display: flex; justify-content: center; align-items: center; background-image: linear-gradient(178.54deg, #ff1212 7.67%, #ff2c1d); width: 330px; border-radius: 20px; height: 50px;">
-                <a class="text_style" style=" text-decoration: none; color: white;" href="<%=links[i].link%>"><%=links[i].name%></a>
+                <a style="cursor: pointer; text-decoration: none; color: white;" onclick="linkHandler(this)" linkId="<%=links[i].id%>" redirect_Url="<%=links[i].link%>"><%=links[i].name%></a>
+               
               </li>
             <%}else if(links[i].type == "heading"){%>
                 <p class="text_style heading_style" style="color: black; margin: 40px 30px 20px 30px; width: fit-content;" class="profile_heading"><%=links[i].heading%></p>
@@ -152,59 +155,69 @@
         <h1>Hello</h1>
         <img class="child" alt="" src="/<%=profile.profile_img_path%>" />
 
-  <div style="height: 350px;">
-    <div class="group-container">
-      <div>
-        <%if(profile.insta_link){%>
-          <span>
-            <a target="_blank" href="<%=profile.insta_link%>">
-              <img style="width: 40px;" alt="" src="/group-29@2x.png" />
-            </a>
-          </span>
-        <%}%>
-        <%if(profile.linkedin_link){%>
-          <span>
-            <a target="_blank" href="<%=profile.insta_link%>">
-              <img style="width: 40px;" alt="" src="/group-28@2x.png" />
-            </a>
-          </span>
-        <%}%>
-        <%if(profile.fb_link){%>
-          <span>
-            <a target="_blank" href="<%=profile.fb_link%>">
-              <img style="width: 40px;" alt="" src="/facebook.png" />
-            </a>
-          </span>
-        <%}%>
-      </div>
-      
-      
+  <div style="max-height: 350px;">
+    <%if(profile.insta_link || profile.linkedin_link || profile.fb_link){%>
+    <div style="height: 150px;">
+      <div style="width: 20.63rem;
+      margin: auto;
+      height: 2.13rem;
+      display: flex;
+      justify-content: space-around;">
+        <div>
+          <%if(profile.insta_link){%>
+            <span>
+              <a target="_blank" href="<%=profile.insta_link%>">
+                <img style="width: 40px;" alt="" src="/group-29@2x.png" />
+              </a>
+            </span>
+          <%}%>
+          <%if(profile.linkedin_link){%>
+            <span>
+              <a target="_blank" href="<%=profile.linkedin_link%>">
+                <img style="width: 40px;" alt="" src="/group-28@2x.png" />
+              </a>
+            </span>
+          <%}%>
+          <%if(profile.fb_link){%>
+            <span>
+              <a target="_blank" href="<%=profile.fb_link%>">
+                <img style="width: 40px;" alt="" src="/facebook.png" />
+              </a>
+            </span>
+          <%}%>
+        </div>
+        
+        
+         
        
-     
+      </div>
     </div>
+    <%}%>
 
     <%if(profile.personal_link || profile.phone){%>
-      <div class="call-us-parent">
-        <b class="call-us">Call us</b>
-        <div class="group-parent1">
-          <%if(profile.personal_link){%>
-            <div class="rectangle-parent">
-              <a href="<%=profile.personal_link%>">
-                <div class="rectangle-div"></div>
-                <b class="book-and-appointment">Book and Appointment</b>
-              </a>
-            </div>
-          <%}%>
-         
-          <%if(profile.phone){%>
-            <div class="rectangle-group">
-              <a target="_blank" href="https://wa.me/<%=profile.phone%>" style="color: black;">
-                <div class="group-child3"></div>
-                <b class="whatsapp">Whatsapp</b>
-              </a>
-            </div>
-          <%}%>
-          
+      <div style="height: 200px;">
+        <div class="call-us-parent">
+          <b class="call-us">Call us</b>
+          <div class="group-parent1">
+            <%if(profile.personal_link){%>
+              <div class="rectangle-parent">
+                <a href="<%=profile.personal_link%>">
+                  <div class="rectangle-div"></div>
+                  <b class="book-and-appointment">Book and Appointment</b>
+                </a>
+              </div>
+            <%}%>
+           
+            <%if(profile.phone){%>
+              <div class="rectangle-group">
+                <a target="_blank" href="https://wa.me/<%=profile.phone%>" style="color: black;">
+                  <div class="group-child3"></div>
+                  <b class="whatsapp">Whatsapp</b>
+                </a>
+              </div>
+            <%}%>
+            
+          </div>
         </div>
       </div>
     <%}%>
@@ -225,13 +238,13 @@
             <path d="M8.88394 7.98975L15.817 1.0656C16.0611 0.821824 16.0611 0.426583 15.817 0.182835C15.5729 -0.0609137 15.1771 -0.0609449 14.9331 0.182835L8 7.10698L1.06698 0.182835C0.822883 -0.0609449 0.427133 -0.0609449 0.18307 0.182835C-0.0609922 0.426614 -0.0610234 0.821855 0.18307 1.0656L7.1161 7.98971L0.18307 14.9139C-0.0610234 15.1576 -0.0610234 15.5529 0.18307 15.7966C0.241049 15.8547 0.309941 15.9007 0.385789 15.9321C0.461637 15.9634 0.542944 15.9795 0.625039 15.9794C0.707133 15.9795 0.788439 15.9634 0.864287 15.9321C0.940134 15.9007 1.00903 15.8547 1.06701 15.7966L8 8.87251L14.933 15.7966C15.0551 15.9185 15.215 15.9794 15.375 15.9794C15.535 15.9794 15.6949 15.9185 15.817 15.7966C16.0611 15.5528 16.0611 15.1576 15.817 14.9139L8.88394 7.98975Z" fill="black"/>
           </svg>  
         </span>
-        <input class="form_input"  type="text"  placeholder="Full Name">
-          <input class="form_input" type="text"  placeholder="Email address">
+        <input class="form_input" id="name"  type="text"  placeholder="Full Name">
+          <input class="form_input" id="email" type="text"  placeholder="Email address">
           <div style="display: flex; justify-content: space-between;">
             <div style="width: 15%; color:black; font-size: 16px;" class="form_input">+65</div>
-            <input style="width: 83%;" class="form_input" type="tel" placeholder="Mobile">
+            <input style="width: 83%;" id="phone" class="form_input" type="tel" placeholder="Mobile">
           </div>
-          <input style="height: 70px;" class="form_input" placeholder="Message"></input>
+          <input style="height: 70px;" id="message" class="form_input" placeholder="Message"></input>
           <!-- Example of dynamic fields -->
           <div id="questions_container">
             <div>
@@ -248,7 +261,7 @@
             <input class="form_input" placeholder="Example"></input>
             </div>
           </div>
-      <input type="date" id="datePicker">
+          <input type="date" id="datePicker">
           
           <button profile_id="<%=profile.id%>" class="btn_submit" onclick="submitLead(this)">Send</button>
 
@@ -381,7 +394,7 @@
         
 
         // Extract mobile number (special case because of the split fields)
-        const mobile = form.querySelector('input[type="number"]').value;
+        const mobile = document.getElementById('phone').value;
         const countryCode = form.querySelector('.form_input[style*="width: 15%"]').textContent.trim();
         formData['Mobile'] = countryCode + mobile;
 
@@ -450,7 +463,17 @@
       });
 
 
-
+      async function linkHandler(e){
+        const linkId = e.getAttribute("linkId");
+        const redirect_Url = e.getAttribute("redirect_Url");
+        const res = await fetch(`/api/linkcount/${linkId}`,{
+          method:"GET"
+        })
+        const resData = await res.json();
+        if(res.status == 200){
+          window.open(redirect_Url, '_blank');
+        }
+      }
     </script>
   </body>
 </html>

@@ -48,25 +48,29 @@
       <div class="container my-auto">
         <div class="row">
           <div class="col-lg-4 col-md-8 col-12 mx-auto">
-            <%- include('flash') %>
+            <%- include('../flash') %>
             <div class="card z-index-0 fadeIn3 fadeInBottom">
               <div class="card-header p-0 position-relative mt-n4 mx-3 z-index-2">
                 <div style="background-color: #002655;" class=" border-radius-lg py-3 pe-1">
-                  <h4 class="text-white font-weight-bolder text-center mt-2 mb-0">Admin Login</h4>
+                  <h4 class="text-white font-weight-bolder text-center mt-2 mb-0">CLIENT LOGIN</h4>
                 </div>
               </div>
               <div class="card-body">
-                <form action="/admin/login" method="POST" class="form_login">
+                <form  action="/api/client/login" method="POST" class="form_login">
                   <div class="input-group my-3">
-                    <!-- <label class="form-label">Username</label> -->
-                    <input id="email" style="padding: 6px; border: 2px solid #002655;" type="text" name="email" placeholder="Email" class="form-control">
+                    <input autocomplete="off" id="email" style="padding: 6px; border: 2px solid #002655;" type="text" name="email" placeholder="Email" class="form-control">
                   </div>
                   <div class="input-group mb-3">
-                    <!-- <label class="form-label">Password</label> -->
-                    <input id="pass" style="padding: 6px; border: 2px solid #002655;" type="password" name="password" placeholder="Password" class="form-control">
+                    <input autocomplete="off" id="pass" style="padding: 6px; border: 2px solid #002655;" type="password" name="password" placeholder="Password" class="form-control">
                   </div>
                   <div class="text-center">
                     <button style="background-color: #002655; color: white;" type="submit" class="btn w-100 my-4 mb-2">Sign in</button>
+                  </div>
+                  <div class="text-center text-dark">
+                    <strong><a href="/forget">Forgotten password?</a></strong> 
+                  </div>
+                  <div class="text-center text-dark">
+                    Don't Have an account <strong><a href="/register">Register</a></strong> 
                   </div>
                 </form>
               </div>

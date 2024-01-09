@@ -187,17 +187,21 @@
                     </a>
                 </li>
                 <li class="nav-item">
-                    <a
-                        class="nav-link text-white"
-                        href="/clients">
-                        <div
-                            class="text-white text-center me-2 d-flex align-items-center justify-content-center">
-                            <i class="fa-solid fa-list"
-                                style="color: #ffffff;"></i>
-                        </div>
+                    <a class="nav-link text-white " href="/clients">
+                      <div class="text-white text-center me-2 d-flex align-items-center justify-content-center">
+                        <i class="fa-solid fa-users"  style="color: #ffffff;"></i>
+                      </div>
+                      <%if(currentUser.role == "user"){%>
+                      
+                        <span class="nav-link-text ms-1">Profiles</span>
+                      
+                      <%}else{%>
+                      
                         <span class="nav-link-text ms-1">Clients</span>
+                      
+                      <%}%>
                     </a>
-                </li>
+                  </li>
                 <li class="nav-item">
                     <a class="nav-link text-white" style="background-color: #002655;" href="/leads">
                         <div
@@ -265,6 +269,7 @@
             
         </div>
         <div class="d-flex wrapper_div">
+            <%if(currentUser.role == "admin"){%>
             <div class="p-3 ms-2 text-center clients_div w-30 height-400 border border-2 overflow-auto">
                 <div  class="d-flex w-100 border border-0 rounded-2 p-2"
                 style="background-color: white; box-shadow: 0px 4px 4px -2px rgba(0, 0, 0, 0.25);">
@@ -300,6 +305,7 @@
                     <%}%>
                 </div>
             </div>
+            <%}%>
             <div class="d-flex w-100 overflow-auto table-container p-3">
                 <table id="myTable">
                     <thead>
@@ -334,7 +340,7 @@
                 </table>
             </div>
         </div>
-            <div class="loginPopup">
+            <!-- <div class="loginPopup">
                 <div class="formPopup" id="popupForm">
                     <form class="formContainer">
                         <a class="btn" value="junk" id="junk-btn"
@@ -356,7 +362,7 @@
                             class="btn cancel" onclick="closeForm()">Close</button>
                     </form>
                 </div>
-            </div>
+            </div> -->
         </div>
         <script src="script/leadscript.js"></script>
  
@@ -370,6 +376,9 @@
   <script async defer src="https://buttons.github.io/buttons.js"></script>
   <!-- Control Center for Material Dashboard: parallax effects, scripts for the example pages etc -->
   <script src="/assets/js/material-dashboard.min.js?v=3.1.0"></script>
+  <%if(currentUser.role == "admin"){%>
+
+    
   <script>
       let leads = [];
       let leadids = [];
@@ -381,9 +390,7 @@
                 const data = await res.json();
                 leads = data.leads;
                 profiles = data.profiles;
-                console.log(data);
                 const id = document.querySelector(".selected_client").getAttribute("mid");
-
                 const nextLeads = leads.filter(elem=>{
                     return elem.clientId == id;
                 })
@@ -623,6 +630,185 @@
             }
   
   </script>
+  <%}else{%>
+    <script>
+        let leads = [];
+        // let leadids = [];
+        // let profiles = [];
+          start();
+          filter();
+              async function start() {
+                  const res = await fetch(`api/getLeads`);
+                  const data = await res.json();
+                  leads = data.leads;
+                  profiles = data.profiles;
+                  populateLeads(leads);
+                  populateProfileFilter(profiles);
+              }
+  
+  
+              function filter() {
+                  const input_search = document.querySelector(".input_search");
+                  const profile_filter = document.getElementById("profile-filter");
+  
+                  
+                  // const dateFilter = document.getElementById("date-filter");
+                  let startDate = "";
+                  let endDate = "";
+  
+                  $(function() {
+                      $('input[name="daterange"]').daterangepicker({
+                          autoUpdateInput: false,
+                          locale: {
+                              cancelLabel: 'Clear'
+                          }
+                      });
+                      $('input[name="daterange"]').on('apply.daterangepicker', function(ev, picker) {
+                          $(this).val(picker.startDate.format('MM/DD/YYYY') + ' - ' + picker.endDate.format('MM/DD/YYYY'));
+                          startDate =  picker.startDate;
+                          endDate =  picker.endDate;
+                          applyFilters();
+                      });
+                      $('input[name="daterange"]').on('cancel.daterangepicker', function(ev, picker) {
+                          $(this).val('');
+                          startDate =  "";
+                          endDate =  "";
+                          applyFilters();
+                      });
+                  });
+                  profile_filter.addEventListener("change", applyFilters);
+                  input_search.addEventListener("input", applyFilters);
+  
+                  function applyFilters() {
+                      let filterleads = leads;
+                      profile_filter_value = profile_filter.value
+                      search_value = input_search.value;
+                      console.log(filterleads);
+                    
+                          if(search_value){
+                              filterleads = filterleads.filter(lead=>{ 
+                                  let objectAsString = JSON.stringify(lead);
+                                  return objectAsString.toLocaleLowerCase().includes(search_value.toLocaleLowerCase());
+                              })
+                          }
+                          console.log(filterleads);
+                          
+                          if(profile_filter_value && profile_filter_value != 'all'){
+                              filterleads = filterleads.filter(elem => {
+                                  return elem.profileId == profile_filter_value;
+                              })
+  
+                          }
+                          
+                          if(startDate != "" && endDate != ""){
+                              filterleads = filterleads.filter((lead) => {
+                                      const createdAtDate = new Date(lead.created_at);
+                                      const milliseconds = createdAtDate.getTime();
+                                      const start = new Date(startDate);
+                                      const end = new Date(endDate);
+                                      console.log(start, end);
+                                      return milliseconds >= start && milliseconds <= end;
+                              });
+                          }
+                          populateLeads(filterleads);
+                          
+                      }
+               }
+  
+              function clearFilters(){
+                  const clientFilter = document.getElementById("client-filter");
+                  const projectFilter = document.getElementById("project-filter");
+                  const junkFilter = document.getElementById("junk-filter");
+                  clientFilter.value = "all";
+                  projectFilter.value = "all";
+                  junkFilter.value = "all";
+  
+              }
+  
+  
+              function populateLeads(filterleads) {
+                  const tbody = document.getElementById('table-body');
+                  tbody.innerHTML = '';
+  
+                  for (let i = 0; i < filterleads.length; i++) {
+  
+                      const newRow = document.createElement('tr');
+                      
+                      const cell1 = document.createElement('td');
+                      const timestamp = filterleads[i].created_at;
+                      const date = new Date(timestamp);
+                      cell1.innerHTML = `<p>${dateFormat(date)}</p>`;
+                      cell1.style.whiteSpace = "nowrap";
+                      cell1.classList.add("one");
+                      newRow.appendChild(cell1);
+  
+                      const cell4 = document.createElement('td');
+                      cell4.innerHTML = `<p>${filterleads[i].name}</p>`;
+                      cell4.classList.add("four");
+                      newRow.appendChild(cell4);
+  
+                      const cell5 = document.createElement('td');
+                      cell5.innerHTML = `<p>${filterleads[i].phone}</p>`;
+                      cell5.classList.add("five");
+                      newRow.appendChild(cell5);
+  
+                      const cell6 = document.createElement('td');
+                      cell6.innerHTML = `<p>${filterleads[i].email}</p>`;
+                      cell6.classList.add("six");
+                      newRow.appendChild(cell6);
+  
+                      const cell7 = document.createElement('td');
+                      const profile = profiles.find(elem=>{
+                          return elem.id == filterleads[i].profileId;
+                      })
+                      cell7.innerHTML = `<p>${profile.name}</p>`;
+                      cell7.classList.add("six");
+                      newRow.appendChild(cell7);
+                  
+                      tbody.appendChild(newRow);
+                  }
+              }
+  
+              function dateFormat(dateString) {
+                  const simplifiedDate = dateString.toLocaleDateString('en-US', {
+                      year: 'numeric',
+                      month: 'long',
+                      day: 'numeric'
+                  });
+                  return simplifiedDate;
+              }
+
+              function toggleColumn(btn) {
+                  const collapseClass = btn.getAttribute('collapseId');
+                  let contentRows = document.querySelectorAll('.' + collapseClass);
+                      console.log(contentRows);
+                  contentRows.forEach(function(content) {
+                  content.querySelector("p").classList.toggle('hidden')
+                  });
+                      btn.previousElementSibling.classList.toggle('vertical-header');
+                      btn.innerHTML = contentRows[0].firstChild.classList.contains('hidden') ? '&#x208A;' : '&#x2212;';
+                      btn.parentElement.classList.toggle('afterCollapsible');
+                      btn.previousElementSibling.classList.toggle('beforeCollapse');
+                      
+              }
+    
+  
+  
+              function populateProfileFilter(profiles){
+                  const profileFilter = document.getElementById("profile-filter");
+                  profileFilter.innerHTML = "";
+                  profileFilter.innerHTML = ` <option value selected disabled>Profiles</option>
+                      <option value="all">All</option>`
+                  profiles.forEach((profile)=>{
+                      const option = document.createElement("option");
+                      option.value = profile.id;
+                      option.innerHTML = profile.name;
+                      profileFilter.appendChild(option);
+                  });
+              }
+    
+    </script>
+  <%}%>
   <script src="/script/customselect.js">
 
   </script>

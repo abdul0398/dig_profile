@@ -3,7 +3,7 @@ CREATE TABLE IF NOT EXISTS users (
     id INT AUTO_INCREMENT PRIMARY KEY,
     name VARCHAR(255) NOT NULL,
     email VARCHAR(255) NOT NULL,
-    role ENUM('admin', 'user') DEFAULT 'user',
+    role ENUM('admin') DEFAULT 'admin',
     status ENUM('active', 'inactive') DEFAULT 'active',
     hashed_password BLOB,
     salt BLOB,

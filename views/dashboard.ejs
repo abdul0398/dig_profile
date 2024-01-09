@@ -79,7 +79,15 @@
             <div class="text-white text-center me-2 d-flex align-items-center justify-content-center">
               <i class="fa-solid fa-users"  style="color: #ffffff;"></i>
             </div>
-            <span class="nav-link-text ms-1">Clients</span>
+            <%if(currentUser.role == "user"){%>
+            
+              <span class="nav-link-text ms-1">Profiles</span>
+            
+            <%}else{%>
+            
+              <span class="nav-link-text ms-1">Clients</span>
+            
+            <%}%>
           </a>
         </li>
         <li class="nav-item">
@@ -127,23 +135,24 @@
     <!-- End Navbar -->
     <div class="container-fluid py-4">
       <div class="row">
-        <div class="col-xl-3 col-sm-6 mb-xl-0 mb-4">
-          <div class="card">
-            <div class="card-header p-3 pt-2">
-              <div class="icon icon-lg icon-shape bg-gradient-dark shadow-dark text-center border-radius-xl mt-n4 position-absolute">
-                <i class="material-icons opacity-10">weekend</i>
+        <%if(currentUser.role == "admin"){%>
+          <div class="col-xl-3 col-sm-6 mb-xl-0 mb-4">
+            <div class="card">
+              <div class="card-header p-3 pt-2">
+                <div class="icon icon-lg icon-shape bg-gradient-dark shadow-dark text-center border-radius-xl mt-n4 position-absolute">
+                  <i class="material-icons opacity-10">people</i>
+                </div>
+                <div class="text-end pt-1">
+                  <p class="text-sm mb-0 text-capitalize">Total Clients</p>
+                  <h4 class="mb-0"><%=clients.length%></h4>
+                </div>
               </div>
-              <div class="text-end pt-1">
-                <p class="text-sm mb-0 text-capitalize">Total Clients</p>
-                <h4 class="mb-0">XX</h4>
+              <hr class="dark horizontal my-0">
+              <div class="card-footer p-3">
               </div>
-            </div>
-            <hr class="dark horizontal my-0">
-            <div class="card-footer p-3">
-              <p class="mb-0"><span class="text-success text-sm font-weight-bolder">+55% </span>than last week</p>
             </div>
           </div>
-        </div>
+        <%}%>
         <div class="col-xl-3 col-sm-6 mb-xl-0 mb-4">
           <div class="card">
             <div class="card-header p-3 pt-2">
@@ -152,15 +161,15 @@
               </div>
               <div class="text-end pt-1">
                 <p class="text-sm mb-0 text-capitalize">Total Profiles</p>
-                <h4 class="mb-0">XXX</h4>
+                <h4 class="mb-0"><%=profiles.length%></h4>
               </div>
             </div>
             <hr class="dark horizontal my-0">
             <div class="card-footer p-3">
-              <p class="mb-0"><span class="text-success text-sm font-weight-bolder">+3% </span>than last month</p>
             </div>
           </div>
         </div>
+        <%if(currentUser.role == "admin"){%>
         <div class="col-xl-3 col-sm-6 mb-xl-0 mb-4">
           <div class="card">
             <div class="card-header p-3 pt-2">
@@ -168,34 +177,83 @@
                 <i class="material-icons opacity-10">person</i>
               </div>
               <div class="text-end pt-1">
-                <p class="text-sm mb-0 text-capitalize">New Clients</p>
-                <h4 class="mb-0">3,462</h4>
+                <p class="text-sm mb-0 text-capitalize">Choose Client</p>
+                <select style="width: 58%;
+                border: none;
+                padding: 5px 10px;
+                border-radius: 6px;
+            " name="" id="client_dropdown">
+            <option selected disabled> Select Client</option>
+            <%for(let i = 0; i < clients.length; i++){%>
+                  <option value="<%=clients[i].id%>"><%=clients[i].name%></option>
+            <%}%>
+
+                </select>
               </div>
             </div>
             <hr class="dark horizontal my-0">
             <div class="card-footer p-3">
-              <p class="mb-0"><span class="text-danger text-sm font-weight-bolder">-2%</span> than yesterday</p>
             </div>
           </div>
         </div>
+        <%}%>
         <div class="col-xl-3 col-sm-6">
           <div class="card">
             <div class="card-header p-3 pt-2">
               <div class="icon icon-lg icon-shape bg-gradient-info shadow-info text-center border-radius-xl mt-n4 position-absolute">
-                <i class="material-icons opacity-10">weekend</i>
+                <i class="material-icons opacity-10">person</i>
               </div>
               <div class="text-end pt-1">
-                <p class="text-sm mb-0 text-capitalize">Sales</p>
-                <h4 class="mb-0">$103,430</h4>
+                <p class="text-sm mb-0 text-capitalize">Profiles</p>
+                <select style="width: 58%;
+                border: none;
+                padding: 5px 10px;
+                border-radius: 6px;
+            " name="" id="profile_dropdown">
+            <option selected disabled>Choose</option>
+            <%if(currentUser.role == "user"){%>
+              <%for(let i = 0; i < profiles.length; i++){%>
+                  <option value="<%=profiles[i].id%>"><%=profiles[i].name%></option>
+              <%}%>
+            <%}%>
+                </select>
               </div>
             </div>
             <hr class="dark horizontal my-0">
             <div class="card-footer p-3">
-              <p class="mb-0"><span class="text-success text-sm font-weight-bolder">+5% </span>than yesterday</p>
             </div>
           </div>
         </div>
-      </div>     
+      </div>
+      <div class="row mt-3">
+        <div class="col-12">
+          <div class="card my-4">
+            <div class="card-header p-0 position-relative mt-n4 mx-3 z-index-2">
+              <div class="d-flex bg-gradient-primary shadow-primary border-radius-lg pt-4 pb-3">
+                <h6 class="text-white text-capitalize ps-3">Analytics table</h6>
+                <div class="ms-auto me-lg-5">
+                  <p class="text-center text-white text-capitalize" id="profile_name"></p>
+                  <p class="text-center text-white text-bolder "  id="profile_clicks"></p>
+                </div>
+              </div>
+            </div>
+            <div class="card-body px-0 pb-2">
+              <div class="table-responsive p-0">
+                <table class="table align-items-center mb-0">
+                  <thead>
+                    <tr>
+                      <th class="text-uppercase text-secondary text-xs font-weight-bolder opacity-7">Links</th>
+                      <th class="text-uppercase text-secondary text-xs font-weight-bolder opacity-7 ps-2">Clicks</th>
+                    </tr>
+                  </thead>
+                  <tbody id="analytics_body">
+                  </tbody>
+                </table>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
     </div>
   </main>
  
@@ -210,6 +268,112 @@
   <!-- Control Center for Material Dashboard: parallax effects, scripts for the example pages etc -->
   <script src="/assets/js/material-dashboard.min.js?v=3.1.0"></script>
 </body>
-<script>
-</script>
+<%if(currentUser.role == "admin"){%>
+  <script>
+    async function fetchClientDetails(clientid){
+        const res = await fetch(`/api/getClient/${clientid}`,{
+            method:"GET"
+        })
+        const data = await res.json();
+        return data;
+    }
+    async function fetchprofileDetails(profileid){
+        const res = await fetch(`/api/getProfile/${profileid}`,{
+            method:"GET"
+        })
+        const data = await res.json();
+        return data;
+    }
+  
+  
+    document.getElementById("client_dropdown").addEventListener("change", async ()=>{
+      document.getElementById("profile_dropdown").innerHTML = "";
+      let client_id = document.getElementById("client_dropdown").value;
+      const data = await fetchClientDetails(client_id);
+      profiles = data.profiles;
+      links = data.links;
+      if(!profiles || profiles.length == 0){
+        document.getElementById("profile_dropdown").innerHTML += `<option selected disabled> No Profiles</option>`
+      }else{
+        document.getElementById("profile_dropdown").innerHTML += `<option disabled selected >Select Profile</option>`
+        for(let i = 0; i < profiles.length; i++){
+          document.getElementById("profile_dropdown").innerHTML += `<option value="${profiles[i].id}">${profiles[i].name}</option>`
+        }
+      }
+    })
+  
+    document.getElementById("profile_dropdown").addEventListener("change", async ()=>{
+      const profileId = document.getElementById("profile_dropdown").value;
+      const profileName = document.getElementById("profile_dropdown").options[document.getElementById("profile_dropdown").selectedIndex].text;
+      document.getElementById("profile_name").innerHTML = profileName;
+      document.getElementById("analytics_body").innerHTML = "";
+      const {profile, links} = await fetchprofileDetails(profileId);
+      document.getElementById("profile_clicks").innerHTML = profile.views + " views";
+      const profile_links = links.filter(link => link.type == "link");
+      console.log(profile);
+      
+      for(let i = 0; i < profile_links.length; i++){
+        document.getElementById("analytics_body").innerHTML += `
+        <tr>
+          <td>
+            <div class="d-flex px-2 py-1">
+              <div class="d-flex flex-column justify-content-center">
+                <h6 class="mb-0 text-sm">${profile_links[i].name}</h6>
+              </div>
+            </div>
+          </td>
+          <td>
+            <p class="text-m font-weight-bold mb-0">${profile_links[i].click_count}</p>
+          </td>
+        </tr>
+        `
+      }
+  
+    })
+  
+  
+  </script>
+  <%}else{%>
+    <script>
+      async function fetchprofileDetails(profileid){
+          const res = await fetch(`/api/getProfile/${profileid}`,{
+              method:"GET"
+          })
+          const data = await res.json();
+          return data;
+      }
+    
+      document.getElementById("profile_dropdown").addEventListener("change", async ()=>{
+        const profileId = document.getElementById("profile_dropdown").value;
+        const profileName = document.getElementById("profile_dropdown").options[document.getElementById("profile_dropdown").selectedIndex].text;
+        document.getElementById("profile_name").innerHTML = profileName;
+        document.getElementById("analytics_body").innerHTML = "";
+        const {profile, links} = await fetchprofileDetails(profileId);
+        document.getElementById("profile_clicks").innerHTML = profile.views + " views";
+        const profile_links = links.filter(link => link.type == "link");
+        console.log(profile);
+        
+        for(let i = 0; i < profile_links.length; i++){
+          document.getElementById("analytics_body").innerHTML += `
+          <tr>
+            <td>
+              <div class="d-flex px-2 py-1">
+                <div class="d-flex flex-column justify-content-center">
+                  <h6 class="mb-0 text-sm">${profile_links[i].name}</h6>
+                </div>
+              </div>
+            </td>
+            <td>
+              <p class="text-m font-weight-bold mb-0">${profile_links[i].click_count}</p>
+            </td>
+          </tr>
+          `
+        }
+    
+      })
+    
+    
+    </script>
+  
+    <%}%>
 </html>

@@ -11,6 +11,13 @@ const isAuthenticated = (req, res, next)=>{
     }
     return true;
 }
+const isAdmin = (req, res, next)=>{
+    if(req.user.role !== "admin"){
+        req.flash('error', "you are not authorized");
+        return res.redirect('/admin/login');
+    }
+    next();
+}
 
 
-module.exports = {verify, isAuthenticated}
+module.exports = {verify, isAuthenticated, isAdmin}

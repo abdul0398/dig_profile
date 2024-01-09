@@ -15,10 +15,18 @@ const storage = multer.diskStorage({
   })  
   const upload = multer({ storage: storage })
 
-router.get("/", verify, (req,res)=>{
-    res.render("dashboard.ejs");
+router.get("/", verify, async(req,res)=>{
+    if(req.user.role == "admin"){
+        const [profiles] = await __pool.query(`SELECT name, id FROM profiles`);
+        const [clients] = await __pool.query(`SELECT name, id FROM clients`);
+        res.render("dashboard.ejs", {clients: clients, profiles: profiles});
+    }else{
+        const [profiles] = await __pool.query(`SELECT name, id FROM profiles WHERE client_id = ?`, [req.user.id]);
+        res.render("dashboard.ejs", {clients: [], profiles: profiles});
+    }
 }).post("/addprofile", verify, async (req,res)=>{
     const {name, clientID} = req.body;
+    console.log(name, clientID);
     try {
         // Check if a profile already exists with the same name for the client
         const checkQuery = `SELECT * FROM profiles WHERE name = ? AND client_id = ?`;
@@ -68,6 +76,10 @@ router.get("/", verify, (req,res)=>{
     const parts = decodedString.split(delimiter);
     const profileId = parts[0];
     try {
+        // update the view count
+        const updateQuery = `UPDATE profiles SET views = views + 1 WHERE id = ?`;
+        await __pool.query(updateQuery, [profileId]);
+
         const [profile] = await __pool.query(`SELECT * FROM profiles WHERE id = ?`, [profileId]);
         if(profile.length === 0){
             return res.status(404).json({message: "Profile not found"});
@@ -179,7 +191,13 @@ router.get("/", verify, (req,res)=>{
             res.status(500).json({ message: 'Error updating links' });
         }
    
-});
+}).get("/api/linkcount/:linkId", (req,res)=>{
+    const {linkId} = req.params;
+    console.log(linkId);
+    const updateQuery = `UPDATE links SET click_count = click_count + 1 WHERE id = ?`;
+    __pool.query(updateQuery, [linkId]);
+    res.status(200).json("Updated");
+})
 
 
 module.exports = router;

@@ -129,6 +129,7 @@
     border: none;
     padding: 5px;
     box-sizing: border-box;
+    margin-top: 10px;
     }
     @media only screen and (max-width: 1000px) {
       #popupform{
@@ -165,7 +166,7 @@
                   
                     <li style="margin:10px auto 10px auto; display: flex; justify-content: center; align-items: center; background-color: #0066C9; width: 330px; border-radius: 35px; height: 50px;">
                   
-                      <a style="text-decoration: none; color: white;" href="<%=links[i].link%>"><%=links[i].name%></a>
+                      <a style="cursor: pointer; text-decoration: none; color: white;" onclick="linkHandler(this)" linkId="<%=links[i].id%>" redirect_Url="<%=links[i].link%>"><%=links[i].name%></a>
                   
                     </li>
                   
@@ -234,7 +235,7 @@
       <input class="form_input" id="email" type="text"  placeholder="Email address">
       <div style="display: flex; justify-content: space-between;">
         <div style="width: 15%; color:black; font-size: 16px;" class="form_input">+65</div>
-        <input style="width: 83%;" class="form_input" type="number"  placeholder="Mobile">
+        <input style="width: 83%;" id="phone" class="form_input" type="number"  placeholder="Mobile">
       </div>
       <input style="height: 70px;" id="message" class="form_input" placeholder="Message"></input>
       <!-- Example of dynamic fields -->
@@ -384,7 +385,7 @@
         
 
         // Extract mobile number (special case because of the split fields)
-        const mobile = form.querySelector('input[type="number"]').value;
+        const mobile = document.getElementById('phone').value;
         const countryCode = form.querySelector('.form_input[style*="width: 15%"]').textContent.trim();
         formData['Mobile'] = countryCode + mobile;
 
@@ -451,6 +452,20 @@
 
           document.getElementById('datePicker').setAttribute('min', todayFormatted);
       });
+
+      async function linkHandler(e){
+        const linkId = e.getAttribute("linkId");
+        const redirect_Url = e.getAttribute("redirect_Url");
+        const res = await fetch(`/api/linkcount/${linkId}`,{
+          method:"GET"
+        })
+        const resData = await res.json();
+        if(res.status == 200){
+          window.open(redirect_Url, '_blank');
+        }
+      }
+
+
 </script>
   </body>
 </html>

@@ -16,12 +16,12 @@ router.post("/api/submitLead/:profilId", async (req,res)=>{
 }).get("/leads", verify, async (req,res)=>{
     const getLeadsQuery = `SELECT * FROM leads WHERE profileId IN (?)`;
     const getProfilesQuery = `SELECT * FROM profiles WHERE client_id IN (?)`;
-    const getClientsQuery = `SELECT * FROM clients WHERE userId = ?`;
+    const getClientsQuery = `SELECT name, id FROM clients`;
     const userId = req.user.id;
     
     try {
         // First, get the clients for the given userId
-        const [clientsResult] = await __pool.query(getClientsQuery, [userId]);
+        const [clientsResult] = await __pool.query(getClientsQuery);
         const clients = clientsResult.map(client => client.id);
     
         // If no clients found, return empty data
@@ -42,37 +42,45 @@ router.post("/api/submitLead/:profilId", async (req,res)=>{
         res.status(500).send("Server Error");
     }
 
-}).get("/api/getLeads", verify, async (req,res)=>{
+}).get("/api/getLeads", async (req,res)=>{
     const getLeadsQuery = `SELECT * FROM leads WHERE profileId IN (?)`;
     const getProfilesQuery = `SELECT * FROM profiles WHERE client_id IN (?)`;
-    const getClientsQuery = `SELECT * FROM clients WHERE userId = ?`;
+    const getClientsQuery = `SELECT name, id FROM clients`;
     const userId = req.user.id;
-
     try {
-        const [clientsResult] = await __pool.query(getClientsQuery, [userId]);
-        const clientIds = clientsResult.map(client => client.id);
-
-        if (clientIds.length === 0) {
-            return res.status(200).json({ leads: [], profiles: [], clients: [] });
+        if(req.user.role == "admin"){
+            const [clientsResult] = await __pool.query(getClientsQuery);
+            const clientIds = clientsResult.map(client => client.id);
+    
+            if (clientIds.length === 0) {
+                return res.status(200).json({ leads: [], profiles: [], clients: [] });
+            }
+    
+            const [profilesResult] = await __pool.query(getProfilesQuery, [clientIds]);
+            const profileIds = profilesResult.map(profile => profile.id);
+    
+            const [leadsResult] = await __pool.query(getLeadsQuery, [profileIds]);
+    
+            const leadsWithDetails = leadsResult.map(lead => {
+                const profile = profilesResult.find(profile => profile.id === lead.profileId);
+                const client = profile ? clientsResult.find(client => client.id === profile.client_id) : null;
+                return {
+                    ...lead,
+                    clientId: client ? client.id : null
+                };
+            });
+    
+            res.status(200).json({ leads: leadsWithDetails, profiles: profilesResult, clients: clientsResult });
+        }else{
+            const [profilesResult] = await __pool.query(getProfilesQuery, [userId]);
+            const profiles = profilesResult.map(profile => profile.id);
+    
+            const [leads] = await __pool.query(getLeadsQuery, [profiles]);
+            
+            res.status(200).json({ leads, profiles: profilesResult});
         }
-
-        const [profilesResult] = await __pool.query(getProfilesQuery, [clientIds]);
-        const profileIds = profilesResult.map(profile => profile.id);
-
-        const [leadsResult] = await __pool.query(getLeadsQuery, [profileIds]);
-
-        const leadsWithDetails = leadsResult.map(lead => {
-            const profile = profilesResult.find(profile => profile.id === lead.profileId);
-            const client = profile ? clientsResult.find(client => client.id === profile.client_id) : null;
-            return {
-                ...lead,
-                clientId: client ? client.id : null
-            };
-        });
-
-        res.status(200).json({ leads: leadsWithDetails, profiles: profilesResult, clients: clientsResult });
     } catch (error) {
-        console.error(error);
+        console.log(error);
         res.status(500).send("Server Error");
     }
 })

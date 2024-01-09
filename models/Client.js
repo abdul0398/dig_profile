@@ -2,10 +2,18 @@ const Client = `
 CREATE TABLE IF NOT EXISTS clients (
   id INT AUTO_INCREMENT PRIMARY KEY,
   name VARCHAR(255) NOT NULL,
-  userId INT NOT NULL,
+  email VARCHAR(255) NOT NULL,
+  hashed_password BLOB,
+  salt BLOB,
+  status ENUM('active', 'inactive') DEFAULT 'active',
+  role ENUM('user') DEFAULT 'user',
+  isVerified BOOLEAN DEFAULT FALSE,
+  verificationToken VARCHAR(255),
+  resetPasswordToken VARCHAR(255),
+  resetPasswordExpires VARCHAR(255),
   created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
   updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
-  FOREIGN KEY (userId) REFERENCES users(id) ON DELETE CASCADE
+  UNIQUE (email)
 
 );
 `;
