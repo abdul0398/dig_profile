@@ -608,7 +608,6 @@
             
             return labelElement;
         }
-
         // Helper function to create input fields
         function createInput(type, placeholder, disabled) {
             const input = document.createElement('input');
@@ -619,8 +618,6 @@
             input.style.marginBottom = "2px"
             return input;
         }
-
-
         
         function addHeading(){
             const linkDiv = document.createElement('div');
@@ -661,210 +658,210 @@
 
             linkContainer.appendChild(linkDiv);
         }
-    }
-
-    function showNext(elem) {
-        if(elem.innerText === "Submit"){
-            submitProfile();
-            return;
         }
-        const selectedTemplate = document.querySelector('div.image-container.selected').getAttribute('template_id');
-        profileDataState.templateSelected =  selectedTemplate
-        const arrangement = extractData();
-        populateProfilePreview(arrangement);
-        document.querySelectorAll(".temp").forEach(element => {
-            element.style.display = "none";
-        });
-        document.getElementById(`temp${selectedTemplate}`).style.display = "block";
-        document.getElementById('step1').style.display = 'none';
-        document.getElementById('step2').style.display = 'block';
-        
-    }
 
-    function showPrev() {
-    document.getElementById('step1').style.display = 'block';
-    document.getElementById('step2').style.display = 'none';
-}
-
-    function extractData() {
-    const linkContainer = document.getElementById('link_container_dynamic');
-    const children = linkContainer.children;
-    const data = [];
-
-    for (let i = 0; i < children.length; i++) {
-        const child = children[i];
-        const inputs = child.getElementsByTagName('input');
-
-        if (inputs.length === 4) {
-            let link = '';
-            let type = '';
-            
-            if(inputs[0].checked) {
-                type = "link";
-                link = inputs[2].value;
-            } else {
-                type = "form";
-                const formSelect = child.querySelector('.form_select');
-                if (formSelect) {
-                    link = formSelect.value;
-                }
+        function showNext(elem) {
+            if(elem.innerText === "Submit"){
+                submitProfile();
+                return;
             }
-
-            const name = inputs[3].value;
-            data.push({ type: type, link, name, order: i });
-        } else if (inputs.length === 1) {
-            const heading = inputs[0].value;
-            data.push({ type: 'heading', heading, order: i });
-        }
-    }
-    return data;
-}
-
-    function populateProfilePreview(arrangment) {
-        if(profileDataState.templateSelected == 1){
-            // Poluplating template 1
-            const profile_preview_container  = document.getElementById("profile_preview_innercontainer");
-            profile_preview_container.innerHTML = "";
-            arrangment.forEach(element => {
-                if(element.type === "link"){
-                    profile_preview_container.innerHTML += `<li style="font-size: 12px; margin:0px auto 5px auto; display: flex; justify-content: center; align-items: center; background-color: #0066C9; width: 160px; border-radius: 20px; height: 32px;">
-                    <a style="color: white;" href="${element.link}">${element.name}</a>
-                </li>`
-                }else if(element.type === "heading"){
-                    profile_preview_container.innerHTML += `<p style="font-size: 12px; color: #000; padding-left:10px ;" class="profile_heading">${element.heading}</p>`
-                }else{
-                    profile_preview_container.innerHTML += `<li style="font-size: 12px; margin:0px auto 5px auto; display: flex; justify-content: center; align-items: center; background-color: #0066C9; width: 160px; border-radius: 20px; height: 32px;">
-                    <a style="color: white;" href="${element.link}">${element.name}</a>
-                </li>`
-                }
+            const selectedTemplate = document.querySelector('div.image-container.selected').getAttribute('template_id');
+            profileDataState.templateSelected =  selectedTemplate
+            const arrangement = extractData();
+            populateProfilePreview(arrangement);
+            document.querySelectorAll(".temp").forEach(element => {
+                element.style.display = "none";
             });
-        }else if(profileDataState.templateSelected == 2){
-            // populating template 2
-            const profile_preview_container_temp2  = document.getElementById("profile_preview_container_temp2");
-            profile_preview_container_temp2.innerHTML = "";
-            arrangment.forEach(element => {
-                if(element.type === "link"){
-                    profile_preview_container_temp2.innerHTML += `<li style="font-size: 12px; margin:0px auto 5px auto; display: flex; justify-content: center; align-items: center; background-color: #b68e00; width: 160px; border-radius: 20px; height: 35px;">
-                        <a style="color: white;" href="${element.link}">${element.name}</a>
-                    </li>`
-                }else if(element.type === "heading"){
-                    profile_preview_container_temp2.innerHTML += `<p style="font-size: 12px;color: #fff;padding-left:10px;" class="profile_heading">${element.heading}</p>`;
-                }else{
-                    profile_preview_container_temp2.innerHTML += `<li style="font-size: 12px; margin:0px auto 5px auto; display: flex; justify-content: center; align-items: center; background-color: #b68e00; width: 160px; border-radius: 20px; height: 32px;">
-                    <a style="color: white;" href="${element.link}">${element.name}</a>
-                </li>`
-                }
-            });
-        }else{
-            const profile_preview_container_temp3  = document.getElementById("profile_preview_container_temp3");
-            profile_preview_container_temp3.innerHTML = "";
-            arrangment.forEach(element => {
-                if(element.type === "link"){
-                    profile_preview_container_temp3.innerHTML += `<li style="font-size: 12px; margin:0px auto 5px auto; display: flex; justify-content: center; align-items: center; background-image: linear-gradient(178.54deg, #ff1212 7.67%, #ff2c1d); width: 160px; border-radius: 20px; height: 35px;">
-                        <a style="color: white;" href="${element.link}">${element.name}</a>
-                    </li>`
-                }else if(element.type === "heading"){
-                    profile_preview_container_temp3.innerHTML += `<p style="font-size: 12px; margin-bottom:2px; color: #000;padding-left:10px;" class="profile_heading">${element.heading}</p>`;
-                }else{
-                    profile_preview_container_temp3.innerHTML += `<li style="font-size: 12px; margin:0px auto 5px auto; display: flex; justify-content: center; align-items: center; background-image: linear-gradient(178.54deg, #ff1212 7.67%, #ff2c1d); width: 160px; border-radius: 20px; height: 32px;">
-                    <a style="color: white;" href="${element.link}">${element.name}</a>
-                </li>`
-                }
-            });
+            document.getElementById(`temp${selectedTemplate}`).style.display = "block";
+            document.getElementById('step1').style.display = 'none';
+            document.getElementById('step2').style.display = 'block';
             
-        }        
+        }
+
+        function showPrev() {
+        document.getElementById('step1').style.display = 'block';
+        document.getElementById('step2').style.display = 'none';
     }
 
-    function validation() {
-        const inputs = document.querySelectorAll('#link_container_dynamic input[type="text"]:not([style*="display:none"])');
-        // validate all inputs of type text
-        let valid = true;
-        console.log(inputs);
-        for (let i = 0; i < inputs.length; i++) {
-            inputs[i].style.border = 'none';
-            if (inputs[i].value === '') {
-                if(inputs[i].style.display === "none"){
-                    continue;
+        function extractData() {
+        const linkContainer = document.getElementById('link_container_dynamic');
+        const children = linkContainer.children;
+        const data = [];
+
+        for (let i = 0; i < children.length; i++) {
+            const child = children[i];
+            const inputs = child.getElementsByTagName('input');
+
+            if (inputs.length === 4) {
+                let link = '';
+                let type = '';
+                
+                if(inputs[0].checked) {
+                    type = "link";
+                    link = inputs[2].value;
+                } else {
+                    type = "form";
+                    const formSelect = child.querySelector('.form_select');
+                    if (formSelect) {
+                        link = formSelect.value;
+                    }
                 }
-                valid = false;
-                inputs[i].style.border = '1px solid red';
+
+                const name = inputs[3].value;
+                data.push({ type: type, link, name, order: i });
+            } else if (inputs.length === 1) {
+                const heading = inputs[0].value;
+                data.push({ type: 'heading', heading, order: i });
             }
         }
-        if(!valid){
-            Swal.fire({
-                title: "Please fill all the fields",
-                icon: "error",
-                confirmButtonText: "Ok",
-            }).then((result) => {
-                if (result.isConfirmed) {
-                    return false;
+        return data;
+    }
+
+        function populateProfilePreview(arrangment) {
+            if(profileDataState.templateSelected == 1){
+                // Poluplating template 1
+                const profile_preview_container  = document.getElementById("profile_preview_innercontainer");
+                profile_preview_container.innerHTML = "";
+                arrangment.forEach(element => {
+                    if(element.type === "link"){
+                        profile_preview_container.innerHTML += `<li style="font-size: 12px; margin:0px auto 5px auto; display: flex; justify-content: center; align-items: center; background-color: #0066C9; width: 160px; border-radius: 20px; height: 32px;">
+                        <a style="color: white;" href="${element.link}">${element.name}</a>
+                    </li>`
+                    }else if(element.type === "heading"){
+                        profile_preview_container.innerHTML += `<p style="font-size: 12px; color: #000; padding-left:10px ;" class="profile_heading">${element.heading}</p>`
+                    }else{
+                        profile_preview_container.innerHTML += `<li style="font-size: 12px; margin:0px auto 5px auto; display: flex; justify-content: center; align-items: center; background-color: #0066C9; width: 160px; border-radius: 20px; height: 32px;">
+                        <a style="color: white;" href="${element.link}">${element.name}</a>
+                    </li>`
+                    }
+                });
+            }else if(profileDataState.templateSelected == 2){
+                // populating template 2
+                const profile_preview_container_temp2  = document.getElementById("profile_preview_container_temp2");
+                profile_preview_container_temp2.innerHTML = "";
+                arrangment.forEach(element => {
+                    if(element.type === "link"){
+                        profile_preview_container_temp2.innerHTML += `<li style="font-size: 12px; margin:0px auto 5px auto; display: flex; justify-content: center; align-items: center; background-color: #b68e00; width: 160px; border-radius: 20px; height: 35px;">
+                            <a style="color: white;" href="${element.link}">${element.name}</a>
+                        </li>`
+                    }else if(element.type === "heading"){
+                        profile_preview_container_temp2.innerHTML += `<p style="font-size: 12px;color: #fff;padding-left:10px;" class="profile_heading">${element.heading}</p>`;
+                    }else{
+                        profile_preview_container_temp2.innerHTML += `<li style="font-size: 12px; margin:0px auto 5px auto; display: flex; justify-content: center; align-items: center; background-color: #b68e00; width: 160px; border-radius: 20px; height: 32px;">
+                        <a style="color: white;" href="${element.link}">${element.name}</a>
+                    </li>`
+                    }
+                });
+            }else{
+                const profile_preview_container_temp3  = document.getElementById("profile_preview_container_temp3");
+                profile_preview_container_temp3.innerHTML = "";
+                arrangment.forEach(element => {
+                    if(element.type === "link"){
+                        profile_preview_container_temp3.innerHTML += `<li style="font-size: 12px; margin:0px auto 5px auto; display: flex; justify-content: center; align-items: center; background-image: linear-gradient(178.54deg, #ff1212 7.67%, #ff2c1d); width: 160px; border-radius: 20px; height: 35px;">
+                            <a style="color: white;" href="${element.link}">${element.name}</a>
+                        </li>`
+                    }else if(element.type === "heading"){
+                        profile_preview_container_temp3.innerHTML += `<p style="font-size: 12px; margin-bottom:2px; color: #000;padding-left:10px;" class="profile_heading">${element.heading}</p>`;
+                    }else{
+                        profile_preview_container_temp3.innerHTML += `<li style="font-size: 12px; margin:0px auto 5px auto; display: flex; justify-content: center; align-items: center; background-image: linear-gradient(178.54deg, #ff1212 7.67%, #ff2c1d); width: 160px; border-radius: 20px; height: 32px;">
+                        <a style="color: white;" href="${element.link}">${element.name}</a>
+                    </li>`
+                    }
+                });
+                
+            }        
+        }
+
+        function validation() {
+            const inputs = document.querySelectorAll('#link_container_dynamic input[type="text"]:not([style*="display:none"])');
+            // validate all inputs of type text
+            let valid = true;
+            console.log(inputs);
+            for (let i = 0; i < inputs.length; i++) {
+                inputs[i].style.border = 'none';
+                if (inputs[i].value === '') {
+                    if(inputs[i].style.display === "none"){
+                        continue;
+                    }
+                    valid = false;
+                    inputs[i].style.border = '1px solid red';
                 }
-            });
+            }
+            if(!valid){
+                Swal.fire({
+                    title: "Please fill all the fields",
+                    icon: "error",
+                    confirmButtonText: "Ok",
+                }).then((result) => {
+                    if (result.isConfirmed) {
+                        return false;
+                    }
+                });
+            }
+            return valid;
         }
-        return valid;
-    }
 
-    async function submitProfile() {
-        if(!validation()){
-            return;
+        async function submitProfile() {
+            if(!validation()){
+                return;
+            }
+            const data = extractData();
+            // extract all fixed input data
+            const phone = document.getElementById("phone").value;
+            const appointment_link = document.getElementById("appointment_link").value;
+            const fb_link = document.getElementById("fb_link").value;
+            const insta_link = document.getElementById("insta_link").value;
+            const linkedin_link = document.getElementById("linkedin_link").value;
+            
+
+            const profile_id = document.getElementById("profile_id").getAttribute("profile_id");
+            const response = await fetch("/updateLinks", {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json",
+                },
+                body: JSON.stringify({
+                    data: data,
+                    profile_id:profile_id,
+                    templateSelected: profileDataState.templateSelected,
+                    phone:phone,
+                    appointment_link:appointment_link,
+                    fb_link:fb_link,
+                    insta_link:insta_link,
+                    linkedin_link:linkedin_link
+                }),
+            })
+            if(response.status === 200){
+                Swal.fire({
+                    title: "Profile Updated",
+                    icon: "success",
+                    confirmButtonText: "Ok",
+                });
         }
-        const data = extractData();
-        // extract all fixed input data
-        const phone = document.getElementById("phone").value;
-        const appointment_link = document.getElementById("appointment_link").value;
-        const fb_link = document.getElementById("fb_link").value;
-        const insta_link = document.getElementById("insta_link").value;
-        const linkedin_link = document.getElementById("linkedin_link").value;
-        
-
-        const profile_id = document.getElementById("profile_id").getAttribute("profile_id");
-        const response = await fetch("/updateLinks", {
-            method: "POST",
-            headers: {
-                "Content-Type": "application/json",
-            },
-            body: JSON.stringify({
-                data: data,
-                profile_id:profile_id,
-                templateSelected: profileDataState.templateSelected,
-                phone:phone,
-                appointment_link:appointment_link,
-                fb_link:fb_link,
-                insta_link:insta_link,
-                linkedin_link:linkedin_link
-            }),
-        })
-        if(response.status === 200){
-            Swal.fire({
-                title: "Profile Updated",
-                icon: "success",
-                confirmButtonText: "Ok",
-            });
-    }
-}
-
-    async function addFormPopup(){
-    document.getElementById("form_submit_btn").setAttribute("onclick", "saveForm()");
-    const overlay = document.getElementById("overlay");
-    overlay.style.display = "block";
-    document.getElementById("form_popup").classList.add("open_popup");
-    document.getElementById("form_popup").classList.remove("close_popup");
-}
-
-    async function editFormHandler(){
-    const overlay = document.getElementById("overlay");
-    overlay.style.display = "block";
-    const modal = document.querySelector(".form_edit_popup");
-    modal.classList.add("open_popup");
-    modal.classList.remove("close_popup");   
-}
-
-    function showLoadingOverlay() {
-        const overlay = document.querySelector('.overlay_loading');
-        overlay.style.display = 'block';
     }
 
-    function hideLoadingOverlay() {
+        async function addFormPopup(){
+        document.getElementById("form_submit_btn").setAttribute("onclick", "saveForm()");
+        const overlay = document.getElementById("overlay");
+        overlay.style.display = "block";
+        document.getElementById("form_popup").classList.add("open_popup");
+        document.getElementById("form_popup").classList.remove("close_popup");
+    }
+
+        async function editFormHandler(){
+        const overlay = document.getElementById("overlay");
+        overlay.style.display = "block";
+        const modal = document.querySelector(".form_edit_popup");
+        modal.classList.add("open_popup");
+        modal.classList.remove("close_popup");   
+    }
+
+        function showLoadingOverlay() {
+            const overlay = document.querySelector('.overlay_loading');
+            overlay.style.display = 'block';
+        }
+
+        function hideLoadingOverlay() {
         const overlay = document.querySelector('.overlay_loading');
         overlay.style.display = 'none';
     }
