@@ -79,6 +79,13 @@ router.get("/clients", async (req,res)=>{
 .post("/api/client/register",isAdmin, async (req,res)=>{
     const {name, email, password} = req.body;
     try {
+        if(email == "" || password == ""){
+            const insertUserQuery = `
+            INSERT IGNORE INTO clients (name, isVerified) VALUES (?, ?)
+            `;
+            const [result] = await __pool.query(insertUserQuery, [name, true]);
+            return res.status(200).json({message:"Client Registered Successfully", id: result.insertId});
+        }
         const [result] = await __pool.query("SELECT COUNT(*) AS count FROM clients WHERE email = ?", [email]);
         if (result[0].count > 0) {
             return res.status(400).json({message:"Email is already in use by another Client"});

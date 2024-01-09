@@ -2,9 +2,9 @@ const Client = `
 CREATE TABLE IF NOT EXISTS clients (
   id INT AUTO_INCREMENT PRIMARY KEY,
   name VARCHAR(255) NOT NULL,
-  email VARCHAR(255) NOT NULL,
-  hashed_password BLOB,
-  salt BLOB,
+  email VARCHAR(255) DEFAULT NULL,
+  hashed_password BLOB DEFAULT NULL,
+  salt BLOB DEFAULT NULL,
   status ENUM('active', 'inactive') DEFAULT 'active',
   role ENUM('user') DEFAULT 'user',
   isVerified BOOLEAN DEFAULT FALSE,

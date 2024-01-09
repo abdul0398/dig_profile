@@ -789,7 +789,7 @@
                 const confirmPass = document.getElementById("confirmPassInput").value;
                 
 
-                if (!name || !email || !pass || !confirmPass) {
+                if (!name) {
                     swal.fire({
                         title: "Missing Fields",
                         text: "",
@@ -801,39 +801,39 @@
                 }
 
                 // verify email format
-                let emailRegex = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
-                if (!emailRegex.test(email)) {
-                    swal.fire({
-                        title: "Error",
-                        text: "Please enter a valid email address.",
-                        icon: "error",
-                        confirmButtonText: "Ok",
-                        confirmButtonColor: "#002655",
-                    });
-                    return;
-                }
+                // let emailRegex = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
+                // if (!emailRegex.test(email)) {
+                //     swal.fire({
+                //         title: "Error",
+                //         text: "Please enter a valid email address.",
+                //         icon: "error",
+                //         confirmButtonText: "Ok",
+                //         confirmButtonColor: "#002655",
+                //     });
+                //     return;
+                // }
 
                 // verify password and confirm password and email password should be same and more than 8 characters
-                if (pass != confirmPass) {
-                    swal.fire({
-                        title: "Error",
-                        text: "Password and Confirm Password should be same.",
-                        icon: "error",
-                        confirmButtonText: "Ok",
-                        confirmButtonColor: "#002655",
-                    });
-                    return;
-                }
-                if (pass.length < 8) {
-                    swal.fire({
-                        title: "Error",
-                        text: "Password should be more than 8 characters.",
-                        icon: "error",
-                        confirmButtonText: "Ok",
-                        confirmButtonColor: "#002655",
-                    });
-                    return;
-                }
+                // if (pass != confirmPass) {
+                //     swal.fire({
+                //         title: "Error",
+                //         text: "Password and Confirm Password should be same.",
+                //         icon: "error",
+                //         confirmButtonText: "Ok",
+                //         confirmButtonColor: "#002655",
+                //     });
+                //     return;
+                // }
+                // if (pass.length < 8) {
+                //     swal.fire({
+                //         title: "Error",
+                //         text: "Password should be more than 8 characters.",
+                //         icon: "error",
+                //         confirmButtonText: "Ok",
+                //         confirmButtonColor: "#002655",
+                //     });
+                //     return;
+                // }
 
 
                 showLoadingOverlay();
