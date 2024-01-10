@@ -4,7 +4,7 @@ const {verify} = require("../middlewares/verify.js");
 
 router.post("/api/addform/:profileId", verify, async (req,res)=>{
     const {profileId} = req.params;
-    const {name, discord, questions} = req.body;
+    const {name, discord, questions, emails} = req.body;
     try {
         //check if form with same name already exists
         const checkQuery = `SELECT * FROM form WHERE name = ? AND profileId = ?`;
@@ -13,8 +13,8 @@ router.post("/api/addform/:profileId", verify, async (req,res)=>{
             // Form already exists
             return res.status(400).json({ message: "Form with this name already exists for the profile." });
         }
-        const insertQuery = `INSERT INTO form (name, profileId, discords, questions) VALUES (?, ?, ?, ?)`;
-        await __pool.query(insertQuery, [name, profileId, JSON.stringify(discord),JSON.stringify(questions)]);
+        const insertQuery = `INSERT INTO form (name, profileId, discords, questions, emails) VALUES (?, ?, ?, ?, ?)`;
+        await __pool.query(insertQuery, [name, profileId, JSON.stringify(discord),JSON.stringify(questions), JSON.stringify(emails)]);
         res.status(200).json({message: "Form added successfully"});
     } catch (error) {
         console.log("Error in adding form", error.message);
@@ -37,11 +37,11 @@ router.post("/api/addform/:profileId", verify, async (req,res)=>{
 
 }).post("/api/updateForm/:formId", verify, async (req,res)=>{
     const {formId} = req.params;
-    const {name, discord, questions} = req.body;
+    const {name, discord, questions, emails} = req.body;
     console.log(req.body);
     try {
-        const updateQuery = `UPDATE form SET name = ?, discords = ?, questions = ? WHERE id = ?`;
-        await __pool.query(updateQuery, [name, JSON.stringify(discord),JSON.stringify(questions), formId]);
+        const updateQuery = `UPDATE form SET name = ?, discords = ?, questions = ?, emails = ? WHERE id = ?`;
+        await __pool.query(updateQuery, [name, JSON.stringify(discord), JSON.stringify(questions), JSON.stringify(emails), formId]);
         res.status(200).json({message: "Form updated successfully"});
     } catch (error) {
         console.log("Error in updating form", error.message);

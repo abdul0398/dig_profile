@@ -20,7 +20,7 @@ router.get("/clients", async (req,res)=>{
 .get("/api/getClient/:clientid", verify, async (req, res) => {
     const { clientid } = req.params;
     try {
-        const [clients] = await __pool.query(`SELECT name, id FROM clients WHERE id = ?`, [clientid]);
+        const [clients] = await __pool.query(`SELECT name, id, email FROM clients WHERE id = ?`, [clientid]);
         if (clients.length === 0) {
             return res.status(404).json({ message: "Client not found" });
         }
@@ -45,15 +45,16 @@ router.get("/clients", async (req,res)=>{
 })
 .post("/editclient/:clientId", verify, async (req, res)=>{
     const {clientId} = req.params;
-    const {name} = req.body;
+    const {name, email, password} = req.body;
     const userId = req.user.id;
-    const updateQuery = `UPDATE clients SET name = ? WHERE id = ?;`;
-    const selectQuery = 'SELECT COUNT(*) AS count FROM clients WHERE name = ? AND id != ? AND userId = ?;';
+    const selectQuery = 'SELECT COUNT(*) AS count FROM clients WHERE name = ? AND id != ?;';
 
     try {
         const [result] = await __pool.query(selectQuery, [name, clientId, userId ]);
         if(result[0].count == 0){
-            await __pool.query(updateQuery, [name, clientId]);
+        const salt = crypto.randomBytes(16);
+            
+            await __pool.query(`UPDATE clients SET name = ?, email = ?, hashed_password = ?, salt = ? WHERE id = ?;`, [name, email == ""?null:email, password == ""?null:crypto.pbkdf2Sync(password, salt, 310000, 32, 'sha256'), password == ""?null:salt,  clientId]);
             res.status(200).json("Successfully Updated");
         }else{
             res.status(400).json("Something wrong");

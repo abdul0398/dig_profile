@@ -33,6 +33,16 @@ const sendVerificationEmail = async (mail, url) => {
   });
 };
 
+ async function sentLeadMail(mail, lead){
+  await transporter.sendMail({
+    from: sender_mail,
+    to: mail,
+    subject: "You Got A Lead",
+    text: lead,
+  });
+}
+
 module.exports = {
   sendVerificationEmail,
+  sentLeadMail
 };

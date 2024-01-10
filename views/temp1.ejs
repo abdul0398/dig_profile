@@ -210,15 +210,18 @@
           <%}%>
           
           <%if(profile.personal_link){%>
-            <li style=" margin:5px auto 5px auto; display: flex; justify-content: center; align-items: center; background-color: #002773; width: 330px; border-radius: 35px; height: 50px;">
+            <li style=" margin:5px auto 5px auto; display: flex; justify-content: center; align-items: center; background-color: #0066C9; width: 330px; border-radius: 35px; height: 50px;">
               <a style="text-decoration: none; color: white;" href="<%=profile.personal_link%>">Book An Appointment</a>
           </li>
           <%}%>
           
           <%if(profile.phone){%>
-            <li style="margin:0px auto 5px auto; display: flex; justify-content: center; align-items: center; border: 1px solid black; width: 330px; border-radius: 35px; height: 50px;">
-              <a target="_blank" style="text-decoration: none; color: rgb(0, 0, 0);" href="https://wa.me/<%=profile.phone%>">Whats App</a>
-          </li>
+            <li style="background-color: #0066C9; margin:0px auto 5px auto; display: flex; justify-content: center; align-items: center; border: 1px solid black; width: 330px; border-radius: 35px; height: 50px;">
+              <a target="_blank" style="text-decoration: none; color: rgb(255, 255, 255);" href="tel:<%=profile.phone%>">Call</a>
+            </li>
+            <li style="background-color: #0066C9; margin:0px auto 5px auto; display: flex; justify-content: center; align-items: center; border: 1px solid black; width: 330px; border-radius: 35px; height: 50px;">
+              <a target="_blank" style="text-decoration: none; color: rgb(255, 255, 255);" href="https://wa.me/<%=profile.phone%>">Whats App</a>
+            </li>
           <%}%>
          
 

@@ -308,49 +308,48 @@
         
   
   async function submitLead(elem){
-    const profilId = elem.getAttribute("profile_id");
-    event.preventDefault();
-    console.log(validateFields());
-    if(!validateFields()){
-      Swal.fire({
-        title: 'Error!',
-        text: 'missing fields',
-        icon: 'error',
-        confirmButtonText: 'Okay'
+      const profilId = elem.getAttribute("profile_id");
+      event.preventDefault();
+      if(!validateFields()){
+        Swal.fire({
+          title: 'Error!',
+          text: 'missing fields',
+          icon: 'error',
+          confirmButtonText: 'Okay'
+        })
+        return;
+      };
+      const data = getdata(event);
+      console.log(data);
+      const res = await fetch(`/api/submitLead/${profilId}`,{
+        method:"POST",
+        headers:{
+          "Content-Type":"application/json"
+        },
+        body:JSON.stringify(data)
       })
-      return;
-    };
-    const data = getdata(event);
-    console.log(data);
-    const res = await fetch(`/api/submitLead/${profilId}`,{
-      method:"POST",
-      headers:{
-        "Content-Type":"application/json"
-      },
-      body:JSON.stringify(data)
-    })
-    const resData = await res.json();
-    if(res.status == 200){
-      Swal.fire({
-        title: 'Success!',
-        text: 'Lead submitted successfully',
-        icon: 'success',
-        confirmButtonText: 'Okay'
-      }).then(result=>{
-        if(result.isConfirmed){
-          document.querySelector("#popupform").style.display = "none";
-          overlay.style.display = "none";
-        }
-      })
-    }else{
-      Swal.fire({
-        title: 'Error!',
-        text: 'Something went wrong',
-        icon: 'error',
-        confirmButtonText: 'Okay'
-      })
-    }
-}
+      const resData = await res.json();
+      if(res.status == 200){
+        Swal.fire({
+          title: 'Success!',
+          text: 'Lead submitted successfully',
+          icon: 'success',
+          confirmButtonText: 'Okay'
+        }).then(result=>{
+          if(result.isConfirmed){
+            document.querySelector("#popupform").style.display = "none";
+            overlay.style.display = "none";
+          }
+        })
+      }else{
+        Swal.fire({
+          title: 'Error!',
+          text: 'Something went wrong',
+          icon: 'error',
+          confirmButtonText: 'Okay'
+        })
+      }
+  }
 
        function getdata(event) {
         event.preventDefault(); // Prevent the default form submission
@@ -459,12 +458,3 @@
         </script>
     </body>
 </html>
-
-
-
-
-
-
-
-
-

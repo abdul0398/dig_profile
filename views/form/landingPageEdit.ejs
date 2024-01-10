@@ -21,6 +21,16 @@
                 <button type="button" class="my-1 add-option-button" onclick="addDiscordMetaform()">Add Discord Link</button>
             </div>
           </div>
+          <label>Emails</label>
+          <div id="Emails_metaform_field" style="text-align: start;">
+            <div id="Emails_container">
+
+            </div>
+            <div class="Emails-input-container-metaform" >
+                <input type="text" class="form_input Emails-metaform-input" placeholder="Email" name="Emails[]">
+                <button type="button" class="my-1 add-option-button" onclick="addEmailMetaform()">Add Email</button>
+            </div>
+          </div>
           <p>QUESTIONS</p>
           <div id="questionsContainer_meta">
           
@@ -137,7 +147,7 @@
     </div>
       <script>
         function addDiscordMetaform() {
-        let inputContainer = document.getElementById('discord_metaform_field');
+        let inputContainer = document.getElementById('discord_container');
         let discord_container = document.createElement('div');
         discord_container.innerHTML ='<div class="discord-input-container-metaform">' +
                                 '    <input type="text" class="form_input discord-metaform-input" placeholder="Discord Link" name="dslink[]">' +
@@ -147,6 +157,21 @@
         }
 
         function removeDiscordmetaform(element) {
+            let containerToRemove = element.parentNode.parentNode;
+            containerToRemove.parentNode.removeChild(containerToRemove);
+        }
+
+        function addEmailMetaform() {
+        let inputContainer = document.getElementById('Emails_container');
+        let discord_container = document.createElement('div');
+        discord_container.innerHTML ='<div class="Emails-input-container-metaform">' +
+                                '    <input type="text" class="form_input Emails-metaform-input" placeholder="Email Link" name="Emails[]">' +
+                                '    <button type="button" class="my-1 p-2 rounded-2 remove-Emails-input" onclick="removeEmailmetaform(this)">Remove</button>' +
+                                '</div>';
+          inputContainer.insertBefore(discord_container, inputContainer.firstChild);
+        }
+
+        function removeEmailmetaform(element) {
             let containerToRemove = element.parentNode.parentNode;
             containerToRemove.parentNode.removeChild(containerToRemove);
         }
@@ -342,7 +367,7 @@
         if(!validate()){
           return;
         }
-        const discordArray = extractDiscord();  
+        const {discordLinkValues, emailLinkValues} = extractDiscordAndMails();  
         const name = document.getElementById("form_name").value;
         const questions = extractQuestionsAndOptions();
         const profileId = document.getElementById("profile_id").getAttribute("profile_id");
@@ -351,8 +376,10 @@
           body: JSON.stringify({
             name: name,
             questions: questions,
-            discord: discordArray,
-            profileId: profileId
+            discord: discordLinkValues,
+            profileId: profileId,
+            emails:emailLinkValues
+
           }),
           headers: {
             "Content-type": "application/json; charset=UTF-8"
@@ -425,15 +452,21 @@
             }
 
       
-      function extractDiscord(params) {
+      function extractDiscordAndMails(params) {
           let discordLinks = document.querySelectorAll('input[name="dslink[]"]');
+          let emailsLinks = document.querySelectorAll('input[name="Emails[]"]');
+
 
           let discordLinkValues = [];
+          let emailLinkValues = [];
 
           for (var i = 0; i < discordLinks.length; i++) {
             discordLinkValues.push(discordLinks[i].value);
           }
-          return discordLinkValues;
+          for (var i = 0; i < emailsLinks.length; i++) {
+            emailLinkValues.push(emailsLinks[i].value);
+          }
+          return {discordLinkValues, emailLinkValues};
       }
       
       </script>

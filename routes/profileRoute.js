@@ -1,6 +1,6 @@
 const express = require("express");
 const router = express.Router();
-const {verify} = require("../middlewares/verify.js");
+const {verify , isAdmin} = require("../middlewares/verify.js");
 const multer = require('multer');
 const fs = require('fs');
 
@@ -24,7 +24,7 @@ router.get("/", verify, async(req,res)=>{
         const [profiles] = await __pool.query(`SELECT name, id FROM profiles WHERE client_id = ?`, [req.user.id]);
         res.render("dashboard.ejs", {clients: [], profiles: profiles});
     }
-}).post("/addprofile", verify, async (req,res)=>{
+}).post("/addprofile",verify, isAdmin, async (req,res)=>{
     const {name, clientID} = req.body;
     console.log(name, clientID);
     try {

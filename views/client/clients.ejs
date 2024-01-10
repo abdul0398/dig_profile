@@ -464,6 +464,14 @@
                 <input type="text" class="form-control border p-1 mt-1 border-1" id="client_name_edit"
                     placeholder="Enter Name">
             </div>
+            <div class="form-group">
+                <input type="email" class="form-control border p-1 mt-1 border-1" id="client_email_edit"
+                    placeholder="Enter Email">
+            </div>
+            <div class="form-group">
+                <input type="text" class="form-control border p-1 mt-1 border-1" id="client_password_edit"
+                    placeholder="Enter Password">
+            </div>
             <div class="d-flex mt-3">
                 <button id="client_edit_post_btn" class="btn mx-auto" onclick="editclientPost()">Save</button>
                 <a  id="client_del" clientid="" onclick="deleteClient(this)" class="btn btn-danger me-auto" >
@@ -1735,6 +1743,7 @@
                document.querySelector(".overlay_loading").style.display = "none"
 
                document.getElementById("client_name_edit").value = client.name;
+               document.getElementById("client_email_edit").value = client.email;
                document.getElementById("client_del").setAttribute("clientid",client.id);
                const clientedit_popup  = document.querySelector(".clientedit-popup");
                document.getElementById("client_edit_post_btn").setAttribute("clientId", client.id);
@@ -1747,6 +1756,8 @@
 
             async function editclientPost (){
                const name = document.getElementById("client_name_edit").value
+               const email = document.getElementById("client_email_edit").value
+               const password = document.getElementById("client_password_edit").value
                const clientId = document.getElementById("client_edit_post_btn").getAttribute("clientId");
                document.querySelector(".overlay_loading").style.display = "block"
 
@@ -1757,6 +1768,8 @@
                     },
                     body: JSON.stringify({
                         name: name,
+                        email:email,
+                        password:password
                     })
                 })
                 if(res.status == 400){
@@ -1810,12 +1823,16 @@
             function populateEditForm(form){
 
                 document.getElementById("form_submit_btn").setAttribute("onclick", `editForm(${form.id})`);
+                
+                
                 // ################ Populate Discord ####################
                 form.discords.forEach((discord, index)=>{
                     if(index == 0){
                         document.getElementsByClassName("discord-metaform-input")[0].value = discord;
                     }else{
-                        const ds_container = document.getElementById("discord_metaform_field")
+                        const ds_container = document.getElementById("discord_container");
+                        ds_container.innerHTML = ""
+
                         let newInput = document.createElement('div');
                         newInput.innerHTML ='<div class="discord-input-container-metaform">' +
                                         `    <input type="text" value="${discord}" class="form_input discord-metaform-input" placeholder="Discord Link" name="dslink[]">` +
@@ -1824,6 +1841,27 @@
                         ds_container.insertBefore(newInput, ds_container.firstChild);
                     }
                 })
+
+
+                 // ################ Populate emails ####################
+                 form.emails.forEach((email, index)=>{
+                    if(index == 0){
+                        document.getElementsByClassName("Emails-metaform-input")[0].value = email;
+                    }else{
+                        const Emails_container = document.getElementById("Emails_container")
+                        Emails_container.innerHTML = ""
+                        let newInput = document.createElement('div');
+                        newInput.innerHTML ='<div class="Emails-input-container-metaform">' +
+                                        `    <input type="text" value="${email}" class="form_input Emails-metaform-input" placeholder="Email Link" name="Emails[]">` +
+                                        '    <button type="button" class="my-1 p-2 rounded-2 remove-Emails-input" onclick="removeEmailmetaform(this)">Remove</button>' +
+                                        '</div>';
+                        Emails_container.insertBefore(newInput, Emails_container.firstChild);
+                    }
+                })
+
+
+
+                
                
                 // ##################### Populate Questions#######################
                 const questions_container = document.getElementById("questionsContainer_meta");
@@ -2077,7 +2115,7 @@
                 if(!validate()){
                     return;
                 }
-                const discordArray = extractDiscord();  
+                const {discordLinkValues, emailLinkValues} = extractDiscordAndMails();  
                 const name = document.getElementById("form_name").value;
                 const questions = extractQuestionsAndOptions();
                 const res = await fetch(`/api/updateForm/${formId}`, {
@@ -2085,7 +2123,8 @@
                     body: JSON.stringify({
                         name: name,
                         questions: questions,
-                        discord: discordArray
+                        discord: discordLinkValues,
+                        emails:emailLinkValues
                     }),
                     headers: {
                         "Content-type": "application/json; charset=UTF-8"
@@ -2125,41 +2164,6 @@
                 }
                 
                 populateFormsBasedonCLient();
-                async function createProfile(){
-                overlay.style.display = "block";
-                const name = document.getElementById("profile_name").value;
-                const clientID = `<%=currentUser.id%>`
-                showLoadingOverlay();
-                try {
-                    const res = await fetch('/addprofile', {
-                            method: 'POST',
-                            headers: {
-                                'Content-Type': 'application/json'
-                            },
-                            body: JSON.stringify({
-                                name: name,
-                                clientID:clientID
-                            })
-                        })
-                        const resData = await res.json();
-                        if(res.status == 200){
-                            localStorage.setItem('lastCreatedProfileID', resData.id);
-                            window.location.reload();
-                        }else{
-                            hideLoadingOverlay(); 
-                            swal.fire({
-                                title: "Error",
-                                text: resData.message,
-                                icon: "error",
-                                confirmButtonText: "Ok",
-                                confirmButtonColor: "#002655",
-                            });
-                            return;
-                        }
-                    } catch (error) {
-                        alert(error.message);
-                    }
-                }
                 async function populateFormsBasedonCLient(){
                     document.getElementById("show_profiles_div").classList.remove("d-none");
                     const clientid = `<%=currentUser.id%>`;
@@ -2167,20 +2171,13 @@
                     document.querySelector(".profile_edit_container").style.display = "none";
                     const showformdiv = document.getElementById("show_profiles");
                     showformdiv.innerHTML = "";
-                    showformdiv.innerHTML = `
-                    <div>
-                        <button style="border-radius: 30px; background-color: #002655; color: white;" onclick="openpopupaddproject()" class="btn btn-lg">Add New Profile</button>
-                    </div>`
 
                     if (!profiles || profiles.length == 0) {
                     showformdiv.innerHTML = `
-                    <div>
-                        <button style="border-radius: 30px; background-color: #002655; color: white;" onclick="openpopupaddproject()" class="btn btn-lg">Add New Profile</button>
-                    </div>
                     <h4 class="text-center" > No profiles </h4>
                     `
                     }else{
-
+                        showformdiv.innerHTML = `<h4 class="text-center" > profiles </h4>`
                         profiles.forEach(profile=>{
                             const uniqueID = generateLongStringWithDelimiter(profile.id);
                             showformdiv.innerHTML += `            
@@ -2585,14 +2582,6 @@
                         const arrangement = extractData();
                         populateProfilePreview(arrangement);
 
-                }
-                            
-                function openpopupaddproject(event) {
-                    // closeAllPopups();
-                    const menuDiv = document.getElementsByClassName('profileadd_popup');
-                    menuDiv[0].classList.add("open_popup");
-                    overlay.style.display = "block";
-                    clearForm();
                 }
             
                 function closeAllPopups() {

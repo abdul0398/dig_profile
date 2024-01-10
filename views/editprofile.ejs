@@ -1,4 +1,9 @@
 <script src="https://cdn.jsdelivr.net/npm/sortablejs@latest/Sortable.min.js"></script>
+ <!-- Cropper.js CSS -->
+ <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/cropperjs/1.6.1/cropper.min.css" integrity="sha512-hvNR0F/e2J7zPPfLC9auFe3/SE0yG4aJCOd/qxew74NN7eyiSKjr7xJJMu1Jy2wf7FXITpWS1E/RY8yzuXN7VA==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+
+<!-- Cropper.js JavaScript -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/cropperjs/1.6.1/cropper.min.js" integrity="sha512-9KkIqdfN7ipEW6B6k+Aq20PV31bjODg4AA52W+tYtAE0jE0kMx49bjJ3FgvS56wzmyfMUHbQ4Km2b7l9+Y/+Eg==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
 
 <body>
     <style>
@@ -175,6 +180,49 @@
         display: none !important;
     }
     }
+    .modal {
+        display: none;
+        position: fixed;
+        z-index: 2;
+        left: 0;
+        top: 0;
+        width: 100%;
+        height: 100%;
+        overflow: auto;
+        background-color: rgba(0,0,0,0.4);
+    }
+
+    .modal-content {
+        background-color: #fefefe;
+        margin: 10% auto;
+        padding: 20px;
+        border: none;
+        width: fit-content; /* Adjust width as needed */
+        max-width: 500px;
+        height: auto; /* Adjust height automatically based on content */
+        max-height: 80%; /* Limit the maximum height */
+        background: transparent;
+        overflow: auto; /* Enable scroll if content is larger than the modal */
+
+    }
+
+    .modal-footer {
+        padding: 10px;
+    }
+
+    #profileImage {
+        max-width: 100%; /* Ensure image does not exceed the width of modal */
+        height: auto; /* Adjust height automatically */
+        max-height: 400px; /* Maximum height for the image */
+    }
+
+    /* Responsive adjustments */
+    @media screen and (max-width: 600px) {
+        .modal-content {
+            width: 80%;
+        }
+    }
+
 
     </style>
 
@@ -214,6 +262,19 @@
             color: gray !important;" id="add_profile" class="profile-image add-new">+ Add photo</button>
           <input type="file" id="profile_image_upload" name="profile_image" accept="image/*" style="display: none;">
     </div>
+
+    <div id="modal" class="modal">
+        <div class="modal-content">
+            <img id="profileImage" />
+        </div>
+        <div style="text-align: center;" class="modal_footer">
+            <button style="width: 250px;
+            padding: 5px 10px;
+            border-radius: 24px;
+            height: 50px;" id="cropImage">Crop Image</button>
+        </div>
+    </div>
+    
 
     <div class="d_wrap" style="margin-bottom: 5px; display: flex; justify-content: space-between;">
         <div class="link_container" id="linkContainer">   
@@ -412,6 +473,7 @@
         sortableHandler();
         eventListnerHandler();
         linkAndHeadingHandler();
+        croppable();
     }
 
     function sortableHandler(){
@@ -433,40 +495,40 @@
        document.getElementById("add_profile").addEventListener("click", () => {
            document.getElementById("profile_image_upload").click();
        });
-       document.getElementById("profile_image_upload").addEventListener("change", () => {
-            Swal.fire({
-                title: "Do you want to change the profile?",
-                showDenyButton: true,
-                showCancelButton: true,
-                confirmButtonText: "Save",
-                denyButtonText: `Don't save`
-                }).then(async (result) => {
-                if (result.isConfirmed) {
-                    const file = document.getElementById("profile_image_upload").files[0];
-                    showLoadingOverlay();
-                    await imageUploadHandler(file);
-                    hideLoadingOverlay()
-                    const reader = new FileReader();
-                    reader.onload = function (e) {
-                        const preview_profile_img = document.getElementsByClassName("preview_profile_img");
-                        for (let i = 0; i < preview_profile_img.length; i++) {
-                            preview_profile_img[i].src = e.target.result;
-                        }
-                    };
-                    reader.readAsDataURL(file);
-                    Swal.fire("Saved!", "", "success");
-                } else if (result.isDenied) {
-                    Swal.fire("Changes are not saved", "", "info");
-                }
-            });
+    //    document.getElementById("profile_image_upload").addEventListener("change", () => {
+    //         Swal.fire({
+    //             title: "Do you want to change the profile?",
+    //             showDenyButton: true,
+    //             showCancelButton: true,
+    //             confirmButtonText: "Save",
+    //             denyButtonText: `Don't save`
+    //             }).then(async (result) => {
+    //             if (result.isConfirmed) {
+    //                 const file = document.getElementById("profile_image_upload").files[0];
+    //                 showLoadingOverlay();
+    //                 await imageUploadHandler(file);
+    //                 hideLoadingOverlay()
+    //                 const reader = new FileReader();
+    //                 reader.onload = function (e) {
+    //                     const preview_profile_img = document.getElementsByClassName("preview_profile_img");
+    //                     for (let i = 0; i < preview_profile_img.length; i++) {
+    //                         preview_profile_img[i].src = e.target.result;
+    //                     }
+    //                 };
+    //                 reader.readAsDataURL(file);
+    //                 Swal.fire("Saved!", "", "success");
+    //             } else if (result.isDenied) {
+    //                 Swal.fire("Changes are not saved", "", "info");
+    //             }
+    //         });
           
-       });
+    //    });
    }
 
-    async function imageUploadHandler(file) {
+    async function imageUploadHandler(blob) {
         const profile_id = document.getElementById("profile_id").getAttribute("profile_id");
         const formdata = new FormData();
-        formdata.append("profile_image", file);
+        formdata.append("profile_image", blob, "profile_image.png");
         formdata.append("profile_id", profile_id);
         try {
             const res = await fetch("/api/profileupload", {
@@ -870,6 +932,66 @@
     }
 
 
+
+    function croppable(params) {
+        let cropper;
+
+        document.getElementById('profile_image_upload').addEventListener('change', function(event) {
+            var file = event.target.files[0];
+            document.getElementById('profile_image_upload').value = null;
+            var reader = new FileReader();
+
+            reader.onload = function(e) {
+                var img = document.getElementById('profileImage');
+                img.src = e.target.result;
+
+                // Show the modal
+                document.getElementById('modal').style.display = 'block';
+
+                // Initialize Cropper.js on the image
+                if (cropper) {
+                    cropper.destroy();
+                }
+                cropper = new Cropper(img, {
+                    aspectRatio: 1,
+                    viewMode: 1,
+                    modal:false,
+                    background:false,
+                    zoomable:false
+                });
+            };
+            reader.readAsDataURL(file);
+        });
+
+        document.getElementById('cropImage').addEventListener('click', async function() {
+            let file = cropper.getCroppedCanvas().toDataURL('image/png');
+            const blob = await (await fetch(file)).blob();
+            showLoadingOverlay();
+            await imageUploadHandler(blob);
+            hideLoadingOverlay()
+            const preview_profile_img = document.getElementsByClassName("preview_profile_img");
+            for (let i = 0; i < preview_profile_img.length; i++) {
+                preview_profile_img[i].src = file;
+            }
+            Swal.fire("Saved!", "", "success");
+            document.getElementById('modal').style.display = 'none';
+
+            // Destroy the cropper instance
+            cropper.destroy();
+            cropper = null;
+        });
+
+        // Optional: Close the modal if clicked outside of it
+        window.onclick = function(event) {
+            if (event.target.className === 'modal') {
+                document.getElementById('modal').style.display = "none";
+                if (cropper) {
+                    cropper.destroy();
+                    cropper = null;
+                }
+            }
+        };
+    }
 
 
 </script>

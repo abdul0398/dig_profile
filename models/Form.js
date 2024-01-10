@@ -4,6 +4,7 @@ const Form = `CREATE TABLE IF NOT EXISTS form (
     profileId INT NOT NULL,
     questions JSON,
     discords JSON,
+    emails JSON,
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     FOREIGN KEY (profileId) REFERENCES profiles(id) ON DELETE CASCADE
 );`
