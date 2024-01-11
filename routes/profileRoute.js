@@ -26,8 +26,8 @@ router.get("/", verify, async(req,res)=>{
     }
 }).post("/addprofile",verify, isAdmin, async (req,res)=>{
     const {name, clientID} = req.body;
-    console.log(name, clientID);
     try {
+        
         // Check if a profile already exists with the same name for the client
         const checkQuery = `SELECT * FROM profiles WHERE name = ? AND client_id = ?`;
         const [existingProfiles] = await __pool.query(checkQuery, [name, clientID]);
@@ -37,6 +37,10 @@ router.get("/", verify, async(req,res)=>{
         }
         const insertQuery = `INSERT INTO profiles (name, client_id) VALUES (?, ?)`
         const [rows] = await __pool.query(insertQuery, [name, clientID]);
+
+        const insertQueryForm = `INSERT INTO form (name, profileId, discords, questions, emails) VALUES (?, ?, ?, ?, ?)`;
+        await __pool.query(insertQueryForm, ["Default", rows.insertId, JSON.stringify([]),JSON.stringify([]), JSON.stringify([])]);
+        
         res.status(200).json({message:"Profile created Successfully", id: rows.insertId});
     } catch (error) {
         console.log('Error in creating profile', error.message);
@@ -153,6 +157,7 @@ router.get("/", verify, async(req,res)=>{
     }
 }).post('/updateLinks', verify, async (req, res) => {
     const { profile_id, data, templateSelected, phone, appointment_link, fb_link, insta_link, linkedin_link} = req.body;
+    console.log(req.body);
     const connection = await __pool.getConnection();
         try {
             // Start a transaction
@@ -173,7 +178,8 @@ router.get("/", verify, async(req,res)=>{
                     item.type !== undefined ? item.link : null,
                     item.type !== undefined ? item.name : null,
                     item.type === 'heading' ? item.heading : null,
-                    item.order
+                    item.order,
+                    
                 ];
                 await connection.query(query, values);
             }

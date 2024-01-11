@@ -41,6 +41,7 @@ CREATE TABLE IF NOT EXISTs links(
   id INT AUTO_INCREMENT PRIMARY KEY,
   type VARCHAR(10),
   link TEXT,
+  permanent BOOLEAN DEFAULT FALSE,
   name VARCHAR(255),
   click_count INT DEFAULT 0,
   heading VARCHAR(255),

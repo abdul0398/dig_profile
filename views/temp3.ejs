@@ -119,6 +119,38 @@
       box-sizing: border-box;
       margin-top: 10px;
     }
+    .popup {
+    display: none;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.7);
+    z-index: 1000;
+}
+
+.popup-content {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 90%;
+    height: 90%;
+    transform: translate(-50%, -50%);
+    padding: 20px;
+    background: white;
+    box-shadow: 0px 0px 15px 5px rgba(0, 0, 0, 0.3);
+    z-index: 1001;
+}
+
+.close-btn {
+    position: absolute;
+    top: 10px;
+    right: 15px;
+    font-size: 30px;
+    cursor: pointer;
+}
+
     @media only screen and (max-width: 1000px) {
       #popupform{
         width: 90%;
@@ -126,6 +158,12 @@
     }
   </style>
   <body>
+    <div id="popup" class="popup">
+      <div class="popup-content">
+          <span class="close-btn" onclick="closePopup()">&times;</span>
+         <iframe style="width: 100%; height: 100%;" src="" frameborder="0"></iframe>
+      </div>
+  </div>
     <div class="div">
       <div class="overlay" id="overlay"></div>
         <section style="height:350px;">
@@ -151,6 +189,11 @@
               <button class="text_style" form_id="<%=links[i].link%>"  style="position: relative; border: none; cursor: pointer; color: white; margin:10px auto 10px auto; display: flex; justify-content: center; align-items: center; background-image: linear-gradient(178.54deg, #ff1212 7.67%, #ff2c1d); width: 330px; border-radius: 35px; height: 50px;" onclick="showForm(this)"><%=links[i].name%></button>
             <%}%>
             <%}%>
+            <p class="text_style heading_style" style="color: black; margin: 40px 30px 20px 30px; width: fit-content;" class="profile_heading">Free Tools</p>
+              <button cal_Link="https://abdul0398.github.io/MSR/"  style="font-size: 16px; border: none; cursor: pointer; color: white; margin:10px auto 10px auto; display: flex; justify-content: center; align-items: center; background-image: linear-gradient(178.54deg, #ff1212 7.67%, #ff2c1d); width: 330px; border-radius: 35px; height: 50px;" onclick="openCal(this)">MSR Calculator</button>
+              <button cal_Link="https://abdul0398.github.io/TDRS/" style="font-size: 16px; border: none; cursor: pointer; color: white; margin:10px auto 10px auto; display: flex; justify-content: center; align-items: center; background-image: linear-gradient(178.54deg, #ff1212 7.67%, #ff2c1d); width: 330px; border-radius: 35px; height: 50px;" onclick="openCal(this)">TDRS calculator</button>
+              <button  style="font-size: 16px; border: none; cursor: pointer; color: white; margin:10px auto 10px auto; display: flex; justify-content: center; align-items: center; background-image: linear-gradient(178.54deg, #ff1212 7.67%, #ff2c1d); width: 330px; border-radius: 35px; height: 50px;" onclick="showForm(this)">Book An Appointment</button>
+              <button  style="font-size: 16px; border: none; cursor: pointer; color: white; margin:10px auto 10px auto; display: flex; justify-content: center; align-items: center; background-image: linear-gradient(178.54deg, #ff1212 7.67%, #ff2c1d); width: 330px; border-radius: 35px; height: 50px;" onclick="showForm(this)">Lead Form</button>
         </section>
         <h1>Hello</h1>
         <img class="child" alt="" src="/<%=profile.profile_img_path%>" />
@@ -468,6 +511,26 @@
           window.open(redirect_Url, '_blank');
         }
       }
+    
+      function closePopup() {
+        document.getElementById("popup").style.display = "none";
+      }
+
+    // To open the popup, you can use a function like this:
+    function openPopup() {
+        document.getElementById("popup").style.display = "block";
+    }
+
+    function openCal(e){
+      const cal_Link = e.getAttribute("cal_Link");
+      const popup_container = document.querySelector(".popup-content");
+      popup_container.innerHTML = ""
+      popup_container.innerHTML = `
+      <span class="close-btn" onclick="closePopup()">&times;</span>
+      <iframe style="width: 100%; height: 100%;" src="${cal_Link}" frameborder="0"></iframe>`
+      openPopup();
+    }
+    
     </script>
   </body>
 </html>
