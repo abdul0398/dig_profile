@@ -202,7 +202,6 @@
         height: auto; /* Adjust height automatically based on content */
         max-height: 80%; /* Limit the maximum height */
         background: transparent;
-        overflow: auto; /* Enable scroll if content is larger than the modal */
 
     }
 
@@ -266,12 +265,12 @@
     <div id="modal" class="modal">
         <div class="modal-content">
             <img id="profileImage" />
-        </div>
-        <div style="text-align: center;" class="modal_footer">
-            <button style="width: 250px;
-            padding: 5px 10px;
-            border-radius: 24px;
-            height: 50px;" id="cropImage">Crop Image</button>
+            <div style="text-align: center;" class="modal_footer">
+                <button style="width: 250px;
+                padding: 5px 10px;
+                border-radius: 24px;
+                height: 50px;" id="cropImage">Crop Image</button>
+            </div>
         </div>
     </div>
     
