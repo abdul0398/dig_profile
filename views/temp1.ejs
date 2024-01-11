@@ -332,6 +332,9 @@
 
 
   const fetchFormDetail = async (id)=>{
+    if(!id){
+      return {form:{questions: []}};
+    }
       const res = await fetch(`/api/getForm/${id}`,{
           method:"GET"
       })

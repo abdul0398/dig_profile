@@ -304,9 +304,7 @@
           async function showForm(e){
               const formId = e.getAttribute("form_id");
               const {form} = await fetchFormDetail(formId);
-              if(form){
                 populateFormbasedOnBtn(form.questions);
-              }
               document.querySelector("#popupform").style.display = "block";
               overlay.style.display = "block";
         }
