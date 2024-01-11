@@ -178,6 +178,11 @@
           </div>
         </section>
         <h2 style="color: black; text-align: center;"><%=profile.name%></h2>
+        <p style="color: black;
+        text-align: center;
+        width: 320px;
+        margin: auto;
+        word-wrap: break-word;"><%=profile.about_us%></p>
         <section id="profile_preview_innercontainer">
           <%for(let i = 0; i < links.length; i++){%>
             <%if(links[i].type == "link"){%>
@@ -245,7 +250,7 @@
           <div class="group-parent1">
             <%if(profile.phone){%>
               <div class="rectangle-parent">
-                <a href="tel:<%=profile.phone%>">
+                <a style="color: black;" href="tel:<%=profile.phone%>">
                   <div class="rectangle-div"></div>
                   <b class="book-and-appointment">Call</b>
                 </a>

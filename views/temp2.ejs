@@ -178,8 +178,14 @@
                   <p class="agent-name"><%=profile.name%></p>
                   <img class="group-inner" alt="" src="./public/line-1@2x.png" />
                 </div>
+               
               </section>
               <section id="profile_preview_innercontainer">
+                <p style="position: relative; color: rgb(255, 255, 255);
+                text-align: center;
+                width: 320px;
+                margin: auto;
+                word-wrap: break-word;"><%=profile.about_us%></p>
                 <%for(let i = 0; i < links.length; i++){%>
                   <%if(links[i].type == "link"){%>
                     <li onclick="linkHandler(this)" linkId="<%=links[i].id%>" redirect_Url="<%=links[i].link%>" style="cursor: pointer; position: relative; margin:10px auto 10px auto; display: flex; justify-content: center; align-items: center; background-color: #B68E00; width: 330px; border-radius: 20px; height: 50px;">
@@ -206,7 +212,7 @@
                     <div class="group-container">
                       <div class="rectangle-group">
                         <%if(profile.phone){%>
-                          <a href="tel:<%=profile.phone%>">
+                          <a style="color: white;" href="tel:<%=profile.phone%>">
                             <div class="rectangle-div">
                               <b class="book-and-appointment">Call</b>
                             </div>
@@ -216,7 +222,7 @@
                       </div>
                       <%if(profile.phone){%>
                         <div class="rectangle-container">
-                          <a href="https://wa.me/<%=profile.phone%>" target="_blank">
+                          <a style="color: white;" href="https://wa.me/<%=profile.phone%>" target="_blank">
                             <div class="group-child1">
                               <b class="whatsapp">Whatsapp</b>
                             </div>

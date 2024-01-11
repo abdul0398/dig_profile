@@ -280,6 +280,10 @@
             <!-- Link items will be added here -->
             <div id="link_container_dynamic">
         
+            </div>
+            <div class="fixed_link">
+                <p>About Us</p>
+                <textarea id="about_us" type="text" placeholder="Write about your self"></textarea>
             </div> 
             <div class="fixed_link">
                 <p>Whats App Number</p>
@@ -491,34 +495,7 @@
        document.getElementById("add_profile").addEventListener("click", () => {
            document.getElementById("profile_image_upload").click();
        });
-    //    document.getElementById("profile_image_upload").addEventListener("change", () => {
-    //         Swal.fire({
-    //             title: "Do you want to change the profile?",
-    //             showDenyButton: true,
-    //             showCancelButton: true,
-    //             confirmButtonText: "Save",
-    //             denyButtonText: `Don't save`
-    //             }).then(async (result) => {
-    //             if (result.isConfirmed) {
-    //                 const file = document.getElementById("profile_image_upload").files[0];
-    //                 showLoadingOverlay();
-    //                 await imageUploadHandler(file);
-    //                 hideLoadingOverlay()
-    //                 const reader = new FileReader();
-    //                 reader.onload = function (e) {
-    //                     const preview_profile_img = document.getElementsByClassName("preview_profile_img");
-    //                     for (let i = 0; i < preview_profile_img.length; i++) {
-    //                         preview_profile_img[i].src = e.target.result;
-    //                     }
-    //                 };
-    //                 reader.readAsDataURL(file);
-    //                 Swal.fire("Saved!", "", "success");
-    //             } else if (result.isDenied) {
-    //                 Swal.fire("Changes are not saved", "", "info");
-    //             }
-    //         });
-          
-    //    });
+   
    }
 
     async function imageUploadHandler(blob) {
@@ -872,6 +849,7 @@
             const fb_link = document.getElementById("fb_link").value;
             const insta_link = document.getElementById("insta_link").value;
             const linkedin_link = document.getElementById("linkedin_link").value;
+            const about_us = document.getElementById("about_us").value;
             
 
             const profile_id = document.getElementById("profile_id").getAttribute("profile_id");
@@ -887,7 +865,8 @@
                     phone:phone,
                     fb_link:fb_link,
                     insta_link:insta_link,
-                    linkedin_link:linkedin_link
+                    linkedin_link:linkedin_link,
+                    about_us:about_us
                 }),
             })
             if(response.status === 200){
