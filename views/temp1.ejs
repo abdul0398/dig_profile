@@ -230,7 +230,7 @@
               <button cal_Link="https://abdul0398.github.io/MSR/"  style="font-size: 16px; border: none; cursor: pointer; color: white; margin:10px auto 10px auto; display: flex; justify-content: center; align-items: center; background-color: #0066C9; width: 330px; border-radius: 35px; height: 50px;" onclick="openCal(this)">MSR Calculator</button>
               <button cal_Link="https://abdul0398.github.io/TDRS/" style="font-size: 16px; border: none; cursor: pointer; color: white; margin:10px auto 10px auto; display: flex; justify-content: center; align-items: center; background-color: #0066C9; width: 330px; border-radius: 35px; height: 50px;" onclick="openCal(this)">TDRS Calculator</button>
               <button  style="font-size: 16px; border: none; cursor: pointer; color: white; margin:10px auto 10px auto; display: flex; justify-content: center; align-items: center; background-color: #0066C9; width: 330px; border-radius: 35px; height: 50px;" onclick="showFormwithCalender(this)">Book An Appointment</button>
-    <button  style="font-size: 16px; border: none; cursor: pointer; color: white; margin:10px auto 10px auto; display: flex; justify-content: center; align-items: center; background-color: #0066C9; width: 330px; border-radius: 35px; height: 50px;" onclick="()=>{showForm(this); document.getElementById(`datePicker`).style.display = `none` }">Lead Form</button>
+    <button  style="font-size: 16px; border: none; cursor: pointer; color: white; margin:10px auto 10px auto; display: flex; justify-content: center; align-items: center; background-color: #0066C9; width: 330px; border-radius: 35px; height: 50px;" onclick="showForm(this, false);">Lead Form</button>
 
 
           </section>
@@ -309,7 +309,7 @@
       <input type="date" id="datePicker">
       <div style="display: flex;">
         <button style="width: 50%;" onclick="btnPreviousHandler()" class="btn_submit btn_prev close_popup">Previous</button>
-        <button style="width: 50%;" profile_id="<%=profile.id%>" class="btn_submit" onclick="submitLead(this)">Send</button>
+        <button style="width: 50%;" profile_id="<%=profile.id%>" class="btn_submit btn_form" onclick="submitLead(this)">Send</button>
       </div>
   </div>
 
@@ -321,7 +321,7 @@
 </div>
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL" crossorigin="anonymous"></script>
 <script>
-    let successMsg = "Lead Send Successfully"
+  let successMsg = "Lead Send Successfully"
   const overlay = document.getElementById("overlay");
   overlay.addEventListener("click", function(){
     const modal = document.querySelectorAll(".open_popup")
@@ -343,8 +343,14 @@
   })
 
 
-  async function showForm(e){
-    document.getElementById("datePicker").style.display = "block";
+  async function showForm(e, datePicker){
+    console.log(datePicker);
+    if(datePicker == false){
+      document.querySelector(".btn_form").style.margin = "auto"
+      document.getElementById("datePicker").style.display = "none";
+    }else{
+      document.getElementById("datePicker").style.display = "block";
+    }
     const formId = e.getAttribute("form_id");
     const {form} = await fetchFormDetail(formId);
     console.log(form);
