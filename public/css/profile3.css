@@ -195,7 +195,8 @@ body {
   .book-and-appointment {
     position: absolute;
     top: 0.94rem;
-    left: calc(50% - 89.5px);
+    left: 50%;
+    transform: translateX(-50%);
   }
   .group-child1,
   .rectangle-group {

@@ -286,10 +286,7 @@
                 <p>Whats App Number</p>
                 <input id="phone" type="text" placeholder="Enter you Whats App Number">
             </div>
-            <div class="fixed_link">
-                <p>Book An Appointment</p>
-                <input id="appointment_link" type="text" placeholder="Book An Appointment link">
-            </div>
+            
             <div class="fixed_link">
                 <p>Facebook</p>
                 <input id="fb_link" type="text" placeholder="Facebook Link">
@@ -873,7 +870,6 @@
             const data = extractData();
             // extract all fixed input data
             const phone = document.getElementById("phone").value;
-            const appointment_link = document.getElementById("appointment_link").value;
             const fb_link = document.getElementById("fb_link").value;
             const insta_link = document.getElementById("insta_link").value;
             const linkedin_link = document.getElementById("linkedin_link").value;
@@ -890,7 +886,6 @@
                     profile_id:profile_id,
                     templateSelected: profileDataState.templateSelected,
                     phone:phone,
-                    appointment_link:appointment_link,
                     fb_link:fb_link,
                     insta_link:insta_link,
                     linkedin_link:linkedin_link

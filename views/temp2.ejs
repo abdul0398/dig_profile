@@ -180,8 +180,8 @@
               <section id="profile_preview_innercontainer">
                 <%for(let i = 0; i < links.length; i++){%>
                   <%if(links[i].type == "link"){%>
-                    <li style="position: relative; margin:10px auto 10px auto; display: flex; justify-content: center; align-items: center; background-color: #B68E00; width: 330px; border-radius: 20px; height: 50px;">
-                      <a style="cursor: pointer; text-decoration: none; color: white;" onclick="linkHandler(this)" linkId="<%=links[i].id%>" redirect_Url="<%=links[i].link%>"><%=links[i].name%></a>
+                    <li onclick="linkHandler(this)" linkId="<%=links[i].id%>" redirect_Url="<%=links[i].link%>" style="cursor: pointer; position: relative; margin:10px auto 10px auto; display: flex; justify-content: center; align-items: center; background-color: #B68E00; width: 330px; border-radius: 20px; height: 50px;">
+                      <a style=" text-decoration: none; color: white;" ><%=links[i].name%></a>
                       
                     </li>
                   <%}else if(links[i].type == "heading"){%>
@@ -192,21 +192,21 @@
                   <%}%>
               <p class="text_style heading_style" style=" margin: 40px 30px 20px 30px; width: fit-content;" class="profile_heading">Free Tools</p>
               <button cal_Link="https://abdul0398.github.io/MSR/"  style="position: relative; font-size: 16px; border: none; cursor: pointer; color: white; margin:10px auto 10px auto; display: flex; justify-content: center; align-items: center; background-color: #B68E00; width: 330px; border-radius: 35px; height: 50px;" onclick="openCal(this)">MSR Calculator</button>
-              <button cal_Link="https://abdul0398.github.io/TDRS/" style="position: relative; font-size: 16px; border: none; cursor: pointer; color: white; margin:10px auto 10px auto; display: flex; justify-content: center; align-items: center; background-color: #B68E00; width: 330px; border-radius: 35px; height: 50px;" onclick="openCal(this)">TDRS calculator</button>
+              <button cal_Link="https://abdul0398.github.io/TDRS/" style="position: relative; font-size: 16px; border: none; cursor: pointer; color: white; margin:10px auto 10px auto; display: flex; justify-content: center; align-items: center; background-color: #B68E00; width: 330px; border-radius: 35px; height: 50px;" onclick="openCal(this)">TDRS Calculator</button>
               <button  style="position: relative; font-size: 16px; border: none; cursor: pointer; color: white; margin:10px auto 10px auto; display: flex; justify-content: center; align-items: center; background-color: #B68E00; width: 330px; border-radius: 35px; height: 50px;" onclick="showForm(this)">Book An Appointment</button>
               <button  style="position: relative; font-size: 16px; border: none; cursor: pointer; color: white; margin:10px auto 10px auto; display: flex; justify-content: center; align-items: center; background-color: #B68E00; width: 330px; border-radius: 35px; height: 50px;" onclick="showForm(this)">Lead Form</button>
               </section>
               <div style="height: 300px;">
                 <div class="group-parent">
-                  <%if(profile.personal_link || profile.phone){%>
+                  <%if(profile.phone){%>
                   <div class="call-us-parent">
                     <b class="call-us">Call us</b>
                     <div class="group-container">
                       <div class="rectangle-group">
                         <%if(profile.personal_link){%>
-                          <a href="<%=profile.personal_link%>">
+                          <a href="tel:<%=profile.phone%>">
                             <div class="rectangle-div">
-                              <b class="book-and-appointment">Book and Appointment</b>
+                              <b class="book-and-appointment">Call</b>
                             </div>
                           </a>
                         <%}%>

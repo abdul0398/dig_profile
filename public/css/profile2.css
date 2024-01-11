@@ -236,7 +236,8 @@ body {
   .book-and-appointment {
     position: absolute;
     top: 0.94rem;
-    left: calc(50% - 90px);
+    left: 50%;
+    transform: translateX(-50%);
   }
   .group-child3,
   .rectangle-parent {

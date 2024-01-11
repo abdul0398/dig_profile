@@ -204,9 +204,9 @@
               <%for(let i = 0; i < links.length; i++){%>
                   <%if(links[i].type == "link"){%>
                   
-                    <li style="margin:10px auto 10px auto; display: flex; justify-content: center; align-items: center; background-color: #0066C9; width: 330px; border-radius: 35px; height: 50px;">
+                    <li linkId="<%=links[i].id%>" redirect_Url="<%=links[i].link%>" onclick="linkHandler(this)" style="cursor: pointer;  margin:10px auto 10px auto; display: flex; justify-content: center; align-items: center; background-color: #0066C9; width: 330px; border-radius: 35px; height: 50px;">
                   
-                      <a style="cursor: pointer; text-decoration: none; color: white;" onclick="linkHandler(this)" linkId="<%=links[i].id%>" redirect_Url="<%=links[i].link%>"><%=links[i].name%></a>
+                      <a style="text-decoration: none; color: white;"  ><%=links[i].name%></a>
                   
                     </li>
                   
@@ -220,7 +220,7 @@
               <%}%>
               <p style="color: #000; margin: 40px 30px 20px 30px; width: fit-content;" class="profile_heading">Free Tools</p>
               <button cal_Link="https://abdul0398.github.io/MSR/"  style="font-size: 16px; border: none; cursor: pointer; color: white; margin:10px auto 10px auto; display: flex; justify-content: center; align-items: center; background-color: #0066C9; width: 330px; border-radius: 35px; height: 50px;" onclick="openCal(this)">MSR Calculator</button>
-              <button cal_Link="https://abdul0398.github.io/TDRS/" style="font-size: 16px; border: none; cursor: pointer; color: white; margin:10px auto 10px auto; display: flex; justify-content: center; align-items: center; background-color: #0066C9; width: 330px; border-radius: 35px; height: 50px;" onclick="openCal(this)">TDRS calculator</button>
+              <button cal_Link="https://abdul0398.github.io/TDRS/" style="font-size: 16px; border: none; cursor: pointer; color: white; margin:10px auto 10px auto; display: flex; justify-content: center; align-items: center; background-color: #0066C9; width: 330px; border-radius: 35px; height: 50px;" onclick="openCal(this)">TDRS Calculator</button>
               <button  style="font-size: 16px; border: none; cursor: pointer; color: white; margin:10px auto 10px auto; display: flex; justify-content: center; align-items: center; background-color: #0066C9; width: 330px; border-radius: 35px; height: 50px;" onclick="showForm(this)">Book An Appointment</button>
               <button  style="font-size: 16px; border: none; cursor: pointer; color: white; margin:10px auto 10px auto; display: flex; justify-content: center; align-items: center; background-color: #0066C9; width: 330px; border-radius: 35px; height: 50px;" onclick="showForm(this)">Lead Form</button>
 
@@ -252,22 +252,16 @@
           </div>
 
 
-          <%if(profile.personal_link || profile.phone){%>
+          <%if(profile.phone){%>
             <p style="color: #000; margin: 50px auto 15px auto; width: fit-content;" class="profile_heading">CALL US</p>
           <%}%>
           
-          <%if(profile.personal_link){%>
-            <li style=" margin:5px auto 5px auto; display: flex; justify-content: center; align-items: center; background-color: #0066C9; width: 330px; border-radius: 35px; height: 50px;">
-              <a style="text-decoration: none; color: white;" href="<%=profile.personal_link%>">Book An Appointment</a>
-            </li>
-          <%}%>
-          
           <%if(profile.phone){%>
-            <li style="background-color: #0066C9; margin:0px auto 5px auto; display: flex; justify-content: center; align-items: center; border: 1px solid black; width: 330px; border-radius: 35px; height: 50px;">
-              <a target="_blank" style="text-decoration: none; color: rgb(255, 255, 255);" href="tel:<%=profile.phone%>">Call</a>
-            </li>
-            <li style="background-color: #0066C9; margin:0px auto 5px auto; display: flex; justify-content: center; align-items: center; border: 1px solid black; width: 330px; border-radius: 35px; height: 50px;">
-              <a target="_blank" style="text-decoration: none; color: rgb(255, 255, 255);" href="https://wa.me/<%=profile.phone%>">Whats App</a>
+              <li onclick="linkHandler(this)" redirect_Url="tel:<%=profile.phone%>" style="cursor: pointer; background-color: #0066C9; margin:0px auto 5px auto; display: flex; justify-content: center; align-items: center; border: 1px solid black; width: 330px; border-radius: 35px; height: 50px;">
+                <a target="_blank" style="text-decoration: none; color: rgb(255, 255, 255);" >Call</a>
+              </li>
+            <li onclick="linkHandler(this)" redirect_Url="https://wa.me/<%=profile.phone%>"  style="cursor: pointer; background-color: #0066C9; margin:0px auto 5px auto; display: flex; justify-content: center; align-items: center; border: 1px solid black; width: 330px; border-radius: 35px; height: 50px;">
+              <a target="_blank" style="text-decoration: none; color: rgb(255, 255, 255);" >Whats App</a>
             </li>
           <%}%>
          
@@ -509,11 +503,15 @@
       async function linkHandler(e){
         const linkId = e.getAttribute("linkId");
         const redirect_Url = e.getAttribute("redirect_Url");
-        const res = await fetch(`/api/linkcount/${linkId}`,{
-          method:"GET"
-        })
-        const resData = await res.json();
-        if(res.status == 200){
+        if(linkId){
+          const res = await fetch(`/api/linkcount/${linkId}`,{
+            method:"GET"
+          })
+          const resData = await res.json();
+          if(res.status == 200){
+            window.open(redirect_Url, '_blank');
+          }
+        }else{
           window.open(redirect_Url, '_blank');
         }
       }
