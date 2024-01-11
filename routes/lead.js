@@ -4,10 +4,10 @@ const {verify} = require("../middlewares/verify.js");
 
 router.post("/api/submitLead/:profilId", async (req,res)=>{
     const {profilId} = req.params;
-    const {Name, Email, Mobile, Message, ...questions} = req.body;
+    const {Name, Email, Mobile, Message, Booking, ...questions} = req.body;
     try {
-        const insertQuery = `INSERT INTO leads (name, email, phone, profileId, message, questions) VALUES(?, ?, ?, ?, ?, ?)`;
-        await __pool.query(insertQuery, [Name, Email, Mobile, profilId, Message, JSON.stringify(questions)]);
+        const insertQuery = `INSERT INTO leads (name, email, phone, profileId, message, questions, booking) VALUES(?, ?, ?, ?, ?, ?, ?)`;
+        await __pool.query(insertQuery, [Name, Email, Mobile, profilId, Message, JSON.stringify(questions), convertToMySQLDateTime(Booking) ]);
         res.status(200).json("Sucessfully submitted Leads");
     } catch (error) {
         console.log(error.message);
@@ -84,4 +84,17 @@ router.post("/api/submitLead/:profilId", async (req,res)=>{
         res.status(500).send("Server Error");
     }
 })
+
+function convertToMySQLDateTime(isoDateTime) {
+    const date = new Date(isoDateTime);
+    const year = date.getFullYear();
+    const month = (date.getMonth() + 1).toString().padStart(2, '0');
+    const day = date.getDate().toString().padStart(2, '0');
+    const hours = date.getHours().toString().padStart(2, '0');
+    const minutes = date.getMinutes().toString().padStart(2, '0');
+    const seconds = date.getSeconds().toString().padStart(2, '0');
+
+    return `${year}-${month}-${day} ${hours}:${minutes}:${seconds}`;
+}
+
 module.exports = router;

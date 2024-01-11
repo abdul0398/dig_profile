@@ -38,7 +38,7 @@ const sendVerificationEmail = async (mail, url) => {
     from: sender_mail,
     to: mail,
     subject: "You Got A Lead",
-    text: lead,
+    text: `Name:${lead.name}\nPhone:${lead.phone}\nEmail:${lead.email}`,
   });
 }
 

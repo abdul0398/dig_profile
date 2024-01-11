@@ -14,7 +14,8 @@
       href="https://fonts.googleapis.com/css2?family=Quicksand:wght@600;700&display=swap"
     />
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
-
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous">
+    <script src="https://code.jquery.com/jquery-3.7.1.min.js" integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" crossorigin="anonymous"></script>
   </head>
   
   <style>
@@ -35,7 +36,7 @@
       left: 0;
       width: 100%;
       height: 100%;
-      z-index: 999;
+      z-index: 99;
     }
     .text_style{
       color: #FFF;
@@ -93,7 +94,7 @@
       right: 20px; 
       top: 20px;
     }
-    #popupform{
+    #popupform, #popupCalender{
       position: fixed;
       top: 50%;
       left: 50%;
@@ -104,6 +105,7 @@
       background-color: #FFF;
       border-radius: 10px;
       width: 40%;
+      z-index: 999;
       max-height: 600px;
       overflow-x: auto;
     }
@@ -193,7 +195,7 @@
               <p class="text_style heading_style" style=" margin: 40px 30px 20px 30px; width: fit-content;" class="profile_heading">Free Tools</p>
               <button cal_Link="https://abdul0398.github.io/MSR/"  style="position: relative; font-size: 16px; border: none; cursor: pointer; color: white; margin:10px auto 10px auto; display: flex; justify-content: center; align-items: center; background-color: #B68E00; width: 330px; border-radius: 35px; height: 50px;" onclick="openCal(this)">MSR Calculator</button>
               <button cal_Link="https://abdul0398.github.io/TDRS/" style="position: relative; font-size: 16px; border: none; cursor: pointer; color: white; margin:10px auto 10px auto; display: flex; justify-content: center; align-items: center; background-color: #B68E00; width: 330px; border-radius: 35px; height: 50px;" onclick="openCal(this)">TDRS Calculator</button>
-              <button  style="position: relative; font-size: 16px; border: none; cursor: pointer; color: white; margin:10px auto 10px auto; display: flex; justify-content: center; align-items: center; background-color: #B68E00; width: 330px; border-radius: 35px; height: 50px;" onclick="showForm(this)">Book An Appointment</button>
+              <button  style="position: relative; font-size: 16px; border: none; cursor: pointer; color: white; margin:10px auto 10px auto; display: flex; justify-content: center; align-items: center; background-color: #B68E00; width: 330px; border-radius: 35px; height: 50px;" onclick="showFormwithCalender(this)">Book An Appointment</button>
               <button  style="position: relative; font-size: 16px; border: none; cursor: pointer; color: white; margin:10px auto 10px auto; display: flex; justify-content: center; align-items: center; background-color: #B68E00; width: 330px; border-radius: 35px; height: 50px;" onclick="showForm(this)">Lead Form</button>
               </section>
               <div style="height: 300px;">
@@ -285,15 +287,29 @@
                   </div>
                 </div>
                 <input type="date" id="datePicker">
-                
-                <button profile_id="<%=profile.id%>" class="btn_submit" onclick="submitLead(this)">Send</button>
+                <div style="display: flex;">
+                  <button style="width: 50%;" onclick="btnPreviousHandler()" class="btn_submit btn_prev close_popup">Previous</button>
+                  <button style="width: 50%;" profile_id="<%=profile.id%>" class="btn_submit" onclick="submitLead(this)">Send</button>
+                </div>
 
             </div>
-        </div>
+            <%- include('calender.ejs') %>
+          </div>
+        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL" crossorigin="anonymous"></script>
         <script>
     const overlay = document.getElementById("overlay");
-  overlay.addEventListener("click", function(){
+    overlay.addEventListener("click", function(){
+    const modal = document.querySelectorAll(".open_popup")
+    for(let index = 0; index < modal.length; index++) {
+      const element = modal[index];
+      element.classList.remove("open_popup");
+      element.classList.add("close_popup")
+      
+    }
+    document.getElementsByClassName("btn_prev")[0].classList.add("close_popup");
+    document.getElementsByClassName("btn_prev")[0].classList.remove("open_popup");
     document.querySelector("#popupform").style.display = "none";
+
     overlay.style.display = "none";
   })
   document.querySelector(".close_btn").addEventListener("click", function(){
@@ -302,6 +318,7 @@
   })
 
           async function showForm(e){
+            document.getElementById("datePicker").style.display = "block";
               const formId = e.getAttribute("form_id");
               const {form} = await fetchFormDetail(formId);
                 populateFormbasedOnBtn(form.questions);
@@ -415,6 +432,8 @@
             formData["Name"] = name;
             formData["Email"] = email;
             formData["Message"] = message;
+            formData["Booking"] = selectedDate;
+
         
 
         // Extract mobile number (special case because of the split fields)
@@ -519,6 +538,27 @@
       <iframe style="width: 100%; height: 100%;" src="${cal_Link}" frameborder="0"></iframe>`
       openPopup();
     }
-        </script>
+
+    async function showFormwithCalender(){      
+        document.querySelector("#popupCalender").classList.add("open_popup");
+        document.querySelector("#popupCalender").classList.remove("close_popup");
+
+        overlay.style.display = "block";
+    }
+    function btnPreviousHandler(){
+      showFormwithCalender();
+      document.querySelector("#popupform").style.display = "none";
+    }
+
+    function openFormOfBooking(){
+        const div = document.createElement("div");  
+        document.querySelector("#popupCalender").classList.remove("open_popup");
+        document.querySelector("#popupCalender").classList.add("close_popup");
+        document.getElementsByClassName("btn_prev")[0].classList.remove("close_popup");
+        document.getElementsByClassName("btn_prev")[0].classList.add("open_popup");
+        showForm(div);
+        document.getElementById("datePicker").style.display = "none";
+    }
+      </script>
     </body>
 </html>
