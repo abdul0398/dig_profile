@@ -7,7 +7,7 @@ router.post("/api/submitLead/:profilId", async (req,res)=>{
     const {Name, Email, Mobile, Message, Booking, ...questions} = req.body;
     try {
         const insertQuery = `INSERT INTO leads (name, email, phone, profileId, message, questions, booking) VALUES(?, ?, ?, ?, ?, ?, ?)`;
-        await __pool.query(insertQuery, [Name, Email, Mobile, profilId, Message, JSON.stringify(questions), convertToMySQLDateTime(Booking) ]);
+        await __pool.query(insertQuery, [Name, Email, Mobile, profilId, Message, JSON.stringify(questions), null ]);
         res.status(200).json("Sucessfully submitted Leads");
     } catch (error) {
         console.log(error.message);
