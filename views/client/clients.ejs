@@ -732,7 +732,6 @@
                     }
                 }else{
                     const client = document.querySelector('.clientsname_div li');
-                    console.log(client);
                     if(client){
                         client.classList.add('selected_client');
                         client.classList.remove("unselected_client");
@@ -1112,7 +1111,6 @@
             async function editHandler(curr_elem){
                 const id = curr_elem.getAttribute("profile_id");
                 const {profile, links, forms} = await fetchProfileDetail(id);
-                console.log(profile, forms, links)
                 document.querySelector(".profile_edit_container").style.display = "block";
                 const showformdiv = document.getElementById("show_profiles").innerHTML = "";
                 
@@ -1151,7 +1149,6 @@
                 function populateLinksAndPreview(links) {
                     const linkContainer = document.getElementById("link_container_dynamic");
                     linkContainer.innerHTML = "";
-                    console.log(links)
                     links.forEach(link=>{
                         if (link.type == "link") {
                             const linkCounter = linkContainer.children.length + 1;
@@ -1621,7 +1618,6 @@
                         optionInput.className = "options";
 
                         optionInput.addEventListener("input", () => {
-                            console.log("input");
                             question_populate_logic();
                         });
 
@@ -1820,17 +1816,18 @@
             }
 
             function populateEditForm(form){
+                const ds_container = document.getElementById("discord_container");
+                ds_container.innerHTML = ""
+                document.getElementsByClassName("discord-metaform-input")[0].value = "";
 
                 document.getElementById("form_submit_btn").setAttribute("onclick", `editForm(${form.id})`);
-                
                 
                 // ################ Populate Discord ####################
                 form.discords.forEach((discord, index)=>{
                     if(index == 0){
                         document.getElementsByClassName("discord-metaform-input")[0].value = discord;
                     }else{
-                        const ds_container = document.getElementById("discord_container");
-                        ds_container.innerHTML = ""
+                        
 
                         let newInput = document.createElement('div');
                         newInput.innerHTML ='<div class="discord-input-container-metaform">' +
@@ -2225,7 +2222,6 @@
                 async function editHandler(curr_elem){
                     const id = curr_elem.getAttribute("profile_id");
                     const {profile, links, forms} = await fetchProfileDetail(id);
-                    console.log(profile, forms, links)
                     document.querySelector(".profile_edit_container").style.display = "block";
                     const showformdiv = document.getElementById("show_profiles").innerHTML = "";
                     
@@ -2264,7 +2260,6 @@
                     function populateLinksAndPreview(links) {
                         const linkContainer = document.getElementById("link_container_dynamic");
                         linkContainer.innerHTML = "";
-                        console.log(links)
                         links.forEach(link=>{
                             if (link.type == "link") {
                                 const linkCounter = linkContainer.children.length + 1;
@@ -2709,7 +2704,6 @@
                     // ##################### Populate Questions#######################
                     const questions_container = document.getElementById("questionsContainer_meta");
                     document.getElementById("form_name").value = form.name;
-                    console.log(form);
                     questions_container.innerHTML = "";
                         form.questions.forEach((question, index)=>{
                             let optionsHTML = '';

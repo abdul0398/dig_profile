@@ -30,9 +30,7 @@ router.get("/clients", async (req,res)=>{
             return res.status(200).json({ client: clients[0], message: "No profiles found for this client" });
         }
         const profileId = profiles.map(profile => profile.id);
-        console.log(profileId);
         const [links] = await __pool.query(`SELECT * FROM links WHERE profilesId IN (?)`, [profileId]);
-        console.log(links);
         if (links.length === 0) {
             return res.status(200).json({ client: clients[0], profiles });
         }
@@ -41,7 +39,6 @@ router.get("/clients", async (req,res)=>{
         console.error(error);
         res.status(500).json({ message: "An error occurred" });
     }
-    console.log("Hello", clientid);
 })
 .post("/editclient/:clientId", verify, async (req, res)=>{
     const {clientId} = req.params;

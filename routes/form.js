@@ -38,7 +38,6 @@ router.post("/api/addform/:profileId", verify, async (req,res)=>{
 }).post("/api/updateForm/:formId", verify, async (req,res)=>{
     const {formId} = req.params;
     const {name, discord, questions, emails} = req.body;
-    console.log(req.body);
     try {
         const updateQuery = `UPDATE form SET name = ?, discords = ?, questions = ?, emails = ? WHERE id = ?`;
         await __pool.query(updateQuery, [name, JSON.stringify(discord), JSON.stringify(questions), JSON.stringify(emails), formId]);

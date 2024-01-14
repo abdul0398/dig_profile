@@ -112,15 +112,6 @@
       text-decoration: none;
       color: white;
     }
-    input[type="date"]{
-      width: 100%;
-      height: 40px;
-      background-color: #ECECEC;
-      border: none;
-      padding: 5px;
-      box-sizing: border-box;
-      margin-top: 10px;
-    }
     .popup {
     display: none;
     position: fixed;
@@ -193,12 +184,12 @@
             <%}else if(links[i].type == "heading"){%>
                 <p class="text_style heading_style" style="color: black; margin: 40px 30px 20px 30px; width: fit-content;" class="profile_heading"><%=links[i].heading%></p>
             <%}else{%>
-              <button class="text_style" form_id="<%=links[i].link%>"  style="position: relative; border: none; cursor: pointer; color: white; margin:10px auto 10px auto; display: flex; justify-content: center; align-items: center; background-image: linear-gradient(178.54deg, #ff1212 7.67%, #ff2c1d); width: 330px; border-radius: 35px; height: 50px;" onclick="showForm(this)"><%=links[i].name%></button>
+              <button class="text_style" form_id="<%=links[i].link%>"  style="position: relative; border: none; cursor: pointer; color: white; margin:10px auto 10px auto; display: flex; justify-content: center; align-items: center; background-image: linear-gradient(178.54deg, #ff1212 7.67%, #ff2c1d); width: 330px; border-radius: 35px; height: 50px;" onclick="showForm(this, false)"><%=links[i].name%></button>
             <%}%>
             <%}%>
             <p class="text_style heading_style" style="color: black; margin: 40px 30px 20px 30px; width: fit-content;" class="profile_heading">Free Tools</p>
-              <button cal_Link="https://abdul0398.github.io/MSR/"  style="font-size: 16px; border: none; cursor: pointer; color: white; margin:10px auto 10px auto; display: flex; justify-content: center; align-items: center; background-image: linear-gradient(178.54deg, #ff1212 7.67%, #ff2c1d); width: 330px; border-radius: 35px; height: 50px;" onclick="openCal(this)">MSR Calculator</button>
-              <button cal_Link="https://abdul0398.github.io/TDRS/" style="font-size: 16px; border: none; cursor: pointer; color: white; margin:10px auto 10px auto; display: flex; justify-content: center; align-items: center; background-image: linear-gradient(178.54deg, #ff1212 7.67%, #ff2c1d); width: 330px; border-radius: 35px; height: 50px;" onclick="openCal(this)">TDRS Calculator</button>
+              <button cal_Link="https://abdul0398.github.io/MSR/"  style="font-size: 16px; border: none; cursor: pointer; color: white; margin:10px auto 10px auto; display: flex; justify-content: center; align-items: center; background-image: linear-gradient(178.54deg, #ff1212 7.67%, #ff2c1d); width: 330px; border-radius: 35px; height: 50px;" onclick="openCalculator(this)">MSR Calculator</button>
+              <button cal_Link="https://abdul0398.github.io/TDRS/" style="font-size: 16px; border: none; cursor: pointer; color: white; margin:10px auto 10px auto; display: flex; justify-content: center; align-items: center; background-image: linear-gradient(178.54deg, #ff1212 7.67%, #ff2c1d); width: 330px; border-radius: 35px; height: 50px;" onclick="openCalculator(this)">TDRS Calculator</button>
               <button  style="font-size: 16px; border: none; cursor: pointer; color: white; margin:10px auto 10px auto; display: flex; justify-content: center; align-items: center; background-image: linear-gradient(178.54deg, #ff1212 7.67%, #ff2c1d); width: 330px; border-radius: 35px; height: 50px;" onclick="showFormwithCalender(this)">Book An Appointment</button>
               <button  style="font-size: 16px; border: none; cursor: pointer; color: white; margin:10px auto 10px auto; display: flex; justify-content: center; align-items: center; background-image: linear-gradient(178.54deg, #ff1212 7.67%, #ff2c1d); width: 330px; border-radius: 35px; height: 50px;" onclick="showForm(this)">Lead Form</button>
         </section>
@@ -276,6 +267,7 @@
       </div>
       <!-- ######## Form ######## -->
       <div class="hide_scroll close_popup" id="popupform">
+        <p id="form_id_selected" hidden ></p>
         <span class="close_btn">
           <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 16 16" fill="none">
             <path d="M8.88394 7.98975L15.817 1.0656C16.0611 0.821824 16.0611 0.426583 15.817 0.182835C15.5729 -0.0609137 15.1771 -0.0609449 14.9331 0.182835L8 7.10698L1.06698 0.182835C0.822883 -0.0609449 0.427133 -0.0609449 0.18307 0.182835C-0.0609922 0.426614 -0.0610234 0.821855 0.18307 1.0656L7.1161 7.98971L0.18307 14.9139C-0.0610234 15.1576 -0.0610234 15.5529 0.18307 15.7966C0.241049 15.8547 0.309941 15.9007 0.385789 15.9321C0.461637 15.9634 0.542944 15.9795 0.625039 15.9794C0.707133 15.9795 0.788439 15.9634 0.864287 15.9321C0.940134 15.9007 1.00903 15.8547 1.06701 15.7966L8 8.87251L14.933 15.7966C15.0551 15.9185 15.215 15.9794 15.375 15.9794C15.535 15.9794 15.6949 15.9185 15.817 15.7966C16.0611 15.5528 16.0611 15.1576 15.817 14.9139L8.88394 7.98975Z" fill="black"/>
@@ -304,10 +296,9 @@
             <input class="form_input" placeholder="Example"></input>
             </div>
           </div>
-          <input type="date" id="datePicker">
           <div style="display: flex;">
             <button style="width: 50%;" onclick="btnPreviousHandler()" class="btn_submit btn_prev close_popup">Previous</button>
-            <button style="width: 50%;" profile_id="<%=profile.id%>" class="btn_submit" onclick="submitLead(this)">Send</button>
+            <button style="margin: auto; width: 50%;" profile_id="<%=profile.id%>" class="btn_submit" onclick="submitLead(this)">Send</button>
           </div>
 
       </div>
@@ -317,6 +308,7 @@
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL" crossorigin="anonymous"></script>
     <script>
       let successMsg = "Lead Send Successfully"
+      let is_Booking = false;
       const overlay = document.getElementById("overlay");
       overlay.addEventListener("click", function(){
     const modal = document.querySelectorAll(".open_popup")
@@ -337,12 +329,18 @@
       overlay.style.display = "none";
     })
   
-            async function showForm(e){
-    document.getElementById("datePicker").style.display = "block";
-
+    async function showForm(e, isBooking){    
+      if(isBooking == true){
+        is_Booking = true;
+        document.querySelector(".btn_prev").style.display = "block";
+      }else{
+        is_Booking = false;
+        document.querySelector(".btn_prev").style.display = "none";
+      }
       const formId = e.getAttribute("form_id");
+      document.getElementById("form_id_selected").innerText = formId;
+
       const {form} = await fetchFormDetail(formId);
-      console.log(form);
       populateFormbasedOnBtn(form.questions);
       document.querySelector("#popupform").style.display = "block";
       overlay.style.display = "block";
@@ -361,7 +359,6 @@
     }
   
     function populateFormbasedOnBtn(questions) {
-    console.log(questions);
    const questions_container =  document.getElementById("questions_container");
    questions_container.innerHTML = "";
    questions.forEach(question=>{
@@ -394,7 +391,6 @@
   async function submitLead(elem){
     const profilId = elem.getAttribute("profile_id");
     event.preventDefault();
-    console.log(validateFields());
     if(!validateFields()){
       Swal.fire({
         title: 'Error!',
@@ -405,7 +401,6 @@
       return;
     };
     const data = getdata(event);
-    console.log(data);
     const res = await fetch(`/api/submitLead/${profilId}`,{
       method:"POST",
       headers:{
@@ -448,6 +443,9 @@
             formData[question] = answer;
         });
 
+        // Get the Form id
+        const form_id = document.getElementById("form_id_selected").innerText;
+
         // Extract data from other inputs
         const name = document.getElementById("name").value;
         const email = document.getElementById("email").value;
@@ -455,7 +453,12 @@
             formData["Name"] = name;
             formData["Email"] = email;
             formData["Message"] = message;
-            formData["Booking"] = selectedDate;
+            if(is_Booking){
+              formData["Booking"] = selectedDate;
+            }else{
+              formData["Booking"] = null;
+            }
+            formData["form_id"] = form_id;
 
         
 
@@ -520,13 +523,7 @@
         return [year, month, day].join('-');
       }
 
-      // Set the min attribute to today's date
-      document.addEventListener('DOMContentLoaded', function() {
-          let today = new Date();
-          let todayFormatted = formatDate(today);
-
-          document.getElementById('datePicker').setAttribute('min', todayFormatted);
-      });
+   
 
 
       async function linkHandler(e){
@@ -550,7 +547,7 @@
         document.getElementById("popup").style.display = "block";
     }
 
-    function openCal(e){
+    function openCalculator(e){
       const cal_Link = e.getAttribute("cal_Link");
       const popup_container = document.querySelector(".popup-content");
       popup_container.innerHTML = ""
@@ -578,8 +575,7 @@
         document.querySelector("#popupCalender").classList.add("close_popup");
         document.getElementsByClassName("btn_prev")[0].classList.remove("close_popup");
         document.getElementsByClassName("btn_prev")[0].classList.add("open_popup");
-        showForm(div);
-        document.getElementById("datePicker").style.display = "none";
+        showForm(div, true);
     }
     </script>
     

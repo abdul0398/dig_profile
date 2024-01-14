@@ -157,7 +157,6 @@ router.get("/", verify, async(req,res)=>{
     }
 }).post('/updateLinks', verify, async (req, res) => {
     const { profile_id, data, templateSelected, phone, fb_link, insta_link, linkedin_link, about_us} = req.body;
-    console.log(req.body);
     const connection = await __pool.getConnection();
         try {
             // Start a transaction
@@ -199,7 +198,6 @@ router.get("/", verify, async(req,res)=>{
    
 }).get("/api/linkcount/:linkId", (req,res)=>{
     const {linkId} = req.params;
-    console.log(linkId);
     const updateQuery = `UPDATE links SET click_count = click_count + 1 WHERE id = ?`;
     __pool.query(updateQuery, [linkId]);
     res.status(200).json("Updated");

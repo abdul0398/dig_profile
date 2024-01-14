@@ -29,20 +29,34 @@ const sendVerificationEmail = async (mail, url) => {
     from: sender_mail,
     to: mail,
     subject: 'Email Verification',
-    text: mailHmtl,
+    html: mailHmtl,
   });
 };
 
- async function sentLeadMail(mail, lead){
+ async function sentLeadMail(mail, leadStr){
   await transporter.sendMail({
     from: sender_mail,
     to: mail,
     subject: "You Got A Lead",
-    text: `Name:${lead.name}\nPhone:${lead.phone}\nEmail:${lead.email}`,
+    text: leadStr,
   });
+}
+
+async function bulkMailSender(mails, leadStr) {
+  try {
+    mails.forEach(async mail=>{
+      if(mail != ""){
+        await sentLeadMail(mail, leadStr);
+      }
+    })
+  } catch (error) {
+    console.log("Error is sending the Lead to mail", error.message);
+    return;
+  }
 }
 
 module.exports = {
   sendVerificationEmail,
-  sentLeadMail
+  sentLeadMail,
+  bulkMailSender
 };

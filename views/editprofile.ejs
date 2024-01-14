@@ -510,7 +510,6 @@
             })
 
             const data = await res.json();
-            console.log(data);
         } catch (error) {
             console.log(error.message);
         }
@@ -565,7 +564,6 @@
             
             inputLink.addEventListener('input', function() {
                const arrangement = extractData();
-               console.log(arrangement);
                 populateProfilePreview(arrangement);
             });
             
@@ -688,7 +686,6 @@
             //#### Adding event Listner to track the changes in input into previw ####
             inputHeading.addEventListener('input', function() {
                 const arrangement = extractData();
-                console.log(arrangement);
                 populateProfilePreview(arrangement);
             });
             linkDiv.appendChild(inputHeading);
@@ -814,7 +811,6 @@
             const inputs = document.querySelectorAll('#link_container_dynamic input[type="text"]:not([style*="display:none"])');
             // validate all inputs of type text
             let valid = true;
-            console.log(inputs);
             for (let i = 0; i < inputs.length; i++) {
                 inputs[i].style.border = 'none';
                 if (inputs[i].value === '') {

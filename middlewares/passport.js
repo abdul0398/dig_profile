@@ -29,7 +29,6 @@ async function verifyForClient(email, password, cb) {
             console.log("incorect email or password 2");
             return cb(null, false, { message: 'Incorrect username or password.' });
         }
-        console.log(rows[0].isVerified);
         if(!rows[0].isVerified){
             return cb(null, false, { message: 'Please verify Email Address before login.' });
         }

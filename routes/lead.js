@@ -1,19 +1,34 @@
 const express = require("express");
 const router = express.Router();
 const {verify} = require("../middlewares/verify.js");
+const {changeleadtoString} = require("../utils/tools.js")
+const {bulkDiscordSender} = require("../utils/discord.js");
+const {bulkMailSender} = require("../utils/mailHandler")
 
 router.post("/api/submitLead/:profilId", async (req,res)=>{
     const {profilId} = req.params;
-    const {Name, Email, Mobile, Message, Booking, ...questions} = req.body;
+    const {Name, Email, Mobile, Message, Booking, form_id, ...questions} = req.body;
     try {
         const insertQuery = `INSERT INTO leads (name, email, phone, profileId, message, questions, booking) VALUES(?, ?, ?, ?, ?, ?, ?)`;
-        await __pool.query(insertQuery, [Name, Email, Mobile, profilId, Message, JSON.stringify(questions), null ]);
+        const [row] = await __pool.query(insertQuery, [Name, Email, Mobile, profilId, Message, JSON.stringify([questions]), convertToMySQLDateTime(Booking)]);
+        
+        const lastIdQuery = 'SELECT * FROM leads WHERE id = ?';
+        const [rows] = await __pool.query(lastIdQuery, [row.insertId]);
+
+        const getFormQuery = `SELECT discords, emails FROM form WHERE id = ?`
+        const [formRows] = await __pool.query(getFormQuery, [form_id]);
+        if(formRows.length > 0){
+            const leadStr  = changeleadtoString(rows[0]);
+            await bulkDiscordSender(formRows[0].discords, leadStr);
+            await bulkMailSender(formRows[0].emails, leadStr);
+        }
         res.status(200).json("Sucessfully submitted Leads");
     } catch (error) {
         console.log(error.message);
         res.status(400).json("Something Went wrong please try again");
     }
-}).get("/leads", verify, async (req,res)=>{
+})
+.get("/leads", verify, async (req,res)=>{
     const getLeadsQuery = `SELECT * FROM leads WHERE profileId IN (?)`;
     const getProfilesQuery = `SELECT * FROM profiles WHERE client_id IN (?)`;
     const getClientsQuery = `SELECT name, id FROM clients`;
@@ -42,7 +57,8 @@ router.post("/api/submitLead/:profilId", async (req,res)=>{
         res.status(500).send("Server Error");
     }
 
-}).get("/api/getLeads", async (req,res)=>{
+})
+.get("/api/getLeads", async (req,res)=>{
     const getLeadsQuery = `SELECT * FROM leads WHERE profileId IN (?)`;
     const getProfilesQuery = `SELECT * FROM profiles WHERE client_id IN (?)`;
     const getClientsQuery = `SELECT name, id FROM clients`;
@@ -84,8 +100,8 @@ router.post("/api/submitLead/:profilId", async (req,res)=>{
         res.status(500).send("Server Error");
     }
 })
-
 function convertToMySQLDateTime(isoDateTime) {
+    if(!isoDateTime)return null;
     const date = new Date(isoDateTime);
     const year = date.getFullYear();
     const month = (date.getMonth() + 1).toString().padStart(2, '0');

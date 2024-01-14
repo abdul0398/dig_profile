@@ -10,7 +10,7 @@ async function start() {
     app.use((req,res)=>{
         res.render("error.ejs");
     })
-    app.listen(3000, ()=>{
+    app.listen(3000, async ()=>{
         console.log("##### Express Server Started at port 3000 #####");
     })
 }

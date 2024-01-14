@@ -308,11 +308,9 @@
       document.getElementById("profile_name").innerHTML = profileName;
       document.getElementById("analytics_body").innerHTML = "";
       const {profile, links, forms} = await fetchprofileDetails(profileId);
-      console.log(forms)
 
       document.getElementById("profile_clicks").innerHTML = profile.views + " views";
       const profile_links = links.filter(link => link.type == "link");
-      console.log(profile);
       
       for(let i = 0; i < profile_links.length; i++){
         document.getElementById("analytics_body").innerHTML += `
@@ -351,7 +349,6 @@
         document.getElementById("profile_name").innerHTML = profileName;
         document.getElementById("analytics_body").innerHTML = "";
         const {profile, links, forms} = await fetchprofileDetails(profileId);
-        console.log(forms)
         document.getElementById("profile_clicks").innerHTML = profile.views + " views";
         const profile_links = links.filter(link => link.type == "link");
         

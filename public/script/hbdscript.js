@@ -268,10 +268,8 @@ function getFormData() {
     const projectRadio = document.getElementById("radio-project");
     const locationRadio = document.getElementById("radio-location");
         if (projectRadio.checked) {
-            console.log("project");
             formData["project"] = document.getElementById("select-project").value;
         }else if (locationRadio.checked) {
-            console.log("location");
             formData["project"] = document.getElementById("select-project-inlocation").value;
         }
     // formData["location"] = document.getElementById("select-country").value;
