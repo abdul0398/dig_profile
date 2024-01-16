@@ -169,12 +169,12 @@
           </div>
         </section>
         <h2 style="color: black; text-align: center;"><%=profile.name%></h2>
-        <%if(profile.about_us && profile.about_us.type == "text"){%>
+        <%if(profile.description !== ""){%>
           <p style="color: black;
           text-align: center;
           width: 320px;
           margin: auto;
-          word-wrap: break-word;"><%=profile.about_us.text%></p>
+          word-wrap: break-word;"><%=profile.description%></p>
             <%}%>
         <section id="profile_preview_innercontainer">
           <%for(let i = 0; i < links.length; i++){%>

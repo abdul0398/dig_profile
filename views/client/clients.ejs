@@ -1103,9 +1103,10 @@
                 document.getElementById("temp2_name").innerText = profile.name;
                 document.getElementById("temp3_name").innerText = profile.name;
                 const preview_profile_img = document.getElementsByClassName("preview_profile_img");
-                    for (let i = 0; i < preview_profile_img.length; i++) {
-                        preview_profile_img[i].src = profile.profile_img_path;
-                    }
+                    
+                for (let i = 0; i < preview_profile_img.length; i++) {
+                    preview_profile_img[i].src = profile.profile_img_path;
+                }
 
                 
                 profileDataState.templateSelected = profile.template_selected;
@@ -1113,6 +1114,7 @@
                 document.getElementById("fb_link").value = profile.fb_link;
                 document.getElementById("insta_link").value = profile.insta_link;
                 document.getElementById("linkedin_link").value = profile.linkedin_link;
+                document.getElementById("profile_desc").value = profile.description;
 
 
                 //########### Populate radio of About us #############
@@ -1120,34 +1122,22 @@
                 function populateradioOfAboutUs() {
                     const radioInputs = document.getElementsByName("about_us_radio");
                     const about_us = profile.about_us;
-                    if(about_us && about_us.type == "text"){
+                    if(about_us && about_us.type == "page"){
                         radioInputs[0].checked = true;
-                        document.getElementById('link_aboutus').value = "";
-                        document.getElementById('about_us_text').value = about_us.text;
-                        document.getElementById("about_us_text").style.display = "block";
-                        document.getElementById("about_us_data").style.display = "none";
-                        document.getElementById('link_aboutus').style.display = "none";
-                    }else if(about_us && about_us.type == "page"){
-                        radioInputs[1].checked = true;
-                        document.getElementById('about_us_text').value = "";
                         document.getElementById('link_aboutus').value = "";
                         document.getElementById('title_aboutus').value = about_us.Title
                         document.getElementById('heading_aboutus').value = about_us.Heading
                         document.getElementById('desc_aboutus').value  = about_us.Description
                         document.getElementById("about_us_data").style.display = "block";
                         document.getElementById('link_aboutus').style.display = "none";
-                        document.getElementById("about_us_text").style.display = "none";
                     }else if(about_us && about_us.type == "link"){
-                        radioInputs[2].checked = true;
-                        document.getElementById('about_us_text').value = "";
+                        radioInputs[1].checked = true;
                         document.getElementById('title_aboutus').value = ""
                         document.getElementById('heading_aboutus').value = "";
                         document.getElementById('desc_aboutus').value  = "";
                         document.getElementById('link_aboutus').style.display = "block";
                         document.getElementById("about_us_data").style.display = "none";
-                        document.getElementById("about_us_text").style.display = "none";
                         document.getElementById('link_aboutus').value = about_us.link;
-
                     }
                 }
 

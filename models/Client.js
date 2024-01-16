@@ -25,6 +25,7 @@ CREATE TABLE IF NOT EXISTS profiles (
   phone VARCHAR(255),
   fb_link VARCHAR(255),
   insta_link VARCHAR(255),
+  description VARCHAR(255),
   about_us JSON,
   linkedin_link VARCHAR(255),
   views INT DEFAULT 0,

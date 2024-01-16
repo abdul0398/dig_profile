@@ -281,26 +281,31 @@
     
 
     <div class="d_wrap" style="margin-bottom: 5px; display: flex; justify-content: space-between;">
-        <div class="link_container" id="linkContainer">   
+        <div class="link_container" id="linkContainer">
+            
             <!-- Link items will be added here -->
             <div id="link_container_dynamic">
                 
             </div>
+            
+            <div class="fixed_link">
+                <p>Write about Your self</p>
+                <input id="profile_desc" type="text" placeholder="Type Here..">
+            </div>
+
             <div class="fixed_link">
                 <p>About Us</p>
                 <div class="radio-container-aboutus">
-                    <label>Enter Text<input type="radio" checked name="about_us_radio" value="Enter text" style="margin-left: 10px;"></label>
-                    <label>Show About us Page<input type="radio" name="about_us_radio" value="Show About us Page" style="margin-left: 10px;"></label>
+                    <label>Show About us Page<input type="radio" checked name="about_us_radio" value="Show About us Page" style="margin-left: 10px;"></label>
                     <label>Enter Link<input type="radio" name="about_us_radio" value="Enter Link" style="margin-left: 10px;"></label>
                 </div>
-                <textarea id="about_us_text" type="text" placeholder="Write about your self"></textarea>
                 <div id="about_us_data">
                     <input style="width: 100%;" type="text" name="title" placeholder="Title" id="title_aboutus">
                     <input style="width: 100%; margin-top: 5px;" type="text" name="Heading" placeholder="Heading" id="heading_aboutus">
                     <textarea style="width: 100%; margin-top: 5px;" type="text" name="Description" placeholder="Description" id="desc_aboutus"></textarea>
                 </div>
                 <input style="width: 100%; margin-top: 5px;" type="text" name="Heading" placeholder="About Us Link" id="link_aboutus">
-            </div> 
+            </div>
             <div class="fixed_link">
                 <p>Whats App Number</p>
                 <input id="phone" type="text" placeholder="Enter you Whats App Number">
@@ -864,7 +869,8 @@
         const phone = document.getElementById("phone").value;
         const fb_link = document.getElementById("fb_link").value;
         const insta_link = document.getElementById("insta_link").value;
-        const linkedin_link = document.getElementById("linkedin_link").value;  
+        const linkedin_link = document.getElementById("linkedin_link").value;
+        const description = document.getElementById("profile_desc").value;
 
 
         const profile_id = document.getElementById("profile_id").getAttribute("profile_id");
@@ -881,7 +887,8 @@
                 fb_link:fb_link,
                 insta_link:insta_link,
                 linkedin_link:linkedin_link,
-                about_us:about_us
+                about_us:about_us,
+                description:description
             }),
         })
         if(response.status === 200){
@@ -1026,20 +1033,13 @@
     function handleRadioOfAboutUs(params) {
         const radioInputs = document.getElementsByName("about_us_radio");
         radioInputs[0].addEventListener("change", ()=>{
-            document.getElementById("about_us_text").style.display = "block";
-            document.getElementById("about_us_data").style.display = "none";
+            document.getElementById("about_us_data").style.display = "block";
             document.getElementById("link_aboutus").style.display = "none";
 
         })
         radioInputs[1].addEventListener("change", ()=>{
-            document.getElementById("about_us_data").style.display = "block";
-            document.getElementById("link_aboutus").style.display = "none";
-            document.getElementById("about_us_text").style.display = "none";
-        })
-        radioInputs[2].addEventListener("change", ()=>{
             document.getElementById("link_aboutus").style.display = "block";
             document.getElementById("about_us_data").style.display = "none";
-            document.getElementById("about_us_text").style.display = "none";
         })
     }
     
@@ -1049,11 +1049,7 @@
         let obj = {};
         let selectedValue = document.querySelector('input[name="about_us_radio"]:checked').value;
         console.log(selectedValue);
-        if (selectedValue === 'Enter text') {
-            let text = document.getElementById('about_us_text').value;
-            obj['text'] =  text;
-            obj['type'] = "text";
-        } else if (selectedValue === 'Show About us Page') {
+        if (selectedValue === 'Show About us Page') {
             let title = document.getElementById('title_aboutus').value;
             let heading = document.getElementById('heading_aboutus').value;
             let description = document.getElementById('desc_aboutus').value;
