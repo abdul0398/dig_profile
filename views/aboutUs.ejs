@@ -30,8 +30,8 @@
 color: #616586;
     }
     .inline-gallery-container {
-        width: 60%;
-        height: 30%;
+        width: 80%;
+        min-height: 30%;
         padding-bottom: 65%;
         margin: auto;
     }
@@ -62,7 +62,6 @@ color: #616586;
     </div>
     
 </div>
-
 <script>
     const profile_id = `<%=id%>`
     start();
@@ -71,32 +70,19 @@ color: #616586;
         if(data.length == 0){
             return;
         }
-        document.getElementsByTagName("body")[0].innerHTML += `<div id="inline-gallery-container" class="inline-gallery-container"></div>`
-        const images = data.map(elem=>{
-            return {src:`/uploads/${profile_id}/gallery/${elem}`, thumb:`/uploads/${profile_id}/gallery/${elem}`}
+        document.getElementsByTagName("body")[0].innerHTML += `<div id="animated-thumbnails-gallery" class="inline-gallery-container"></div>`
+        const container = document.getElementById("animated-thumbnails-gallery");
+        container.innerHTML = "";
+        data.forEach(elem=>{
+            container.innerHTML += `<a href="/uploads/${profile_id}/gallery/${elem}">
+                    <img style="width: 200px;" src="/uploads/${profile_id}/gallery/${elem}" />
+                </a>`
         })
-        console.log(images);
-        const lgContainer = document.getElementById('inline-gallery-container');
-        const inlineGallery = lightGallery(lgContainer, {
-        container: lgContainer,
-        dynamic: true,
-        hash: false,
-        // Do not allow users to close the gallery
-        closable: false,
-        // Add maximize icon to enlarge the gallery
-        showMaximizeIcon: true,
-        // Append caption inside the slide item
-        // to apply some animation for the captions (Optional)
-        appendSubHtmlTo: '.lg-item',
-        // Delay slide transition to complete captions animations
-        // before navigating to different slides (Optional)
-        // You can find caption animation demo on the captions demo page
-        slideDelay: 400,
-        plugins: [lgZoom, lgThumbnail],
-        dynamicEl: images
+
+
+        lightGallery(document.getElementById('animated-thumbnails-gallery'), {
+            thumbnail: true,
         });
-         // Since we are using dynamic mode, we need to programmatically open lightGallery
-    inlineGallery.openGallery();
     }
 
     async function fetchgalleryImages(){

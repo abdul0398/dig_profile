@@ -291,6 +291,7 @@
                 <div class="radio-container-aboutus">
                     <label>Enter Text<input type="radio" checked name="about_us_radio" value="Enter text" style="margin-left: 10px;"></label>
                     <label>Show About us Page<input type="radio" name="about_us_radio" value="Show About us Page" style="margin-left: 10px;"></label>
+                    <label>Enter Link<input type="radio" name="about_us_radio" value="Enter Link" style="margin-left: 10px;"></label>
                 </div>
                 <textarea id="about_us_text" type="text" placeholder="Write about your self"></textarea>
                 <div id="about_us_data">
@@ -298,6 +299,7 @@
                     <input style="width: 100%; margin-top: 5px;" type="text" name="Heading" placeholder="Heading" id="heading_aboutus">
                     <textarea style="width: 100%; margin-top: 5px;" type="text" name="Description" placeholder="Description" id="desc_aboutus"></textarea>
                 </div>
+                <input style="width: 100%; margin-top: 5px;" type="text" name="Heading" placeholder="About Us Link" id="link_aboutus">
             </div> 
             <div class="fixed_link">
                 <p>Whats App Number</p>
@@ -1024,14 +1026,19 @@
     function handleRadioOfAboutUs(params) {
         const radioInputs = document.getElementsByName("about_us_radio");
         radioInputs[0].addEventListener("change", ()=>{
-            getDataOfaboutUs()
-            document.getElementById("about_us_data").style.display = "none";
             document.getElementById("about_us_text").style.display = "block";
+            document.getElementById("about_us_data").style.display = "none";
+            document.getElementById("link_aboutus").style.display = "none";
 
         })
         radioInputs[1].addEventListener("change", ()=>{
-            getDataOfaboutUs()
             document.getElementById("about_us_data").style.display = "block";
+            document.getElementById("link_aboutus").style.display = "none";
+            document.getElementById("about_us_text").style.display = "none";
+        })
+        radioInputs[2].addEventListener("change", ()=>{
+            document.getElementById("link_aboutus").style.display = "block";
+            document.getElementById("about_us_data").style.display = "none";
             document.getElementById("about_us_text").style.display = "none";
         })
     }
@@ -1041,6 +1048,7 @@
     function getDataOfaboutUs(params) {
         let obj = {};
         let selectedValue = document.querySelector('input[name="about_us_radio"]:checked').value;
+        console.log(selectedValue);
         if (selectedValue === 'Enter text') {
             let text = document.getElementById('about_us_text').value;
             obj['text'] =  text;
@@ -1053,10 +1061,14 @@
             obj['Heading'] =  heading;
             obj['type'] =  "page";
             obj['Description'] =  description;
+        }else if(selectedValue === "Enter Link"){
+            let link = document.getElementById('link_aboutus').value;
+            obj['type'] =  "link";
+            obj['link'] = link;
         }
+        console.log(obj);
         return obj;
     }
-
 
 
 </script>

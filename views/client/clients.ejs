@@ -691,7 +691,6 @@
                         { type: 'link', link: '#', name: 'Edge Property', heading: null, sort_order: 4 },
                         { type: 'link', link: '#', name: 'SRX', heading: null, sort_order: 5 },
                         { type: 'heading', link: null, name: null, heading: 'Digital Profile', sort_order: 6 },
-                        { type: 'link', link: '#', name: 'About', heading: null, sort_order: 7 },
                         { type: 'link', link: '#', name: 'My Personal site', heading: null, sort_order: 8 },
                         { type: 'link', link: '#', name: 'My Awards', heading: null, sort_order: 9 },
                     ]
@@ -1123,17 +1122,32 @@
                     const about_us = profile.about_us;
                     if(about_us && about_us.type == "text"){
                         radioInputs[0].checked = true;
+                        document.getElementById('link_aboutus').value = "";
                         document.getElementById('about_us_text').value = about_us.text;
-                        document.getElementById("about_us_data").style.display = "none";
                         document.getElementById("about_us_text").style.display = "block";
+                        document.getElementById("about_us_data").style.display = "none";
+                        document.getElementById('link_aboutus').style.display = "none";
                     }else if(about_us && about_us.type == "page"){
                         radioInputs[1].checked = true;
                         document.getElementById('about_us_text').value = "";
+                        document.getElementById('link_aboutus').value = "";
                         document.getElementById('title_aboutus').value = about_us.Title
                         document.getElementById('heading_aboutus').value = about_us.Heading
                         document.getElementById('desc_aboutus').value  = about_us.Description
                         document.getElementById("about_us_data").style.display = "block";
+                        document.getElementById('link_aboutus').style.display = "none";
                         document.getElementById("about_us_text").style.display = "none";
+                    }else if(about_us && about_us.type == "link"){
+                        radioInputs[2].checked = true;
+                        document.getElementById('about_us_text').value = "";
+                        document.getElementById('title_aboutus').value = ""
+                        document.getElementById('heading_aboutus').value = "";
+                        document.getElementById('desc_aboutus').value  = "";
+                        document.getElementById('link_aboutus').style.display = "block";
+                        document.getElementById("about_us_data").style.display = "none";
+                        document.getElementById("about_us_text").style.display = "none";
+                        document.getElementById('link_aboutus').value = about_us.link;
+
                     }
                 }
 

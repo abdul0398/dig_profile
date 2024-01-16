@@ -199,15 +199,7 @@
           width: 320px;
           margin: auto;
           word-wrap: break-word;"><%=profile.about_us.text%></p>
-            <%}else if(profile.about_us && profile.about_us.type == "page"){%>
-              <a target="_blank" href="/aboutus/<%=profile.id%>">
-                <p style="color: black;
-            text-align: center;
-            width: 320px;
-            margin: auto;
-            word-wrap: break-word;">Click here</p>
-              </a>
-              <%}%>
+            <%}%>
           <section id="profile_preview_innercontainer">
               <%for(let i = 0; i < links.length; i++){%>
                   <%if(links[i].type == "link"){%>
@@ -226,6 +218,16 @@
                       <button form_id="<%=links[i].link%>"  style="font-size: 16px; border: none; cursor: pointer; color: white; margin:10px auto 10px auto; display: flex; justify-content: center; align-items: center; background-color: #0066C9; width: 330px; border-radius: 35px; height: 50px;" onclick="showForm(this, false)"><%=links[i].name%></button>
                   <%}%>
               <%}%>
+              <%if(profile.about_us && profile.about_us.type == "link"){%>
+                  <a target="_blank" href="<%=profile.about_us.link%>" style="cursor: pointer; text-decoration: none; color: white;  margin:10px auto 10px auto; display: flex; justify-content: center; align-items: center; background-color: #0066C9; width: 330px; border-radius: 35px; height: 50px;" >
+                    About
+                    </a>
+              <%}else if(profile.about_us && profile.about_us.type == "page"){%>
+                <a target="_blank" href="/aboutus/<%=profile.id%>" style="cursor: pointer; text-decoration: none; color: white;  margin:10px auto 10px auto; display: flex; justify-content: center; align-items: center; background-color: #0066C9; width: 330px; border-radius: 35px; height: 50px;" >
+                  About
+                  </a>
+              <%}%>
+
               <p style="color: #000; margin: 40px 30px 20px 30px; width: fit-content;" class="profile_heading">Free Tools</p>
               <button cal_Link="https://abdul0398.github.io/MSR/"  style="font-size: 16px; border: none; cursor: pointer; color: white; margin:10px auto 10px auto; display: flex; justify-content: center; align-items: center; background-color: #0066C9; width: 330px; border-radius: 35px; height: 50px;" onclick="openCalculator(this)">MSR Calculator</button>
               <button cal_Link="https://abdul0398.github.io/TDRS/" style="font-size: 16px; border: none; cursor: pointer; color: white; margin:10px auto 10px auto; display: flex; justify-content: center; align-items: center; background-color: #0066C9; width: 330px; border-radius: 35px; height: 50px;" onclick="openCalculator(this)">TDRS Calculator</button>
