@@ -259,10 +259,7 @@
         <button id="addLinkButton">Add link</button>
         <button id="addHeadingButton">Add Heading</button>
         <button id="addFormBtn" onclick="addFormPopup()">Add Form</button>
-            <button style="border: 1px solid gray;
-            border-radius: 24px;
-            background-color: #FFFFFF !important;
-            color: gray !important;" id="add_profile" class="profile-image add-new">Add photo</button>
+          
           <input type="file" id="profile_image_upload" name="profile_image" accept="image/*" style="display: none;">
         <button id="editgallery" onclick="editGalleryOpenPopUp(this)">Edit Gallery</button>
     </div>
@@ -282,6 +279,11 @@
 
     <div class="d_wrap" style="margin-bottom: 5px; display: flex; justify-content: space-between;">
         <div class="link_container" id="linkContainer">
+            <button style="width: 100%;
+            margin: 10px 0px; border: 1px solid gray;
+            border-radius: 24px;
+            background-color: #FFFFFF !important;
+            color: gray !important;" id="add_profile" class="profile-image add-new">Add photo</button>
             
             <!-- Link items will be added here -->
             <div id="link_container_dynamic">
