@@ -7,6 +7,10 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@900&display=swap" rel="stylesheet">
+<script src="https://cdn.jsdelivr.net/npm/lightgallery@2.7.2/lightgallery.min.js"></script>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/lightgallery@2.7.2/css/lightgallery-bundle.min.css">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/lightgallery/2.7.2/plugins/zoom/lg-zoom.min.js" integrity="sha512-BLW2Jrofiqm6m7JhkQDIh2olT0EBI58+hIL/AXWvo8gOXKmsNlU6myJyEkTy6rOAAZjn0032FRk8sl9RgXPYIQ==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/lightgallery/2.7.2/plugins/thumbnail/lg-thumbnail.min.js" integrity="sha512-VBbe8aA3uiK90EUKJnZ4iEs0lKXRhzaAXL8CIHWYReUwULzxkOSxlNixn41OLdX0R1KNP23/s76YPyeRhE6P+Q==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
 <style>
     *{
         margin: 0px;
@@ -25,10 +29,16 @@
         font-family: "Segoe UI", "Helvetica Neue", Helvetica, "Lucida Grande", Arial, Ubuntu, Cantarell, "Fira Sans", sans-serif;;
 color: #616586;
     }
+    .inline-gallery-container {
+        width: 60%;
+        height: 30%;
+        padding-bottom: 65%;
+        margin: auto;
+    }
 </style>
 </head>
 
-<body style="width: 100%; height: 100%;">
+<body style="background-color: #7D90B4; width: 100%; height: 100%;">
 <div style="display: flex; justify-content: center; align-items: center; background-color: #7D90B4; width: 100%; height: 100vh;">
     <div class="main_container">
         <div id="left">
@@ -52,6 +62,55 @@ color: #616586;
     </div>
     
 </div>
+
+<script>
+    const profile_id = `<%=id%>`
+    start();
+    async function start(params) {
+        const data = await fetchgalleryImages();
+        if(data.length == 0){
+            return;
+        }
+        document.getElementsByTagName("body")[0].innerHTML += `<div id="inline-gallery-container" class="inline-gallery-container"></div>`
+        const images = data.map(elem=>{
+            return {src:`/uploads/${profile_id}/gallery/${elem}`, thumb:`/uploads/${profile_id}/gallery/${elem}`}
+        })
+        console.log(images);
+        const lgContainer = document.getElementById('inline-gallery-container');
+        const inlineGallery = lightGallery(lgContainer, {
+        container: lgContainer,
+        dynamic: true,
+        hash: false,
+        // Do not allow users to close the gallery
+        closable: false,
+        // Add maximize icon to enlarge the gallery
+        showMaximizeIcon: true,
+        // Append caption inside the slide item
+        // to apply some animation for the captions (Optional)
+        appendSubHtmlTo: '.lg-item',
+        // Delay slide transition to complete captions animations
+        // before navigating to different slides (Optional)
+        // You can find caption animation demo on the captions demo page
+        slideDelay: 400,
+        plugins: [lgZoom, lgThumbnail],
+        dynamicEl: images
+        });
+         // Since we are using dynamic mode, we need to programmatically open lightGallery
+    inlineGallery.openGallery();
+    }
+
+    async function fetchgalleryImages(){
+        try {
+            const res = await fetch(`/api/get/gallery/${profile_id}`);
+            const data = await res.json();
+            return data.images;
+        } catch (error) {
+            console.log(error.message);
+            return []
+            
+        }
+    }
     
+</script>
 </body>
 </html>

@@ -258,7 +258,7 @@ router.get("/", verify, async(req,res)=>{
     const {profileId} = req.params;
     try {
         const [rows] = await __pool.query(`SELECT profile_img_path,about_us from profiles WHERE id = ?`, [profileId]);
-        res.render("aboutUs.ejs", {about_us:rows[0].about_us, img_link:rows[0].profile_img_path});
+        res.render("aboutUs.ejs", {about_us:rows[0].about_us, img_link:rows[0].profile_img_path, id:profileId});
     } catch (error) {
         console.log(error.message);
         res.redirect("/error");

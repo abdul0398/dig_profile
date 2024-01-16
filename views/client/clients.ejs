@@ -1121,12 +1121,12 @@
                 function populateradioOfAboutUs() {
                     const radioInputs = document.getElementsByName("about_us_radio");
                     const about_us = profile.about_us;
-                    if(about_us.type == "text"){
+                    if(about_us && about_us.type == "text"){
                         radioInputs[0].checked = true;
                         document.getElementById('about_us_text').value = about_us.text;
                         document.getElementById("about_us_data").style.display = "none";
                         document.getElementById("about_us_text").style.display = "block";
-                    }else{
+                    }else if(about_us && about_us.type == "page"){
                         radioInputs[1].checked = true;
                         document.getElementById('about_us_text').value = "";
                         document.getElementById('title_aboutus').value = about_us.Title

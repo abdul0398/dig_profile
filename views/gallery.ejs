@@ -167,7 +167,13 @@
             }
 
             const data = await response.json();
-            console.log('Delete successful', data);
+            swal.fire({
+                title: "Success",
+                text: data.message,
+                icon: "success",
+                confirmButtonText: "Ok",
+                confirmButtonColor: "#002655",
+            })
         }catch (error) {
             console.error('Delete failed', error);
         }
@@ -201,11 +207,23 @@
             }
 
             const data = await response.json();
-            alert(data.message);
+            swal.fire({
+                title: "Success",
+                text: data.message,
+                icon: "success",
+                confirmButtonText: "Ok",
+                confirmButtonColor: "#002655",
+            })
             return data.file;
         } catch (error) {
             console.error('Upload failed', error);
-            alert("Upload failed");
+            swal.fire({
+                title: "ERROR",
+                text: "Upload Failed",
+                icon: "error",
+                confirmButtonText: "Ok",
+                confirmButtonColor: "#002655",
+            })
         }
 }
 

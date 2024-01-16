@@ -193,13 +193,13 @@
       
       <section id="profile_container">
           <p class="agent-name"><%=profile.name%></p>
-          <%if(profile.about_us.type == "text"){%>
+          <%if(profile.about_us && profile.about_us.type == "text"){%>
           <p style="color: black;
           text-align: center;
           width: 320px;
           margin: auto;
           word-wrap: break-word;"><%=profile.about_us.text%></p>
-            <%}else if(profile.about_us.type == "page"){%>
+            <%}else if(profile.about_us && profile.about_us.type == "page"){%>
               <a target="_blank" href="/aboutus/<%=profile.id%>">
                 <p style="color: black;
             text-align: center;
