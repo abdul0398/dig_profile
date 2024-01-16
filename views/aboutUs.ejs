@@ -75,7 +75,7 @@ color: #616586;
         container.innerHTML = "";
         data.forEach(elem=>{
             container.innerHTML += `<a href="/uploads/${profile_id}/gallery/${elem}">
-                    <img style="width: 200px;" src="/uploads/${profile_id}/gallery/${elem}" />
+                    <img style="object-fit: cover; width: 300px; height:200px" src="/uploads/${profile_id}/gallery/${elem}" />
                 </a>`
         })
 

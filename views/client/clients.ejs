@@ -472,7 +472,7 @@
                     placeholder="Enter Email">
             </div>
             <div class="form-group">
-                <input type="text" class="form-control border p-1 mt-1 border-1" id="client_password_edit"
+                <input type="password" class="form-control border p-1 mt-1 border-1" id="client_password_edit"
                     placeholder="Enter Password">
             </div>
             <div class="d-flex mt-3">
@@ -2226,365 +2226,403 @@
                 }
 
 
-                async function editHandler(curr_elem){
-                    const id = curr_elem.getAttribute("profile_id");
-                    const {profile, links, forms} = await fetchProfileDetail(id);
-                    document.querySelector(".profile_edit_container").style.display = "block";
-                    const showformdiv = document.getElementById("show_profiles").innerHTML = "";
-                    
+               
+            async function editHandler(curr_elem){
+                const id = curr_elem.getAttribute("profile_id");
+                const {profile, links, forms} = await fetchProfileDetail(id);
+                document.querySelector(".profile_edit_container").style.display = "block";
+                const showformdiv = document.getElementById("show_profiles").innerHTML = "";
+                
 
-                    // ########### Filling all the prexisting details to the edit page ###########
-                    const templates = document.querySelectorAll(".image-container");
-                    templates.forEach(template=>{
-                        if(template.getAttribute("template_id") == profile.template_selected){
-                            template.classList.add("selected");
-                        }else{
-                            template.classList.remove("selected");
-                        }
-                    })
-                    document.getElementById("profile_id").setAttribute("profile_id",id);
-                    document.querySelector(".agent-name").innerHTML = profile.name;
-                    document.getElementById("temp2_name").innerText = profile.name;
-                    document.getElementById("temp3_name").innerText = profile.name;
-                    const preview_profile_img = document.getElementsByClassName("preview_profile_img");
-                        for (let i = 0; i < preview_profile_img.length; i++) {
-                            preview_profile_img[i].src = profile.profile_img_path;
-                        }
+                // ########### Filling all the prexisting details to the edit page ###########
+                const templates = document.querySelectorAll(".image-container");
+                templates.forEach(template=>{
+                    if(template.getAttribute("template_id") == profile.template_selected){
+                        template.classList.add("selected");
+                    }else{
+                        template.classList.remove("selected");
+                    }
+                })
+                document.getElementById("profile_id").setAttribute("profile_id",id);
+                document.querySelector(".agent-name").innerHTML = profile.name;
+                document.getElementById("temp2_name").innerText = profile.name;
+                document.getElementById("temp3_name").innerText = profile.name;
+                const preview_profile_img = document.getElementsByClassName("preview_profile_img");
+                    for (let i = 0; i < preview_profile_img.length; i++) {
+                        preview_profile_img[i].src = profile.profile_img_path;
+                    }
 
-                    
-                    profileDataState.templateSelected = profile.template_selected;
-                    document.getElementById("phone").value = profile.phone;
-                    document.getElementById("fb_link").value = profile.fb_link;
-                    document.getElementById("insta_link").value = profile.insta_link;
-                    document.getElementById("linkedin_link").value = profile.linkedin_link;
-
-
-                    //Populating the Edit Form dropdown
-                    populateEditFormSection(forms);
-
-                    function populateLinksAndPreview(links) {
-                        const linkContainer = document.getElementById("link_container_dynamic");
-                        linkContainer.innerHTML = "";
-                        links.forEach(link=>{
-                            if (link.type == "link") {
-                                const linkCounter = linkContainer.children.length + 1;
-                                const linkDiv = document.createElement('div');
-                                linkDiv.classList.add('link');
-
-                                // Flex container for horizontal radio buttons
-                                const radioContainer = document.createElement('div');
-                                radioContainer.classList.add('radio-container');
-
-                                // Radio buttons for choosing between "Enter Link" and "Choose Form"
-                                const enterLinkRadio = createRadio(`enterLink`, linkCounter, 'Enter Link', true);
-                                const chooseFormRadio = createRadio(`chooseForm`, linkCounter, 'Choose Form', false);
-
-                                // Dropdown for selecting predefined forms
-                                const selectFormDropdown = document.createElement('select');
-                                selectFormDropdown.style.display = "none"; // Initially disabled
-                                // Add options to the dropdown (replace with your own options)
-                                selectFormDropdown.classList.add("form_select")
-                                forms.forEach(form=>{
-                                    if(form.id == link.link){
-                                        selectFormDropdown.innerHTML += `<option selected value="${form.id}">${form.name}</option>`
-                                    }else{
-                                        selectFormDropdown.innerHTML += `<option value="${form.id}">${form.name}</option>`
-                                    }
-                                })
-                                selectFormDropdown.style.borderRadius = "30px"
-                                selectFormDropdown.style.marginBottom = "3px"
-
-                                // Input fields for link and name
-                                const inputLink = createInput('text', 'Link', false);
-                                const inputName = createInput('text', 'Name', false);
-                                
-                                inputLink.style.display = "block"; // Initially enabled
-                                inputName.value = link.name;
-                                inputLink.value = link.link;
+                
+                profileDataState.templateSelected = profile.template_selected;
+                document.getElementById("phone").value = profile.phone;
+                document.getElementById("fb_link").value = profile.fb_link;
+                document.getElementById("insta_link").value = profile.insta_link;
+                document.getElementById("linkedin_link").value = profile.linkedin_link;
 
 
-                                // Event listeners for input fields to track changes
+                //########### Populate radio of About us #############
+                populateradioOfAboutUs();
+                function populateradioOfAboutUs() {
+                    const radioInputs = document.getElementsByName("about_us_radio");
+                    const about_us = profile.about_us;
+                    if(about_us && about_us.type == "text"){
+                        radioInputs[0].checked = true;
+                        document.getElementById('link_aboutus').value = "";
+                        document.getElementById('about_us_text').value = about_us.text;
+                        document.getElementById("about_us_text").style.display = "block";
+                        document.getElementById("about_us_data").style.display = "none";
+                        document.getElementById('link_aboutus').style.display = "none";
+                    }else if(about_us && about_us.type == "page"){
+                        radioInputs[1].checked = true;
+                        document.getElementById('about_us_text').value = "";
+                        document.getElementById('link_aboutus').value = "";
+                        document.getElementById('title_aboutus').value = about_us.Title
+                        document.getElementById('heading_aboutus').value = about_us.Heading
+                        document.getElementById('desc_aboutus').value  = about_us.Description
+                        document.getElementById("about_us_data").style.display = "block";
+                        document.getElementById('link_aboutus').style.display = "none";
+                        document.getElementById("about_us_text").style.display = "none";
+                    }else if(about_us && about_us.type == "link"){
+                        radioInputs[2].checked = true;
+                        document.getElementById('about_us_text').value = "";
+                        document.getElementById('title_aboutus').value = ""
+                        document.getElementById('heading_aboutus').value = "";
+                        document.getElementById('desc_aboutus').value  = "";
+                        document.getElementById('link_aboutus').style.display = "block";
+                        document.getElementById("about_us_data").style.display = "none";
+                        document.getElementById("about_us_text").style.display = "none";
+                        document.getElementById('link_aboutus').value = about_us.link;
 
-                                inputLink.addEventListener('input', function() {
-                                    const arrangement = extractData();
-                                    populateProfilePreview(arrangement);
-                                });
-
-                                inputName.addEventListener('input', function() {
-                                    const arrangement = extractData();
-                                    populateProfilePreview(arrangement);
-                                });
-
-
-                                // Event listeners for radio buttons to enable/disable fields
-                                enterLinkRadio.addEventListener('change', function() {
-                                    selectFormDropdown.style.display = 'none'; // Hide the dropdown
-                                    inputLink.style.display = 'block'; // Show the link input
-                                });
-
-                                chooseFormRadio.addEventListener('change', function() {
-                                
-                                    selectFormDropdown.style.display = 'block'; // Show the dropdown
-                                    inputLink.style.display = 'none'; // Hide the link input
-                                });
-
-                                const deleteButton = document.createElement('div');
-                                deleteButton.innerHTML = `<i class="fa-solid fa-trash"></i>`;
-                                deleteButton.classList.add('deleteButton');
-                                deleteButton.onclick = function() {
-                                    linkContainer.removeChild(linkDiv);
-                                    const arrangement = extractData();
-                                    populateProfilePreview(arrangement);
-                                };
-
-                                linkDiv.innerHTML += `<svg id="drag_icon" style="margin-left:auto" width="20px" height="30px" xmlns="http://www.w3.org/2000/svg">
-                                            <!-- First row of dots -->
-                                            <circle cx="5" cy="5" r="2" fill="black"></circle>
-                                            <circle cx="15" cy="5" r="2" fill="black"></circle>
-
-                                            <!-- Second row of dots -->
-                                            <circle cx="5" cy="15" r="2" fill="black"></circle>
-                                            <circle cx="15" cy="15" r="2" fill="black"></circle>
-                                        </svg>`;
+                    }
+                }
 
 
-                                // Append radio buttons to the radio container
-                                radioContainer.appendChild(enterLinkRadio);
-                                radioContainer.appendChild(chooseFormRadio);
-
-                                // Append all elements to linkDiv
-                                linkDiv.appendChild(radioContainer);
-                                linkDiv.appendChild(selectFormDropdown);
-                                linkDiv.appendChild(inputLink);
-                                linkDiv.appendChild(inputName);
-                                linkDiv.appendChild(deleteButton);
-
-                                // Append linkDiv to the linkContainer
-                                linkContainer.appendChild(linkDiv);
-                            
-
-                                // Helper function to create radio buttons
-                                function createRadio(name, linkCount, label, checked) {
-                                    const radio = document.createElement('input');
-                                    radio.type = 'radio';
-                                    radio.name = `linkChoice${linkCount}`;
-                                    radio.value = name;
-                                    radio.checked = checked;
-                                    radio.style.marginLeft = "10px"
-                                    
-                                    const labelElement = document.createElement('label');
-                                    labelElement.textContent = label;
-                                    labelElement.appendChild(radio);
-                                    
-                                    return labelElement;
-                                }
-
-                                // Helper function to create input fields
-                                function createInput(type, placeholder, disabled) {
-                                    const input = document.createElement('input');
-                                    input.type = type;
-                                    input.placeholder = placeholder;
-                                    input.style.marginTop = "2px";
-                                    input.style.marginBottom = "2px"
-                                    return input;
-                                }
-
-                            }else if(link.type == "heading"){
-                                const linkDiv = document.createElement('div');
-                                linkDiv.classList.add('link', 'break_between_inputs');
-
-                                // Create SVG element
-                                const svg = document.createElementNS('http://www.w3.org/2000/svg', 'svg');
-                                svg.setAttribute('id', 'drag_icon');
-                                svg.setAttribute('width', '20px');
-                                svg.setAttribute('height', '30px');
-                                svg.style.marginLeft = 'auto';
-
-                                // Create circles for the SVG
-                                for (let i = 0; i < 4; i++) {
-                                    const circle = document.createElementNS('http://www.w3.org/2000/svg', 'circle');
-                                    circle.setAttribute('cx', (i % 2) * 10 + 5); // 5, 15, 5, 15
-                                    circle.setAttribute('cy', Math.floor(i / 2) * 10 + 5); // 5, 5, 15, 15
-                                    circle.setAttribute('r', '2');
-                                    circle.setAttribute('fill', 'black');
-                                    svg.appendChild(circle);
-                                }
-
-                                // Append SVG to linkDiv
-                                linkDiv.appendChild(svg);
-
-                                // Create input for heading
-                                if (link.type === 'heading') {
-                                    const inputHeading = document.createElement('input');
-                                    inputHeading.type = 'text';
-                                    inputHeading.value = link.heading;
-                                    inputHeading.placeholder = 'Heading';
-                                    linkDiv.appendChild(inputHeading);
-
-                                    // Add event listener for the heading input
-                                    inputHeading.addEventListener('input', function() {
-                                        const arrangement = extractData();
-                                        populateProfilePreview(arrangement);
-                                    });
-                                }
-
-                                // Create the delete button
-                                const deleteButton = document.createElement('div');
-                                deleteButton.classList.add('deleteButton');
-                                deleteButton.innerHTML = `<i class="fa-solid fa-trash" aria-hidden="true"></i>`;
-
-                                // Event listener for the delete button
-                                deleteButton.addEventListener('click', function() {
-                                    linkContainer.removeChild(linkDiv);
-                                    const arrangement = extractData();
-                                    populateProfilePreview(arrangement);
-                                });
-
-                                // Append delete button to linkDiv
-                                linkDiv.appendChild(deleteButton);
-
-                                // Append linkDiv to the linkContainer
-                                linkContainer.appendChild(linkDiv);
-                            }else{
-                                const linkCounter = linkContainer.children.length + 1;
-                                const linkDiv = document.createElement('div');
-                                linkDiv.classList.add('link');
-
-                                // Flex container for horizontal radio buttons
-                                const radioContainer = document.createElement('div');
-                                radioContainer.classList.add('radio-container');
 
 
-                                // Radio buttons for choosing between "Enter Link" and "Choose Form"
-                                const enterLinkRadio = createRadio(`enterLink`, linkCounter, 'Enter Link', false);
-                                const chooseFormRadio = createRadio(`chooseForm`, linkCounter, 'Choose Form', true);
+                //Populating the Edit Form dropdown
+                populateEditFormSection(forms);
 
-                                // Dropdown for selecting predefined forms
-                                const selectFormDropdown = document.createElement('select');
-                                selectFormDropdown.style.display = "block"; // Initially disabled
-                                // Add options to the dropdown (replace with your own options)
-                                selectFormDropdown.classList.add("form_select")
-                                forms.forEach(form=>{
-                                    if(form.id == link.link){
-                                        selectFormDropdown.innerHTML += `<option selected value="${form.id}">${form.name}</option>`
-                                    }else{
-                                        selectFormDropdown.innerHTML += `<option value="${form.id}">${form.name}</option>`
-                                    }
-                                })
-                                selectFormDropdown.style.borderRadius = "30px"
-                                selectFormDropdown.style.marginBottom = "3px"
+                function populateLinksAndPreview(links) {
+                    const linkContainer = document.getElementById("link_container_dynamic");
+                    linkContainer.innerHTML = "";
+                    links.forEach(link=>{
+                        if (link.type == "link") {
+                            const linkCounter = linkContainer.children.length + 1;
+                            const linkDiv = document.createElement('div');
+                            linkDiv.classList.add('link');
 
-                                // Input fields for link and name
-                                const inputLink = createInput('text', 'Link', false);
-                                const inputName = createInput('text', 'Name', false);
-                                
-                                inputLink.style.display = "none"; // Initially enabled
-                                inputName.value = link.name;
+                            // Flex container for horizontal radio buttons
+                            const radioContainer = document.createElement('div');
+                            radioContainer.classList.add('radio-container');
 
+                            // Radio buttons for choosing between "Enter Link" and "Choose Form"
+                            const enterLinkRadio = createRadio(`enterLink`, linkCounter, 'Enter Link', true);
+                            const chooseFormRadio = createRadio(`chooseForm`, linkCounter, 'Choose Form', false);
 
-                                // Event listeners for input fields to track changes
-
-                                inputLink.addEventListener('input', function() {
-                                    const arrangement = extractData();
-                                    populateProfilePreview(arrangement);
-                                });
-
-                                inputName.addEventListener('input', function() {
-                                    const arrangement = extractData();
-                                    populateProfilePreview(arrangement);
-                                });
-
-
-                                // Event listeners for radio buttons to enable/disable fields
-                                enterLinkRadio.addEventListener('change', function() {
-                                    selectFormDropdown.style.display = 'none'; // Hide the dropdown
-                                    inputLink.style.display = 'block'; // Show the link input
-                                });
-
-                                chooseFormRadio.addEventListener('change', function() {
-                                
-                                    selectFormDropdown.style.display = 'block'; // Show the dropdown
-                                    inputLink.style.display = 'none'; // Hide the link input
-                                });
-
-                                const deleteButton = document.createElement('div');
-                                deleteButton.innerHTML = `<i class="fa-solid fa-trash"></i>`;
-                                deleteButton.classList.add('deleteButton');
-                                deleteButton.onclick = function() {
-                                    linkContainer.removeChild(linkDiv);
-                                    const arrangement = extractData();
-                                    populateProfilePreview(arrangement);
-                                };
-
-                                linkDiv.innerHTML += `<svg id="drag_icon" style="margin-left:auto" width="20px" height="30px" xmlns="http://www.w3.org/2000/svg">
-                                            <!-- First row of dots -->
-                                            <circle cx="5" cy="5" r="2" fill="black"></circle>
-                                            <circle cx="15" cy="5" r="2" fill="black"></circle>
-
-                                            <!-- Second row of dots -->
-                                            <circle cx="5" cy="15" r="2" fill="black"></circle>
-                                            <circle cx="15" cy="15" r="2" fill="black"></circle>
-                                        </svg>`;
-
-
-                                // Append radio buttons to the radio container
-                                radioContainer.appendChild(enterLinkRadio);
-                                radioContainer.appendChild(chooseFormRadio);
-
-                                // Append all elements to linkDiv
-                                linkDiv.appendChild(radioContainer);
-                                linkDiv.appendChild(selectFormDropdown);
-                                linkDiv.appendChild(inputLink);
-                                linkDiv.appendChild(inputName);
-                                linkDiv.appendChild(deleteButton);
-
-                                // Append linkDiv to the linkContainer
-                                linkContainer.appendChild(linkDiv);
-                            
-
-                            // Helper function to create radio buttons
-                                function createRadio(name, linkCount, label, checked) {
-                                    const radio = document.createElement('input');
-                                    radio.type = 'radio';
-                                    radio.name = `linkChoice${linkCount}`;
-                                    radio.value = name;
-                                    radio.checked = checked;
-                                    radio.style.marginLeft = "10px"
-                                    
-                                    const labelElement = document.createElement('label');
-                                    labelElement.textContent = label;
-                                    labelElement.appendChild(radio);
-                                    
-                                    return labelElement;
-                                }
-
-                                // Helper function to create input fields
-                                function createInput(type, placeholder, disabled) {
-                                    const input = document.createElement('input');
-                                    input.type = type;
-                                    input.placeholder = placeholder;
-                                    input.style.marginTop = "2px";
-                                    input.style.marginBottom = "2px"
-                                    return input;
-                                    }
-
+                            // Dropdown for selecting predefined forms
+                            const selectFormDropdown = document.createElement('select');
+                            selectFormDropdown.style.display = "none"; // Initially disabled
+                            // Add options to the dropdown (replace with your own options)
+                            selectFormDropdown.classList.add("form_select")
+                            forms.forEach(form=>{
+                                if(form.id == link.link){
+                                    selectFormDropdown.innerHTML += `<option selected value="${form.id}">${form.name}</option>`
+                                }else{
+                                    selectFormDropdown.innerHTML += `<option value="${form.id}">${form.name}</option>`
                                 }
                             })
-                        }
+                            selectFormDropdown.style.borderRadius = "30px"
+                            selectFormDropdown.style.marginBottom = "3px"
+
+                            // Input fields for link and name
+                            const inputLink = createInput('text', 'Link', false);
+                            const inputName = createInput('text', 'Name', false);
+                            
+                            inputLink.style.display = "block"; // Initially enabled
+                            inputName.value = link.name;
+                            inputLink.value = link.link;
 
 
-                        if(links && links.length > 0){
-                            populateLinksAndPreview(links);
+                            // Event listeners for input fields to track changes
+
+                            inputLink.addEventListener('input', function() {
+                                const arrangement = extractData();
+                                populateProfilePreview(arrangement);
+                            });
+
+                            inputName.addEventListener('input', function() {
+                                const arrangement = extractData();
+                                populateProfilePreview(arrangement);
+                            });
+
+
+                            // Event listeners for radio buttons to enable/disable fields
+                            enterLinkRadio.addEventListener('change', function() {
+                                selectFormDropdown.style.display = 'none'; // Hide the dropdown
+                                inputLink.style.display = 'block'; // Show the link input
+                            });
+
+                            chooseFormRadio.addEventListener('change', function() {
+                            
+                                selectFormDropdown.style.display = 'block'; // Show the dropdown
+                                inputLink.style.display = 'none'; // Hide the link input
+                            });
+
+                            const deleteButton = document.createElement('div');
+                            deleteButton.innerHTML = `<i class="fa-solid fa-trash"></i>`;
+                            deleteButton.classList.add('deleteButton');
+                            deleteButton.onclick = function() {
+                                linkContainer.removeChild(linkDiv);
+                                const arrangement = extractData();
+                                populateProfilePreview(arrangement);
+                            };
+
+                            linkDiv.innerHTML += `<svg id="drag_icon" style="margin-left:auto" width="20px" height="30px" xmlns="http://www.w3.org/2000/svg">
+                                        <!-- First row of dots -->
+                                        <circle cx="5" cy="5" r="2" fill="black"></circle>
+                                        <circle cx="15" cy="5" r="2" fill="black"></circle>
+
+                                        <!-- Second row of dots -->
+                                        <circle cx="5" cy="15" r="2" fill="black"></circle>
+                                        <circle cx="15" cy="15" r="2" fill="black"></circle>
+                                    </svg>`;
+
+
+                            // Append radio buttons to the radio container
+                            radioContainer.appendChild(enterLinkRadio);
+                            radioContainer.appendChild(chooseFormRadio);
+
+                            // Append all elements to linkDiv
+                            linkDiv.appendChild(radioContainer);
+                            linkDiv.appendChild(selectFormDropdown);
+                            linkDiv.appendChild(inputLink);
+                            linkDiv.appendChild(inputName);
+                            linkDiv.appendChild(deleteButton);
+
+                            // Append linkDiv to the linkContainer
+                            linkContainer.appendChild(linkDiv);
+                        
+
+                            // Helper function to create radio buttons
+                            function createRadio(name, linkCount, label, checked) {
+                                const radio = document.createElement('input');
+                                radio.type = 'radio';
+                                radio.name = `linkChoice${linkCount}`;
+                                radio.value = name;
+                                radio.checked = checked;
+                                radio.style.marginLeft = "10px"
+                                
+                                const labelElement = document.createElement('label');
+                                labelElement.textContent = label;
+                                labelElement.appendChild(radio);
+                                
+                                return labelElement;
+                            }
+
+                            // Helper function to create input fields
+                            function createInput(type, placeholder, disabled) {
+                                const input = document.createElement('input');
+                                input.type = type;
+                                input.placeholder = placeholder;
+                                input.style.marginTop = "2px";
+                                input.style.marginBottom = "2px"
+                                return input;
+                            }
+
+                        }else if(link.type == "heading"){
+                            const linkDiv = document.createElement('div');
+                            linkDiv.classList.add('link', 'break_between_inputs');
+
+                            // Create SVG element
+                            const svg = document.createElementNS('http://www.w3.org/2000/svg', 'svg');
+                            svg.setAttribute('id', 'drag_icon');
+                            svg.setAttribute('width', '20px');
+                            svg.setAttribute('height', '30px');
+                            svg.style.marginLeft = 'auto';
+
+                            // Create circles for the SVG
+                            for (let i = 0; i < 4; i++) {
+                                const circle = document.createElementNS('http://www.w3.org/2000/svg', 'circle');
+                                circle.setAttribute('cx', (i % 2) * 10 + 5); // 5, 15, 5, 15
+                                circle.setAttribute('cy', Math.floor(i / 2) * 10 + 5); // 5, 5, 15, 15
+                                circle.setAttribute('r', '2');
+                                circle.setAttribute('fill', 'black');
+                                svg.appendChild(circle);
+                            }
+
+                            // Append SVG to linkDiv
+                            linkDiv.appendChild(svg);
+
+                            // Create input for heading
+                            if (link.type === 'heading') {
+                                const inputHeading = document.createElement('input');
+                                inputHeading.type = 'text';
+                                inputHeading.value = link.heading;
+                                inputHeading.placeholder = 'Heading';
+                                linkDiv.appendChild(inputHeading);
+
+                                // Add event listener for the heading input
+                                inputHeading.addEventListener('input', function() {
+                                    const arrangement = extractData();
+                                    populateProfilePreview(arrangement);
+                                });
+                            }
+
+                            // Create the delete button
+                            const deleteButton = document.createElement('div');
+                            deleteButton.classList.add('deleteButton');
+                            deleteButton.innerHTML = `<i class="fa-solid fa-trash" aria-hidden="true"></i>`;
+
+                            // Event listener for the delete button
+                            deleteButton.addEventListener('click', function() {
+                                linkContainer.removeChild(linkDiv);
+                                const arrangement = extractData();
+                                populateProfilePreview(arrangement);
+                            });
+
+                            // Append delete button to linkDiv
+                            linkDiv.appendChild(deleteButton);
+
+                            // Append linkDiv to the linkContainer
+                            linkContainer.appendChild(linkDiv);
                         }else{
-                            populateLinksAndPreview(defaltLinks.temp1);
+                            const linkCounter = linkContainer.children.length + 1;
+                            const linkDiv = document.createElement('div');
+                            linkDiv.classList.add('link');
+
+                            // Flex container for horizontal radio buttons
+                            const radioContainer = document.createElement('div');
+                            radioContainer.classList.add('radio-container');
+
+
+                            // Radio buttons for choosing between "Enter Link" and "Choose Form"
+                            const enterLinkRadio = createRadio(`enterLink`, linkCounter, 'Enter Link', false);
+                            const chooseFormRadio = createRadio(`chooseForm`, linkCounter, 'Choose Form', true);
+
+                            // Dropdown for selecting predefined forms
+                            const selectFormDropdown = document.createElement('select');
+                            selectFormDropdown.style.display = "block"; // Initially disabled
+                            // Add options to the dropdown (replace with your own options)
+                            selectFormDropdown.classList.add("form_select")
+                            forms.forEach(form=>{
+                                if(form.id == link.link){
+                                    selectFormDropdown.innerHTML += `<option selected value="${form.id}">${form.name}</option>`
+                                }else{
+                                    selectFormDropdown.innerHTML += `<option value="${form.id}">${form.name}</option>`
+                                }
+                            })
+                            selectFormDropdown.style.borderRadius = "30px"
+                            selectFormDropdown.style.marginBottom = "3px"
+
+                            // Input fields for link and name
+                            const inputLink = createInput('text', 'Link', false);
+                            const inputName = createInput('text', 'Name', false);
+                            
+                            inputLink.style.display = "none"; // Initially enabled
+                            inputName.value = link.name;
+
+
+                            // Event listeners for input fields to track changes
+
+                            inputLink.addEventListener('input', function() {
+                                const arrangement = extractData();
+                                populateProfilePreview(arrangement);
+                            });
+
+                            inputName.addEventListener('input', function() {
+                                const arrangement = extractData();
+                                populateProfilePreview(arrangement);
+                            });
+
+
+                            // Event listeners for radio buttons to enable/disable fields
+                            enterLinkRadio.addEventListener('change', function() {
+                                selectFormDropdown.style.display = 'none'; // Hide the dropdown
+                                inputLink.style.display = 'block'; // Show the link input
+                            });
+
+                            chooseFormRadio.addEventListener('change', function() {
+                            
+                                selectFormDropdown.style.display = 'block'; // Show the dropdown
+                                inputLink.style.display = 'none'; // Hide the link input
+                            });
+
+                            const deleteButton = document.createElement('div');
+                            deleteButton.innerHTML = `<i class="fa-solid fa-trash"></i>`;
+                            deleteButton.classList.add('deleteButton');
+                            deleteButton.onclick = function() {
+                                linkContainer.removeChild(linkDiv);
+                                const arrangement = extractData();
+                                populateProfilePreview(arrangement);
+                            };
+
+                            linkDiv.innerHTML += `<svg id="drag_icon" style="margin-left:auto" width="20px" height="30px" xmlns="http://www.w3.org/2000/svg">
+                                        <!-- First row of dots -->
+                                        <circle cx="5" cy="5" r="2" fill="black"></circle>
+                                        <circle cx="15" cy="5" r="2" fill="black"></circle>
+
+                                        <!-- Second row of dots -->
+                                        <circle cx="5" cy="15" r="2" fill="black"></circle>
+                                        <circle cx="15" cy="15" r="2" fill="black"></circle>
+                                    </svg>`;
+
+
+                            // Append radio buttons to the radio container
+                            radioContainer.appendChild(enterLinkRadio);
+                            radioContainer.appendChild(chooseFormRadio);
+
+                            // Append all elements to linkDiv
+                            linkDiv.appendChild(radioContainer);
+                            linkDiv.appendChild(selectFormDropdown);
+                            linkDiv.appendChild(inputLink);
+                            linkDiv.appendChild(inputName);
+                            linkDiv.appendChild(deleteButton);
+
+                            // Append linkDiv to the linkContainer
+                            linkContainer.appendChild(linkDiv);
+                        
+
+                        // Helper function to create radio buttons
+                            function createRadio(name, linkCount, label, checked) {
+                                const radio = document.createElement('input');
+                                radio.type = 'radio';
+                                radio.name = `linkChoice${linkCount}`;
+                                radio.value = name;
+                                radio.checked = checked;
+                                radio.style.marginLeft = "10px"
+                                
+                                const labelElement = document.createElement('label');
+                                labelElement.textContent = label;
+                                labelElement.appendChild(radio);
+                                
+                                return labelElement;
+                            }
+
+                            // Helper function to create input fields
+                            function createInput(type, placeholder, disabled) {
+                                const input = document.createElement('input');
+                                input.type = type;
+                                input.placeholder = placeholder;
+                                input.style.marginTop = "2px";
+                                input.style.marginBottom = "2px"
+                                return input;
+                            }
+
                         }
-                        const arrangement = extractData();
-                        populateProfilePreview(arrangement);
-
-                        console.log(profile);
-
+                    })
                 }
-            
+
+
+                if(links && links.length > 0){
+                    populateLinksAndPreview(links);
+                }else{
+                    populateLinksAndPreview(defaltLinks.temp1);
+                }
+                const arrangement = extractData();
+                populateProfilePreview(arrangement);
+
+            }
+
                 function closeAllPopups() {
                     document.getElementsByClassName("questionContainer").innerHTML = "";
                     let openPopups = document.querySelectorAll('.open_popup');
