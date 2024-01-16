@@ -1,57 +1,58 @@
-<div id="link_container_dynamic"><div class="link break_between_inputs"><svg
-            id="drag_icon" width="20px" height="30px"
-            style="margin-left: auto;"><circle cx="5" cy="5" r="2"
-                fill="black"></circle><circle cx="15" cy="5" r="2"
-                fill="black"></circle><circle cx="5" cy="15" r="2"
-                fill="black"></circle><circle cx="15" cy="15" r="2"
-                fill="black"></circle></svg><input type="text"
-            placeholder="Heading"><div class="deleteButton"><i
-                class="fa-solid fa-trash"
-                aria-hidden="true"></i></div></div><div class="link"><svg
-            id="drag_icon" style="margin-left:auto" width="20px" height="30px"
-            xmlns="http://www.w3.org/2000/svg">
-            <!-- First row of dots -->
-            <circle cx="5" cy="5" r="2" fill="black"></circle>
-            <circle cx="15" cy="5" r="2" fill="black"></circle>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <script src="https://cdn.jsdelivr.net/npm/lightgallery@2.7.2/lightgallery.min.js"></script>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/lightgallery@2.7.2/css/lightgallery-bundle.min.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/lightgallery/2.7.2/plugins/zoom/lg-zoom.min.js" integrity="sha512-BLW2Jrofiqm6m7JhkQDIh2olT0EBI58+hIL/AXWvo8gOXKmsNlU6myJyEkTy6rOAAZjn0032FRk8sl9RgXPYIQ==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/lightgallery/2.7.2/plugins/thumbnail/lg-thumbnail.min.js" integrity="sha512-VBbe8aA3uiK90EUKJnZ4iEs0lKXRhzaAXL8CIHWYReUwULzxkOSxlNixn41OLdX0R1KNP23/s76YPyeRhE6P+Q==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+    <style>
+    .inline-gallery-container {
+        width: 60%;
+        height: 30%;
+        padding-bottom: 65%;
+    }
+    </style>
+</head>
+<body>
+    <div id="inline-gallery-container" class="inline-gallery-container"></div>
+    <script>
+        const lgContainer = document.getElementById('inline-gallery-container');
+const inlineGallery = lightGallery(lgContainer, {
+    container: lgContainer,
+    dynamic: true,
+    hash: false,
+    // Do not allow users to close the gallery
+    closable: false,
+    // Add maximize icon to enlarge the gallery
+    showMaximizeIcon: true,
+    // Append caption inside the slide item
+    // to apply some animation for the captions (Optional)
+    appendSubHtmlTo: '.lg-item',
+    // Delay slide transition to complete captions animations
+    // before navigating to different slides (Optional)
+    // You can find caption animation demo on the captions demo page
+    slideDelay: 400,
+    plugins: [lgZoom, lgThumbnail],
+    dynamicEl: [
+        {
+            src: 'public/dp.jpg',
+            responsive:
+        "https://images.unsplash.com/photo-1571292064306-669f0e758231?ixid=MXwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHw%3D&ixlib=rb-1.2.1&auto=format&fit=crop&w=480&q=80 480, https://images.unsplash.com/photo-1571292064306-669f0e758231?ixid=MXwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHw%3D&ixlib=rb-1.2.1&auto=format&fit=crop&w=800&q=80 800",
+            thumb: 'public/dp.jpg',
+        },
+        {
+            src: 'public/dp.jpg',
+            thumb: 'public/dp.jpg',
+        },
+    ]
+});
 
-            <!-- Second row of dots -->
-            <circle cx="5" cy="15" r="2" fill="black"></circle>
-            <circle cx="15" cy="15" r="2" fill="black"></circle>
-        </svg><div class="radio-container"><label>Enter Link<input type="radio"
-                    name="linkChoice2" value="enterLink"
-                    style="margin-left: 10px;"></label><label>Choose Form<input
-                    type="radio" name="linkChoice2" value="chooseForm"
-                    style="margin-left: 10px;"></label></div><select
-            class="form_select"
-            style="display: block; border-radius: 30px; margin-bottom: 3px;"><option
-                selected value="4">Form1</option></select><input type="text"
-            placeholder="Link"
-            style="margin-top: 2px; margin-bottom: 2px; display: none;"><input
-            type="text" placeholder="Name"
-            style="margin-top: 2px; margin-bottom: 2px;"><div
-            class="deleteButton"><i class="fa-solid fa-trash"
-                aria-hidden="true"></i></div></div><div class="link"><svg
-            width="20px" height="30px" style="margin-left: auto;"><circle cx="5"
-                cy="5" r="2" fill="black"></circle><circle cx="15" cy="5" r="2"
-                fill="black"></circle><circle cx="5" cy="15" r="2"
-                fill="black"></circle><circle cx="15" cy="15" r="2"
-                fill="black"></circle></svg><input type="text"
-            placeholder="Link"><input type="text" placeholder="Name"><div
-            class="deleteButton"><i class="fa-solid fa-trash"
-                aria-hidden="true"></i></div></div><div class="link"><svg
-            width="20px" height="30px" style="margin-left: auto;"><circle cx="5"
-                cy="5" r="2" fill="black"></circle><circle cx="15" cy="5" r="2"
-                fill="black"></circle><circle cx="5" cy="15" r="2"
-                fill="black"></circle><circle cx="15" cy="15" r="2"
-                fill="black"></circle></svg><input type="text"
-            placeholder="Link"><input type="text" placeholder="Name"><div
-            class="deleteButton"><i class="fa-solid fa-trash"
-                aria-hidden="true"></i></div></div><div class="link"><svg
-            width="20px" height="30px" style="margin-left: auto;"><circle cx="5"
-                cy="5" r="2" fill="black"></circle><circle cx="15" cy="5" r="2"
-                fill="black"></circle><circle cx="5" cy="15" r="2"
-                fill="black"></circle><circle cx="15" cy="15" r="2"
-                fill="black"></circle></svg><input type="text"
-            placeholder="Link"><input type="text" placeholder="Name"><div
-            class="deleteButton"><i class="fa-solid fa-trash"
-                aria-hidden="true"></i></div></div></div>
+// Since we are using dynamic mode, we need to programmatically open lightGallery
+inlineGallery.openGallery();
+        
+    </script>
+</body>
+</html>

@@ -171,7 +171,7 @@
             height: 25px;
             }
         #close_popup_btn:hover{
-            background-color: #002655;
+            cursor: pointer;
         }
       
       
@@ -411,6 +411,9 @@
     <div class="overlay_loading">
         <div class="loader"></div>
     </div>
+
+    <%- include('../gallery.ejs') %>
+    
     <body style="height: 100vh;" class="g-sidenav-show bg-gray-200">
         <noscript><iframe
                 src="https://www.googletagmanager.com/ns.html?id=GTM-K3SG3FFJ"
@@ -691,10 +694,6 @@
                         { type: 'link', link: '#', name: 'About', heading: null, sort_order: 7 },
                         { type: 'link', link: '#', name: 'My Personal site', heading: null, sort_order: 8 },
                         { type: 'link', link: '#', name: 'My Awards', heading: null, sort_order: 9 },
-                        // { type: 'heading', link: null, name: null, heading: 'FREE Tools', sort_order: 10 },
-                        // { type: 'link', link: 'https://abdul0398.github.io/MSR/', name: 'MSR calculator', heading: null, sort_order: 11 },
-                        // { type: 'link', link: 'https://abdul0398.github.io/TDRS/', name: 'TDRS calculator', heading: null, sort_order: 12 },
-                        // { type: 'form', link: null, name: 'Lead form', heading: null, sort_order: 14 }
                     ]
             }
             
@@ -806,42 +805,6 @@
                     return;
                 }
 
-                // verify email format
-                // let emailRegex = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
-                // if (!emailRegex.test(email)) {
-                //     swal.fire({
-                //         title: "Error",
-                //         text: "Please enter a valid email address.",
-                //         icon: "error",
-                //         confirmButtonText: "Ok",
-                //         confirmButtonColor: "#002655",
-                //     });
-                //     return;
-                // }
-
-                // verify password and confirm password and email password should be same and more than 8 characters
-                // if (pass != confirmPass) {
-                //     swal.fire({
-                //         title: "Error",
-                //         text: "Password and Confirm Password should be same.",
-                //         icon: "error",
-                //         confirmButtonText: "Ok",
-                //         confirmButtonColor: "#002655",
-                //     });
-                //     return;
-                // }
-                // if (pass.length < 8) {
-                //     swal.fire({
-                //         title: "Error",
-                //         text: "Password should be more than 8 characters.",
-                //         icon: "error",
-                //         confirmButtonText: "Ok",
-                //         confirmButtonColor: "#002655",
-                //     });
-                //     return;
-                // }
-
-
                 showLoadingOverlay();
                 try {
                     const res = await fetch('/api/client/register', {
@@ -899,6 +862,18 @@
             async function createProfile (){
                overlay.style.display = "block";
                const name = document.getElementById("profile_name").value;
+
+               if(name.length <= 4){
+                swal.fire({
+                    title: "Error",
+                    text: "Please Enter Atleast 3 Letters",
+                    icon: "question",
+                    confirmButtonText: "Ok",
+                    confirmButtonColor: "#002655",
+                });
+                return;
+               }
+                
                const clientID = document.getElementsByClassName("selected_client")[0].getAttribute("mid");
                showLoadingOverlay();
                try {
@@ -1139,7 +1114,29 @@
                 document.getElementById("fb_link").value = profile.fb_link;
                 document.getElementById("insta_link").value = profile.insta_link;
                 document.getElementById("linkedin_link").value = profile.linkedin_link;
-                document.getElementById("about_us").value = profile.about_us;
+
+
+                //########### Populate radio of About us #############
+                populateradioOfAboutUs();
+                function populateradioOfAboutUs() {
+                    const radioInputs = document.getElementsByName("about_us_radio");
+                    const about_us = profile.about_us;
+                    if(about_us.type == "text"){
+                        radioInputs[0].checked = true;
+                        document.getElementById('about_us_text').value = about_us.text;
+                        document.getElementById("about_us_data").style.display = "none";
+                        document.getElementById("about_us_text").style.display = "block";
+                    }else{
+                        radioInputs[1].checked = true;
+                        document.getElementById('about_us_text').value = "";
+                        document.getElementById('title_aboutus').value = about_us.Title
+                        document.getElementById('heading_aboutus').value = about_us.Heading
+                        document.getElementById('desc_aboutus').value  = about_us.Description
+                        document.getElementById("about_us_data").style.display = "block";
+                        document.getElementById("about_us_text").style.display = "none";
+                    }
+                }
+
 
 
 
@@ -2042,10 +2039,6 @@
                 }
 
 
-
-
-
-
             }
 
             async function edit_Form_show(btn) {
@@ -2250,8 +2243,6 @@
                     document.getElementById("fb_link").value = profile.fb_link;
                     document.getElementById("insta_link").value = profile.insta_link;
                     document.getElementById("linkedin_link").value = profile.linkedin_link;
-                    document.getElementById("appointment_link").value = profile.personal_link;
-
 
 
                     //Populating the Edit Form dropdown
@@ -2575,6 +2566,8 @@
                         }
                         const arrangement = extractData();
                         populateProfilePreview(arrangement);
+
+                        console.log(profile);
 
                 }
             

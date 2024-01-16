@@ -193,11 +193,21 @@
       
       <section id="profile_container">
           <p class="agent-name"><%=profile.name%></p>
+          <%if(profile.about_us.type == "text"){%>
           <p style="color: black;
           text-align: center;
           width: 320px;
           margin: auto;
-          word-wrap: break-word;"><%=profile.about_us%></p>
+          word-wrap: break-word;"><%=profile.about_us.text%></p>
+            <%}else if(profile.about_us.type == "page"){%>
+              <a target="_blank" href="/aboutus/<%=profile.id%>">
+                <p style="color: black;
+            text-align: center;
+            width: 320px;
+            margin: auto;
+            word-wrap: break-word;">Click here</p>
+              </a>
+              <%}%>
           <section id="profile_preview_innercontainer">
               <%for(let i = 0; i < links.length; i++){%>
                   <%if(links[i].type == "link"){%>
@@ -573,6 +583,18 @@
         showForm(div, true);
     }
 
+    function generateLongStringWithDelimiter(id) {
+        // Create a random string
+        const randomString = generateRandomHexString(16);
+
+        // Combine the ID with the random string, separated by a delimiter
+        // Use a delimiter that won't appear in the ID or random string
+        const delimiter = "--"; // Make sure this doesn't conflict with ID or random string characters
+        const combinedString = id + delimiter + randomString;
+
+        // Return the Base64 encoded result
+        return btoa(combinedString);
+    }
 </script>
   </body>
 </html>

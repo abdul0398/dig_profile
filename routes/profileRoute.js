@@ -1,12 +1,20 @@
 const express = require("express");
 const router = express.Router();
-const {verify , isAdmin} = require("../middlewares/verify.js");
+const {verify , isAdmin, preUploadMiddleware} = require("../middlewares/verify.js");
 const multer = require('multer');
 const fs = require('fs');
+const fsPromises = fs.promises
+const path = require('path');
 
 const storage = multer.diskStorage({
     destination: function (req, file, cb) {
-      cb(null, 'uploads/profiles')
+      const {profile_id, dp} = req.body;
+      if(dp == "false"){
+        cb(null, `uploads/${profile_id}/gallery`)
+      }else{
+        cb(null, `uploads/${profile_id}/profileImg`)
+
+      }
     },
     filename: function (req, file, cb) {
       const uniqueSuffix = Date.now() + '-' + Math.round(Math.random() * 1E9)
@@ -37,11 +45,26 @@ router.get("/", verify, async(req,res)=>{
         }
         const insertQuery = `INSERT INTO profiles (name, client_id) VALUES (?, ?)`
         const [rows] = await __pool.query(insertQuery, [name, clientID]);
+        if (rows.insertId) {
+            const baseProfilePath = path.join("uploads", String(rows.insertId));
+            const galleryPath = path.join(baseProfilePath, "gallery");
+            const profileImgPath = path.join(baseProfilePath, "profileImg");
 
-        const insertQueryForm = `INSERT INTO form (name, profileId, discords, questions, emails) VALUES (?, ?, ?, ?, ?)`;
-        await __pool.query(insertQueryForm, ["Default", rows.insertId, JSON.stringify([]),JSON.stringify([]), JSON.stringify([])]);
-        
-        res.status(200).json({message:"Profile created Successfully", id: rows.insertId});
+            // Create base profile folder
+            await fsPromises.mkdir(baseProfilePath, { recursive: true });
+
+            // Create nested folders
+            await fsPromises.mkdir(galleryPath, { recursive: true });
+            await fsPromises.mkdir(profileImgPath, { recursive: true });
+
+            // ... remaining code for insertQueryForm ...
+            const insertQueryForm = `INSERT INTO form (name, profileId, discords, questions, emails) VALUES (?, ?, ?, ?, ?)`;
+            await __pool.query(insertQueryForm, ["Default", rows.insertId, JSON.stringify([]),JSON.stringify([]), JSON.stringify([])]);
+
+            res.status(200).json({ message: "Profile created Successfully", id: rows.insertId });
+        }else{
+            res.status(500).json({ message: "Failed to create profile." });
+        }
     } catch (error) {
         console.log('Error in creating profile', error.message);
     }
@@ -58,12 +81,11 @@ router.get("/", verify, async(req,res)=>{
 }).get("/api/delete/profile/:profileId", verify, async (req,res)=>{
     const {profileId} = req.params;
     try { 
-        const selectQuery = `SELECT profile_img_path FROM profiles WHERE id = ?`;
-        const [rows] = await __pool.query(selectQuery, [profileId]);
-        const currentImagePath = rows.length > 0 ? rows[0].profile_img_path : null;
-        // Delete the existing file if it exists
-        if (currentImagePath && fs.existsSync(currentImagePath)) {
-            await fs.promises.unlink(currentImagePath);
+        const profileFolderPath = path.join("uploads", profileId);
+
+        // Delete the profile folder and its contents
+        if (fs.existsSync(profileFolderPath)) {
+            await fs.promises.rmdir(profileFolderPath, { recursive: true });
         }
 
         const deleteQuery = `DELETE FROM profiles WHERE id = ?`;
@@ -167,7 +189,8 @@ router.get("/", verify, async(req,res)=>{
             await connection.query(deleteQuery, [profile_id]);
             
             // Changing the template 
-            await connection.query('UPDATE profiles SET about_us  = ?, template_selected = ?, phone = ?, fb_link = ?, insta_link = ?, linkedin_link = ? WHERE id = ?', [about_us, templateSelected, phone == ""?null:phone, fb_link ==""? null:fb_link, insta_link == ""?null:insta_link, linkedin_link == ""?null:linkedin_link, profile_id]);
+            await connection.query('UPDATE profiles SET about_us  = ?, template_selected = ?, phone = ?, fb_link = ?, insta_link = ?, linkedin_link = ? WHERE id = ?', [JSON.stringify(about_us), templateSelected, phone == ""?null:phone, fb_link ==""? null:fb_link, insta_link == ""?null:insta_link, linkedin_link == ""?null:linkedin_link, profile_id]);
+            
             // Insert new link data
             for (const item of data) {
                 const query = 'INSERT INTO links (profilesId, type, link, name, heading, sort_order) VALUES (?, ?, ?, ?, ?, ?)';
@@ -201,6 +224,46 @@ router.get("/", verify, async(req,res)=>{
     const updateQuery = `UPDATE links SET click_count = click_count + 1 WHERE id = ?`;
     __pool.query(updateQuery, [linkId]);
     res.status(200).json("Updated");
+}).post("/upload/gallery/:id", upload.single('image'), (req,res)=>{
+    res.status(200).json({message:"Image uploaded successfully", file:req.file.filename});
+}).get("/api/get/gallery/:id", (req,res)=>{
+    const {id} = req.params;
+    const galleryPath = path.join("uploads", id, "gallery");
+
+    fs.readdir(galleryPath, (err, files) => {
+        if (err) {
+            console.error(err);
+            return res.status(500).json({ message: "Error reading gallery directory" });
+        }
+
+        res.status(200).json({images:files});
+    });
+
+}).delete(`/api/delete/gallery/:id`, (req, res) => {
+    const { id } = req.params;
+    const { imagePath } = req.body;
+    if (fs.existsSync(`uploads/${id}/gallery/${imagePath}`)) {
+        // Delete the file
+        fs.unlink(`uploads/${id}/gallery/${imagePath}`, (err) => {
+            if (err) {
+                console.error(err);
+                return res.status(500).json({ message: "Error deleting the image" });
+            }
+            res.status(200).json({ message: "Image deleted successfully" });
+        });
+    } else {
+        res.status(404).json({ message: "Image not found" });
+    } 
+}).get("/aboutus/:profileId", async (req,res)=>{
+    const {profileId} = req.params;
+    try {
+        const [rows] = await __pool.query(`SELECT profile_img_path,about_us from profiles WHERE id = ?`, [profileId]);
+        res.render("aboutUs.ejs", {about_us:rows[0].about_us, img_link:rows[0].profile_img_path});
+    } catch (error) {
+        console.log(error.message);
+        res.redirect("/error");
+    }
+
 })
 
 

@@ -35,8 +35,7 @@
     }
 
     .profile-image {
-        width: 120px;
-        padding: 8px 16px;
+        padding: 6px 8px;
         border-radius: 24px;
         color: black;
         margin-right: 5px;
@@ -109,6 +108,7 @@
     #add_profile{
         background-size: cover !important;
         background-position: center !important;
+        font-size: 14px;
     }
     .footer{
         position: absolute;
@@ -129,14 +129,14 @@
         border-bottom: 1px solid rgb(180, 180, 180);
         background-color: transparent;
     } 
-    #addLinkButton, #addHeadingButton, #addFormBtn, #editFormBtn{
-        padding: 8px 16px;
+    #addLinkButton, #addHeadingButton, #addFormBtn, #editFormBtn, #editgallery{
+        padding: 6px 8px;
         border: 1px solid gray;
         border-radius: 24px;
         background-color: #FFFFFF !important;
         color: gray !important;
         cursor: pointer;
-        font-size: 16px;
+        font-size: 14px;
     }
     .link_container, #link_container_dynamic{
         width: 100%;
@@ -221,6 +221,9 @@
             width: 80%;
         }
     }
+    #about_us_data{
+        display: none;
+    }
 
 
     </style>
@@ -251,15 +254,17 @@
       <button id="nextBtn" style="position: absolute;" onclick="showNext(this)" class="continue-button">Continue</button>
   </section>
   <section style="display: none;" id="step2" class="section_two two">
+    
     <div>
-        <button id="addLinkButton">+ Add link</button>
-        <button id="addHeadingButton">+ Add Heading</button>
-        <button id="addFormBtn" onclick="addFormPopup()">+ Add Form</button>
+        <button id="addLinkButton">Add link</button>
+        <button id="addHeadingButton">Add Heading</button>
+        <button id="addFormBtn" onclick="addFormPopup()">Add Form</button>
             <button style="border: 1px solid gray;
             border-radius: 24px;
             background-color: #FFFFFF !important;
-            color: gray !important;" id="add_profile" class="profile-image add-new">+ Add photo</button>
+            color: gray !important;" id="add_profile" class="profile-image add-new">Add photo</button>
           <input type="file" id="profile_image_upload" name="profile_image" accept="image/*" style="display: none;">
+        <button id="editgallery" onclick="editGalleryOpenPopUp(this)">Edit Gallery</button>
     </div>
 
     <div id="modal" class="modal">
@@ -279,11 +284,20 @@
         <div class="link_container" id="linkContainer">   
             <!-- Link items will be added here -->
             <div id="link_container_dynamic">
-        
+                
             </div>
             <div class="fixed_link">
                 <p>About Us</p>
-                <textarea id="about_us" type="text" placeholder="Write about your self"></textarea>
+                <div class="radio-container-aboutus">
+                    <label>Enter Text<input type="radio" checked name="about_us_radio" value="Enter text" style="margin-left: 10px;"></label>
+                    <label>Show About us Page<input type="radio" name="about_us_radio" value="Show About us Page" style="margin-left: 10px;"></label>
+                </div>
+                <textarea id="about_us_text" type="text" placeholder="Write about your self"></textarea>
+                <div id="about_us_data">
+                    <input style="width: 100%;" type="text" name="title" placeholder="Title" id="title_aboutus">
+                    <input style="width: 100%; margin-top: 5px;" type="text" name="Heading" placeholder="Heading" id="heading_aboutus">
+                    <textarea style="width: 100%; margin-top: 5px;" type="text" name="Description" placeholder="Description" id="desc_aboutus"></textarea>
+                </div>
             </div> 
             <div class="fixed_link">
                 <p>Whats App Number</p>
@@ -307,8 +321,11 @@
             </section>
             
         </div>
+        
 
 
+
+        <!-- Start of previewing Template 1 -->
         <div class="temp" id="temp1">
                 <!-- Start of previewing Template 1 -->
             <link rel="stylesheet" href="/css/profile_small.css" />
@@ -463,10 +480,9 @@
 
 </body>
 <script>
-    var profileDataState = {
+    let profileDataState = {
         templateSelected: 1,
     }
-
     onStart();
 
     function onStart(){
@@ -501,8 +517,9 @@
     async function imageUploadHandler(blob) {
         const profile_id = document.getElementById("profile_id").getAttribute("profile_id");
         const formdata = new FormData();
-        formdata.append("profile_image", blob, "profile_image.png");
+        formdata.append("dp", true);
         formdata.append("profile_id", profile_id);
+        formdata.append("profile_image", blob, "profile_image.png");
         try {
             const res = await fetch("/api/profileupload", {
                 method: "POST",
@@ -695,272 +712,351 @@
         }
         }
 
-        function showNext(elem) {
-            if(elem.innerText === "Submit"){
-                submitProfile();
-                return;
+    function showNext(elem) {
+        if(elem.innerText === "Submit"){
+            submitProfile();
+            return;
+        }
+        const selectedTemplate = document.querySelector('div.image-container.selected').getAttribute('template_id');
+        profileDataState.templateSelected =  selectedTemplate
+        const arrangement = extractData();
+        populateProfilePreview(arrangement);
+        document.querySelectorAll(".temp").forEach(element => {
+            element.style.display = "none";
+        });
+        document.getElementById(`temp${selectedTemplate}`).style.display = "block";
+        document.getElementById('step1').style.display = 'none';
+        document.getElementById('step2').style.display = 'block';
+        
+    }
+
+    function showPrev() {
+    document.getElementById('step1').style.display = 'block';
+    document.getElementById('step2').style.display = 'none';
+}
+
+    function extractData() {
+    const linkContainer = document.getElementById('link_container_dynamic');
+    const children = linkContainer.children;
+    const data = [];
+
+    for (let i = 0; i < children.length; i++) {
+        const child = children[i];
+        const inputs = child.getElementsByTagName('input');
+
+        if (inputs.length === 4) {
+            let link = '';
+            let type = '';
+            
+            if(inputs[0].checked) {
+                type = "link";
+                link = inputs[2].value;
+            } else {
+                type = "form";
+                const formSelect = child.querySelector('.form_select');
+                if (formSelect) {
+                    link = formSelect.value;
+                }
             }
-            const selectedTemplate = document.querySelector('div.image-container.selected').getAttribute('template_id');
-            profileDataState.templateSelected =  selectedTemplate
-            const arrangement = extractData();
-            populateProfilePreview(arrangement);
-            document.querySelectorAll(".temp").forEach(element => {
-                element.style.display = "none";
+
+            const name = inputs[3].value;
+            data.push({ type: type, link, name, order: i });
+        } else if (inputs.length === 1) {
+            const heading = inputs[0].value;
+            data.push({ type: 'heading', heading, order: i });
+        }
+    }
+    return data;
+}
+
+    function populateProfilePreview(arrangment) {
+        if(profileDataState.templateSelected == 1){
+            // Poluplating template 1
+            const profile_preview_container  = document.getElementById("profile_preview_innercontainer");
+            profile_preview_container.innerHTML = "";
+            arrangment.forEach(element => {
+                if(element.type === "link"){
+                    profile_preview_container.innerHTML += `<li style="font-size: 12px; margin:0px auto 5px auto; display: flex; justify-content: center; align-items: center; background-color: #0066C9; width: 160px; border-radius: 20px; height: 32px;">
+                    <a style="color: white;" href="${element.link}">${element.name}</a>
+                </li>`
+                }else if(element.type === "heading"){
+                    profile_preview_container.innerHTML += `<p style="font-size: 12px; color: #000; padding-left:10px ;" class="profile_heading">${element.heading}</p>`
+                }else{
+                    profile_preview_container.innerHTML += `<li style="font-size: 12px; margin:0px auto 5px auto; display: flex; justify-content: center; align-items: center; background-color: #0066C9; width: 160px; border-radius: 20px; height: 32px;">
+                    <a style="color: white;" href="${element.link}">${element.name}</a>
+                </li>`
+                }
             });
-            document.getElementById(`temp${selectedTemplate}`).style.display = "block";
-            document.getElementById('step1').style.display = 'none';
-            document.getElementById('step2').style.display = 'block';
-            
-        }
-
-        function showPrev() {
-        document.getElementById('step1').style.display = 'block';
-        document.getElementById('step2').style.display = 'none';
-    }
-
-        function extractData() {
-        const linkContainer = document.getElementById('link_container_dynamic');
-        const children = linkContainer.children;
-        const data = [];
-
-        for (let i = 0; i < children.length; i++) {
-            const child = children[i];
-            const inputs = child.getElementsByTagName('input');
-
-            if (inputs.length === 4) {
-                let link = '';
-                let type = '';
-                
-                if(inputs[0].checked) {
-                    type = "link";
-                    link = inputs[2].value;
-                } else {
-                    type = "form";
-                    const formSelect = child.querySelector('.form_select');
-                    if (formSelect) {
-                        link = formSelect.value;
-                    }
+        }else if(profileDataState.templateSelected == 2){
+            // populating template 2
+            const profile_preview_container_temp2  = document.getElementById("profile_preview_container_temp2");
+            profile_preview_container_temp2.innerHTML = "";
+            arrangment.forEach(element => {
+                if(element.type === "link"){
+                    profile_preview_container_temp2.innerHTML += `<li style="font-size: 12px; margin:0px auto 5px auto; display: flex; justify-content: center; align-items: center; background-color: #b68e00; width: 160px; border-radius: 20px; height: 35px;">
+                        <a style="color: white;" href="${element.link}">${element.name}</a>
+                    </li>`
+                }else if(element.type === "heading"){
+                    profile_preview_container_temp2.innerHTML += `<p style="font-size: 12px;color: #fff;padding-left:10px;" class="profile_heading">${element.heading}</p>`;
+                }else{
+                    profile_preview_container_temp2.innerHTML += `<li style="font-size: 12px; margin:0px auto 5px auto; display: flex; justify-content: center; align-items: center; background-color: #b68e00; width: 160px; border-radius: 20px; height: 32px;">
+                    <a style="color: white;" href="${element.link}">${element.name}</a>
+                </li>`
                 }
-
-                const name = inputs[3].value;
-                data.push({ type: type, link, name, order: i });
-            } else if (inputs.length === 1) {
-                const heading = inputs[0].value;
-                data.push({ type: 'heading', heading, order: i });
-            }
-        }
-        return data;
-    }
-
-        function populateProfilePreview(arrangment) {
-            if(profileDataState.templateSelected == 1){
-                // Poluplating template 1
-                const profile_preview_container  = document.getElementById("profile_preview_innercontainer");
-                profile_preview_container.innerHTML = "";
-                arrangment.forEach(element => {
-                    if(element.type === "link"){
-                        profile_preview_container.innerHTML += `<li style="font-size: 12px; margin:0px auto 5px auto; display: flex; justify-content: center; align-items: center; background-color: #0066C9; width: 160px; border-radius: 20px; height: 32px;">
+            });
+        }else{
+            const profile_preview_container_temp3  = document.getElementById("profile_preview_container_temp3");
+            profile_preview_container_temp3.innerHTML = "";
+            arrangment.forEach(element => {
+                if(element.type === "link"){
+                    profile_preview_container_temp3.innerHTML += `<li style="font-size: 12px; margin:0px auto 5px auto; display: flex; justify-content: center; align-items: center; background-image: linear-gradient(178.54deg, #ff1212 7.67%, #ff2c1d); width: 160px; border-radius: 20px; height: 35px;">
                         <a style="color: white;" href="${element.link}">${element.name}</a>
                     </li>`
-                    }else if(element.type === "heading"){
-                        profile_preview_container.innerHTML += `<p style="font-size: 12px; color: #000; padding-left:10px ;" class="profile_heading">${element.heading}</p>`
-                    }else{
-                        profile_preview_container.innerHTML += `<li style="font-size: 12px; margin:0px auto 5px auto; display: flex; justify-content: center; align-items: center; background-color: #0066C9; width: 160px; border-radius: 20px; height: 32px;">
-                        <a style="color: white;" href="${element.link}">${element.name}</a>
-                    </li>`
-                    }
-                });
-            }else if(profileDataState.templateSelected == 2){
-                // populating template 2
-                const profile_preview_container_temp2  = document.getElementById("profile_preview_container_temp2");
-                profile_preview_container_temp2.innerHTML = "";
-                arrangment.forEach(element => {
-                    if(element.type === "link"){
-                        profile_preview_container_temp2.innerHTML += `<li style="font-size: 12px; margin:0px auto 5px auto; display: flex; justify-content: center; align-items: center; background-color: #b68e00; width: 160px; border-radius: 20px; height: 35px;">
-                            <a style="color: white;" href="${element.link}">${element.name}</a>
-                        </li>`
-                    }else if(element.type === "heading"){
-                        profile_preview_container_temp2.innerHTML += `<p style="font-size: 12px;color: #fff;padding-left:10px;" class="profile_heading">${element.heading}</p>`;
-                    }else{
-                        profile_preview_container_temp2.innerHTML += `<li style="font-size: 12px; margin:0px auto 5px auto; display: flex; justify-content: center; align-items: center; background-color: #b68e00; width: 160px; border-radius: 20px; height: 32px;">
-                        <a style="color: white;" href="${element.link}">${element.name}</a>
-                    </li>`
-                    }
-                });
-            }else{
-                const profile_preview_container_temp3  = document.getElementById("profile_preview_container_temp3");
-                profile_preview_container_temp3.innerHTML = "";
-                arrangment.forEach(element => {
-                    if(element.type === "link"){
-                        profile_preview_container_temp3.innerHTML += `<li style="font-size: 12px; margin:0px auto 5px auto; display: flex; justify-content: center; align-items: center; background-image: linear-gradient(178.54deg, #ff1212 7.67%, #ff2c1d); width: 160px; border-radius: 20px; height: 35px;">
-                            <a style="color: white;" href="${element.link}">${element.name}</a>
-                        </li>`
-                    }else if(element.type === "heading"){
-                        profile_preview_container_temp3.innerHTML += `<p style="font-size: 12px; margin-bottom:2px; color: #000;padding-left:10px;" class="profile_heading">${element.heading}</p>`;
-                    }else{
-                        profile_preview_container_temp3.innerHTML += `<li style="font-size: 12px; margin:0px auto 5px auto; display: flex; justify-content: center; align-items: center; background-image: linear-gradient(178.54deg, #ff1212 7.67%, #ff2c1d); width: 160px; border-radius: 20px; height: 32px;">
-                        <a style="color: white;" href="${element.link}">${element.name}</a>
-                    </li>`
-                    }
-                });
-                
-            }        
-        }
-
-        function validation() {
-            const inputs = document.querySelectorAll('#link_container_dynamic input[type="text"]:not([style*="display:none"])');
-            // validate all inputs of type text
-            let valid = true;
-            for (let i = 0; i < inputs.length; i++) {
-                inputs[i].style.border = 'none';
-                if (inputs[i].value === '') {
-                    if(inputs[i].style.display === "none"){
-                        continue;
-                    }
-                    valid = false;
-                    inputs[i].style.border = '1px solid red';
+                }else if(element.type === "heading"){
+                    profile_preview_container_temp3.innerHTML += `<p style="font-size: 12px; margin-bottom:2px; color: #000;padding-left:10px;" class="profile_heading">${element.heading}</p>`;
+                }else{
+                    profile_preview_container_temp3.innerHTML += `<li style="font-size: 12px; margin:0px auto 5px auto; display: flex; justify-content: center; align-items: center; background-image: linear-gradient(178.54deg, #ff1212 7.67%, #ff2c1d); width: 160px; border-radius: 20px; height: 32px;">
+                    <a style="color: white;" href="${element.link}">${element.name}</a>
+                </li>`
                 }
-            }
-            if(!valid){
-                Swal.fire({
-                    title: "Please fill all the fields",
-                    icon: "error",
-                    confirmButtonText: "Ok",
-                }).then((result) => {
-                    if (result.isConfirmed) {
-                        return false;
-                    }
-                });
-            }
-            return valid;
-        }
-
-        async function submitProfile() {
-            if(!validation()){
-                return;
-            }
-            const data = extractData();
-            // extract all fixed input data
-            const phone = document.getElementById("phone").value;
-            const fb_link = document.getElementById("fb_link").value;
-            const insta_link = document.getElementById("insta_link").value;
-            const linkedin_link = document.getElementById("linkedin_link").value;
-            const about_us = document.getElementById("about_us").value;
+            });
             
+        }        
+    }
 
-            const profile_id = document.getElementById("profile_id").getAttribute("profile_id");
-            const response = await fetch("/updateLinks", {
-                method: "POST",
-                headers: {
-                    "Content-Type": "application/json",
-                },
-                body: JSON.stringify({
-                    data: data,
-                    profile_id:profile_id,
-                    templateSelected: profileDataState.templateSelected,
-                    phone:phone,
-                    fb_link:fb_link,
-                    insta_link:insta_link,
-                    linkedin_link:linkedin_link,
-                    about_us:about_us
-                }),
-            })
-            if(response.status === 200){
-                Swal.fire({
-                    title: "Profile Updated",
-                    icon: "success",
-                    confirmButtonText: "Ok",
-                });
+    function validation() {
+        const inputs = document.querySelectorAll('#link_container_dynamic input[type="text"]:not([style*="display:none"])');
+        // validate all inputs of type text
+        let valid = true;
+        for (let i = 0; i < inputs.length; i++) {
+            inputs[i].style.border = 'none';
+            if (inputs[i].value === '') {
+                if(inputs[i].style.display === "none"){
+                    continue;
+                }
+                valid = false;
+                inputs[i].style.border = '1px solid red';
+            }
         }
-    }
-
-        async function addFormPopup(){
-        document.getElementById("form_submit_btn").setAttribute("onclick", "saveForm()");
-        const overlay = document.getElementById("overlay");
-        overlay.style.display = "block";
-        document.getElementById("form_popup").classList.add("open_popup");
-        document.getElementById("form_popup").classList.remove("close_popup");
-    }
-
-        async function editFormHandler(){
-        const overlay = document.getElementById("overlay");
-        overlay.style.display = "block";
-        const modal = document.querySelector(".form_edit_popup");
-        modal.classList.add("open_popup");
-        modal.classList.remove("close_popup");   
-    }
-
-        function showLoadingOverlay() {
-            const overlay = document.querySelector('.overlay_loading');
-            overlay.style.display = 'block';
+        if(!valid){
+            Swal.fire({
+                title: "Please fill all the fields",
+                icon: "error",
+                confirmButtonText: "Ok",
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    return false;
+                }
+            });
         }
+        return valid;
+    }
 
-        function hideLoadingOverlay() {
+    async function submitProfile() {
+        if(!validation()){
+            return;
+        }
+        const data = extractData();
+        const about_us = getDataOfaboutUs()
+        // extract all fixed input data
+        const phone = document.getElementById("phone").value;
+        const fb_link = document.getElementById("fb_link").value;
+        const insta_link = document.getElementById("insta_link").value;
+        const linkedin_link = document.getElementById("linkedin_link").value;  
+
+
+        const profile_id = document.getElementById("profile_id").getAttribute("profile_id");
+        const response = await fetch("/updateLinks", {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json",
+            },
+            body: JSON.stringify({
+                data: data,
+                profile_id:profile_id,
+                templateSelected: profileDataState.templateSelected,
+                phone:phone,
+                fb_link:fb_link,
+                insta_link:insta_link,
+                linkedin_link:linkedin_link,
+                about_us:about_us
+            }),
+        })
+        if(response.status === 200){
+            Swal.fire({
+                title: "Profile Updated",
+                icon: "success",
+                confirmButtonText: "Ok",
+            });
+    }
+}
+
+    async function addFormPopup(){
+    document.getElementById("form_submit_btn").setAttribute("onclick", "saveForm()");
+    const overlay = document.getElementById("overlay");
+    overlay.style.display = "block";
+    document.getElementById("form_popup").classList.add("open_popup");
+    document.getElementById("form_popup").classList.remove("close_popup");
+}
+
+    async function editFormHandler(){
+    const overlay = document.getElementById("overlay");
+    overlay.style.display = "block";
+    const modal = document.querySelector(".form_edit_popup");
+    modal.classList.add("open_popup");
+    modal.classList.remove("close_popup");   
+}
+
+    function showLoadingOverlay() {
         const overlay = document.querySelector('.overlay_loading');
-        overlay.style.display = 'none';
+        overlay.style.display = 'block';
     }
 
-
+    function hideLoadingOverlay() {
+    const overlay = document.querySelector('.overlay_loading');
+    overlay.style.display = 'none';
+}
 
     function croppable(params) {
-        let cropper;
+    let cropper;
 
-        document.getElementById('profile_image_upload').addEventListener('change', function(event) {
-            var file = event.target.files[0];
-            document.getElementById('profile_image_upload').value = null;
-            var reader = new FileReader();
+    document.getElementById('profile_image_upload').addEventListener('change', function(event) {
+        let file = event.target.files[0];
+        document.getElementById('profile_image_upload').value = null;
+        let reader = new FileReader();
 
-            reader.onload = function(e) {
-                var img = document.getElementById('profileImage');
-                img.src = e.target.result;
+        reader.onload = function(e) {
+            let img = document.getElementById('profileImage');
+            img.src = e.target.result;
 
-                // Show the modal
-                document.getElementById('modal').style.display = 'block';
+            // Show the modal
+            document.getElementById('modal').style.display = 'block';
 
-                // Initialize Cropper.js on the image
-                if (cropper) {
-                    cropper.destroy();
-                }
-                cropper = new Cropper(img, {
-                    aspectRatio: 1,
-                    viewMode: 1,
-                    modal:false,
-                    background:false,
-                    zoomable:false
-                });
-            };
-            reader.readAsDataURL(file);
-        });
-
-        document.getElementById('cropImage').addEventListener('click', async function() {
-            let file = cropper.getCroppedCanvas().toDataURL('image/png');
-            const blob = await (await fetch(file)).blob();
-            showLoadingOverlay();
-            await imageUploadHandler(blob);
-            hideLoadingOverlay()
-            const preview_profile_img = document.getElementsByClassName("preview_profile_img");
-            for (let i = 0; i < preview_profile_img.length; i++) {
-                preview_profile_img[i].src = file;
+            // Initialize Cropper.js on the image
+            if (cropper) {
+                cropper.destroy();
             }
-            Swal.fire("Saved!", "", "success");
-            document.getElementById('modal').style.display = 'none';
-
-            // Destroy the cropper instance
-            cropper.destroy();
-            cropper = null;
-        });
-
-        // Optional: Close the modal if clicked outside of it
-        window.onclick = function(event) {
-            if (event.target.className === 'modal') {
-                document.getElementById('modal').style.display = "none";
-                if (cropper) {
-                    cropper.destroy();
-                    cropper = null;
-                }
-            }
+            cropper = new Cropper(img, {
+                aspectRatio: 1,
+                viewMode: 1,
+                modal:false,
+                background:false,
+                zoomable:false
+            });
         };
+        reader.readAsDataURL(file);
+    });
+
+    document.getElementById('cropImage').addEventListener('click', async function() {
+        let file = cropper.getCroppedCanvas().toDataURL('image/png');
+        const blob = await (await fetch(file)).blob();
+        showLoadingOverlay();
+        await imageUploadHandler(blob);
+        hideLoadingOverlay()
+        const preview_profile_img = document.getElementsByClassName("preview_profile_img");
+        for (let i = 0; i < preview_profile_img.length; i++) {
+            preview_profile_img[i].src = file;
+        }
+        Swal.fire("Saved!", "", "success");
+        document.getElementById('modal').style.display = 'none';
+
+        // Destroy the cropper instance
+        cropper.destroy();
+        cropper = null;
+    });
+
+    // Optional: Close the modal if clicked outside of it
+    window.onclick = function(event) {
+        if (event.target.className === 'modal') {
+            document.getElementById('modal').style.display = "none";
+            if (cropper) {
+                cropper.destroy();
+                cropper = null;
+            }
+        }
+    };
+}
+
+    function editGalleryOpenPopUp(params) {
+        openModal_gallery();
     }
+    
+    async function openModal_gallery() {
+        const modal_gallery = document.getElementById('imageUploadModal-gallery');
+        showLoadingOverlay();
+        await fetchImagesPathAndPopulate()
+        modal_gallery.style.display = 'block';
+        hideLoadingOverlay()
+    }
+
+    async function fetchImagesPathAndPopulate(param) {
+            const id = document.getElementById("profile_id").getAttribute("profile_id");
+            const response = await fetch(`/api/get/gallery/${id}`);
+            const {images} = await response.json();
+            console.log(images);
+            const imageList = document.getElementById('imageList');
+            imageList.innerHTML = "";
+            images.forEach(img_link =>{
+                const imgContainer = document.createElement('div');
+                imgContainer.classList.add('image-container');
+
+                const image = document.createElement('img');
+                image.src = `uploads/${id}/gallery/${img_link}`;
+                image.alt = 'Uploaded Image';
+                image.setAttribute("path", img_link);
+
+                const deleteButton = document.createElement('button');
+                deleteButton.classList.add('delete-gallery-button');
+                deleteButton.innerHTML = `&times;`;
+                deleteButton.onclick = async function () {
+                    showLoadingOverlay();
+                    await deleteImage(image.getAttribute("path"));
+                    hideLoadingOverlay();
+                    imageList.removeChild(imgContainer);
+                };
+
+                imgContainer.appendChild(image);
+                imgContainer.appendChild(deleteButton);
+                imageList.appendChild(imgContainer);
+            })
+        }
+
+    function handleRadioOfAboutUs(params) {
+        const radioInputs = document.getElementsByName("about_us_radio");
+        radioInputs[0].addEventListener("change", ()=>{
+            getDataOfaboutUs()
+            document.getElementById("about_us_data").style.display = "none";
+            document.getElementById("about_us_text").style.display = "block";
+
+        })
+        radioInputs[1].addEventListener("change", ()=>{
+            getDataOfaboutUs()
+            document.getElementById("about_us_data").style.display = "block";
+            document.getElementById("about_us_text").style.display = "none";
+        })
+    }
+    
+    handleRadioOfAboutUs();
+
+    function getDataOfaboutUs(params) {
+        let obj = {};
+        let selectedValue = document.querySelector('input[name="about_us_radio"]:checked').value;
+        if (selectedValue === 'Enter text') {
+            let text = document.getElementById('about_us_text').value;
+            obj['text'] =  text;
+            obj['type'] = "text";
+        } else if (selectedValue === 'Show About us Page') {
+            let title = document.getElementById('title_aboutus').value;
+            let heading = document.getElementById('heading_aboutus').value;
+            let description = document.getElementById('desc_aboutus').value;
+            obj['Title'] =  title;
+            obj['Heading'] =  heading;
+            obj['type'] =  "page";
+            obj['Description'] =  description;
+        }
+        return obj;
+    }
+
 
 
 </script>

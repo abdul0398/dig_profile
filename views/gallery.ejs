@@ -1,0 +1,212 @@
+<style>
+    .modal-gallery {
+        display: none;
+        position: fixed;
+        z-index: 11;
+        left: 0;
+        top: 0;
+        width: 100%;
+        height: 100%;
+        overflow: auto;
+        background-color: rgba(0,0,0,0.4);
+    }
+
+    .modal-gallery-content {
+        background-color: #fefefe;
+        margin: 10% auto;
+        padding: 20px;
+        border: 1px solid #888;
+        height: 50%;
+        overflow-y: auto;
+        border-radius: 20px;
+        width: 80%;
+        box-shadow: 0 4px 8px 0 rgba(0,0,0,0.2);
+    }
+
+    .close-button {
+        color: #aaa;
+        float: right;
+        font-size: 28px;
+        font-weight: bold;
+    }
+
+    .close-button:hover,
+    .close-button:focus {
+        color: black;
+        text-decoration: none;
+        cursor: pointer;
+    }
+
+    .upload-area {
+        margin: 20px 0;
+    }
+
+    #imageList {
+        display: grid;
+        grid-template-columns: repeat(auto-fill, minmax(100px, 1fr));
+        gap: 10px;
+        margin-top: 20px;
+    }
+
+    .image-container-gallery {
+        position: relative;
+        width: 100%;
+        height: 100px;
+        border-radius: 20px;
+        overflow: hidden;
+    }
+
+    .image-container-gallery img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+    }
+
+    .delete-gallery-button {
+        position: absolute;
+        top: 5px;
+        right: 5px;
+        background-color: #ff4444;
+        border: none;
+        color: white;
+        padding: 5px 10px;
+        cursor: pointer;
+        border-radius: 5px;
+        font-size: 12px;
+    }
+
+    .delete-gallery-button:hover {
+        background-color: #cc0000;
+    }
+
+</style>
+<div id="imageUploadModal-gallery" class="modal-gallery">
+        <div class="modal-gallery-content">
+            <span class="close-button">&times;</span>
+            <h2>Upload Images</h2>
+            <div class="upload-area">
+                <input type="file" id="imageInput">
+                <label for="imageInput">Choose Images</label>
+            </div>
+            <div id="imageList" class="image-list">
+
+            </div>
+        </div>
+</div>
+    <script>
+    document.addEventListener('DOMContentLoaded', function () {
+    const modal_gallery = document.getElementById('imageUploadModal-gallery');
+    const closeButton = document.querySelector('.close-button');
+    const imageInput = document.getElementById('imageInput');
+    const imageList = document.getElementById('imageList');
+    
+    // Function to close the modal-gallery
+    function closeModal_gallery() {
+        modal_gallery.style.display = 'none';
+        if (imageInput && imageInput.files) {
+            imageInput.value = '';
+        }
+    }
+
+    // Handle close button click
+    closeButton.addEventListener('click', function () {
+        closeModal_gallery();
+    });
+
+    // Handle file input change
+    imageInput.addEventListener('change', function () {
+        if (this.files) {
+            Array.from(this.files).forEach(file => {
+                const reader = new FileReader();
+                reader.onload = async function (e) {
+                    showLoadingOverlay();
+                    const img_link = await uploadImage(file);
+                    hideLoadingOverlay();
+                    const imgContainer = document.createElement('div');
+                    imgContainer.classList.add('image-container-gallery');
+
+                    const image = document.createElement('img');
+                    image.src = e.target.result;
+                    image.alt = 'Uploaded Image';
+                    image.setAttribute("path", img_link);
+
+                    const deleteButton = document.createElement('button');
+                    deleteButton.classList.add('delete-gallery-button');
+                    deleteButton.innerHTML = `&times;`;
+                    deleteButton.onclick = async function () {
+                        showLoadingOverlay();
+                        await deleteImage(image.getAttribute("path"));
+                        hideLoadingOverlay();
+                        imageList.removeChild(imgContainer);
+                    };
+
+                    imgContainer.appendChild(image);
+                    imgContainer.appendChild(deleteButton);
+                    imageList.appendChild(imgContainer);
+                };
+                reader.readAsDataURL(file);
+            });
+        }
+    });
+
+});
+
+    async function deleteImage(imagePath) {
+        const id = document.getElementById("profile_id").getAttribute("profile_id");
+        try {
+            const response = await fetch(`/api/delete/gallery/${id}`, {
+                method: 'DELETE',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({ imagePath: imagePath })
+            });
+
+            if (!response.ok) {
+                throw new Error(`HTTP error! status: ${response.status}`);
+            }
+
+            const data = await response.json();
+            console.log('Delete successful', data);
+        }catch (error) {
+            console.error('Delete failed', error);
+        }
+    }
+
+    function showLoadingOverlay() {
+        const overlay = document.querySelector('.overlay_loading');
+        overlay.style.display = 'block';
+      }
+
+    function hideLoadingOverlay() {
+            const overlay = document.querySelector('.overlay_loading');
+            overlay.style.display = 'none';
+      }
+
+    async function uploadImage(file) {
+        const id = document.getElementById("profile_id").getAttribute("profile_id");
+        const formData = new FormData();
+        formData.append('profile_id',id);
+        formData.append('dp',false);
+        formData.append('image',file);
+
+        try {
+            const response = await fetch(`/upload/gallery/${id}`, {
+                method: 'POST',
+                body: formData
+            });
+
+            if (!response.ok) {
+                throw new Error(`HTTP error! status: ${response.status}`);
+            }
+
+            const data = await response.json();
+            alert(data.message);
+            return data.file;
+        } catch (error) {
+            console.error('Upload failed', error);
+            alert("Upload failed");
+        }
+}
+
+    </script>
