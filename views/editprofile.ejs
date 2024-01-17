@@ -221,6 +221,9 @@
             width: 80%;
         }
     }
+    .display_none{
+        display: none;
+    }
 
 
     </style>
@@ -296,14 +299,14 @@
                 <p>About Us</p>
                 <div class="radio-container-aboutus">
                     <label>Show About us Page<input type="radio" checked name="about_us_radio" value="Show About us Page" style="margin-left: 10px;"></label>
-                    <label>Enter Link<input type="radio" name="about_us_radio" value="Enter Link" style="margin-left: 10px;"></label>
+                    <label>Enter Link<input type="radio"  name="about_us_radio" value="Enter Link" style="margin-left: 10px;"></label>
                 </div>
                 <div id="about_us_data">
                     <input style="width: 100%;" type="text" name="title" placeholder="Title" id="title_aboutus">
                     <input style="width: 100%; margin-top: 5px;" type="text" name="Heading" placeholder="Heading" id="heading_aboutus">
                     <textarea style="width: 100%; margin-top: 5px;" type="text" name="Description" placeholder="Description" id="desc_aboutus"></textarea>
                 </div>
-                <input style="width: 100%; margin-top: 5px;" type="text" name="Heading" placeholder="About Us Link" id="link_aboutus">
+                <input class="display_none" style="width: 100%; margin-top: 5px;" type="text" name="Heading" placeholder="About Us Link" id="link_aboutus">
             </div>
             <div class="fixed_link">
                 <p>Whats App Number</p>
