@@ -8144,7 +8144,7 @@
     -webkit-transition: .3s all ease;
     -o-transition: .3s all ease;
     transition: .3s all ease;
-    color: #e13a9d; }
+    color: #063272; }
     a:hover, a:focus {
       text-decoration: none !important;
       outline: none !important;
@@ -8333,7 +8333,7 @@
   #today {
     color: #fff; }
     #today:after {
-      background: #e13a9d; }
+      background: #063272 }
   
   #disabled {
     cursor: default;
