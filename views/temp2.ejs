@@ -240,17 +240,17 @@
                   <div class="group-div">
                     <div class="group-parent1">
                       <%if(profile.fb_link){%>
-                        <a href="<%=profile.fb_link%>" target="_blank">
+                        <a href="#" onclick="openLink('<%=profile.fb_link%>')">
                           <img class="group-icon" alt="" src="/fb_logo_temp3.png" />
                         </a>
                       <%}%>
                       <%if(profile.linkedin_link){%>
-                        <a href="<%=profile.linkedin_link%>" target="_blank">
+                        <a href="#" onclick="openLink('<%=profile.linkedin_link%>')">
                           <img class="group-child2" alt="" src="/linkdin_logo_temp3.png" />
                         </a>
                       <%}%>
                       <%if(profile.insta_link){%>
-                        <a href="<%=profile.insta_link%>" target="_blank">
+                        <a href="#" onclick="openLink('<%=profile.insta_link%>')">
                           <img class="group-child3" alt="" src="/insta_logo_temp3.png" />
                         </a>
                       <%}%>
@@ -584,6 +584,14 @@
         // Return the Base64 encoded result
         return btoa(combinedString);
     }
+      
+    function openLink(url) {
+        if (!url.startsWith("http://") && !url.startsWith("https://")) {
+            url = "https://" + url; // Prepend 'https://' if it's not already there
+        }
+        window.open(url, '_blank');
+    }
+      
       </script>
     </body>
 </html>

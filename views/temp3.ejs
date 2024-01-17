@@ -220,21 +220,21 @@
         <div>
           <%if(profile.insta_link){%>
             <span>
-              <a target="_blank" href="<%=profile.insta_link%>">
+              <a href="#" onclick="openLink('<%=profile.insta_link%>')">
                 <img style="width: 40px;" alt="" src="/group-29@2x.png" />
               </a>
             </span>
           <%}%>
           <%if(profile.linkedin_link){%>
             <span>
-              <a target="_blank" href="<%=profile.linkedin_link%>">
+              <a href="#" onclick="openLink('<%=profile.linkedin_link%>')">
                 <img style="width: 40px;" alt="" src="/group-28@2x.png" />
               </a>
             </span>
           <%}%>
           <%if(profile.fb_link){%>
             <span>
-              <a target="_blank" href="<%=profile.fb_link%>">
+              <a href="#" onclick="openLink('<%=profile.fb_link%>')">
                 <img style="width: 40px;" alt="" src="/facebook.png" />
               </a>
             </span>
@@ -604,6 +604,16 @@
         // Return the Base64 encoded result
         return btoa(combinedString);
     }
+
+    function openLink(url) {
+        if (!url.startsWith("http://") && !url.startsWith("https://")) {
+            url = "https://" + url; // Prepend 'https://' if it's not already there
+        }
+        window.open(url, '_blank');
+    }
+
+
+
     </script>
     
   </body>
