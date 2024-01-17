@@ -862,7 +862,7 @@
                overlay.style.display = "block";
                const name = document.getElementById("profile_name").value;
 
-               if(name.length <= 4){
+               if(name.length < 3){
                 swal.fire({
                     title: "Error",
                     text: "Please Enter Atleast 3 Letters",
