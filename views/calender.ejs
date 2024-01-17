@@ -21,6 +21,10 @@
 	</style>
 	<body>
 	<section style="height: 95%; overflow: hidden; max-height: 800px;" class="ftco-section close_popup" id="popupCalender">
+		<span onclick="closeAll()" style="top: 10px;
+		position: absolute;
+		right: 20px;
+		font-size: 30px; cursor: pointer;">&times;</span>
 		<div class="container">
 			<div class="row">
 				<div class="col-md-12">
@@ -133,7 +137,14 @@
 
 	
   <script src="/script/calendar.js"></script>
-
+	<script>
+		function closeAll(params) {
+			document.querySelector("#popupform").style.display = "none";
+    		overlay.style.display = "none";
+			document.querySelector("#popupCalender").classList.remove("open_popup");
+        	document.querySelector("#popupCalender").classList.add("close_popup");
+		}
+	</script>
 	</body>
 </html>
 
