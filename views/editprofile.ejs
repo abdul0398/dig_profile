@@ -289,7 +289,10 @@
             <div id="link_container_dynamic">
                 
             </div>
-            
+            <div class="fixed_link">
+                <p>Listing Name</p>
+                <input id="profile_name_edit" type="text" placeholder="Type Here..">
+            </div>
             <div class="fixed_link">
                 <p>Write about Your self</p>
                 <input id="profile_desc" type="text" placeholder="Type Here..">
@@ -460,20 +463,20 @@
             z-index: 1;
             border-radius: 64px;" alt="">
             <img src="./temp2_ss.png" alt="" style=" width: 100%; height: 100%; object-fit: cover; position: absolute;">
-            <p id="temp2_name" style="position: absolute;
+            <p class="agent-name" style="position: absolute;
             top: 200px;
+            color: #ffffff;
             width: max-content;
             left: 50%;
             transform: translateX(-50%);">Hello</p>
+                <section style="position: relative; margin-top: 247px; width: 100%;" class="links_container">
               <p class="desc_aboutUs" style="    text-align: center;
               color: #fff;
-              position: absolute;
-              top: 225px;
-              width: max-content;
-              left: 50%;
-              transform: translateX(-50%);
+              width: 100%;
           "></p>
-                <section id="profile_preview_container_temp2" style="position: relative; margin-top: 270px; width: 100%;" class="links_container">
+          <section  id="profile_preview_container_temp2">
+
+          </section>
                 </section>
                 <section style="position: relative;">
                     <li style="font-size: 12px; margin:0px auto 5px auto; display: flex; justify-content: center; align-items: center; background-color: #b68e00; width: 160px; border-radius: 20px; height: 35px;">
@@ -515,17 +518,18 @@
             z-index: 1;
             border-radius: 64px;" alt="">
             <img src="./temp3_ss.png" alt="" style=" width: 100%; height: 100%; object-fit: cover; position: absolute;">
-            <p id="temp3_name" style="width: max-content; position: absolute;
+            <p class="agent-name" style="width: max-content; position: absolute;
             top: 172px;
             color: black;
             left: 50%;
             transform: translateX(-50%);">Hello</p>
+                <section  style="position: relative; margin-top: 235px; width: 100%;" class="links_container">
             <p class="desc_aboutUs" style="text-align: center;
-            left: 50%;
-            transform: translateX(-50%);position: absolute;
-            top: 192px;color: black;
+            color: black;
     width: 100%;"></p>
-                <section id="profile_preview_container_temp3" style="position: relative; margin-top: 235px; width: 100%;" class="links_container">
+    <section id="profile_preview_container_temp3">
+
+    </section>
                 </section>
                 <section style="position: relative;">
                     <li style="font-size: 12px; margin:0px auto 5px auto; display: flex; justify-content: center; align-items: center; background-image: linear-gradient(178.54deg, #ff1212 7.67%, #ff2c1d); width: 160px; border-radius: 20px; height: 35px;">
@@ -604,6 +608,14 @@
             elem.innerText = document.getElementById("profile_desc").value;
         })
        })
+       document.getElementById("profile_name_edit").addEventListener("input", ()=>{
+        const value = document.getElementById("profile_name_edit").value;
+        const name = document.querySelectorAll(".agent-name");
+        name[0].innerHTML = value;
+        name[1].innerHTML = value;
+        name[2].innerHTML = value;
+       })
+       
    
    }
 
@@ -957,6 +969,9 @@
         const insta_link = document.getElementById("insta_link").value;
         const linkedin_link = document.getElementById("linkedin_link").value;
         const description = document.getElementById("profile_desc").value;
+        const name = document.getElementById("profile_name_edit").value;
+
+        
 
 
         const profile_id = document.getElementById("profile_id").getAttribute("profile_id");
@@ -974,7 +989,8 @@
                 insta_link:insta_link,
                 linkedin_link:linkedin_link,
                 about_us:about_us,
-                description:description
+                description:description,
+                name:name
             }),
         })
         if(response.status === 200){

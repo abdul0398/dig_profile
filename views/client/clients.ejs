@@ -1099,9 +1099,12 @@
                     }
                 })
                 document.getElementById("profile_id").setAttribute("profile_id",id);
-                document.querySelector(".agent-name").innerHTML = profile.name;
-                document.getElementById("temp2_name").innerText = profile.name;
-                document.getElementById("temp3_name").innerText = profile.name;
+                
+                const name = document.querySelectorAll(".agent-name")
+                name[0].innerHTML = profile.name;
+                name[1].innerHTML = profile.name;
+                name[2].innerHTML = profile.name;
+               
                 const preview_profile_img = document.getElementsByClassName("preview_profile_img");
                     
                 for (let i = 0; i < preview_profile_img.length; i++) {
@@ -1115,6 +1118,8 @@
                 document.getElementById("insta_link").value = profile.insta_link;
                 document.getElementById("linkedin_link").value = profile.linkedin_link;
                 document.getElementById("profile_desc").value = profile.description;
+                console.log(profile.name);
+                document.getElementById("profile_name_edit").value = profile.name;
                 document.querySelectorAll(".desc_aboutUs").forEach(elem=>{
                         elem.innerText = profile.description;
                 })

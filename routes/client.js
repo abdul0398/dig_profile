@@ -7,7 +7,7 @@ const crypto = require("crypto");
 const passport = require("passport");
 
 
-router.get("/clients", async (req,res)=>{
+router.get("/clients", verify, async (req,res)=>{
    const id = req.user.id;
    const role = req.user.role;
     if(role == "admin"){

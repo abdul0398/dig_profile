@@ -422,7 +422,7 @@
     if(res.status == 200){
       Swal.fire({
         title: 'Success!',
-        text: successMsg,
+        html: successMsg,
         icon: 'success',
         confirmButtonText: 'Okay'
       }).then(result=>{
@@ -579,7 +579,8 @@
     }
 
     function openFormOfBooking(){
-        successMsg = "Appointment Scheduled Successfully !"
+      successMsg = "Appointment Scheduled Successfully! <br> You will get a WhatsApp shortly."
+
         const div = document.createElement("div");  
         document.querySelector("#popupCalender").classList.remove("open_popup");
         document.querySelector("#popupCalender").classList.add("close_popup");

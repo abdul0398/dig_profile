@@ -178,7 +178,7 @@ router.get("/", verify, async(req,res)=>{
         res.redirect("/error");
     }
 }).post('/updateLinks', verify, async (req, res) => {
-    const { profile_id, data, templateSelected, phone, fb_link, insta_link, linkedin_link, about_us, description} = req.body;
+    const {name, profile_id, data, templateSelected, phone, fb_link, insta_link, linkedin_link, about_us, description} = req.body;
     const connection = await __pool.getConnection();
         try {
             // Start a transaction
@@ -189,7 +189,7 @@ router.get("/", verify, async(req,res)=>{
             await connection.query(deleteQuery, [profile_id]);
             
             // Changing the template 
-            await connection.query('UPDATE profiles SET description = ?, about_us  = ?, template_selected = ?, phone = ?, fb_link = ?, insta_link = ?, linkedin_link = ? WHERE id = ?', [description, JSON.stringify(about_us), templateSelected, phone == ""?null:phone, fb_link ==""? null:fb_link, insta_link == ""?null:insta_link, linkedin_link == ""?null:linkedin_link, profile_id]);
+            await connection.query('UPDATE profiles SET name = ?, description = ?, about_us  = ?, template_selected = ?, phone = ?, fb_link = ?, insta_link = ?, linkedin_link = ? WHERE id = ?', [name, description, JSON.stringify(about_us), templateSelected, phone == ""?null:phone, fb_link ==""? null:fb_link, insta_link == ""?null:insta_link, linkedin_link == ""?null:linkedin_link, profile_id]);
             
             // Insert new link data
             for (const item of data) {
