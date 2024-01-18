@@ -221,6 +221,7 @@ router.get("/", verify, async(req,res)=>{
    
 }).get("/api/linkcount/:linkId", (req,res)=>{
     const {linkId} = req.params;
+    console.log(linkId);
     const updateQuery = `UPDATE links SET click_count = click_count + 1 WHERE id = ?`;
     __pool.query(updateQuery, [linkId]);
     res.status(200).json("Updated");

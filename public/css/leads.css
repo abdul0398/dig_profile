@@ -125,6 +125,7 @@ body {
 @media (max-width: 768px) {
     .filter-container {
         display: block;
+        padding: 0px 10px;
     }
 
     .filter-input {

@@ -29,6 +29,13 @@
     'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
     })(window,document,'script','dataLayer','GTM-K3SG3FFJ');  
 </script>
+<style>
+  @media (max-width: 768px) {
+      .main_login_modal{
+        margin-top: 20% !important;
+      }
+    }
+</style>
 </head>
 
 <body class="bg-gray-200">
@@ -45,7 +52,7 @@
   <main class="main-content  mt-0">
     <div class="page-header align-items-start min-vh-100" style="background-image: url('/login.png');">
       <span class="mask bg-gradient-dark opacity-1"></span>
-      <div class="container my-auto" style="margin-bottom: 15% !important;">
+      <div class="container main_login_modal" style="margin-top: 7%;">
         <div class="row">
           <div class="col-lg-4 col-md-8 col-12 mx-auto">
             <%- include('../flash') %>

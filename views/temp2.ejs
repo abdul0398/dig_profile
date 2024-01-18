@@ -2,8 +2,7 @@
 <html>
   <head>
     <meta charset="utf-8" />
-    <meta name="viewport" content="initial-scale=1, width=device-width" />
-
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <link rel="stylesheet" href="/css/profile3.css" />
     <link
       rel="stylesheet"
@@ -16,6 +15,8 @@
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous">
     <script src="https://code.jquery.com/jquery-3.7.1.min.js" integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" crossorigin="anonymous"></script>
+    <script src="https://kit.fontawesome.com/658a2960da.js" crossorigin="anonymous"></script>
+  
   </head>
   
   <style>
@@ -239,19 +240,20 @@
                   <%}%>
                   <div class="group-div">
                     <div class="group-parent1">
-                      <%if(profile.fb_link){%>
-                        <a href="#" onclick="openLink('<%=profile.fb_link%>')">
-                          <img class="group-icon" alt="" src="/fb_logo_temp3.png" />
+                      <%if(profile.fb_link && profile.fb_link != "#"){%>
+                        <a style="margin: 0px 10px;" href="#" onclick="openLink('<%=profile.fb_link%>')">
+                          <i class="fa-brands fa-square-instagram fa-2xl" style="color: #B68E00;"></i>
                         </a>
                       <%}%>
-                      <%if(profile.linkedin_link){%>
-                        <a href="#" onclick="openLink('<%=profile.linkedin_link%>')">
-                          <img class="group-child2" alt="" src="/linkdin_logo_temp3.png" />
+                      <%if(profile.linkedin_link && profile.linkedin_link != "#"){%>
+                        <a style="margin: 0px 10px;" href="#" onclick="openLink('<%=profile.linkedin_link%>')">
+                          <i class="fa-brands fa-linkedin fa-2xl" style="color: #B68E00;"></i>
+
                         </a>
                       <%}%>
-                      <%if(profile.insta_link){%>
-                        <a href="#" onclick="openLink('<%=profile.insta_link%>')">
-                          <img class="group-child3" alt="" src="/insta_logo_temp3.png" />
+                      <%if(profile.insta_link && profile.insta_link != "#"){%>
+                        <a style="margin: 0px 10px;" href="#" onclick="openLink('<%=profile.insta_link%>')">
+                          <i class="fa-brands fa-2xl fa-facebook" style="color: #B68E00;"></i>
                         </a>
                       <%}%>
                       
@@ -520,14 +522,18 @@
       }
 
 
-    async function linkHandler(e){
+      async function linkHandler(e){
         const linkId = e.getAttribute("linkId");
-        const redirect_Url = e.getAttribute("redirect_Url");
+        let redirect_Url = e.getAttribute("redirect_Url");
         const res = await fetch(`/api/linkcount/${linkId}`,{
           method:"GET"
         })
         const resData = await res.json();
         if(res.status == 200){
+          if (!redirect_Url.startsWith("http://") && !redirect_Url.startsWith("https://")) {
+            redirect_Url = "https://" + redirect_Url; // Prepend 'https://' if it's not already there
+        }
+        console.log(redirect_Url);
           window.open(redirect_Url, '_blank');
         }
       }

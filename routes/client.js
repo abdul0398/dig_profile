@@ -144,11 +144,14 @@ router.get("/clients", verify, async (req,res)=>{
         }
         
         await sendVerificationEmail(email, `${process.env.SERVER_URL}/verify?token=${verificationToken}`);
-        return res.render("verifyEmail.ejs");
+        return res.redirect("/message-page");
     }catch(error){
         console.log(error);
         res.redirect("/error");
     }
+})
+.get("/message-page", (req,res)=>{
+    res.render("verifyEmail.ejs");
 })
 .get("/verify", async (req, res)=>{
     const {token } = req.query;
