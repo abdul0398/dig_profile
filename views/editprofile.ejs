@@ -98,7 +98,7 @@
     }
     .profile_edit_container{
         display: none;
-        padding: 0px 20px;
+       
         height: 100%;
         
     }
@@ -141,7 +141,7 @@
     .link_container, #link_container_dynamic{
         width: 100%;
         overflow: auto;
-        max-height: 460px ;
+       
         
     }
     .deleteButton{
@@ -224,11 +224,77 @@
     .display_none{
         display: none;
     }
+    .text_style{
+        color: #000;
+        font-family: Inter;
+        font-size: 12px;
+        font-style: normal;
+        font-weight: 400;
+        line-height: normal; 
+    }
+    .input_about{
+        width: 95%;
+        display: block;
+        margin: 10px auto;
+        margin-top: auto;
+        border-radius: 7px;
+        border: none;
+        font-size: 12px;
+        padding: 8px 20px;
+    }
+    .textarea_desc{
+        width: 95%;
+        display: block;
+        margin: auto;
+        margin-top: auto;
+        font-size: 12px;
+        border-radius: 7px;
+        border: none;
+        padding: 8px 20px 20px;
+        margin-top: 10px;
+        resize: none;
+    }
 
-
+    .addnew-section-btn{
+        width: 320px;
+        border-radius: 19px;
+        font-size: 12px;
+        padding: 4px 7px;
+        border: none;
+        background-color: #0066C9 !important;
+    }
+    .add-more-filed-btn{
+        border-radius: 20px;
+        font-size: 10px;
+        background-color: #0066C9 !important;
+        padding: 3px 7px;
+        margin-bottom: 10px;
+    }
+    .input_container_with_eye{
+        width: 95%;
+        margin: auto;
+        background-color: white;
+        display: flex;
+        border-radius: 10px;
+        padding: 12px 10px;
+        margin-bottom: 8px;
+    }
+    .input_container_with_eye input {
+        width: 100%;
+        border: none;
+    }
+    .eye{
+        cursor: pointer;
+    }
+    .eye_open{
+        color: #0066C9;
+    }
+    .eye_close{
+        color: #000;
+    }
     </style>
 
-<div class="profile_edit_container">
+<div class="profile_edit_container ms-3">
     <div style="text-align: end;">
         <span style="text-align: end; cursor: pointer;" onclick="closeEditDiv()">X</span>
     </div>
@@ -279,52 +345,208 @@
 
     <div class="d_wrap" style="margin-bottom: 5px; display: flex; justify-content: space-between;">
         <div class="link_container" id="linkContainer">
-            <button style="width: 100%;
-            margin: 10px 0px; border: 1px solid gray;
-            border-radius: 24px;
-            background-color: #FFFFFF !important;
-            color: gray !important;" id="add_profile" class="profile-image add-new">Add photo</button>
-            
-            
-            <div class="fixed_link">
-                <p>Listing Name</p>
-                <input id="profile_name_edit" type="text" placeholder="Type Here..">
-            </div>
-            <div class="fixed_link">
-                <p>Write about Your self</p>
-                <textarea
-                 id="profile_desc" type="text" placeholder="Type Here.."></textarea>
+
+            <!-- Image Upload Section -->
+            <div style="width: 100%; margin: auto;">     
+                <p style="margin-left: 25px; margin-bottom: 12px;" class="text_style">Upload Your Picture</p>
+                <div id="add_profile" style="cursor: pointer; display: flex; justify-content: center; align-items: center; border: 1px dashed #000; background-color: #F1F5F7; height: 140px; width: 90%; margin: 0px auto 10px auto;">
+                    <div style="text-align: center;">
+                        <i class="fa-solid fa-cloud-arrow-up fa-2xl" style="color: #99AEBE;"></i>
+                        <p style="margin-top: 10px; color: #6f6f6f;
+                        font-size: 12px; font-weight: bold;">Drag And drop files here</p>
+                    </div>
+                </div>
             </div>
 
-            <div class="fixed_link">
-                <p>About Us</p>
-                <div class="radio-container-aboutus">
-                    <label>Show About us Page<input type="radio" checked name="about_us_radio" value="Show About us Page" style="margin-left: 10px;"></label>
-                    <label>Enter Link<input type="radio"  name="about_us_radio" value="Enter Link" style="margin-left: 10px;"></label>
+            <!-- About Section -->
+            <div style="width: 100%; margin: 20px auto;">     
+                <p style="margin-left: 25px; margin-bottom: 12px;" class="text_style">Write Short Bio</p>
+                <div id="add_profile" style="display: flex; border-radius: 10px; background-color: #F1F5F7; min-height: 140px; width: 90%; margin: 0px auto 10px auto;">
+                    <div style="height: 80%; width: 100%; margin-top: 10px;">
+                        <input id="profile_name_edit" placeholder="Write Your Name Here" class="input_about" type="text">
+                        <textarea id="profile_desc" class="textarea_desc" style="display: block;" placeholder="Write Short Bio Here (250 Char Max)"></textarea> 
+                    </div>
                 </div>
-                <div id="about_us_data">
-                    <input style="width: 100%;" type="text" name="title" placeholder="Title" id="title_aboutus">
-                    <input style="width: 100%; margin-top: 5px;" type="text" name="Heading" placeholder="Heading" id="heading_aboutus">
-                    <textarea style="width: 100%; margin-top: 5px;" type="text" name="Description" placeholder="Description" id="desc_aboutus"></textarea>
+            </div>
+
+            <!-- Add New Section Button -->
+            <div style="text-align: center;">
+                <div style="display: flex; width: 90%; margin: auto;">
+                    <hr style="width: 96%; margin-right: 4%; background-color: #000; height: 2px; ">
+                    <button class="addnew-section-btn">Add New Section</button>
+                    <hr style="width: 96%; margin-left: 4%; background-color: #000; height: 2px;">
                 </div>
-                <input class="display_none" style="width: 100%; margin-top: 5px;" type="text" name="Heading" placeholder="About Us Link" id="link_aboutus">
             </div>
-            <div class="fixed_link">
-                <p>Whats App Number</p>
-                <input id="phone" type="text" placeholder="Enter you Whats App Number">
+
+            <!-- My Listings Section-->
+            <div style="width: 100%; margin: 20px auto;">     
+                <p style="margin-left: 25px; margin-bottom: 12px;" class="text_style">My Active Listings <span><i class="fa-solid fa-eye eye_open" style="color:#0066C9; margin: 0px 10px;"></i><i class="fa-solid fa-pen-to-square" style="color:#0066C9"></i></span></p>
+                <div id="add_profile" style="display: flex; flex-direction: column; border-radius: 10px; background-color: #F1F5F7; min-height: 140px; width: 90%; margin: 0px auto 10px auto;">
+                    <div style="min-height: 80%; width: 100%; margin-top: 20px;">
+                        <div class="input_container_with_eye">
+                            <input class="text_style" id="profile_name_edit" placeholder="Poperty Guru (PUT URL HERE)" type="text">
+                            <i class="eye fa-solid fa-eye eye_open" style="margin: 0px 10px;"></i>
+                        </div>
+                        <div class="input_container_with_eye">
+                            <input class="text_style" id="profile_name_edit" placeholder="99.co (PUT URL HERE)" type="text">
+                            <i class="eye fa-solid fa-eye eye_open" style="margin: 0px 10px;"></i>
+                        </div>
+                        <div class="input_container_with_eye">
+                            <input class="text_style" id="profile_name_edit" placeholder="Edge Property (PUT URL HERE)" type="text">
+                            <i class="eye fa-solid fa-eye eye_open" style="margin: 0px 10px;"></i>
+                        </div>
+                        <div class="input_container_with_eye">
+                            <input class="text_style" id="profile_name_edit" placeholder="SRX (PUT URL HERE)" type="text">
+                            <i class="eye fa-solid fa-eye eye_open" style="margin: 0px 10px;"></i>
+                        </div>
+                    </div>
+                    <div style="text-align: center;">
+                        <button class="add-more-filed-btn">Add more fields</button>
+                    </div>
+                </div>
             </div>
-            
-            <div class="fixed_link">
-                <p>Facebook</p>
-                <input id="fb_link" type="text" placeholder="Facebook Link">
+
+            <!-- Add New Section Button -->
+            <div style="text-align: center;">
+                <div style="display: flex; width: 90%; margin: auto;">
+                    <hr style="width: 96%; margin-right: 4%; background-color: #000; height: 2px; ">
+                    <button class="addnew-section-btn">Add New Section</button>
+                    <hr style="width: 96%; margin-left: 4%; background-color: #000; height: 2px;">
+                </div>
             </div>
-            <div class="fixed_link">
-                <p>Instagram</p>
-                <input id="insta_link" type="text" placeholder="Instagram Link">
+
+            <!-- Digital Profile Section-->
+            <div style="width: 100%; margin: 20px auto;">     
+                <p style="margin-left: 25px; margin-bottom: 12px;" class="text_style">Digital Profile<span><i class="fa-solid fa-eye eye_open" style="color:#0066C9; margin: 0px 10px;"></i><i class="fa-solid fa-pen-to-square" style="color:#0066C9"></i></span></p>
+                <div id="add_profile" style="display: flex; flex-direction: column; border-radius: 10px; background-color: #F1F5F7; min-height: 140px; width: 90%; margin: 0px auto 10px auto;">
+                    <div style="min-height: 80%; width: 100%; margin: 20px 0px;">
+                        <div class="input_container_with_eye">
+                            <input class="text_style" id="profile_name_edit" placeholder="Personal Site Link" type="text">
+                            <i class="eye fa-solid fa-eye eye_open" style="margin: 0px 10px;"></i>
+                        </div>
+                        <div class="input_container_with_eye">
+                            <input class="text_style" id="profile_name_edit" placeholder="Add Awards here (Click to Create Gallery)" type="text">
+                            <i class="eye fa-solid fa-eye eye_open" style="margin: 0px 10px;"></i>
+                        </div>
+                        <div class="input_container_with_eye">
+                            <input class="text_style" id="profile_name_edit" placeholder="Add Testimonials (Click to Create Gallery)" type="text">
+                            <i class="eye fa-solid fa-eye eye_open" style="margin: 0px 10px;"></i>
+                        </div>
+                        <div class="input_container_with_eye">
+                            <input class="text_style" id="profile_name_edit" placeholder="Add About Us Section (Click to add)" type="text">
+                            <i class="eye fa-solid fa-eye eye_open" style="margin: 0px 10px;"></i>
+                        </div>
+                    </div>
+                </div>
             </div>
-            <div class="fixed_link">
-                <p>LinkedIn</p>
-                <input id="linkedin_link" type="text" placeholder="Linkin Link">
+
+            <!-- Add New Section Button -->
+            <div style="text-align: center;">
+            <div style="display: flex; width: 90%; margin: auto;">
+                <hr style="width: 96%; margin-right: 4%; background-color: #000; height: 2px; ">
+                <button class="addnew-section-btn">Add New Section</button>
+                <hr style="width: 96%; margin-left: 4%; background-color: #000; height: 2px;">
+            </div>
+            </div>
+
+             <!-- Free Tools -->
+             <div style="width: 100%; margin: 20px auto;">     
+                <p style="margin-left: 25px; margin-bottom: 12px;" class="text_style">Free Tools<span><i class="fa-solid fa-eye eye_open" style="color:#0066C9; margin: 0px 10px;"></i><i class="fa-solid fa-pen-to-square" style="color:#0066C9"></i></span></p>
+                <div id="add_profile" style="display: flex; flex-direction: column; border-radius: 10px; background-color: #F1F5F7; min-height: 140px; width: 90%; margin: 0px auto 10px auto;">
+                    <div style="min-height: 80%; width: 100%;  margin: 20px 0px;">
+                        <div class="input_container_with_eye">
+                            <input disabled class="text_style" id="profile_name_edit" placeholder="MRS Calculator" type="text">
+                            <i class="eye fa-solid fa-eye eye_open" style="margin: 0px 10px;"></i>
+                        </div>
+                        <div class="input_container_with_eye">
+                            <input disabled class="text_style" id="profile_name_edit" placeholder="TDRS Calculator" type="text">
+                            <i class="eye fa-solid fa-eye eye_open" style=" margin: 0px 10px;"></i>
+                        </div>
+                        <div class="input_container_with_eye">
+                            <input disabled class="text_style" id="profile_name_edit" placeholder="Stamp Duty Calculator" type="text">
+                            <i class="eye fa-solid fa-eye eye_open" style=" margin: 0px 10px;"></i>
+                        </div>
+                        <div class="input_container_with_eye">
+                            <input disabled class="text_style" id="profile_name_edit" placeholder="Mortgage Calculator" type="text">
+                            <i class="eye fa-solid fa-eye eye_open" style=" margin: 0px 10px;"></i>
+                        </div>
+                        <div class="input_container_with_eye">
+                            <input disabled class="text_style" id="profile_name_edit" placeholder="Progressive Calculator" type="text">
+                            <i class="eye fa-solid fa-eye eye_open" style=" margin: 0px 10px;"></i>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+             <!-- Add New Section Button -->
+             <div style="text-align: center;">
+                <div style="display: flex; width: 90%; margin: auto;">
+                    <hr style="width: 96%; margin-right: 4%; background-color: #000; height: 2px; ">
+                    <button class="addnew-section-btn">Add New Section</button>
+                    <hr style="width: 96%; margin-left: 4%; background-color: #000; height: 2px;">
+                </div>
+             </div>
+
+             <!-- Book an Appointment -->
+             <div style="width: 100%; margin: 20px auto;">     
+                <div id="add_profile" style="display: flex; flex-direction: column; border-radius: 10px; background-color: #F1F5F7; width: 90%; margin: 0px auto 10px auto;">
+                    <div style="min-height: 80%; width: 100%;  margin: 20px 0px;">
+                        <div class="input_container_with_eye">
+                            <input disabled class="text_style" id="profile_name_edit" placeholder="Book an Appointment" type="text">
+                            <i class="eye fa-solid fa-eye eye_open" margin: 0px 10px;"></i>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Lead Form -->
+            <div style="width: 100%; margin: 20px auto;">     
+                <div id="add_profile" style="display: flex; flex-direction: column; border-radius: 10px; background-color: #F1F5F7; width: 90%; margin: 0px auto 10px auto;">
+                    <div style="min-height: 80%; width: 100%;  margin: 20px 0px;">
+                        <div class="input_container_with_eye">
+                            <input class="text_style" id="profile_name_edit" placeholder="Lead Form" type="text">
+                            <i class="eye fa-solid fa-eye eye_open" style=" margin: 0px 10px;"></i>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+             <!-- Add New Section Button -->
+             <div style="text-align: center;">
+                <div style="display: flex; width: 90%; margin: auto;">
+                    <hr style="width: 96%; margin-right: 4%; background-color: #000; height: 2px; ">
+                    <button class="addnew-section-btn">Add New Section</button>
+                    <hr style="width: 96%; margin-left: 4%; background-color: #000; height: 2px;">
+                </div>
+             </div>
+
+              <!-- Social Media  -->
+              <div style="width: 100%; margin: 20px auto;">     
+                <p style="margin-left: 25px; margin-bottom: 12px;" class="text_style">Social Media<span><i class="fa-solid fa-eye eye_open" style="color:#0066C9; margin: 0px 10px;"></i><i class="fa-solid fa-pen-to-square" style="color:#0066C9"></i></span></p>
+                <div id="add_profile" style="display: flex; flex-direction: column; border-radius: 10px; background-color: #F1F5F7; min-height: 140px; width: 90%; margin: 0px auto 10px auto;">
+                    <div style="min-height: 80%; width: 100%;  margin: 20px 0px;">
+                        <div class="input_container_with_eye">
+                            <input id="fb_link" class="text_style" id="profile_name_edit" placeholder="Facebook (URL)" type="text">
+                            <i class="eye fa-solid fa-eye eye_open" style=" margin: 0px 10px;"></i>
+                        </div>
+                        <div class="input_container_with_eye">
+                            <input id="insta_link" class="text_style" id="profile_name_edit" placeholder="Instagram (URL)" type="text">
+                            <i class="eye fa-solid fa-eye eye_open" style=" margin: 0px 10px;"></i>
+                        </div>
+                        <div class="input_container_with_eye">
+                            <input id="linkedin_link" class="text_style" id="profile_name_edit" placeholder="Linkedin (URL)" type="text">
+                            <i class="eye fa-solid fa-eye eye_open" style="color:#0066C9; margin: 0px 10px;"></i>
+                        </div>
+                        <div class="input_container_with_eye">
+                            <input id="phone" class="text_style" id="profile_name_edit" placeholder="Call Now (add number)" type="text">
+                            <i class="eye fa-solid fa-eye eye_open" style=" margin: 0px 10px;"></i>
+                        </div>
+                        <div class="input_container_with_eye">
+                            <input class="text_style" id="profile_name_edit" placeholder="Whatsapp (add number)" type="text">
+                            <i class="eye fa-solid fa-eye eye_open" style=" margin: 0px 10px;"></i>
+                        </div>
+                    </div>
+                </div>
             </div>
             
             <!-- Link items will be added here -->
@@ -456,7 +678,7 @@
         <div class="temp" id="temp2">
         
             <div class="div" style="overflow: auto;
-            position: relative; background-color: #1D1D1D;">
+            position: sticky; top: 1px; background-color: #1D1D1D;">
             <img class="preview_profile_img" src="" style="width: 110px;
             height: 110px;
             position: absolute;
@@ -509,7 +731,7 @@
         </div>
         
         <!-- Start of previewing Template 3 -->
-        <div class="temp" id="temp3">
+        <div class="temp" id="temp3" style="position: sticky; top: 1px;">
             <div class="div" style="overflow: auto;
             position: relative; background-color: #ffffff;">
             <img class="preview_profile_img" src="" style="width: 120px;
@@ -617,8 +839,17 @@
         name[1].innerHTML = value;
         name[2].innerHTML = value;
        })
+       const eyelogos = document.querySelectorAll(".eye");
+       eyelogos.forEach(eye=>{
+        eye.addEventListener("click", ()=>{
+            eye.classList.toggle("eye_open");
+            eye.classList.toggle("eye_close")
+        })
+       })
        
    
+
+
    }
 
     async function imageUploadHandler(blob) {

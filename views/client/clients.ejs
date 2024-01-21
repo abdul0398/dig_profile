@@ -407,6 +407,12 @@
         #client_del:hover{
             cursor: pointer;
         }
+        @media screen and (max-width: 900px) {
+            #client_container {
+                position: relative !important;
+
+            }
+        }
     </style>
     <div class="overlay" id="overlay"></div>
     <div class="overlay_loading">
@@ -554,7 +560,7 @@
             </div>
         </aside>
         <main
-            class="main-content position-relative max-height-vh-100 h-100 border-radius-lg ">
+            class="main-content position-relative border-radius-lg ">
             <nav
                 class="ms-auto navbar navbar-main navbar-expand-lg px-0 mx-4 shadow-none border-radius-xl"
                 id="navbarBlur" data-scroll="true">
@@ -597,7 +603,7 @@
                             <div
                                 class="main_container p-3 d-flex w-100 h-100 mt-3">
                                 <%if(currentUser.role == "admin"){%>
-                                        <div
+                                        <div id="client_container" style="position: sticky; top: 1px;"
                                             class="p-3 text-center clients_div w-25 height-500 border border-2 overflow-auto">
                                             <div>
                                                 <div
@@ -634,10 +640,10 @@
                                             </div>
                                         </div>
                                 <%}%>
-                                <div id="show_profiles_div" style="height: 100vh; color: black;"
-                                    class="d-none w-75 h-500 ps-3">
+                                <div id="show_profiles_div" style="color: black;"
+                                    class="d-none w-75 h-500">
                                 <%- include('../editprofile.ejs') %>
-                                <div id="show_profiles"></div>
+                                <div id="show_profiles" class="ms-3"></div>
                                 </div>
                             </div>
                         </div>
