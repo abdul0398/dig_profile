@@ -30,11 +30,18 @@ router.get("/clients", verify, async (req,res)=>{
             return res.status(200).json({ client: clients[0], message: "No profiles found for this client" });
         }
         const profileId = profiles.map(profile => profile.id);
-        const [links] = await __pool.query(`SELECT * FROM links WHERE profilesId IN (?)`, [profileId]);
-        if (links.length === 0) {
+        
+        const [sections] = await __pool.query(`SELECT * FROM sections WHERE profileId IN (?)`, [profileId]);
+        if (sections.length === 0) {
             return res.status(200).json({ client: clients[0], profiles });
         }
-        res.status(200).json({ client: clients[0], profiles, links });
+        
+        const sectionId = sections.map(section => section.id);
+        const [links] = await __pool.query(`SELECT * FROM links WHERE sectionId IN (?)`, [sectionId]);
+        if(links.length == 0){
+            res.status(200).json({ client: clients[0], profiles, sections });
+        }
+        res.status(200).json({ client: clients[0], profiles, sections, links});
     } catch (error) {
         console.error(error);
         res.status(500).json({ message: "An error occurred" });

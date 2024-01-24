@@ -115,12 +115,13 @@
 
     // Handle file input change
     imageInput.addEventListener('change', function () {
+        const galleryname = document.getElementById("imageUploadModal-gallery").getAttribute("gallery-name");
         if (this.files) {
             Array.from(this.files).forEach(file => {
                 const reader = new FileReader();
                 reader.onload = async function (e) {
                     showLoadingOverlay();
-                    const img_link = await uploadImage(file);
+                    const img_link = await uploadImage(file, galleryname);
                     hideLoadingOverlay();
                     const imgContainer = document.createElement('div');
                     imgContainer.classList.add('image-container-gallery');
@@ -153,8 +154,9 @@
 
     async function deleteImage(imagePath) {
         const id = document.getElementById("profile_id").getAttribute("profile_id");
+        const galleryname = document.getElementById("imageUploadModal-gallery").getAttribute("gallery-name");
         try {
-            const response = await fetch(`/api/delete/gallery/${id}`, {
+            const response = await fetch(`/api/delete/gallery/${id}/${galleryname}`, {
                 method: 'DELETE',
                 headers: {
                     'Content-Type': 'application/json',
@@ -189,9 +191,10 @@
             overlay.style.display = 'none';
       }
 
-    async function uploadImage(file) {
+    async function uploadImage(file, galleryname) {
         const id = document.getElementById("profile_id").getAttribute("profile_id");
         const formData = new FormData();
+        formData.append('gallery_name',galleryname);
         formData.append('profile_id',id);
         formData.append('dp',false);
         formData.append('image',file);

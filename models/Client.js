@@ -22,37 +22,43 @@ CREATE TABLE IF NOT EXISTS profiles (
   id INT AUTO_INCREMENT PRIMARY KEY,
   name VARCHAR(255) NOT NULL,
   profile_img_path VARCHAR(255),
-  phone VARCHAR(255),
-  whats_app VARCHAR(255),
-  fb_link VARCHAR(255),
-  insta_link VARCHAR(255),
-  linkedin_link VARCHAR(255),
   description VARCHAR(255),
-  about_us JSON,
+  appointment_hidden BOOLEAN DEFAULT FALSE,
+  lead_hidden  BOOLEAN DEFAULT FALSE,
   views INT DEFAULT 0,
   client_id INT NOT NULL,
   template_selected INT DEFAULT 1,
+  section_ordering JSON,
   created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
   updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
   FOREIGN KEY (client_id) REFERENCES clients(id) ON DELETE CASCADE
 );
 `;
 
-const Link = `
-CREATE TABLE IF NOT EXISTs links(
+const Section = `
+CREATE TABLE IF NOT EXISTS sections(
   id INT AUTO_INCREMENT PRIMARY KEY,
-  type VARCHAR(10),
-  link TEXT,
-  permanent BOOLEAN DEFAULT FALSE,
-  active BOOLEAN DEFAULT TRUE,
-  name VARCHAR(255),
-  click_count INT DEFAULT 0,
   heading VARCHAR(255),
-  sort_order INT,
-  profilesId int NOT NULL,
-  FOREIGN KEY (profilesId) REFERENCES profiles(id) ON DELETE CASCADE
+  hidden BOOLEAN DEFAULT FALSE,
+  type VARCHAR(255) DEFAULT 'dynamic',
+  isDynamic BOOLEAN DEFAULT FALSE,
+  permanent BOOLEAN DEFAULT TRUE,
+  profileId int NOT NULL,
+  FOREIGN KEY (profileId) REFERENCES profiles(id) ON DELETE CASCADE
+);
+`
+const Link = `
+CREATE TABLE IF NOT EXISTS links(
+  id INT AUTO_INCREMENT PRIMARY KEY,
+  type VARCHAR(255),
+  name VARCHAR(255),
+  link VARCHAR(255) DEFAULT '#',
+  hidden BOOLEAN DEFAULT FALSE,
+  disabled BOOLEAN DEFAULT FALSE,
+  permanent BOOLEAN DEFAULT TRUE,
+  sectionId int NOT NULL,
+  FOREIGN KEY (sectionId) REFERENCES sections(id) ON DELETE CASCADE
 );
 `
 
-
-module.exports = {Client, Profile, Link}
+module.exports = {Client, Profile, Link, Section}

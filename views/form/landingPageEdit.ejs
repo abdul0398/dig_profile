@@ -10,7 +10,7 @@
       <form id="dynamic-form">
         <div
           style="text-align: center; margin: 5px; padding: 10px; background-color: #ffffff; border-radius: 5px;">
-          <input class="form_input" id="form_name" type="text" placeholder="Form Name">
+          <!-- <input class="form_input" id="form_name" type="text" placeholder="Form Name"> -->
           <label>Discord Links</label>
           <div id="discord_metaform_field" style="text-align: start;">
             <div id="discord_container">
@@ -267,73 +267,73 @@
             });
     });
   
-          function extractQuestionsAndOptions(params) {
-            const questionInputs = document.querySelectorAll(".question");
-            const answers = [];
-        
-            questionInputs.forEach(questionInput => {
-              let optionsContainer = questionInput;
-              for (let i = 0; i < 3; i++) {
-                optionsContainer = optionsContainer.nextElementSibling;
-              }
-              const questionText = questionInput.value;
-              const optionsInputs = optionsContainer.querySelectorAll('.option input');
-              const options = [];
-              optionsInputs.forEach(optionInput => {
-                options.push(optionInput.value);
-              });
-              answers.push({ question: questionText, options: options });
-            });
-            return answers;
-          }
+    function extractQuestionsAndOptions(params) {
+      const questionInputs = document.querySelectorAll(".question");
+      const answers = [];
   
-          const questionInputs = document.querySelectorAll(".question");
-          questionInputs.forEach(questionInput => {
-            questionInput.addEventListener('input',populateQuestionsOnpreview)
-          })
-          const optionsInput = document.querySelectorAll(".options");
-          optionsInput.forEach(optionInput =>{
-            optionInput.addEventListener('input',populateQuestionsOnpreview);
-          })
-  
-          
-            const form = document.querySelector("#dynamic-form");
-            const inputsAndTextareas = form.querySelectorAll("input, textarea");
+      questionInputs.forEach(questionInput => {
+        let optionsContainer = questionInput;
+        for (let i = 0; i < 3; i++) {
+          optionsContainer = optionsContainer.nextElementSibling;
+        }
+        const questionText = questionInput.value;
+        const optionsInputs = optionsContainer.querySelectorAll('.option input');
+        const options = [];
+        optionsInputs.forEach(optionInput => {
+          options.push(optionInput.value);
+        });
+        answers.push({ question: questionText, options: options });
+      });
+      return answers;
+    }
 
-            inputsAndTextareas.forEach((element) => {
-              element.addEventListener("input", function(event) {
-                populateQuestionsOnpreview();
-              });
-            });
-            function populateQuestionsOnpreview() {
-                  const preview_question_container = document.querySelector('.preview_question_container');
-                  const question_div = document.createElement('div');
-                  const arr = extractQuestionsAndOptions()
-                  preview_question_container.innerHTML = "";
-                  
-                  for (let i = 0; i < arr.length; i++) {
-                      let optionsHTML = '';
-                      if(arr[i].options.length == 0){
-                          question_div.innerHTML += `
-                          <p style="margin-bottom: 3px; color: black">${arr[i].question}</p>
-                          <input class="form_input" placeholder="Type here..."></input>
-                          `
-                      }else{
-                          for (let j = 0; j < arr[i].options.length; j++) {
-                          optionsHTML += `
-                              <option value=${arr[i].options[j]}>${arr[i].options[j]}</option>
-                              `;
-                          }
-                          question_div.innerHTML += `
-                          <p style="margin-bottom: 3px; color: black">${arr[i].question}</p>
-                          <select>
-                          ${optionsHTML}  
-                          </select>
-                          `
-                      }
-                      preview_question_container.appendChild(question_div);
-                  }
-              }
+    const questionInputs = document.querySelectorAll(".question");
+    questionInputs.forEach(questionInput => {
+      questionInput.addEventListener('input',populateQuestionsOnpreview)
+    })
+    const optionsInput = document.querySelectorAll(".options");
+    optionsInput.forEach(optionInput =>{
+      optionInput.addEventListener('input',populateQuestionsOnpreview);
+    })
+
+    
+      const form = document.querySelector("#dynamic-form");
+      const inputsAndTextareas = form.querySelectorAll("input, textarea");
+
+      inputsAndTextareas.forEach((element) => {
+        element.addEventListener("input", function(event) {
+          populateQuestionsOnpreview();
+        });
+      });
+      function populateQuestionsOnpreview() {
+            const preview_question_container = document.querySelector('.preview_question_container');
+            const question_div = document.createElement('div');
+            const arr = extractQuestionsAndOptions()
+            preview_question_container.innerHTML = "";
+            
+            for (let i = 0; i < arr.length; i++) {
+                let optionsHTML = '';
+                if(arr[i].options.length == 0){
+                    question_div.innerHTML += `
+                    <p style="margin-bottom: 3px; color: black">${arr[i].question}</p>
+                    <input class="form_input" placeholder="Type here..."></input>
+                    `
+                }else{
+                    for (let j = 0; j < arr[i].options.length; j++) {
+                    optionsHTML += `
+                        <option value=${arr[i].options[j]}>${arr[i].options[j]}</option>
+                        `;
+                    }
+                    question_div.innerHTML += `
+                    <p style="margin-bottom: 3px; color: black">${arr[i].question}</p>
+                    <select>
+                    ${optionsHTML}  
+                    </select>
+                    `
+                }
+                preview_question_container.appendChild(question_div);
+            }
+        }
 
       
 
@@ -353,10 +353,10 @@
               }
             }
           }
-          if(document.getElementById("form_name").value == ''){
-            alert("Please fill all the fields.");
-            return false;
-          }
+          // if(document.getElementById("form_name").value == ''){
+          //   alert("Please fill all the fields.");
+          //   return false;
+          // }
           return true;
       }
 
@@ -368,13 +368,12 @@
           return;
         }
         const {discordLinkValues, emailLinkValues} = extractDiscordAndMails();  
-        const name = document.getElementById("form_name").value;
+        // const name = document.getElementById("form_name").value;
         const questions = extractQuestionsAndOptions();
         const profileId = document.getElementById("profile_id").getAttribute("profile_id");
         const res = await fetch(`/api/addform/${profileId}`, {
           method: "POST",
           body: JSON.stringify({
-            name: name,
             questions: questions,
             discord: discordLinkValues,
             profileId: profileId,
@@ -391,15 +390,11 @@
             title: "Form Created Successfully",
             icon: "success",
             confirmButtonText: "Ok",
-          })
-          const id = document.getElementById("profile_id").getAttribute("profile_id");
-          const {forms} = await fetchProfileDetail(id);
-          populateEditFormSection(forms);
+          })    
           document.getElementById("form_popup").classList.remove("open_popup");
           document.getElementById("form_popup").classList.add("close_popup");
           const overlay = document.getElementById("overlay");
           overlay.style.display = "none";
-
         }else{
           alert(resData.message);
           return;
@@ -418,40 +413,7 @@
 
 
 
-      function populateEditFormSection(forms) {
-                const forms_edit_container = document.getElementById("forms_edit_container");
-                forms_edit_container.innerHTML = "";
-                if(forms && forms.length > 0){
-                    forms.forEach(form=>{
-                        forms_edit_container.innerHTML +=
-                        `
-                        <div class="fixed_link">
-                            <p>${form.name}</p>
-                                <div style="
-                                display: flex;
-                            ">
-                            <button form_id="${form.id}" onclick="edit_Form_show(this)" style="
-                                border-radius: 10px;
-                                width: 40%;
-                                margin: auto;
-                                height: 30px;
-                            ">Edit</button>
-                                <button form_id="${form.id}" onclick="formDeleteHandler(this)" style="
-                                border-radius: 10px;
-                                width: 40%;
-                                height: 30px;
-                                margin: auto;
-                            ">Delete</button>
-                                </div>
-                        </div>`
-                        
-                    })
-                }else{
-                    forms_edit_container.innerHTML = `<h4 class="text-center">No Forms</h4>`
-                }
-            }
-
-      
+ 
       function extractDiscordAndMails(params) {
           let discordLinks = document.querySelectorAll('input[name="dslink[]"]');
           let emailsLinks = document.querySelectorAll('input[name="Emails[]"]');

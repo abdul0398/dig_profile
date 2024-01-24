@@ -603,7 +603,7 @@
                             <div
                                 class="main_container p-3 d-flex w-100 h-100 mt-3">
                                 <%if(currentUser.role == "admin"){%>
-                                        <div id="client_container" style="position: sticky; top: 1px;"
+                                        <div id="client_container" style="position: sticky; top: 30px"
                                             class="p-3 text-center clients_div w-25 height-500 border border-2 overflow-auto">
                                             <div>
                                                 <div
@@ -1007,6 +1007,7 @@
             }
 
             const searchInput = document.getElementById('search_client');
+            
             searchInput.addEventListener('input', function() {
             const searchValue = searchInput.value.toLowerCase();
 
@@ -1055,43 +1056,9 @@
                     })
                 }
 
-
-            function populateEditFormSection(forms) {
-                const forms_edit_container = document.getElementById("forms_edit_container");
-                forms_edit_container.innerHTML = "";
-                if(forms && forms.length > 0){
-                    forms.forEach(form=>{
-                        forms_edit_container.innerHTML +=
-                        `
-                        <div class="fixed_link">
-                            <p>${form.name}</p>
-                                <div style="
-                                display: flex;
-                            ">
-                            <button form_id="${form.id}" onclick="edit_Form_show(this)" style="
-                                border-radius: 10px;
-                                width: 40%;
-                                margin: auto;
-                                height: 30px;
-                            ">Edit</button>
-                                <button form_id="${form.id}" onclick="formDeleteHandler(this)" style="
-                                border-radius: 10px;
-                                width: 40%;
-                                height: 30px;
-                                margin: auto;
-                            ">Delete</button>
-                                </div>
-                        </div>`
-                        
-                    })
-                }else{
-                    forms_edit_container.innerHTML = `<h4 class="text-center">No Forms</h4>`
-                }
-            }
-
             async function editHandler(curr_elem){
                 const id = curr_elem.getAttribute("profile_id");
-                const {profile, links, forms} = await fetchProfileDetail(id);
+                const {profile, sections, links, forms} = await fetchProfileDetail(id);
                 document.querySelector(".profile_edit_container").style.display = "block";
                 const showformdiv = document.getElementById("show_profiles").innerHTML = "";
                 
@@ -1120,631 +1087,147 @@
 
                 
                 profileDataState.templateSelected = profile.template_selected;
-                document.getElementById("phone").value = profile.phone;
-                document.getElementById("fb_link").value = profile.fb_link;
-                document.getElementById("insta_link").value = profile.insta_link;
-                document.getElementById("linkedin_link").value = profile.linkedin_link;
-                document.getElementById("profile_desc").value = profile.description;
-                console.log(profile.name);
                 document.getElementById("profile_name_edit").value = profile.name;
-                document.querySelectorAll(".desc_aboutUs").forEach(elem=>{
-                        elem.innerText = profile.description;
-                })
+                document.getElementById("profile_name_edit").setAttribute("profile_id", profile.id)
+                document.getElementById("profile_desc").value = profile.description
+                document.getElementById("profile_desc").setAttribute("profile_id", profile.id);
+                document.getElementsByClassName("mylisting_dynamic_container")[0].innerHTML = "";
+                const bookanAppointment = document.querySelector(`[type="appointment_hidden"]`);
+                const lead_form = document.querySelector(`[type="lead_hidden"]`);
+                populateEye(bookanAppointment, profile.appointment_hidden);
+                populateEye(lead_form, profile.lead_hidden);
 
+                popuplateSectionsAndLinks();
 
-                //########### Populate radio of About us #############
-                populateradioOfAboutUs();
-                function populateradioOfAboutUs() {
-                    const radioInputs = document.getElementsByName("about_us_radio");
-                    const about_us = profile.about_us;
-                    if(about_us && about_us.type == "page"){
-                        radioInputs[0].checked = true;
-                        document.getElementById('link_aboutus').value = "";
-                        document.getElementById('title_aboutus').value = about_us.Title
-                        document.getElementById('heading_aboutus').value = about_us.Heading
-                        document.getElementById('desc_aboutus').value  = about_us.Description
-                        document.getElementById("about_us_data").style.display = "block";
-                        document.getElementById('link_aboutus').style.display = "none";
-                    }else if(about_us && about_us.type == "link"){
-                        radioInputs[1].checked = true;
-                        document.getElementById('title_aboutus').value = ""
-                        document.getElementById('heading_aboutus').value = "";
-                        document.getElementById('desc_aboutus').value  = "";
-                        document.getElementById('link_aboutus').style.display = "block";
-                        document.getElementById("about_us_data").style.display = "none";
-                        document.getElementById('link_aboutus').value = about_us.link;
+                function popuplateSectionsAndLinks() {                    
+                    const socials = sections.find((elem) => {
+                        return elem.type === "socials";
+                    });
+
+                    
+                    if(socials){
+                        const social_container = document.getElementsByClassName("social-media-edit")[0];
+                        social_container.querySelector("p").innerText = socials.heading;
+                        social_container.querySelector("p").setAttribute("section_id", socials.id)
+                        populateEye(social_container.querySelector('i'),socials.hidden)
                     }
-                }
 
 
 
-
-                //Populating the Edit Form dropdown
-                populateEditFormSection(forms);
-
-                function populateLinksAndPreview(links) {
-                    const linkContainer = document.getElementById("link_container_dynamic");
-                    linkContainer.innerHTML = "";
-                    links.forEach(link=>{
-                        if (link.type == "link") {
-                            const linkCounter = linkContainer.children.length + 1;
-                            const linkDiv = document.createElement('div');
-                            linkDiv.classList.add('link');
-
-                            // Flex container for horizontal radio buttons
-                            const radioContainer = document.createElement('div');
-                            radioContainer.classList.add('radio-container');
-
-                            // Radio buttons for choosing between "Enter Link" and "Choose Form"
-                            const enterLinkRadio = createRadio(`enterLink`, linkCounter, 'Enter Link', true);
-                            const chooseFormRadio = createRadio(`chooseForm`, linkCounter, 'Choose Form', false);
-
-                            // Dropdown for selecting predefined forms
-                            const selectFormDropdown = document.createElement('select');
-                            selectFormDropdown.style.display = "none"; // Initially disabled
-                            // Add options to the dropdown (replace with your own options)
-                            selectFormDropdown.classList.add("form_select")
-                            forms.forEach(form=>{
-                                if(form.id == link.link){
-                                    selectFormDropdown.innerHTML += `<option selected value="${form.id}">${form.name}</option>`
-                                }else{
-                                    selectFormDropdown.innerHTML += `<option value="${form.id}">${form.name}</option>`
-                                }
-                            })
-                            selectFormDropdown.style.borderRadius = "30px"
-                            selectFormDropdown.style.marginBottom = "3px"
-
-                            // Input fields for link and name
-                            const inputLink = createInput('text', 'Link', false);
-                            const inputName = createInput('text', 'Name', false);
-                            
-                            inputLink.style.display = "block"; // Initially enabled
-                            inputName.value = link.name;
-                            inputLink.value = link.link;
+                    const mylistings = sections.find((elem) => {
+                        return elem.type === "mylistings";
+                    });
 
 
-                            // Event listeners for input fields to track changes
+                    if(mylistings){
+                        const mylisting_container = document.getElementsByClassName("my-active-listings-edit")[0];
+                        mylisting_container.querySelector("p").innerText = mylistings.heading;
+                        mylisting_container.querySelector("p").setAttribute("section_id", mylistings.id)
+                        mylisting_container.querySelector("button").setAttribute("section_id", mylistings.id)
+                        populateEye(mylisting_container.querySelector('i'),mylisting_container.hidden)
+                    }
 
-                            inputLink.addEventListener('input', function() {
-                                const arrangement = extractData();
-                                populateProfilePreview(arrangement);
-                            });
+                    
 
-                            inputName.addEventListener('input', function() {
-                                const arrangement = extractData();
-                                populateProfilePreview(arrangement);
-                            });
-
-
-                            // Event listeners for radio buttons to enable/disable fields
-                            enterLinkRadio.addEventListener('change', function() {
-                                selectFormDropdown.style.display = 'none'; // Hide the dropdown
-                                inputLink.style.display = 'block'; // Show the link input
-                            });
-
-                            chooseFormRadio.addEventListener('change', function() {
-                            
-                                selectFormDropdown.style.display = 'block'; // Show the dropdown
-                                inputLink.style.display = 'none'; // Hide the link input
-                            });
-
-                            const deleteButton = document.createElement('div');
-                            deleteButton.innerHTML = `<i class="fa-solid fa-trash"></i>`;
-                            deleteButton.classList.add('deleteButton');
-                            deleteButton.onclick = function() {
-                                linkContainer.removeChild(linkDiv);
-                                const arrangement = extractData();
-                                populateProfilePreview(arrangement);
-                            };
-
-                            linkDiv.innerHTML += `<svg id="drag_icon" style="margin-left:auto" width="20px" height="30px" xmlns="http://www.w3.org/2000/svg">
-                                        <!-- First row of dots -->
-                                        <circle cx="5" cy="5" r="2" fill="black"></circle>
-                                        <circle cx="15" cy="5" r="2" fill="black"></circle>
-
-                                        <!-- Second row of dots -->
-                                        <circle cx="5" cy="15" r="2" fill="black"></circle>
-                                        <circle cx="15" cy="15" r="2" fill="black"></circle>
-                                    </svg>`;
+                    const Digital_profile = sections.find((elem) => {
+                        return elem.type === "digital_profiles";
+                    });
 
 
-                            // Append radio buttons to the radio container
-                            radioContainer.appendChild(enterLinkRadio);
-                            radioContainer.appendChild(chooseFormRadio);
-
-                            // Append all elements to linkDiv
-                            linkDiv.appendChild(radioContainer);
-                            linkDiv.appendChild(selectFormDropdown);
-                            linkDiv.appendChild(inputLink);
-                            linkDiv.appendChild(inputName);
-                            linkDiv.appendChild(deleteButton);
-
-                            // Append linkDiv to the linkContainer
-                            linkContainer.appendChild(linkDiv);
-                        
-
-                            // Helper function to create radio buttons
-                            function createRadio(name, linkCount, label, checked) {
-                                const radio = document.createElement('input');
-                                radio.type = 'radio';
-                                radio.name = `linkChoice${linkCount}`;
-                                radio.value = name;
-                                radio.checked = checked;
-                                radio.style.marginLeft = "10px"
-                                
-                                const labelElement = document.createElement('label');
-                                labelElement.textContent = label;
-                                labelElement.appendChild(radio);
-                                
-                                return labelElement;
-                            }
-
-                            // Helper function to create input fields
-                            function createInput(type, placeholder, disabled) {
-                                const input = document.createElement('input');
-                                input.type = type;
-                                input.placeholder = placeholder;
-                                input.style.marginTop = "2px";
-                                input.style.marginBottom = "2px"
-                                return input;
-                            }
-
-                        }else if(link.type == "heading"){
-                            const linkDiv = document.createElement('div');
-                            linkDiv.classList.add('link', 'break_between_inputs');
-
-                            // Create SVG element
-                            const svg = document.createElementNS('http://www.w3.org/2000/svg', 'svg');
-                            svg.setAttribute('id', 'drag_icon');
-                            svg.setAttribute('width', '20px');
-                            svg.setAttribute('height', '30px');
-                            svg.style.marginLeft = 'auto';
-
-                            // Create circles for the SVG
-                            for (let i = 0; i < 4; i++) {
-                                const circle = document.createElementNS('http://www.w3.org/2000/svg', 'circle');
-                                circle.setAttribute('cx', (i % 2) * 10 + 5); // 5, 15, 5, 15
-                                circle.setAttribute('cy', Math.floor(i / 2) * 10 + 5); // 5, 5, 15, 15
-                                circle.setAttribute('r', '2');
-                                circle.setAttribute('fill', 'black');
-                                svg.appendChild(circle);
-                            }
-
-                            // Append SVG to linkDiv
-                            linkDiv.appendChild(svg);
-
-                            // Create input for heading
-                            if (link.type === 'heading') {
-                                const inputHeading = document.createElement('input');
-                                inputHeading.type = 'text';
-                                inputHeading.value = link.heading;
-                                inputHeading.placeholder = 'Heading';
-                                linkDiv.appendChild(inputHeading);
-
-                                // Add event listener for the heading input
-                                inputHeading.addEventListener('input', function() {
-                                    const arrangement = extractData();
-                                    populateProfilePreview(arrangement);
-                                });
-                            }
-
-                            // Create the delete button
-                            const deleteButton = document.createElement('div');
-                            deleteButton.classList.add('deleteButton');
-                            deleteButton.innerHTML = `<i class="fa-solid fa-trash" aria-hidden="true"></i>`;
-
-                            // Event listener for the delete button
-                            deleteButton.addEventListener('click', function() {
-                                linkContainer.removeChild(linkDiv);
-                                const arrangement = extractData();
-                                populateProfilePreview(arrangement);
-                            });
-
-                            // Append delete button to linkDiv
-                            linkDiv.appendChild(deleteButton);
-
-                            // Append linkDiv to the linkContainer
-                            linkContainer.appendChild(linkDiv);
-                        }else{
-                            const linkCounter = linkContainer.children.length + 1;
-                            const linkDiv = document.createElement('div');
-                            linkDiv.classList.add('link');
-
-                            // Flex container for horizontal radio buttons
-                            const radioContainer = document.createElement('div');
-                            radioContainer.classList.add('radio-container');
+                    if(Digital_profile){
+                        const digital_profiles_container = document.getElementsByClassName("digital-profiles-edit")[0]
+                        digital_profiles_container.querySelector("p").innerText = Digital_profile.heading;
+                        digital_profiles_container.querySelector("p").setAttribute("section_id", Digital_profile.id)
+                        populateEye(digital_profiles_container.querySelector('i'),Digital_profile.hidden)
+                    }
+                  
+                    
 
 
-                            // Radio buttons for choosing between "Enter Link" and "Choose Form"
-                            const enterLinkRadio = createRadio(`enterLink`, linkCounter, 'Enter Link', false);
-                            const chooseFormRadio = createRadio(`chooseForm`, linkCounter, 'Choose Form', true);
-
-                            // Dropdown for selecting predefined forms
-                            const selectFormDropdown = document.createElement('select');
-                            selectFormDropdown.style.display = "block"; // Initially disabled
-                            // Add options to the dropdown (replace with your own options)
-                            selectFormDropdown.classList.add("form_select")
-                            forms.forEach(form=>{
-                                if(form.id == link.link){
-                                    selectFormDropdown.innerHTML += `<option selected value="${form.id}">${form.name}</option>`
-                                }else{
-                                    selectFormDropdown.innerHTML += `<option value="${form.id}">${form.name}</option>`
-                                }
-                            })
-                            selectFormDropdown.style.borderRadius = "30px"
-                            selectFormDropdown.style.marginBottom = "3px"
-
-                            // Input fields for link and name
-                            const inputLink = createInput('text', 'Link', false);
-                            const inputName = createInput('text', 'Name', false);
-                            
-                            inputLink.style.display = "none"; // Initially enabled
-                            inputName.value = link.name;
+                    const free_tools = sections.find((elem) => {
+                        return elem.type === "free_tools";
+                    });
 
 
-                            // Event listeners for input fields to track changes
-
-                            inputLink.addEventListener('input', function() {
-                                const arrangement = extractData();
-                                populateProfilePreview(arrangement);
-                            });
-
-                            inputName.addEventListener('input', function() {
-                                const arrangement = extractData();
-                                populateProfilePreview(arrangement);
-                            });
-
-
-                            // Event listeners for radio buttons to enable/disable fields
-                            enterLinkRadio.addEventListener('change', function() {
-                                selectFormDropdown.style.display = 'none'; // Hide the dropdown
-                                inputLink.style.display = 'block'; // Show the link input
-                            });
-
-                            chooseFormRadio.addEventListener('change', function() {
-                            
-                                selectFormDropdown.style.display = 'block'; // Show the dropdown
-                                inputLink.style.display = 'none'; // Hide the link input
-                            });
-
-                            const deleteButton = document.createElement('div');
-                            deleteButton.innerHTML = `<i class="fa-solid fa-trash"></i>`;
-                            deleteButton.classList.add('deleteButton');
-                            deleteButton.onclick = function() {
-                                linkContainer.removeChild(linkDiv);
-                                const arrangement = extractData();
-                                populateProfilePreview(arrangement);
-                            };
-
-                            linkDiv.innerHTML += `<svg id="drag_icon" style="margin-left:auto" width="20px" height="30px" xmlns="http://www.w3.org/2000/svg">
-                                        <!-- First row of dots -->
-                                        <circle cx="5" cy="5" r="2" fill="black"></circle>
-                                        <circle cx="15" cy="5" r="2" fill="black"></circle>
-
-                                        <!-- Second row of dots -->
-                                        <circle cx="5" cy="15" r="2" fill="black"></circle>
-                                        <circle cx="15" cy="15" r="2" fill="black"></circle>
-                                    </svg>`;
-
-
-                            // Append radio buttons to the radio container
-                            radioContainer.appendChild(enterLinkRadio);
-                            radioContainer.appendChild(chooseFormRadio);
-
-                            // Append all elements to linkDiv
-                            linkDiv.appendChild(radioContainer);
-                            linkDiv.appendChild(selectFormDropdown);
-                            linkDiv.appendChild(inputLink);
-                            linkDiv.appendChild(inputName);
-                            linkDiv.appendChild(deleteButton);
-
-                            // Append linkDiv to the linkContainer
-                            linkContainer.appendChild(linkDiv);
-                        
-
-                        // Helper function to create radio buttons
-                            function createRadio(name, linkCount, label, checked) {
-                                const radio = document.createElement('input');
-                                radio.type = 'radio';
-                                radio.name = `linkChoice${linkCount}`;
-                                radio.value = name;
-                                radio.checked = checked;
-                                radio.style.marginLeft = "10px"
-                                
-                                const labelElement = document.createElement('label');
-                                labelElement.textContent = label;
-                                labelElement.appendChild(radio);
-                                
-                                return labelElement;
-                            }
-
-                            // Helper function to create input fields
-                            function createInput(type, placeholder, disabled) {
-                                const input = document.createElement('input');
-                                input.type = type;
-                                input.placeholder = placeholder;
-                                input.style.marginTop = "2px";
-                                input.style.marginBottom = "2px"
-                                return input;
-                            }
-
+                    if (free_tools) {
+                        const free_tools_container = document.getElementsByClassName("free-tools-edit")[0];
+                        free_tools_container.querySelector("p").innerText = free_tools.heading;
+                        free_tools_container.querySelector("p").setAttribute("section_id", free_tools.id)
+                        populateEye(free_tools_container.querySelector('i'),free_tools.hidden)    
+                    }
+                    links.forEach((link) => {
+                        // Populating Socials
+                        if(link.sectionId === socials.id){
+                            const beforeElement  = document.getElementById(link.name);
+                            beforeElement.value = link.link;
+                            beforeElement.setAttribute("link_id", link.id);
+                            const element = beforeElement.nextElementSibling;
+                            populateEye(element, link.hidden);
                         }
-                    })
-                }
 
+                        // Populating Mylistings
+                        if(link.sectionId === mylistings.id){
+                            const beforeElement  = document.getElementsByName(link.name)[0]
+                            if(beforeElement){
+                                beforeElement.setAttribute("link_id", link.id);
+                                beforeElement.value = link.link;
+                                const element = beforeElement.nextElementSibling;
+                                populateEye(element, link.hidden);
+                            }else{
+                                const eye_class = link.hidden == true?"eye_close":"eye_open";
+                                const eventsForInput = link.type == "link"?`onblur="updateLinkInDatabase(this)"`:link.type === "gallery" ? `onclick="editGalleryOpenPopUp(this)"`:`onclick="edit_Form_show(this)"`;
+                                const placeholder = link.type === "link" ? `${link.name} (Put URL Here)` : link.type === "gallery" ? `${link.name} (Click to Edit Gallery)` : `${link.name} (Click to Edit Form)`;
 
-                if(links && links.length > 0){
-                    populateLinksAndPreview(links);
-                }else{
-                    populateLinksAndPreview(defaltLinks.temp1);
-                }
-                const arrangement = extractData();
-                populateProfilePreview(arrangement);
-
-            }
-
-            function populateQuestions(questionsArray) {
-                const container = document.getElementById('questionContainer');
-
-                questionsArray.forEach((question, questionIndex) => {
-                    // Create the question container
-                    const questionGroup = document.createElement('div');
-                    questionGroup.className = 'question-group-insurance';
-
-                    // Create the question input
-                    const questionInput = document.createElement('input');
-                    questionInput.type = 'text';
-                    questionInput.className = 'border mt-1 border-3 p-2 form-control question';
-                    questionInput.name = 'question[]';
-                    questionInput.placeholder = 'Question';
-                    questionInput.value = question.question; // Assuming 'text' property holds the question text
-
-                    // Create the "Add Option" button
-                    const addOptionButton = document.createElement('button');
-                    addOptionButton.type = 'button';
-                    addOptionButton.className = 'add-option-button m-1';
-                    addOptionButton.textContent = 'Add Option';
-
-                    // Create the "Delete Question" button
-                    const deleteQuestionButton = document.createElement('button');
-                    deleteQuestionButton.type = 'button';
-                    deleteQuestionButton.className = 'delete-question-button m-1';
-                    deleteQuestionButton.textContent = 'Delete Question';
-
-                    // Create the options container
-                    const optionsContainer = document.createElement('div');
-                    optionsContainer.className = 'options-container';
-
-                    // Loop through each option in the question
-                    question.options.forEach((option, optionIndex) => {
-                    // Create the option container
-                    const optionContainer = document.createElement('div');
-                    optionContainer.className = 'option';
-
-                    // Create the option input
-                    const optionInput = document.createElement('input');
-                    optionInput.type = 'text';
-                    optionInput.className = 'border mt-1 border-3 p-2 form-control options';
-                    optionInput.name = 'option[]';
-                    optionInput.placeholder = 'Option';
-                    optionInput.value = option; // Assuming 'text' property holds the option text
-
-                    // Create the "Delete Option" button
-                    const deleteOptionButton = document.createElement('button');
-                    deleteOptionButton.type = 'button';
-                    deleteOptionButton.className = 'delete-option-button my-1';
-                    deleteOptionButton.textContent = 'Delete Option';
-
-                    // Add event listener to delete option button
-                    deleteOptionButton.addEventListener('click', () => {
-                        optionContainer.remove();
-                    });
-
-                    // Append option input and delete button to the option container
-                    optionContainer.appendChild(optionInput);
-                    optionContainer.appendChild(deleteOptionButton);
-
-                    // Append option container to the options container
-                    optionsContainer.appendChild(optionContainer);
-                    });
-
-                    // Add event listener to add option button
-                    addOptionButton.addEventListener('click', () => {
-                    // Add a new option when the button is clicked
-                    const optionContainer = document.createElement('div');
-                    optionContainer.className = 'option';
-
-                    const optionInput = document.createElement('input');
-                    optionInput.type = 'text';
-                    optionInput.className = 'border mt-1 border-3 p-2 form-control options';
-                    optionInput.name = 'option[]';
-                    optionInput.placeholder = 'Option';
-
-                    const deleteOptionButton = document.createElement('button');
-                    deleteOptionButton.type = 'button';
-                    deleteOptionButton.className = 'delete-option-button';
-                    deleteOptionButton.textContent = 'Delete Option';
-
-                    deleteOptionButton.addEventListener('click', () => {
-                        optionContainer.remove();
-                    });
-
-                    optionContainer.appendChild(optionInput);
-                    optionContainer.appendChild(deleteOptionButton);
-
-                    optionsContainer.appendChild(optionContainer);
-                    });
-
-                    // Add event listener to delete question button
-                    deleteQuestionButton.addEventListener('click', () => {
-                        questionGroup.remove();
-                    });
-
-                    // Append question input, buttons, and options container to the question group
-                    questionGroup.appendChild(questionInput);
-                    questionGroup.appendChild(addOptionButton);
-                    questionGroup.appendChild(deleteQuestionButton);
-                    questionGroup.appendChild(optionsContainer);
-
-                    // Append the question group to the target container
-                    container.appendChild(questionGroup);
-                });
-            }
-        
-
-            function addQuestion(questionsArray) {
-                    const container = document.getElementById("questionsContainer_meta");
-                    questionsArray.forEach((questionData) => {
-                    const questionGroup = document.createElement("div");
-                    questionGroup.className = "question-group";
-
-                    const questionInput = document.createElement("input");
-                    questionInput.type = "text";
-                    questionInput.value = questionData.question;
-                    questionInput.name = "question[]";
-                    questionInput.placeholder = "Question";
-                    questionInput.className = "question";
-
-                    questionInput.addEventListener("input", () => {
-                        question_populate_logic();
-                    });
-
-                    const addOptionButton = document.createElement("button");
-                    addOptionButton.type = "button";
-                    addOptionButton.className = "add-option-button";
-                    addOptionButton.textContent = "Add Option";
-
-                    const deleteQuestionButton = document.createElement("button");
-                    deleteQuestionButton.type = "button";
-                    deleteQuestionButton.className = "delete-question-button";
-                    deleteQuestionButton.textContent = "Delete Question";
-
-                    const optionsContainer = document.createElement("div");
-                    optionsContainer.className = "options-container";
-
-                    questionData.options.forEach((option) => {
-                        const optionDiv = document.createElement("div");
-                        optionDiv.className = "option";
-
-                        const optionInput = document.createElement("input");
-                        optionInput.type = "text";
-                        optionInput.value = option;
-                        optionInput.name = "option[]";
-                        optionInput.placeholder = "Option";
-                        optionInput.className = "options";
-
-                        optionInput.addEventListener("input", () => {
-                            question_populate_logic();
-                        });
-
-                        const deleteOptionButton = document.createElement("button");
-                        deleteOptionButton.type = "button";
-                        deleteOptionButton.className = "delete-option-button";
-                        deleteOptionButton.textContent = "Delete option";
-
-                        deleteOptionButton.addEventListener("click", () => {
-                            // Logic to handle deleting the option
-                            optionDiv.remove();
-                        });
-
-                        optionDiv.appendChild(optionInput);
-                        optionDiv.appendChild(deleteOptionButton);
-                        optionsContainer.appendChild(optionDiv);
-                    });
-
-                    addOptionButton.addEventListener("click", () => {
-                        // Add logic to handle adding a new option
-                        const optionDiv = document.createElement("div");
-                        optionDiv.className = "option";
-
-                        const optionInput = document.createElement("input");
-                        optionInput.type = "text";
-                        optionInput.name = "option[]";
-                        optionInput.placeholder = "Option";
-                        optionInput.className = "options";
-
-                        optionInput.addEventListener("input", () => {
-                            question_populate_logic();
-                        });
-
-
-                        const deleteOptionButton = document.createElement("button");
-                        deleteOptionButton.type = "button";
-                        deleteOptionButton.className = "delete-option-button";
-                        deleteOptionButton.textContent = "Delete option";
-
-                        deleteOptionButton.addEventListener("click", () => {
-                            // Logic to handle deleting the new option
-                            optionDiv.remove();
-                        });
-
-                        optionDiv.appendChild(optionInput);
-                        optionDiv.appendChild(deleteOptionButton);
-                        optionsContainer.appendChild(optionDiv);
-                    });
-
-                    deleteQuestionButton.addEventListener("click", () => {
-                        // Add logic to handle deleting the entire question group
-                        questionGroup.remove();
-                    });
-
-                    questionGroup.appendChild(questionInput);
-                    questionGroup.appendChild(addOptionButton);
-                    questionGroup.appendChild(deleteQuestionButton);
-                    questionGroup.appendChild(optionsContainer);
-
-                    // Append the question group to the document
-                    container.appendChild(questionGroup);
-                });
-
-                function question_populate_preview(params) {
-                    const questionInputs = document.querySelectorAll(".question");
-                    const answers = [];
-                
-                    questionInputs.forEach(questionInput => {
-                    let optionsContainer = questionInput;
-                    for (let i = 0; i < 3; i++) {
-                        optionsContainer = optionsContainer.nextElementSibling;
-                    }
-                    const questionText = questionInput.value;
-                    const optionsInputs = optionsContainer.querySelectorAll('.option input');
-                    // const optionsContainer = questionInput.closest(".question-group").querySelectorAll(".option input");
-                    const options = [];
-                    optionsInputs.forEach(optionInput => {
-                        options.push(optionInput.value);
-                    });
-                    answers.push({ question: questionText, options: options });
-                    });
-                    return answers;
-                }
-
-                function question_populate_logic() {
-                    const question_div = document.getElementById('question-div');
-                    const arr = question_populate_preview()
-                    question_div.innerHTML = "";
-                    for (let i = 0; i < arr.length; i++) {
-                        let optionsHTML = '';
-                        for (let j = 0; j < arr[i].options.length; j++) {
-                        optionsHTML += `
-                            <label class="container">
-                            <input type="radio" name="question${i}" value="${arr[i].options[j]}">
-                            <span class="checkmark" data-value="${arr[i].options[j]}">${arr[i].options[j]}</span>
-                            </label>
-                        `;
+                                const input = `<div class="input_container_with_eye">
+                                    <input ${eventsForInput} link_id="${link.id}" class="text_style" name="${link.name}" placeholder="${placeholder}" value="${link.link?link.link:""}"  style="${link.type != "link"?"cursor: pointer":""}" custom_type="${link.type}" type="text">
+                                    <i class="eye fa-solid fa-eye ${eye_class}" onclick = "(eyeToggleFunction(this))" style="margin: 0px 10px;" aria-hidden="true"></i>
+                                    <i onclick="deleteLinkInDatabase(this)" link_id="${link.id}" class="fas fa-trash-alt delete-field-btn" style="color: rgb(0, 102, 201); cursor: pointer;" aria-hidden="true"></i>
+                                    </div>`
+                                document.getElementsByClassName("mylisting_dynamic_container")[0].innerHTML += input;
+                            }
                         }
-                        question_div.innerHTML += `
-                        <div class="inside-tab radio-div">
-                            <h3 class="heading">${arr[i].question}</h3>
-                            <div>
-                            ${optionsHTML}
-                            </div>
-                        </div>
-                        `;
-                    }
-                }
-          
+                        
+                        // Populating Digital Profiles
+                        if(link.sectionId === Digital_profile.id){
+                            console.log(link.name)
+                            const beforeElement  = document.getElementsByName(link.name)[0]
+                            beforeElement.value = link.link;
+                            beforeElement.setAttribute("link_id", link.id);
+                            const element = beforeElement.nextElementSibling;
+                            populateEye(element, link.hidden);
+                        }
 
-          question_populate_logic()
+                        // Populating free tools
+                        if (link && link.sectionId === free_tools.id) {
+                            console.log(link.name);
+                            const beforeElement  = document.getElementsByName(link.name)[0]
+                            beforeElement.setAttribute("link_id", link.id);
+                            const element = beforeElement.nextElementSibling;
+                            populateEye(element, link.hidden);
+                        }
+                  
+                        
+                    });
+
+
+                }
+                function populateEye(element, hidden){
+                    if (element) {
+                        if (hidden) {
+                            element.classList.add("eye_close");
+                            element.classList.remove("eye_open");
+                        } else {
+                            element.classList.add("eye_open");
+                            element.classList.remove("eye_close");
+                        }
+                    } else {
+                        console.error("Next element sibling is not found for", elements[0]);
+                    }
+                        
+                }
+            
+
+
             }
 
             async function client_edit_popup(elem){
@@ -1823,8 +1306,8 @@
             }
        
 
-            async function fetchFormDetail(id){
-                const res = await fetch(`/api/getForm/${id}`,{
+            async function fetchFormDetail(name){
+                const res = await fetch(`/api/form/get/${name}`,{
                     method:"GET"
                 })
                 const data = await res.json();
@@ -1877,7 +1360,7 @@
                
                 // ##################### Populate Questions#######################
                 const questions_container = document.getElementById("questionsContainer_meta");
-                document.getElementById("form_name").value = form.name;
+                // document.getElementById("form_name").value = form.name;
                 questions_container.innerHTML = "";
                     form.questions.forEach((question, index)=>{
                         let optionsHTML = '';
@@ -2061,9 +1544,10 @@
             }
 
             async function edit_Form_show(btn) {
-                const formId = btn.getAttribute("form_id")
+                console.log(btn);
+                const name = btn.getAttribute("name")
                 overlay.style.display = "block";
-                const {form} = await fetchFormDetail(formId);
+                const {form} = await fetchFormDetail(name);
                 populateEditForm(form);
                 document.getElementById("form_popup").classList.add("open_popup");
                 document.getElementById("form_popup").classList.remove("close_popup");
@@ -2098,9 +1582,6 @@
                                     icon: "success",
                                     confirmButtonText: "Ok",
                                 })
-                                const id = document.getElementById("profile_id").getAttribute("profile_id");
-                                const {forms} = await fetchProfileDetail(id);
-                                populateEditFormSection(forms);
                             }else{
                             swal.fire({
                                     title: "Error",
@@ -2117,19 +1598,18 @@
                         }
                 });   
             }
-            
+                        
             async function editForm(formId) {
                 event.preventDefault();
                 if(!validate()){
                     return;
                 }
                 const {discordLinkValues, emailLinkValues} = extractDiscordAndMails();  
-                const name = document.getElementById("form_name").value;
+                // const name = document.getElementById("form_name").value;
                 const questions = extractQuestionsAndOptions();
                 const res = await fetch(`/api/updateForm/${formId}`, {
                     method: "POST",
                     body: JSON.stringify({
-                        name: name,
                         questions: questions,
                         discord: discordLinkValues,
                         emails:emailLinkValues
@@ -2145,9 +1625,6 @@
                         icon: "success",
                         confirmButtonText: "Ok",
                     })
-                    const id = document.getElementById("profile_id").getAttribute("profile_id");
-                    const {forms} = await fetchProfileDetail(id);
-                    populateEditFormSection(forms);
                     document.getElementById("form_popup").classList.remove("open_popup");
                     document.getElementById("form_popup").classList.add("close_popup");
                     const overlay = document.getElementById("overlay");
@@ -2298,7 +1775,6 @@
 
 
                 //Populating the Edit Form dropdown
-                populateEditFormSection(forms);
 
                 function populateLinksAndPreview(links) {
                     const linkContainer = document.getElementById("link_container_dynamic");
@@ -2660,9 +2136,7 @@
                                         icon: "success",
                                         confirmButtonText: "Ok",
                                     })
-                                    const id = document.getElementById("profile_id").getAttribute("profile_id");
-                                    const {forms} = await fetchProfileDetail(id);
-                                    populateEditFormSection(forms);
+                                   
                                 }else{
                                 swal.fire({
                                         title: "Error",
@@ -2686,12 +2160,11 @@
                         return;
                     }
                     const discordArray = extractDiscord();  
-                    const name = document.getElementById("form_name").value;
+                    // const name = document.getElementById("form_name").value;
                     const questions = extractQuestionsAndOptions();
                     const res = await fetch(`/api/updateForm/${formId}`, {
                         method: "POST",
                         body: JSON.stringify({
-                            name: name,
                             questions: questions,
                             discord: discordArray
                         }),
@@ -2706,9 +2179,7 @@
                             icon: "success",
                             confirmButtonText: "Ok",
                         })
-                        const id = document.getElementById("profile_id").getAttribute("profile_id");
-                        const {forms} = await fetchProfileDetail(id);
-                        populateEditFormSection(forms);
+                      
                         document.getElementById("form_popup").classList.remove("open_popup");
                         document.getElementById("form_popup").classList.add("close_popup");
                         const overlay = document.getElementById("overlay");
@@ -2747,7 +2218,7 @@
                 
                     // ##################### Populate Questions#######################
                     const questions_container = document.getElementById("questionsContainer_meta");
-                    document.getElementById("form_name").value = form.name;
+                    // document.getElementById("form_name").value = form.name;
                     questions_container.innerHTML = "";
                         form.questions.forEach((question, index)=>{
                             let optionsHTML = '';

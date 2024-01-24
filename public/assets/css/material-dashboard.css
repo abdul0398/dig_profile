@@ -401,7 +401,6 @@ button:focus:not(:focus-visible) {
 
 input,
 button,
-select,
 optgroup,
 textarea {
   margin: 0;
