@@ -859,11 +859,11 @@
         showCancelButton: true,
         confirmButtonText: "Save",
         focusConfirm: false,
-        inputValidator: (formValues) => {
-                if (formValues[0] == "" || formValues[1] == "") {
-                return "Please Fill Properly";
-                }
-            },
+        inputValidator: (result) => {
+        if (!result || result[0] == "" || result[1] == "") {
+            return Promise.resolve('Please fill in all fields properly');
+            }
+        },
         preConfirm: () => {
             var radioButtons = document.getElementsByName('field_type');
             for (var i = 0; i < radioButtons.length; i++) {
@@ -876,6 +876,20 @@
             }
         }
         });
+
+        //validate Form Fields
+        if(formValues == true || formValues[1].length < 3){
+            Swal.fire({
+                title: "Please fill in all fields properly",
+                icon: "error",
+                confirmButtonText: "Ok",
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    return;
+                }
+            });
+            return;
+        }
         const fieldName= formValues[1];
         const type = formValues[0];     
             if(type == "text"){
