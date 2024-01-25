@@ -273,7 +273,7 @@ body {
   }
   .group-parent1 {
     left: calc(50% - 66px);
-    width: 9.25rem;;
+    width: 170px;
   }
   .group-child4,
   .line-icon {

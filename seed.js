@@ -118,6 +118,13 @@ module.exports.sections = [
         ]
     },
     {
+        heading: "Contact Me",
+        type: "contact",
+        isDynamic: false,
+        links: [
+        ]
+    },
+    {
         heading: "Book an appointment",
         type: "book",
         isDynamic: false,
