@@ -56,6 +56,7 @@ CREATE TABLE IF NOT EXISTS links(
   link VARCHAR(255) DEFAULT '#',
   hidden BOOLEAN DEFAULT FALSE,
   disabled BOOLEAN DEFAULT FALSE,
+  click_count INT DEFAULT 0,
   permanent BOOLEAN DEFAULT TRUE,
   sectionId int NOT NULL,
   FOREIGN KEY (sectionId) REFERENCES sections(id) ON DELETE CASCADE
