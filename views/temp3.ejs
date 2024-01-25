@@ -177,40 +177,44 @@
           word-wrap: break-word;"><%=profile.description%></p>
             <%}%>
         <section id="profile_preview_innercontainer">
-          <%for(let i = 0; i < links.length; i++){%>
-            <%if(links[i].type == "link"){%>
-              <li onclick="linkHandler(this)" linkId="<%=links[i].id%>" redirect_Url="<%=links[i].link%>" style="cursor: pointer; position: relative; margin:10px auto 10px auto; display: flex; justify-content: center; align-items: center; background-image: linear-gradient(178.54deg, #ff1212 7.67%, #ff2c1d); width: 330px; border-radius: 20px; height: 50px;">
-                <a style=" text-decoration: none; color: white;" ><%=links[i].name%></a>
-               
-              </li>
-            <%}else if(links[i].type == "heading"){%>
-                <p class="text_style heading_style" style="color: black; margin: 40px 30px 20px 30px; width: fit-content;" class="profile_heading"><%=links[i].heading%></p>
-            <%}else{%>
-              <button class="text_style" form_id="<%=links[i].link%>"  style="position: relative; border: none; cursor: pointer; color: white; margin:10px auto 10px auto; display: flex; justify-content: center; align-items: center; background-image: linear-gradient(178.54deg, #ff1212 7.67%, #ff2c1d); width: 330px; border-radius: 35px; height: 50px;" onclick="showForm(this, false)"><%=links[i].name%></button>
+          <%for(key in sections){%>
+            <% if (key == "Book an appointment") { %>
+              <button style="position: relative; font-size: 16px; border: none; cursor: pointer; color: white; margin: 10px auto 10px auto; display: flex; justify-content: center; align-items: center; background-image: linear-gradient(178.54deg, #ff1212 7.67%, #ff2c1d); width: 330px; border-radius: 35px; height: 50px;" onclick="showFormwithCalender(this)">Book An Appointment</button>
+            <% } else if (key == "Lead Form") { %>
+                <button form_name="Default" style="position: relative; font-size: 16px; border: none; cursor: pointer; color: white; margin: 10px auto 10px auto; display: flex; justify-content: center; align-items: center; background-image: linear-gradient(178.54deg, #ff1212 7.67%, #ff2c1d); width: 330px; border-radius: 35px; height: 50px;" onclick="showForm(this, false)">Lead Form</button>
+            <% }else if(key != "socials"){ %>
+              <p class="text_style heading_style" style="color: black; margin: 40px 30px 20px 30px; width: fit-content;" class="profile_heading"><%=key%></p>
+              <%for(link of sections[key]?.links){%>
+                <%if(link.type == "link"  && !(link.link == "" || link.link == "#")){%>
+                  
+                  <li onclick="linkHandler(this)" linkId="<%=link.id%>" redirect_Url="<%=link.link%>" style="cursor: pointer; position: relative; margin:10px auto 10px auto; display: flex; justify-content: center; align-items: center; background-image: linear-gradient(178.54deg, #ff1212 7.67%, #ff2c1d); width: 330px; border-radius: 20px; height: 50px;">
+                    <a style="text-decoration: none; color: white;"  ><%=link.name%></a>
+                  </li>
+                <%}else if(link.type == "form"){%>
+                  <button form_name="<%=link.name%>" style="position: relative; font-size: 16px; border: none; cursor: pointer; color: white; margin: 10px auto 10px auto; display: flex; justify-content: center; align-items: center; background-image: linear-gradient(178.54deg, #ff1212 7.67%, #ff2c1d); width: 330px; border-radius: 35px; height: 50px;" onclick="showForm(this, false)"><%=link.name%></button>
+                  <%}else if(link.type == "about_us"){%>
+                  <a target="_blank" href="/aboutus/<%=profile.id%>" style="position: relative; cursor: pointer; text-decoration: none; color: white;  margin:10px auto 10px auto; display: flex; justify-content: center; align-items: center; background-image: linear-gradient(178.54deg, #ff1212 7.67%, #ff2c1d); width: 330px; border-radius: 35px; height: 50px;" >
+                    About
+                    </a>
+                <%}else if(link.type == "calculator"){%>
+                  <button cal_Link="https://abdul0398.github.io/<%=link.link%>/" style="font-size: 16px; border: none; cursor: pointer; color: white; margin:10px auto 10px auto; display: flex; justify-content: center; align-items: center; background-image: linear-gradient(178.54deg, #ff1212 7.67%, #ff2c1d); width: 330px; border-radius: 35px; height: 50px;" onclick="showForm(this, false)"><%=link.name%></button>
+                <%}%>
+                <%}%>
+
             <%}%>
-            <%}%>
-            <%if(profile.about_us && profile.about_us.type == "link"){%>
-              <a target="_blank" onclick="openLink('<%=profile.about_us.link%>')" style="cursor: pointer; text-decoration: none; color: white;  margin:10px auto 10px auto; display: flex; justify-content: center; align-items: center; background-image: linear-gradient(178.54deg, #ff1212 7.67%, #ff2c1d); width: 330px; border-radius: 35px; height: 50px;" >
-                About
-                </a>
-          <%}else if(profile.about_us && profile.about_us.type == "page"){%>
-            <a target="_blank" href="/aboutus/<%=profile.id%>" style="cursor: pointer; text-decoration: none; color: white;  margin:10px auto 10px auto; display: flex; justify-content: center; align-items: center; background-image: linear-gradient(178.54deg, #ff1212 7.67%, #ff2c1d); width: 330px; border-radius: 35px; height: 50px;" >
-              About
-              </a>
-          <%}%>
-            <p class="text_style heading_style" style="color: black; margin: 40px 30px 20px 30px; width: fit-content;" class="profile_heading">Free Tools</p>
-              <button cal_Link="https://abdul0398.github.io/MSR/"  style="font-size: 16px; border: none; cursor: pointer; color: white; margin:10px auto 10px auto; display: flex; justify-content: center; align-items: center; background-image: linear-gradient(178.54deg, #ff1212 7.67%, #ff2c1d); width: 330px; border-radius: 35px; height: 50px;" onclick="openCalculator(this)">MSR Calculator</button>
-              <button cal_Link="https://abdul0398.github.io/TDRS/" style="font-size: 16px; border: none; cursor: pointer; color: white; margin:10px auto 10px auto; display: flex; justify-content: center; align-items: center; background-image: linear-gradient(178.54deg, #ff1212 7.67%, #ff2c1d); width: 330px; border-radius: 35px; height: 50px;" onclick="openCalculator(this)">TDRS Calculator</button>
-              <button cal_Link="https://abdul0398.github.io/Stamp/" style="font-size: 16px; border: none; cursor: pointer; color: white; margin:10px auto 10px auto; display: flex; justify-content: center; align-items: center; background-image: linear-gradient(178.54deg, #ff1212 7.67%, #ff2c1d); width: 330px; border-radius: 35px; height: 50px;" onclick="openCalculator(this)">Stamp Duty Calculator</button>
-              <button cal_Link="https://abdul0398.github.io/Mortgage/" style="font-size: 16px; border: none; cursor: pointer; color: white; margin:10px auto 10px auto; display: flex; justify-content: center; align-items: center; background-image: linear-gradient(178.54deg, #ff1212 7.67%, #ff2c1d); width: 330px; border-radius: 35px; height: 50px;" onclick="openCalculator(this)">Mortgage Calculator</button>
-              <button cal_Link="https://abdul0398.github.io/progressive/" style="font-size: 16px; border: none; cursor: pointer; color: white; margin:10px auto 10px auto; display: flex; justify-content: center; align-items: center; background-image: linear-gradient(178.54deg, #ff1212 7.67%, #ff2c1d); width: 330px; border-radius: 35px; height: 50px;" onclick="openCalculator(this)">Progressive Calculator</button>
-              <button  style="font-size: 16px; border: none; cursor: pointer; color: white; margin:10px auto 10px auto; display: flex; justify-content: center; align-items: center; background-image: linear-gradient(178.54deg, #ff1212 7.67%, #ff2c1d); width: 330px; border-radius: 35px; height: 50px;" onclick="showFormwithCalender(this)">Book An Appointment</button>
-              <button  style="font-size: 16px; border: none; cursor: pointer; color: white; margin:10px auto 10px auto; display: flex; justify-content: center; align-items: center; background-image: linear-gradient(178.54deg, #ff1212 7.67%, #ff2c1d); width: 330px; border-radius: 35px; height: 50px;" onclick="showForm(this)">Lead Form</button>
-        </section>
+        <%}%>
+
+
+
+
+
+
+        
+          
+            </section>
         <img class="child" alt="" src="/<%=profile.profile_img_path%>" />
 
   <div style="max-height: 350px;">
-    <%if(profile.insta_link || profile.linkedin_link || profile.fb_link){%>
     <div style="height: 150px;">
       <div style="width: 20.63rem;
       margin: auto;
@@ -218,23 +222,23 @@
       display: flex;
       justify-content: space-around;">
         <div>
-          <%if(profile.insta_link && profile.insta_link != "#"){%>
+          <%if(social["Instagram"] && social["Instagram"] != "#"){%>
             <span style="margin: 0px 10px;">
-              <a href="#" onclick="openLink('<%=profile.insta_link%>')">
+              <a href="#" onclick="openLink('<%=social.Instagram%>')">
                 <i class="fa-brands fa-square-instagram fa-2xl" style="color: #ff1212;"></i>
               </a>
             </span>
           <%}%>
-          <%if(profile.linkedin_link && profile.linkedin_link != "#"){%>
+          <%if(social.Linkedin && social.Linkedin != "#"){%>
             <span style="margin: 0px 10px;">
-              <a href="#" onclick="openLink('<%=profile.linkedin_link%>')">
+              <a href="#" onclick="openLink('<%=social.Linkedin%>')">
                 <i class="fa-brands fa-linkedin fa-2xl" style="color: #ff1212;"></i>
               </a>
             </span>
           <%}%>
-          <%if(profile.fb_link && profile.fb_link != "#"){%>
+          <%if(social.Facebook && social.Facebook != "#"){%>
             <span style="margin: 0px 10px;">
-              <a href="#" onclick="openLink('<%=profile.fb_link%>')">
+              <a href="#" onclick="openLink('<%=social.Facebook%>')">
                 <i class="fa-brands fa-2xl fa-facebook" style="color: #ff1212;"></i>
               </a>
             </span>
@@ -246,25 +250,24 @@
        
       </div>
     </div>
-    <%}%>
 
-    <%if(profile.phone){%>
+    <%if(social["Call Us"] != "#" || social["WhatsApp"] != "#"){%>
       <div style="height: 200px;">
         <div class="call-us-parent">
           <b class="call-us">Call us</b>
           <div class="group-parent1">
-            <%if(profile.phone){%>
+            <%if(social["Call Us"] != "#"){%>
               <div class="rectangle-parent">
-                <a style="color: rgb(255, 255, 255);" href="tel:<%=profile.phone%>">
+                <a style="color: rgb(255, 255, 255);" href="tel:<%=social["Call Us"]%>">
                   <div class="rectangle-div"></div>
                   <b class="book-and-appointment">Call</b>
                 </a>
               </div>
             <%}%>
            
-            <%if(profile.phone){%>
+            <%if(social["WhatsApp"] != "#"){%>
               <div class="rectangle-group">
-                <a target="_blank" href="https://wa.me/<%=profile.phone%>" style="color: black;">
+                <a target="_blank" href="https://wa.me/<%=social["WhatsApp"]%>" style="color: black;">
                   <div class="group-child3"></div>
                   <b class="whatsapp">Whatsapp</b>
                 </a>
@@ -343,35 +346,34 @@
       overlay.style.display = "none";
     })
   
-    async function showForm(e, isBooking){    
-      if(isBooking == true){
-        is_Booking = true;
-        document.querySelector(".btn_prev").style.display = "block";
-      }else{
-        is_Booking = false;
-        document.querySelector(".btn_prev").style.display = "none";
-      }
-      const formId = e.getAttribute("form_id");
-      document.getElementById("form_id_selected").innerText = formId;
-
-      const {form} = await fetchFormDetail(formId);
-      populateFormbasedOnBtn(form.questions);
-      document.querySelector("#popupform").style.display = "block";
-      overlay.style.display = "block";
+    async function showForm(e, isBooking){
+          if(isBooking == true){
+            is_Booking = true;
+            document.querySelector(".btn_prev").style.display = "block";
+          }else{
+            is_Booking = false;
+            document.querySelector(".btn_prev").style.display = "none";
+          }
+          const formName = e.getAttribute("form_name");
+          const {form} = await fetchFormDetail(formName);
+          document.getElementById("form_id_selected").innerText = form.id;
+            populateFormbasedOnBtn(form.questions);
+          document.querySelector("#popupform").style.display = "block";
+          overlay.style.display = "block";
     }
-  
-  
-    const fetchFormDetail = async (id)=>{
-      if(!id){
+
+
+    const fetchFormDetail = async (name)=>{
+    if(!name){
       return {form:{questions: []}};
     }
-        const res = await fetch(`/api/getForm/${id}`,{
-            method:"GET"
-        })
-        const data = await res.json();
-        return data;
-    }
-  
+      const res = await fetch(`/api/form/get/${name}`,{
+          method:"GET"
+      })
+      const data = await res.json();
+      return data;
+  }
+
     function populateFormbasedOnBtn(questions) {
    const questions_container =  document.getElementById("questions_container");
    questions_container.innerHTML = "";

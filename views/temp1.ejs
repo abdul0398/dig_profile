@@ -202,63 +202,55 @@
           word-wrap: break-word;"><%=profile.description%></p>
             <%}%>
           <section id="profile_preview_innercontainer">
-              <%for(let i = 0; i < links.length; i++){%>
-                  <%if(links[i].type == "link"){%>
-                  
-                    <li linkId="<%=links[i].id%>" redirect_Url="<%=links[i].link%>" onclick="linkHandler(this)" style="cursor: pointer;  margin:10px auto 10px auto; display: flex; justify-content: center; align-items: center; background-color: #0066C9; width: 330px; border-radius: 35px; height: 50px;">
-                  
-                      <a style="text-decoration: none; color: white;"  ><%=links[i].name%></a>
-                  
+            <%for(key in sections){%>
+              <% if (key == "Book an appointment") { %>
+                <button style="position: relative; font-size: 16px; border: none; cursor: pointer; color: white; margin: 10px auto 10px auto; display: flex; justify-content: center; align-items: center; background-color: #0066C9; width: 330px; border-radius: 35px; height: 50px;" onclick="showFormwithCalender(this)">Book An Appointment</button>
+              <% } else if (key == "Lead Form") { %>
+                  <button form_name="Default" style="position: relative; font-size: 16px; border: none; cursor: pointer; color: white; margin: 10px auto 10px auto; display: flex; justify-content: center; align-items: center; background-color: #0066C9; width: 330px; border-radius: 35px; height: 50px;" onclick="showForm(this, false)">Lead Form</button>
+              <% }else if(key != "socials"){ %>
+                <p style="color: #000; margin: 40px 30px 20px 30px; width: fit-content;" class="profile_heading"><%=key%></p>
+                <%for(link of sections[key]?.links){%>
+                  <%if(link.type == "link" && !(link.link == "" || link.link == "#")){%>
+                    
+                    <li onclick="linkHandler(this)" linkId="<%=link.id%>" redirect_Url="<%=link.link%>" style="cursor: pointer;  margin:10px auto 10px auto; display: flex; justify-content: center; align-items: center; background-color: #0066C9; width: 330px; border-radius: 35px; height: 50px;">
+                      <a style="text-decoration: none; color: white;"  ><%=link.name%></a>
                     </li>
+                  <%}else if(link.type == "form"){%>
+                    <button class="text_style" form_name="<%=link.name%>"  style="position: relative; border: none; cursor: pointer; color: white; margin:10px auto 10px auto; display: flex; justify-content: center; align-items: center; background-color: #0066C9; width: 330px; border-radius: 35px; height: 50px;" onclick="showForm(this, false)"><%=link.name%></button>
+                  <%}else if(link.type == "about_us"){%>
+                    <a target="_blank" href="/aboutus/<%=profile.id%>" style="position: relative; cursor: pointer; text-decoration: none; color: white;  margin:10px auto 10px auto; display: flex; justify-content: center; align-items: center; background-color: #0066C9; width: 330px; border-radius: 35px; height: 50px;" >
+                      About
+                      </a>
+                  <%}else if(link.type == "calculator"){%>
+                    <button cal_Link="https://abdul0398.github.io/<%=link.link%>/" style="position: relative; font-size: 16px; border: none; cursor: pointer; color: white; margin:10px auto 10px auto; display: flex; justify-content: center; align-items: center; background-color: #0066C9; width: 330px; border-radius: 35px; height: 50px;" onclick="openCalculator(this)"><%=link.name%></button>
                   
-                    <%}else if(links[i].type == "heading"){%>
-                  
-                    <p style="color: #000; margin: 40px 30px 20px 30px; width: fit-content;" class="profile_heading"><%=links[i].heading%></p>
-                  
-                    <%}else{%>
-                      <button form_id="<%=links[i].link%>"  style="font-size: 16px; border: none; cursor: pointer; color: white; margin:10px auto 10px auto; display: flex; justify-content: center; align-items: center; background-color: #0066C9; width: 330px; border-radius: 35px; height: 50px;" onclick="showForm(this, false)"><%=links[i].name%></button>
+                    <%}%>
                   <%}%>
-              <%}%>
-              <%if(profile.about_us && profile.about_us.type == "link"){%>
-                  <a target="_blank" href="<%=profile.about_us.link%>" style="cursor: pointer; text-decoration: none; color: white;  margin:10px auto 10px auto; display: flex; justify-content: center; align-items: center; background-color: #0066C9; width: 330px; border-radius: 35px; height: 50px;" >
-                    About
-                    </a>
-              <%}else if(profile.about_us && profile.about_us.type == "page"){%>
-                <a target="_blank" href="/aboutus/<%=profile.id%>" style="cursor: pointer; text-decoration: none; color: white;  margin:10px auto 10px auto; display: flex; justify-content: center; align-items: center; background-color: #0066C9; width: 330px; border-radius: 35px; height: 50px;" >
-                  About
-                  </a>
-              <%}%>
 
-              <p style="color: #000; margin: 40px 30px 20px 30px; width: fit-content;" class="profile_heading">Free Tools</p>
-              <button cal_Link="https://abdul0398.github.io/MSR/"  style="font-size: 16px; border: none; cursor: pointer; color: white; margin:10px auto 10px auto; display: flex; justify-content: center; align-items: center; background-color: #0066C9; width: 330px; border-radius: 35px; height: 50px;" onclick="openCalculator(this)">MSR Calculator</button>
-              <button cal_Link="https://abdul0398.github.io/TDRS/" style="font-size: 16px; border: none; cursor: pointer; color: white; margin:10px auto 10px auto; display: flex; justify-content: center; align-items: center; background-color: #0066C9; width: 330px; border-radius: 35px; height: 50px;" onclick="openCalculator(this)">TDRS Calculator</button>
-              <button cal_Link="https://abdul0398.github.io/Stamp/" style="font-size: 16px; border: none; cursor: pointer; color: white; margin:10px auto 10px auto; display: flex; justify-content: center; align-items: center; background-color: #0066C9; width: 330px; border-radius: 35px; height: 50px;" onclick="openCalculator(this)">Stamp Duty Calculator</button>
-              <button cal_Link="https://abdul0398.github.io/Mortgage/" style="font-size: 16px; border: none; cursor: pointer; color: white; margin:10px auto 10px auto; display: flex; justify-content: center; align-items: center; background-color: #0066C9; width: 330px; border-radius: 35px; height: 50px;" onclick="openCalculator(this)">Mortgage Calculator</button>
-              <button cal_Link="https://abdul0398.github.io/progressive/" style="font-size: 16px; border: none; cursor: pointer; color: white; margin:10px auto 10px auto; display: flex; justify-content: center; align-items: center; background-color: #0066C9; width: 330px; border-radius: 35px; height: 50px;" onclick="openCalculator(this)">Progressive Calculator</button>
-              <button  style="font-size: 16px; border: none; cursor: pointer; color: white; margin:10px auto 10px auto; display: flex; justify-content: center; align-items: center; background-color: #0066C9; width: 330px; border-radius: 35px; height: 50px;" onclick="showFormwithCalender(this)">Book An Appointment</button>
-              <button  style="font-size: 16px; border: none; cursor: pointer; color: white; margin:10px auto 10px auto; display: flex; justify-content: center; align-items: center; background-color: #0066C9; width: 330px; border-radius: 35px; height: 50px;" onclick="showForm(this, false);">Lead Form</button>
-              
+              <%}%>
+          <%}%>
+
 
           </section>
           <div class="social_icons">
             <li>
-              <%if(profile.linkedin_link && profile.linkedin_link != "#"){%>
-                <a style="margin: 0px 10px;" href="#" onclick="openLink('<%=profile.linkedin_link%>')">
+              <%if(social.Linkedin && social.Linkedin != "#"){%>
+                <a style="margin: 0px 10px;" href="#" onclick="openLink('<%=social.Linkedin%>')">
                   <i class="fa-brands fa-square-instagram fa-2xl" style="color: #0066C9;"></i>
                 </a>
               <%}%>
             </li>
             <li>
-              <%if(profile.insta_link && profile.insta_link != "#"){%>
-                <a style="margin: 0px 10px;" href="#" onclick="openLink('<%=profile.insta_link%>')">
+              <%if(social["Instagram"] && social["Instagram"] != "#"){%>
+                <a style="margin: 0px 10px;" href="#" onclick="openLink('<%=social.Instagram%>')">
                   <i class="fa-brands fa-linkedin fa-2xl" style="color: #0066C9;"></i>
                 </a>
               <%}%>
 
             </li>
             <li>
-              <%if(profile.fb_link && profile.fb_link != "#"){%>
-                <a style="margin: 0px 10px;" href="#" onclick="openLink('<%=profile.fb_link%>')">
+              <%if(social["Facebook"] && social["Facebook"] != "#"){%>
+                <a style="margin: 0px 10px;" href="#" onclick="openLink('<%=social.Facebook%>')">
                   <i class="fa-brands fa-2xl fa-facebook" style="color: #0066C9;"></i>
                 </a>
               <%}%>
@@ -266,18 +258,23 @@
           </div>
 
 
-          <%if(profile.phone){%>
+          <%if(social["Call Us"] != "" || social["WhatsApp"] != ""){%>
             <p style="color: #000; margin: 50px auto 15px auto; width: fit-content;" class="profile_heading">CALL US</p>
           <%}%>
           
-          <%if(profile.phone){%>
-              <li onclick="linkHandler(this)" redirect_Url="tel:<%=profile.phone%>" style="cursor: pointer; background-color: #0066C9; margin:0px auto 5px auto; display: flex; justify-content: center; align-items: center; border: 1px solid black; width: 330px; border-radius: 35px; height: 50px;">
+          <%if(social["Call Us"] != "" || social["WhatsApp"] != ""){%>
+            <%if(social["Call Us"] != "" || social["Call Us"] != "#"){%>
+              <li onclick="linkHandler(this)" redirect_Url="tel:<%=social["Call Us"]%>" style="cursor: pointer; background-color: #0066C9; margin:0px auto 5px auto; display: flex; justify-content: center; align-items: center;  width: 330px; border-radius: 35px; height: 50px;">
                 <a target="_blank" style="text-decoration: none; color: rgb(255, 255, 255);" >Call</a>
               </li>
-            <li onclick="linkHandler(this)" redirect_Url="https://wa.me/<%=profile.phone%>"  style="cursor: pointer; background-color: #0066C9; margin:0px auto 5px auto; display: flex; justify-content: center; align-items: center; border: 1px solid black; width: 330px; border-radius: 35px; height: 50px;">
-              <a target="_blank" style="text-decoration: none; color: rgb(255, 255, 255);" >Whats App</a>
-            </li>
+            <%}%>
+            <%if(social["WhatsApp"] != "" || social["WhatsApp"] != "#"){%>
+              <li onclick="linkHandler(this)" redirect_Url="https://wa.me/<%=social["WhatsApp"]%>"  style="cursor: pointer; background-color: #0066C9; margin:0px auto 5px auto; display: flex; justify-content: center; align-items: center; width: 330px; border-radius: 35px; height: 50px;">
+                <a target="_blank" style="text-decoration: none; color: rgb(255, 255, 255);" >Whats App</a>
+              </li>
+            <%}%>
           <%}%>
+
          
 
       </section>
@@ -345,27 +342,28 @@
     overlay.style.display = "none";
   })
 
-    async function showForm(e, isBooking){
-    if(isBooking == true){
-      is_Booking = true;
-      document.querySelector(".btn_prev").style.display = "block";
-    }else{
-      is_Booking = false;
-      document.querySelector(".btn_prev").style.display = "none";
-    }
-    const formId = e.getAttribute("form_id");
-    document.getElementById("form_id_selected").innerText = formId;
-    const {form} = await fetchFormDetail(formId);
-    populateFormbasedOnBtn(form.questions);
-    document.querySelector("#popupform").style.display = "block";
-    overlay.style.display = "block";
-  }
+  async function showForm(e, isBooking){
+      if(isBooking == true){
+        is_Booking = true;
+        document.querySelector(".btn_prev").style.display = "block";
+      }else{
+        is_Booking = false;
+        document.querySelector(".btn_prev").style.display = "none";
+      }
+      const formName = e.getAttribute("form_name");
+      const {form} = await fetchFormDetail(formName);
+      document.getElementById("form_id_selected").innerText = form.id;
+        populateFormbasedOnBtn(form.questions);
+      document.querySelector("#popupform").style.display = "block";
+      overlay.style.display = "block";
+        }
 
-    const fetchFormDetail = async (id)=>{
-    if(!id){
+
+    const fetchFormDetail = async (name)=>{
+    if(!name){
       return {form:{questions: []}};
     }
-      const res = await fetch(`/api/getForm/${id}`,{
+      const res = await fetch(`/api/form/get/${name}`,{
           method:"GET"
       })
       const data = await res.json();
@@ -534,6 +532,10 @@
 
       async function linkHandler(e){
         const linkId = e.getAttribute("linkId");
+        if(!linkId){
+          window.open(e.getAttribute("redirect_Url"), '_blank');
+          return;
+        }
         let redirect_Url = e.getAttribute("redirect_Url");
         const res = await fetch(`/api/linkcount/${linkId}`,{
           method:"GET"

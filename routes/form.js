@@ -24,6 +24,7 @@ router.post("/api/form/create", verify, async (req,res)=>{
 }).get("/api/form/get/:name", async (req,res)=>{
     const {name} = req.params;
     try {
+        console.log(name);
         const getQuery = `SELECT * FROM form WHERE name = ?`;
         const [forms] = await __pool.query(getQuery, [name]);
         if (forms.length === 0) {

@@ -7,22 +7,22 @@ module.exports.sections = [
             {
                 type: "link",
                 name: "Property Guru",
-                link: ""
+                link: "www.propertyguru.com.sg"
             },
             {
                 type: "link",
                 name: "99.co",
-                link: ""
+                link: "www.99.co"
             },
             {
                 type: "link",
                 name: "Edge Property",
-                link: ""
+                link: "www.edgeproperty.sg"
             },
             {
                 type: "link",
                 name: "SRX",
-                link: ""
+                link: "www.srx.com.sg"
             }
         ]
     },
@@ -34,7 +34,7 @@ module.exports.sections = [
             {
                 type: "link",
                 name: "Personal Link",
-                link: ""
+                link: "#"
             },
             {
                 type: "gallery",
@@ -61,27 +61,27 @@ module.exports.sections = [
             {
                 type: "calculator",
                 name: "MSR Calculator",
-                link: null
+                link: "MSR"
             },
             {
                 type: "calculator",
                 name: "TDRS Calculator",
-                link: null
+                link: "TDRS"
             },
             {
                 type: "calculator",
                 name: "Stamp Duty Calculator",
-                link: null
+                link: "Stamp"
             },
             {
                 type: "calculator",
                 name: "Mortgage Calculator",
-                link: null
+                link: "Mortgage"
             },
             {
                 type: "calculator",
                 name: "Progressive Calculator",
-                link: null
+                link: "progressive"
             }
         ]
     },
@@ -92,28 +92,52 @@ module.exports.sections = [
         links: [
             {
                 type: "link",
-                name: "facebook",
-                link: ""
+                name: "Facebook",
+                link: "www.facebook.com"
             },
             {
                 type: "link",
-                name: "instagram",
-                link: ""
+                name: "Instagram",
+                link: "www.instagram.com"
             },
             {
                 type: "link",
-                name: "linkedIn",
-                link: ""
+                name: "Linkedin",
+                link: "www.linkedin.com"
             },
             {
                 type: "link",
-                name: "phone",
-                link: ""
+                name: "Call Us",
+                link: "00000000"
             },
             {
                 type: "link",
-                name: "whatsapp",
+                name: "WhatsApp",
+                link: "00000000"
+            }
+        ]
+    },
+    {
+        heading: "Book an appointment",
+        type: "book",
+        isDynamic: false,
+        links: [
+            {
+                type: "",
+                name: "Book an appointment",
                 link: ""
+            }
+        ]
+    },
+    {
+        heading: "Lead Form",
+        type: "Lead",
+        isDynamic: false,
+        links: [
+            {
+                type: "form",
+                name: "Lead Form",
+                link: "Default"
             }
         ]
     }

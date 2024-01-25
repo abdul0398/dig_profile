@@ -25,6 +25,7 @@ CREATE TABLE IF NOT EXISTS profiles (
   description VARCHAR(255),
   appointment_hidden BOOLEAN DEFAULT FALSE,
   lead_hidden  BOOLEAN DEFAULT FALSE,
+  about_us JSON,
   views INT DEFAULT 0,
   client_id INT NOT NULL,
   template_selected INT DEFAULT 1,

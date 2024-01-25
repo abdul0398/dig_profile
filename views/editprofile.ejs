@@ -1,4 +1,3 @@
-<script src="https://cdn.jsdelivr.net/npm/sortablejs@latest/Sortable.min.js"></script>
  <!-- Cropper.js CSS -->
  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/cropperjs/1.6.1/cropper.min.css" integrity="sha512-hvNR0F/e2J7zPPfLC9auFe3/SE0yG4aJCOd/qxew74NN7eyiSKjr7xJJMu1Jy2wf7FXITpWS1E/RY8yzuXN7VA==" crossorigin="anonymous" referrerpolicy="no-referrer" />
 
@@ -90,6 +89,8 @@
         margin: 0px 10px;
         border: 1px solid #cdcdcd;
         border-radius: 13px;
+        cursor: pointer;
+
     }
 
     .theme-options img {
@@ -293,6 +294,20 @@
     .eye_close{
         color: #000;
     }
+    #swal-input3{
+        resize: vertical;
+        width: auto;
+        transition: border-color .1s,box-shadow .1s;
+        border: 1px solid #d9d9d9;
+        border-radius: .1875em;
+        background: rgba(0,0,0,0);
+        box-shadow: inset 0 1px 1px rgba(0,0,0,.06),0 0 0 3px rgba(0,0,0,0);
+        font-size: 1.125em;  margin: 1em 2em 3px;
+        color: #4a4a4a;
+    }
+    #swal-input3::placeholder{
+       color: #b7b7b7;
+    }
     </style>
 
 <div class="profile_edit_container ms-3">
@@ -337,8 +352,9 @@
 
     <div class="d_wrap" style="margin-bottom: 5px; display: flex; justify-content: space-between;">
         <div class="link_container" id="linkContainer">
-
-            <!-- Image Upload Section -->
+            <div style="text-align: end;">
+                <button id="show_dialog">Change Sections Order</button>
+            </div>
             <div style="width: 100%; margin: auto;">     
                 <p style="margin-left: 25px; margin-bottom: 12px;" class="text_style">Upload Your Picture</p>
                 <div id="add_profile" style="cursor: pointer; display: flex; justify-content: center; align-items: center; border: 1px dashed #000; background-color: #F1F5F7; height: 140px; width: 90%; margin: 0px auto 10px auto;">
@@ -350,7 +366,7 @@
                     </div>
                 </div>
             </div>
-
+        
             <!-- About Section -->
             <div style="width: 100%; margin: 20px auto;">     
                 <p style="margin-left: 25px; margin-bottom: 12px;" class="text_style">Write Short Bio</p>
@@ -362,197 +378,9 @@
                 </div>
             </div>
 
-            <!-- Add New Section Button -->
-            <div class="Add_new_section" style="text-align: center;">
-                <div style="display: flex; width: 90%; margin: auto;">
-                    <hr style="width: 96%; margin-right: 4%; background-color: #000; height: 2px; ">
-                    <button onclick="AddnewSection(this)" class="addnew-section-btn">Add New Section</button>
-                    <hr style="width: 96%; margin-left: 4%; background-color: #000; height: 2px;">
-                </div>
-            </div>
+            <div id="dynamic_section_container">
 
-            <!-- My Active Listings Section-->
-            <div class="my-active-listings-edit" style="width: 100%; margin: 20px auto;">    
-                <div style="display: flex;">
-                    <p style="margin-left: 25px; margin-bottom: 12px;" class="text_style">My Active Listings</p>
-                    <span><i class="eye fa-solid fa-eye eye_open" style="margin: 0px 10px;"></i><i onclick="sectionHeadingHandler(this)" class="fa-solid fa-pen-to-square" style="cursor: pointer; color:#0066C9"></i></span>
-                </div>                
-                <div id="listing_container" style="display: flex; flex-direction: column; border-radius: 10px; background-color: #F1F5F7; min-height: 140px; width: 90%; margin: 0px auto 10px auto;">
-                    <div class="inner-container-eyeinputs" style="min-height: 80%; width: 100%; margin-top: 20px;">
-                        <div class="input_container_with_eye">
-                            <input onblur="updateLinkInDatabase(this)" custom_type="link" class="text_style" name="Property Guru" placeholder="Poperty Guru (PUT URL HERE)" type="text">
-                            <i class="eye fa-solid fa-eye eye_open" style="margin: 0px 10px;"></i>
-                        </div>
-                        <div class="input_container_with_eye">
-                            <input onblur="updateLinkInDatabase(this)" custom_type="link" class="text_style" name="99.co" placeholder="99.co (PUT URL HERE)" type="text">
-                            <i class="eye fa-solid fa-eye eye_open" style="margin: 0px 10px;"></i>
-                        </div>
-                        <div class="input_container_with_eye">
-                            <input onblur="updateLinkInDatabase(this)" custom_type="link" class="text_style" name="Edge Property" placeholder="Edge Property (PUT URL HERE)" type="text">
-                            <i class="eye fa-solid fa-eye eye_open" style="margin: 0px 10px;"></i>
-                        </div>
-                        <div class="input_container_with_eye">
-                            <input onblur="updateLinkInDatabase(this)" custom_type="link" class="text_style" name="SRX" placeholder="SRX (PUT URL HERE)" type="text">
-                            <i class="eye fa-solid fa-eye eye_open" style="margin: 0px 10px;"></i>
-                        </div>
-                        <div class="mylisting_dynamic_container" >
 
-                        </div>
-                    </div>
-                        <button class="add-more-filed-btn" onclick="addMoreField(this)">Add more fields</button>
-                </div>
-            </div>
-
-            <!-- Add New Section Button -->
-            <div class="Add_new_section" style="text-align: center;">
-                <div style="display: flex; width: 90%; margin: auto;">
-                    <hr style="width: 96%; margin-right: 4%; background-color: #000; height: 2px; ">
-                    <button onclick="AddnewSection(this)" class="addnew-section-btn">Add New Section</button>
-                    <hr style="width: 96%; margin-left: 4%; background-color: #000; height: 2px;">
-                </div>
-            </div>
-
-            <!-- Digital Profile Section-->
-            <div class="digital-profiles-edit" style="width: 100%; margin: 20px auto;">
-                <div style="display: flex;">
-                    <p style="margin-left: 25px; margin-bottom: 12px;" class="text_style">Digital Profiles</p>
-                    <span><i class="eye fa-solid fa-eye eye_open" style="margin: 0px 10px;"></i><i onclick="sectionHeadingHandler(this)" class="fa-solid fa-pen-to-square" style="cursor: pointer; color:#0066C9"></i></span>
-                </div>                
-                <div style="display: flex; flex-direction: column; border-radius: 10px; background-color: #F1F5F7; min-height: 140px; width: 90%; margin: 0px auto 10px auto;">
-                    <div class="inner-container-eyeinputs" style="min-height: 80%; width: 100%; margin: 20px 0px;">
-                        <div class="input_container_with_eye">
-                            <input onblur="updateLinkInDatabase(this)" custom_type="link" name="Personal Link" class="text_style"  placeholder="Personal Site Link" type="text">
-                            <i class="eye fa-solid fa-eye eye_open" style="margin: 0px 10px;"></i>
-                        </div>
-                        <div class="input_container_with_eye">
-                            <input style="cursor: pointer;" onclick="editGalleryOpenPopUp(this)" custom_type="gallery" name="Awards" class="text_style"  placeholder="Add Awards here (Click to Create Gallery)" type="text">
-                            <i class="eye fa-solid fa-eye eye_open" style="margin: 0px 10px;"></i>
-                        </div>
-                        <div class="input_container_with_eye">
-                            <input style="cursor: pointer;" onclick="editGalleryOpenPopUp(this)" custom_type="gallery" name="Testimonials" class="text_style"  placeholder="Add Testimonials (Click to Create Gallery)" type="text">
-                            <i class="eye fa-solid fa-eye eye_open" style="margin: 0px 10px;"></i>
-                        </div>
-                        <div class="input_container_with_eye">
-                            <input custom_type="about" name="About Us" class="text_style"  placeholder="Add About Us Section (Click to add)" type="text">
-                            <i class="eye fa-solid fa-eye eye_open" style="margin: 0px 10px;"></i>
-                        </div>
-                    </div>
-                </div>
-            </div>
-
-            <!-- Add New Section Button -->
-            <div class="Add_new_section" style="text-align: center;">
-            <div style="display: flex; width: 90%; margin: auto;">
-                <hr style="width: 96%; margin-right: 4%; background-color: #000; height: 2px; ">
-                <button onclick="AddnewSection(this)" class="addnew-section-btn">Add New Section</button>
-                <hr style="width: 96%; margin-left: 4%; background-color: #000; height: 2px;">
-            </div>
-            </div>
-
-             <!-- Free Tools -->
-             <div class=" free-tools-edit" style="width: 100%; margin: 20px auto;">     
-                <div style="display: flex;">
-                    <p style="margin-left: 25px; margin-bottom: 12px;" class="text_style">Free Tools</p>
-                    <span><i class="eye fa-solid fa-eye eye_open" style="margin: 0px 10px;"></i><i onclick="sectionHeadingHandler(this)" class="fa-solid fa-pen-to-square" style="cursor: pointer; color:#0066C9"></i></span>
-                </div>                <div style="display: flex; flex-direction: column; border-radius: 10px; background-color: #F1F5F7; min-height: 140px; width: 90%; margin: 0px auto 10px auto;">
-                    <div class="inner-container-eyeinputs" style="min-height: 80%; width: 100%;  margin: 20px 0px;">
-                        <div class="input_container_with_eye">
-                            <input custom_type="calculator" disabled name="MSR Calculator" class="text_style"  placeholder="MRS Calculator" type="text">
-                            <i class="eye fa-solid fa-eye eye_open" style="margin: 0px 10px;"></i>
-                        </div>
-                        <div class="input_container_with_eye">
-                            <input custom_type="calculator" disabled name="TDRS Calculator" class="text_style"  placeholder="TDRS Calculator" type="text">
-                            <i class="eye fa-solid fa-eye eye_open" style=" margin: 0px 10px;"></i>
-                        </div>
-                        <div class="input_container_with_eye">
-                            <input custom_type="calculator" disabled name="Stamp Duty Calculator" class="text_style"  placeholder="Stamp Duty Calculator" type="text">
-                            <i class="eye fa-solid fa-eye eye_open" style=" margin: 0px 10px;"></i>
-                        </div>
-                        <div class="input_container_with_eye">
-                            <input custom_type="calculator" disabled name="Mortgage Calculator" class="text_style"  placeholder="Mortgage Calculator" type="text">
-                            <i class="eye fa-solid fa-eye eye_open" style=" margin: 0px 10px;"></i>
-                        </div>
-                        <div class="input_container_with_eye">
-                            <input custom_type="calculator" disabled name="Progressive Calculator" class="text_style"  placeholder="Progressive Calculator" type="text">
-                            <i class="eye fa-solid fa-eye eye_open" style=" margin: 0px 10px;"></i>
-                        </div>
-                    </div>
-                </div>
-            </div>
-
-             <!-- Add New Section Button -->
-             <div class="Add_new_section" style="text-align: center;">
-                <div style="display: flex; width: 90%; margin: auto;">
-                    <hr style="width: 96%; margin-right: 4%; background-color: #000; height: 2px; ">
-                    <button onclick="AddnewSection(this)" class="addnew-section-btn">Add New Section</button>
-                    <hr style="width: 96%; margin-left: 4%; background-color: #000; height: 2px;">
-                </div>
-             </div>
-
-             <!-- Book an Appointment -->
-             <div style="width: 100%; margin: 20px auto;">     
-                <div style="display: flex; flex-direction: column; border-radius: 10px; background-color: #F1F5F7; width: 90%; margin: 0px auto 10px auto;">
-                    <div style="min-height: 80%; width: 100%;  margin: 20px 0px;">
-                        <div class="input_container_with_eye">
-                            <input disabled class="text_style"  placeholder="Book an Appointment" type="text">
-                            <i type="appointment_hidden"  class="eye fa-solid fa-eye eye_open" style="margin: 0px 10px;"></i>
-                        </div>
-                    </div>
-                </div>
-            </div>
-
-            <!-- Lead Form -->
-            <div style="width: 100%; margin: 20px auto;">     
-                <div style="display: flex; flex-direction: column; border-radius: 10px; background-color: #F1F5F7; width: 90%; margin: 0px auto 10px auto;">
-                    <div style="min-height: 80%; width: 100%;  margin: 20px 0px;">
-                        <div class="input_container_with_eye">
-                            <input custom_type="form" class="text_style"  placeholder="Lead Form" type="text">
-                            <i type="lead_hidden" class="eye fa-solid fa-eye eye_open" style="margin: 0px 10px;"></i>
-                            <i onclick="edit_Form_show(this)" name="Default" class="fa-solid fa-pen-to-square" style="cursor: pointer; color:#0066C9"></i>
-                        </div>
-                    </div>
-                </div>
-            </div>
-
-             <!-- Add New Section Button -->
-             <div class="Add_new_section" style="text-align: center;">
-                <div style="display: flex; width: 90%; margin: auto;">
-                    <hr style="width: 96%; margin-right: 4%; background-color: #000; height: 2px; ">
-                    <button onclick="AddnewSection(this)" class="addnew-section-btn">Add New Section</button>
-                    <hr style="width: 96%; margin-left: 4%; background-color: #000; height: 2px;">
-                </div>
-             </div>
-
-              <!-- Social Media  -->
-            <div class="social-media-edit" style="width: 100%; margin: 20px auto;">
-                <div style="display: flex;">
-                    <p style="margin-left: 25px; margin-bottom: 12px;" class="text_style">Social Media</p>
-                    <span><i class="eye fa-solid fa-eye eye_open" style="margin: 0px 10px;"></i><i onclick="sectionHeadingHandler(this)" class="fa-solid fa-pen-to-square" style="cursor: pointer; color:#0066C9"></i></span>
-                </div>     
-                <div style="display: flex; flex-direction: column; border-radius: 10px; background-color: #F1F5F7; min-height: 140px; width: 90%; margin: 0px auto 10px auto;">
-                    <div id="social_links_container" style="min-height: 80%; width: 100%;  margin: 20px 0px;">
-                        <div inner-container-eyeinputs class="input_container_with_eye">
-                            <input onblur="updateLinkInDatabase(this)" custom_type="link" id="facebook" class="text_style" placeholder="Facebook (URL)" type="text">
-                            <i class="eye fa-solid fa-eye eye_open" style="margin: 0px 10px;"></i>
-                        </div>
-                        <div class="input_container_with_eye">
-                            <input onblur="updateLinkInDatabase(this)" custom_type="link" id="instagram" class="text_style"  placeholder="Instagram (URL)" type="text">
-                            <i class="eye fa-solid fa-eye eye_open" style="margin: 0px 10px;"></i>
-                        </div>
-                        <div class="input_container_with_eye">
-                            <input onblur="updateLinkInDatabase(this)" custom_type="link" id="linkedIn" class="text_style"  placeholder="Linkedin (URL)" type="text">
-                            <i class="eye fa-solid fa-eye eye_open" style="margin: 0px 10px;"></i>
-                        </div>
-                        <div class="input_container_with_eye">
-                            <input onblur="updateLinkInDatabase(this)" custom_type="link" id="phone" class="text_style" placeholder="Call Now (add number)" type="text">
-                            <i class="eye fa-solid fa-eye eye_open" style="margin: 0px 10px;"></i>
-                        </div>
-                        <div class="input_container_with_eye">
-                            <input onblur="updateLinkInDatabase(this)" custom_type="link" id="whatsapp" class="text_style"  placeholder="Whatsapp (add number)" type="text">
-                            <i class="eye fa-solid fa-eye eye_open" style="margin: 0px 10px;"></i>
-                        </div>
-                    </div>
-                </div>
             </div>
         </div>
 
@@ -585,28 +413,6 @@
                     <section id="profile_preview_innercontainer">
                         
                     </section>
-                    <li style="font-size: 12px; margin:0px auto 5px auto; display: flex; justify-content: center; align-items: center; background-color: #0066C9; width: 160px; border-radius: 20px; height: 32px;">
-                        <a style="pointer-events: none; color: white;" href="#">About</a>
-                    </li>
-                    <p style="margin-top:10px; font-size: 12px; color: #000; padding-left:10px ;" class="profile_heading">Free Tools</p>
-                    <li style="font-size: 12px; margin:0px auto 5px auto; display: flex; justify-content: center; align-items: center; background-color: #0066C9; width: 160px; border-radius: 20px; height: 32px;">
-                        <a style="pointer-events: none; color: white;" href="#">MSR Calculator</a>
-                    </li>
-                    <li style="font-size: 12px; margin:0px auto 5px auto; display: flex; justify-content: center; align-items: center; background-color: #0066C9; width: 160px; border-radius: 20px; height: 32px;">
-                        <a style="pointer-events: none; color: white;" href="#">TDRS Calculator</a>
-                    </li> 
-                    <li style="font-size: 12px; margin:0px auto 5px auto; display: flex; justify-content: center; align-items: center; background-color: #0066C9; width: 160px; border-radius: 20px; height: 32px;">
-                        <a style="pointer-events: none; color: white;" href="#">Stamp duty Calculator</a>
-                    </li>
-                    <li style="font-size: 12px; margin:0px auto 5px auto; display: flex; justify-content: center; align-items: center; background-color: #0066C9; width: 160px; border-radius: 20px; height: 32px;">
-                        <a style="pointer-events: none; color: white;" href="#">Mortgage Calculator</a>
-                    </li>
-                    <li style="font-size: 12px; margin:0px auto 5px auto; display: flex; justify-content: center; align-items: center; background-color: #0066C9; width: 160px; border-radius: 20px; height: 32px;">
-                        <a style="pointer-events: none; color: white;" href="#">Book An Appointment</a>
-                    </li>
-                    <li style="font-size: 12px; margin:0px auto 5px auto; display: flex; justify-content: center; align-items: center; background-color: #0066C9; width: 160px; border-radius: 20px; height: 32px;">
-                        <a style="pointer-events: none; color: white;" href="#">Lead Form</a>
-                    </li>
                     <style>
                         
                         .profile-card {
@@ -689,37 +495,10 @@
             left: 50%;
             transform: translateX(-50%);">Hello</p>
                 <section style="position: relative; margin-top: 247px; width: 100%;" class="links_container">
-              <p class="desc_aboutUs" style="    text-align: center;
-              color: #fff;
-              width: 100%;
-          "></p>
-          <section  id="profile_preview_container_temp2">
+              <p class="desc_aboutUs" style="text-align: center; color: #fff; width: 100%;"></p>
+          <section id="profile_preview_container_temp2">
 
           </section>
-                </section>
-                <section style="position: relative;">
-                    <li style="font-size: 12px; margin:0px auto 5px auto; display: flex; justify-content: center; align-items: center; background-color: #b68e00; width: 160px; border-radius: 20px; height: 35px;">
-                        <a style="pointer-events: none; color: white;" href="#">About</a>
-                    </li>
-                    <p style="font-size: 12px;color: #fff;padding-left:10px;" class="profile_heading">Free Tools</p>
-                    <li style="font-size: 12px; margin:0px auto 5px auto; display: flex; justify-content: center; align-items: center; background-color: #b68e00; width: 160px; border-radius: 20px; height: 35px;">
-                        <a style="pointer-events: none; color: white;" href="#">MSR Calculator</a>
-                    </li>
-                    <li style="font-size: 12px; margin:0px auto 5px auto; display: flex; justify-content: center; align-items: center; background-color: #b68e00; width: 160px; border-radius: 20px; height: 35px;">
-                        <a style="pointer-events: none; color: white;" href="#">TDRS Calculator</a>
-                    </li>
-                    <li style="font-size: 12px; margin:0px auto 5px auto; display: flex; justify-content: center; align-items: center; background-color: #b68e00; width: 160px; border-radius: 20px; height: 35px;">
-                        <a style="pointer-events: none; color: white;" href="#">Stamp Duty Calculator</a>
-                    </li>
-                    <li style="font-size: 12px; margin:0px auto 5px auto; display: flex; justify-content: center; align-items: center; background-color: #b68e00; width: 160px; border-radius: 20px; height: 35px;">
-                        <a style="pointer-events: none; color: white;" href="#">Mortgage Calculator</a>
-                    </li>
-                    <li style="font-size: 12px; margin:0px auto 5px auto; display: flex; justify-content: center; align-items: center; background-color: #b68e00; width: 160px; border-radius: 20px; height: 35px;">
-                        <a style="pointer-events: none; color: white;" href="#">Book An Appointment</a>
-                    </li>
-                    <li style="font-size: 12px; margin:0px auto 5px auto; display: flex; justify-content: center; align-items: center; background-color: #b68e00; width: 160px; border-radius: 20px; height: 35px;">
-                        <a style="pointer-events: none; color: white;" href="#">Lead Form</a>
-                    </li>
                 </section>
             </div>
 
@@ -750,30 +529,7 @@
 
     </section>
                 </section>
-                <section style="position: relative;">
-                    <li style="font-size: 12px; margin:0px auto 5px auto; display: flex; justify-content: center; align-items: center; background-image: linear-gradient(178.54deg, #ff1212 7.67%, #ff2c1d); width: 160px; border-radius: 20px; height: 35px;">
-                        <a style="pointer-events: none; color: white;" href="#">About</a>
-                    </li>
-                    <p style="font-size: 12px;color: #000000;padding-left:10px;" class="profile_heading">Free Tools</p>
-                    <li style="font-size: 12px; margin:0px auto 5px auto; display: flex; justify-content: center; align-items: center; background-image: linear-gradient(178.54deg, #ff1212 7.67%, #ff2c1d); width: 160px; border-radius: 20px; height: 35px;">
-                        <a style="pointer-events: none; color: white;" href="#">MSR Calculator</a>
-                    </li>
-                    <li style="font-size: 12px; margin:0px auto 5px auto; display: flex; justify-content: center; align-items: center; background-image: linear-gradient(178.54deg, #ff1212 7.67%, #ff2c1d); width: 160px; border-radius: 20px; height: 35px;">
-                        <a style="pointer-events: none; color: white;" href="#">TDRS Calculator</a>
-                    </li>
-                    <li style="font-size: 12px; margin:0px auto 5px auto; display: flex; justify-content: center; align-items: center; background-image: linear-gradient(178.54deg, #ff1212 7.67%, #ff2c1d); width: 160px; border-radius: 20px; height: 35px;">
-                        <a style="pointer-events: none; color: white;" href="#">Stamp Duty Calculator</a>
-                    </li>
-                    <li style="font-size: 12px; margin:0px auto 5px auto; display: flex; justify-content: center; align-items: center; background-image: linear-gradient(178.54deg, #ff1212 7.67%, #ff2c1d); width: 160px; border-radius: 20px; height: 35px;">
-                        <a style="pointer-events: none; color: white;" href="#">Mortgage Calculator</a>
-                    </li>
-                    <li style="font-size: 12px; margin:0px auto 5px auto; display: flex; justify-content: center; align-items: center; background-image: linear-gradient(178.54deg, #ff1212 7.67%, #ff2c1d); width: 160px; border-radius: 20px; height: 35px;">
-                        <a style="pointer-events: none; color: white;" href="#">Book An Appointment</a>
-                    </li>
-                    <li style="font-size: 12px; margin:0px auto 5px auto; display: flex; justify-content: center; align-items: center; background-image: linear-gradient(178.54deg, #ff1212 7.67%, #ff2c1d); width: 160px; border-radius: 20px; height: 35px;">
-                        <a style="pointer-events: none; color: white;" href="#">Lead Form</a>
-                    </li>
-                </section>
+                
             </div>
 
         </div>
@@ -786,6 +542,8 @@
     </section>
 </div>
 
+<%- include('ordermodal.ejs') %>
+
 </body>
 <script>
 
@@ -796,14 +554,9 @@
 
     function onStart(){
         eventListnerHandler();
-        // sortableHandler();
         croppable();
     }
 
-    // function sortableHandler(){
-    //     const el = document.getElementById("link_container_dynamic");
-    //     const sortable = Sortable.create(el);
-    // }
 
     function eventListnerHandler(params) {
        const divs = document.getElementsByClassName("image-container");
@@ -813,7 +566,6 @@
                    divs[j].classList.remove("selected");
                }
                divs[i].classList.add("selected");
-               profileDataState.templateSelected =  divs[i].getAttribute("template_id");
            });
        }
        document.getElementById("add_profile").addEventListener("click", () => {
@@ -823,6 +575,7 @@
        document.getElementById("profile_desc").addEventListener("input", ()=>{
         document.querySelectorAll(".desc_aboutUs")
         .forEach(elem=>{
+            console.log(elem);
             elem.innerText = document.getElementById("profile_desc").value;
         })
        })
@@ -832,10 +585,6 @@
         name[0].innerHTML = value;
         name[1].innerHTML = value;
         name[2].innerHTML = value;
-       })
-       const eyelogos = document.querySelectorAll(".eye");
-       eyelogos.forEach(eye=>{
-            eye.addEventListener("click", ()=> eyeToggleFunction(eye));
        })
    }
 
@@ -857,11 +606,14 @@
         }
    }
 
-    function showNext(elem) {
+   async function showNext(elem) {
         const selectedTemplate = document.querySelector('div.image-container.selected').getAttribute('template_id');
-        profileDataState.templateSelected =  selectedTemplate
-        // const arrangement = extractData();
-        // populateProfilePreview(arrangement);
+        console.log(selectedTemplate, profileDataState.templateSelected);
+        if(selectedTemplate != profileDataState.templateSelected){
+            profileDataState.templateSelected =  selectedTemplate
+            await updatetemplate();
+        }
+        populateProfilePreview();
         document.querySelectorAll(".temp").forEach(element => {
             element.style.display = "none";
         });
@@ -876,123 +628,47 @@
     document.getElementById('step2').style.display = 'none';
 }
 
-    function populateProfilePreview(arrangment) {
-        // if(profileDataState.templateSelected == 1){
-        //     // Poluplating template 1
-        //     const profile_preview_container  = document.getElementById("profile_preview_innercontainer");
-        //     profile_preview_container.innerHTML = "";
-        //     arrangment.forEach(element => {
-        //         if(element.type === "link"){
-        //             profile_preview_container.innerHTML += `<li style="font-size: 12px; margin:0px auto 5px auto; display: flex; justify-content: center; align-items: center; background-color: #0066C9; width: 160px; border-radius: 20px; height: 32px;">
-        //             <a style="pointer-events: none; color: white;" href="${element.link}">${element.name}</a>
-        //         </li>`
-        //         }else if(element.type === "heading"){
-        //             profile_preview_container.innerHTML += `<p style="margin-top:10px; font-size: 12px; color: #000; padding-left:10px ;" class="profile_heading">${element.heading}</p>`
-        //         }else{
-        //             profile_preview_container.innerHTML += `<li style="font-size: 12px; margin:0px auto 5px auto; display: flex; justify-content: center; align-items: center; background-color: #0066C9; width: 160px; border-radius: 20px; height: 32px;">
-        //             <a style="pointer-events: none; color: white;" href="${element.link}">${element.name}</a>
-        //         </li>`
-        //         }
-        //     });
-        // }else if(profileDataState.templateSelected == 2){
-        //     // populating template 2
-        //     const profile_preview_container_temp2  = document.getElementById("profile_preview_container_temp2");
-        //     profile_preview_container_temp2.innerHTML = "";
-        //     arrangment.forEach(element => {
-        //         if(element.type === "link"){
-        //             profile_preview_container_temp2.innerHTML += `<li style="font-size: 12px; margin:0px auto 5px auto; display: flex; justify-content: center; align-items: center; background-color: #b68e00; width: 160px; border-radius: 20px; height: 35px;">
-        //                 <a style="pointer-events: none; color: white;" href="${element.link}">${element.name}</a>
-        //             </li>`
-        //         }else if(element.type === "heading"){
-        //             profile_preview_container_temp2.innerHTML += `<p style="font-size: 12px;color: #fff;padding-left:10px;" class="profile_heading">${element.heading}</p>`;
-        //         }else{
-        //             profile_preview_container_temp2.innerHTML += `<li style="font-size: 12px; margin:0px auto 5px auto; display: flex; justify-content: center; align-items: center; background-color: #b68e00; width: 160px; border-radius: 20px; height: 32px;">
-        //             <a style="pointer-events: none; color: white;" href="${element.link}">${element.name}</a>
-        //         </li>`
-        //         }
-        //     });
-        // }else{
-        //     const profile_preview_container_temp3  = document.getElementById("profile_preview_container_temp3");
-        //     profile_preview_container_temp3.innerHTML = "";
-        //     arrangment.forEach(element => {
-        //         if(element.type === "link"){
-        //             profile_preview_container_temp3.innerHTML += `<li style="font-size: 12px; margin:0px auto 5px auto; display: flex; justify-content: center; align-items: center; background-image: linear-gradient(178.54deg, #ff1212 7.67%, #ff2c1d); width: 160px; border-radius: 20px; height: 35px;">
-        //                 <a style="pointer-events: none; color: white;" href="${element.link}">${element.name}</a>
-        //             </li>`
-        //         }else if(element.type === "heading"){
-        //             profile_preview_container_temp3.innerHTML += `<p style="font-size: 12px; margin-bottom:2px; color: #000;padding-left:10px;" class="profile_heading">${element.heading}</p>`;
-        //         }else{
-        //             profile_preview_container_temp3.innerHTML += `<li style="font-size: 12px; margin:0px auto 5px auto; display: flex; justify-content: center; align-items: center; background-image: linear-gradient(178.54deg, #ff1212 7.67%, #ff2c1d); width: 160px; border-radius: 20px; height: 32px;">
-        //             <a style="pointer-events: none; color: white;" href="${element.link}">${element.name}</a>
-        //         </li>`
-        //         }
-        //     });
+    function populateProfilePreview() {
+        console.log(profileDataState.templateSelected);
+        const sections = extractDataOfSectionsToPreview()
+        if(profileDataState.templateSelected == 1){
+            // Poluplating template 1
+            const profile_preview_container  = document.getElementById("profile_preview_innercontainer");
+            profile_preview_container.innerHTML = "";
+            sections.forEach(section => {
+                profile_preview_container.innerHTML += `${section.heading?`<p style="font-size: 12px; margin-bottom:2px; color: #000;padding-left:10px;" class="profile_heading">${section.heading}</p>`:""}`
+                section.links.forEach(link =>{
+                    profile_preview_container.innerHTML += `<li style="font-size: 12px; margin:0px auto 5px auto; display: flex; justify-content: center; align-items: center; background-color: #0066C9; width: 160px; border-radius: 20px; height: 32px;">
+                    <a style="pointer-events: none; color: white;">${link.name?link.name:link.placeholder}</a>
+                </li>`
+                })
+            });
+        }else if(profileDataState.templateSelected == 2){
+            // populating template 2
+            const profile_preview_container_temp2  = document.getElementById("profile_preview_container_temp2");
+            profile_preview_container_temp2.innerHTML = "";
+            sections.forEach(section => {
+                profile_preview_container_temp2.innerHTML += `${section.heading?`<p style="font-size: 12px; margin-bottom:2px; color: #fff;padding-left:10px;" class="profile_heading">${section.heading}</p>`:""}`
+                section.links.forEach(link =>{
+                    profile_preview_container_temp2.innerHTML += `<li style="font-size: 12px; margin:0px auto 5px auto; display: flex; justify-content: center; align-items: center; background-color: #b68e00; width: 160px; border-radius: 20px; height: 35px;">
+                        <a style="pointer-events: none; color: white;" >${link.name?link.name:link.placeholder}</a>
+                    </li>`
+                })
+            });
+        }else{
+            const profile_preview_container_temp3  = document.getElementById("profile_preview_container_temp3");
+            profile_preview_container_temp3.innerHTML = "";
+            sections.forEach(section => {
+                profile_preview_container_temp3.innerHTML += `${section.heading?`<p style="font-size: 12px; margin-bottom:2px; color: #000;padding-left:10px;" class="profile_heading">${section.heading}</p>`:""}`
+                section.links.forEach(link =>{
+                    profile_preview_container_temp3.innerHTML += `<li style="font-size: 12px; margin:0px auto 5px auto; display: flex; justify-content: center; align-items: center; background-image: linear-gradient(178.54deg, #ff1212 7.67%, #ff2c1d); width: 160px; border-radius: 20px; height: 35px;">
+                        <a style="pointer-events: none; color: white;">${link.name?link.name:link.placeholder}</a>
+                    </li>`
+                })
+            });
             
-        // }        
+        }        
     }
-
-    function validation() {
-        const inputs = document.querySelectorAll('#link_container_dynamic input[type="text"]:not([style*="display:none"])');
-        // validate all inputs of type text
-        let valid = true;
-        for (let i = 0; i < inputs.length; i++) {
-            inputs[i].style.border = 'none';
-            if (inputs[i].value === '') {
-                if(inputs[i].style.display === "none"){
-                    continue;
-                }
-                valid = false;
-                inputs[i].style.border = '1px solid red';
-            }
-        }
-        if(!valid){
-            Swal.fire({
-                title: "Please fill all the fields",
-                icon: "error",
-                confirmButtonText: "Ok",
-            }).then((result) => {
-                if (result.isConfirmed) {
-                    return false;
-                }
-            });
-        }
-        return valid;
-    }
-
-    async function submitProfile() {
-        // if(!validation()){
-        //     return;
-        // }
-        const data = extractData();
-        console.log(data);
-        // extract all fixed input data
-
-        
-
-        const description = document.getElementById("profile_desc").value;
-        const profile_name = document.getElementById("profile_name_edit").value
-        const profile_id = document.getElementById("profile_id").getAttribute("profile_id");
-        const response = await fetch("/updateLinks", {
-            method: "POST",
-            headers: {
-                "Content-Type": "application/json",
-            },
-            body: JSON.stringify({
-                data: data,
-                profileId:profile_id,
-                templateSelected: profileDataState.templateSelected,
-                description:description,
-                name:profile_name
-            }),
-        })
-        if(response.status === 200){
-            Swal.fire({
-                title: "Profile Updated",
-                icon: "success",
-                confirmButtonText: "Ok",
-            });
-    }
-}
 
     async function addFormPopup(){
     document.getElementById("form_submit_btn").setAttribute("onclick", "saveForm()");
@@ -1121,40 +797,6 @@
             })
         }
 
-    // function addMoreFieldInListing() {
-    //     var container = document.getElementById('listing_container');
-        
-    //     // Create a new input container
-    //     var newInputContainer = document.createElement('div');
-    //     newInputContainer.className = 'input_container_with_eye';
-
-    //     // Create a new input element
-    //     var newInput = document.createElement('input');
-    //     newInput.className = 'text_style';
-    //     newInput.placeholder = 'New Source (PUT URL HERE)';
-    //     newInput.type = 'text';
-
-    //     // Create a new eye icon
-    //     var newEyeIcon = document.createElement('i');
-    //     newEyeIcon.className = 'eye fa-solid fa-eye eye_open';
-    //     newEyeIcon.style.margin = '0px 10px';
-
-    //     // Create a new delete button
-    //     var deleteButton = document.createElement('button');
-    //     deleteButton.textContent = 'Delete';
-    //     deleteButton.className = 'delete-btn';
-    //     deleteButton.onclick = function() {
-    //         container.removeChild(newInputContainer);
-    //     };
-
-    //     // Append the input, eye icon, and delete button to the new container
-    //     newInputContainer.appendChild(newInput);
-    //     newInputContainer.appendChild(newEyeIcon);
-    //     newInputContainer.appendChild(deleteButton);
-
-    //     // Append the new container to the main container
-    //     container.insertBefore(newInputContainer, container.lastChild);
-    // }
 
     function sectionHeadingHandler(elem) {
         const para = elem.parentNode.previousElementSibling;
@@ -1197,40 +839,45 @@
             }
         }
 
-
-        
     async function addMoreField(elem) {
         const div_container = elem.previousElementSibling;
         // Prompt the user for the name of the field
-        Swal.fire({
-        title: "Enter Name Of the Field",
-        input: "text",
-        inputAttributes: {
-            autocapitalize: "off"
-        },
+        const { value: formValues } = await Swal.fire({
+        title: "About Us",
+        html: `
+            <input id="swal-input1" class="swal2-input" placeholder="Field Name">
+            <label style="margin-top: 20px;">
+            <input type="radio" name="field_type" value="gallery"> New Gallery
+            </label>
+            <label style="margin-top: 20px;">
+                <input type="radio" name="field_type" value="text"> Normal Field
+            </label >
+            <label style="margin-top: 20px;">
+                <input type="radio" name="field_type" value="form"> Form
+            </label>
+        `,
         showCancelButton: true,
-        confirmButtonText: "Add",
-        showLoaderOnConfirm: true,
-        inputValidator: (value) => {
-                if (!value) {
-                return "You need to Write something!";
+        confirmButtonText: "Save",
+        focusConfirm: false,
+        inputValidator: (formValues) => {
+                if (formValues[0] == "" || formValues[1] == "") {
+                return "Please Fill Properly";
                 }
             },
-        preConfirm: async (fieldName) => {
-            const { value:type } = await Swal.fire({
-            title: "Select Type",
-            input: "radio",
-            inputOptions:{
-                "text": "Normal Field",
-                "gallery": "New Gallery",
-                "form": "New Form"
-                },
-            inputValidator: (type) => {
-                if (!type) {
-                return "You need to choose something!";
+        preConfirm: () => {
+            var radioButtons = document.getElementsByName('field_type');
+            for (var i = 0; i < radioButtons.length; i++) {
+                if (radioButtons[i].checked) {
+                    return [
+                        radioButtons[i].value,
+                        document.getElementById("swal-input1").value,
+                    ];
                 }
             }
-            });
+        }
+        });
+        const fieldName= formValues[1];
+        const type = formValues[0];     
             if(type == "text"){
                 createFieldHandler(elem, fieldName, div_container,"link", `${fieldName} (Put URL Here )`);
             }else if(type == "gallery"){
@@ -1244,14 +891,6 @@
                     createFieldHandler(elem, fieldName, div_container, type, `${fieldName} (Click To edit Form)`);
                 }
             }
-
-
-
-
-            
-        },
-        allowOutsideClick: () => !Swal.isLoading()
-        })
     }
 
     async function createFieldHandler(elem, fieldName, div_container, type, placeholder){
@@ -1318,6 +957,7 @@
             
             
         }
+        populateProfilePreview()
    
     }
 
@@ -1377,17 +1017,17 @@
     }
 
 
-    async function updateVisibility(eye) {
+    async function updateVisibility(eye, isSection) {
         const profile_id = document.getElementById("profile_id").getAttribute("profile_id");
         let type = null;
         if(eye.getAttribute("type")){
             type = eye.getAttribute("type");
         }
-        const input = eye.previousElementSibling;
-        const id = input.getAttribute("link_id");
+        const id = isSection?eye.getAttribute("section_id"):eye.getAttribute("link_id");
+        console.log(id, isSection,eye.getAttribute("section_id") );
         const hidden = !eye.classList.contains("eye_close");
         showSaveToast();
-        await fetch("/api/link/update/visibility", {
+        await fetch(`/api/${isSection?"section":"link"}/update/visibility`, {
             method:"POST",
             headers:{
                 "Content-Type":"application/json"
@@ -1444,6 +1084,7 @@
      } catch (error) {
         console.log(error.message);
      }
+     populateProfilePreview()
     }
 
     function showSaveToast() {
@@ -1464,12 +1105,6 @@
         });
     }
 
-    function eyeToggleFunction(eye) {
-        updateVisibility(eye);
-        eye.classList.toggle("eye_open");
-        eye.classList.toggle("eye_close")
-            
-    }
 
     async function createFormForField(fieldName) {
         const profile_id = document.getElementById("profile_id").getAttribute("profile_id");
@@ -1499,36 +1134,10 @@
 
     }
 
-    function allowDrop(event) {
-        event.preventDefault();
-    }
-
-    function drag(event) {
-        event.dataTransfer.setData("text", event.target.outerHTML);
-    }
-
-    function drop(event) {
-        event.preventDefault();
-        const data = event.dataTransfer.getData("text");
-        const draggedElement = document.createElement("div");
-        draggedElement.innerHTML = data;
-
-        const target = event.target.closest('.draggable');
-        if (target) {
-            // Insert the dragged element before the target element
-            target.parentNode.insertBefore(draggedElement.firstChild, target);
-            // Remove the original dragged element
-            draggedElement.parentNode.removeChild(draggedElement);
-        } else {
-            // Append the dragged element to the container if no target is found
-            event.currentTarget.appendChild(draggedElement.firstChild);
-        }
-    }
-
 
     async function AddnewSection(button) {
         Swal.fire({
-        title: "Enter Name Of the Field",
+        title: "Heading of Section",
         input: "text",
         inputAttributes: {
             autocapitalize: "off"
@@ -1544,14 +1153,17 @@
         preConfirm: async (fieldName) => {
       
             const id = await createSectionInDB(fieldName);
+            if(!id){
+                return;
+            }
             const sectionHTML = `
-                <div id="${id}" style="width: 100%; margin: 20px auto;">    
+                <div section_id="${id}" style="width: 100%; margin: 20px auto;">    
                     <div style="display: flex;">
                         <p section_id="${id}" style="margin-left: 25px; margin-bottom: 12px;" class="text_style">${fieldName}</p>
                         <span>
-                            <i onclick = "(eyeToggleFunction(this))" class="eye fa-solid fa-eye eye_open" style="margin: 0px 10px;"></i>
+                            <i section_id="${id}" onclick = "(eyeToggleFunction(this, true))" class="eye fa-solid fa-eye eye_open" style="margin: 0px 10px;"></i>
                             <i onclick="sectionHeadingHandler(this)" class="fa-solid fa-pen-to-square" style="cursor: pointer; color:#0066C9"></i>
-                            <i onclick="deleteSection(this)" section_id="${id}"  class="fas fa-trash-alt delete-field-btn" style="cursor: pointer; color:#0066C9"></i>
+                            <i onclick="deleteSection(this)" section_id="${id}"  class="fas fa-trash-alt delete-field-btn" style="margin-left:10px; cursor: pointer; color:#0066C9"></i>
                         </span>
                     </div>                
                     <div style="display: flex; flex-direction: column; border-radius: 10px; background-color: #F1F5F7; width: 90%; margin: 0px auto 10px auto;">
@@ -1574,6 +1186,8 @@
            
             // Insert the new section after the clicked button's container
             parent.insertBefore(section, container);
+
+            populateProfilePreview();
         },
         allowOutsideClick: () => !Swal.isLoading()
     })
@@ -1607,7 +1221,9 @@
     }
 
     async function deleteSection(elem) {
-        document.getElementById(elem.getAttribute("section_id")).remove();
+        const section =   document.querySelector(`[section_id="${elem.getAttribute("section_id")}"]`)
+       console.log(section);
+       section.remove();
         const id = elem.getAttribute("section_id");
         const res = await fetch("/api/section/delete", {
             method:"POST",
@@ -1623,7 +1239,88 @@
                 icon: "success",
                 confirmButtonText: "Ok",
             });
-            elem.closest(".created_section").remove();
+        }else{
+            Swal.fire({
+                title: resData.message,
+                icon: "error",
+                confirmButtonText: "Ok",
+            });
+            return false;
+        }
+        populateProfilePreview();
+    }
+
+    function extractDataOfSectionsToPreview() {
+        const container = document.getElementById("dynamic_section_container");
+        const sections = Array.from(container.children).filter(child=>{
+            return !child.classList.contains("Add_new_section");
+        })
+        const sectionsData = [];
+        for (const section of sections) {
+            const sectionhidden =  section.querySelector(".eye").classList.contains("eye_close");
+            if(sectionhidden){
+                continue;
+            }
+            console.log(section);
+            const obj = {heading :section.querySelector("p")?.innerText};
+            const links = Array.from(section.querySelectorAll(".input_container_with_eye"));
+            const linksData = [];
+            for (const link of links) {
+                const linkObj = {};
+                linkObj.hidden = link.querySelector(".eye").classList.contains("eye_close");
+                if(linkObj.hidden){
+                    continue;
+                }
+                const input = link.querySelector("input");
+                linkObj.name = input.getAttribute("name");
+                linkObj.placeholder = input.getAttribute("placeholder");
+                linksData.push(linkObj);
+            }
+            obj.links = linksData;
+            sectionsData.push(obj);
+        }
+        console.log(sectionsData);
+        return sectionsData;
+    }
+
+    async function aboutUsHandler() {
+        const profile_id = document.getElementById("profile_id").getAttribute("profile_id");
+        const res =  await fetch(`/api/profiles/${profile_id}/get/about_us`);
+        const {about_us} = await res.json();
+        const { value: formValues } = await Swal.fire({
+        title: "About Us",
+        html: `
+            <input id="swal-input1" value="${about_us?.[0]?about_us?.[0]:""}" class="swal2-input" placeholder="Heading">
+            <input id="swal-input2" value="${about_us?.[1]?about_us?.[1]:""}" class="swal2-input" placeholder="Title">
+            <textarea style="" id="swal-input3" class="swal2-input" placeholder="Description">${about_us?.[2]?about_us?.[2]:""}</textarea>
+        `,
+        showCancelButton: true,
+        confirmButtonText: "Save",
+        focusConfirm: false,
+        preConfirm: () => {
+            return [
+            document.getElementById("swal-input1").value,
+            document.getElementById("swal-input2").value,
+            document.getElementById("swal-input3").value
+            ];
+        }
+        });
+        if (formValues) {
+        const res = await fetch("/api/profile/update/aboutUs", {
+            method:"POST",
+            headers: {
+                "Content-Type": "application/json"
+            },
+            body: JSON.stringify({id:profile_id, aboutUs:formValues})
+        })
+        const resData = await res.json()
+        if(res.status == 200){
+            Swal.fire({
+                title: resData.message,
+                icon: "success",
+                confirmButtonText: "Ok",
+            });
+            return true;
         }else{
             Swal.fire({
                 title: resData.message,
@@ -1633,4 +1330,33 @@
             return false;
         }  
     }
+}
+
+    async function updatetemplate() {
+        const profile_id = document.getElementById("profile_id").getAttribute("profile_id");
+        const res = await fetch("/api/profile/update/template", {
+            method:"POST",
+            headers: {
+                "Content-Type": "application/json"
+            },
+            body: JSON.stringify({id:profile_id, template:profileDataState.templateSelected})
+        })
+        const resData = await res.json()
+        if(res.status == 200){
+            Swal.fire({
+                title: resData.message,
+                icon: "success",
+                confirmButtonText: "Ok",
+            });
+            return true;
+        }else{
+            Swal.fire({
+                title: resData.message,
+                icon: "error",
+                confirmButtonText: "Ok",
+            });
+            return false;
+        }  
+    }
+
 </script>

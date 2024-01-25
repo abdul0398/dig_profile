@@ -1,0 +1,82 @@
+<style>
+    * {
+  box-sizing: border-box;
+}
+
+.dialog_container {
+  display: flex;
+  justify-content: space-between;
+  margin: 2ch;
+}
+
+.dropzone {
+  width: 100%;
+  padding: 2ch;
+ 
+}
+
+.draggable {
+  border: 1px solid lightgray;
+  padding: 1.5ch;
+  background-color: #efefef;
+  cursor: move;
+
+  + .draggable {
+    margin-top: 1.5ch;
+  }
+
+  &.is-dragging {
+    opacity: 0.5;
+  }
+}
+dialog{
+  position: relative;
+  width: 60%;
+  height:100%;
+  box-shadow: 0px 0px 14px 3px rgba(0,0,0,0.52);
+  border: none;
+  border-radius: 15px;
+}
+#show_dialog{
+  padding: 6px 20px;
+  border-radius: 15px;
+  background-color: transparent !important;
+  color: black !important;
+  border: 1px solid #a2a2a2;
+  margin-right: 20px;
+    
+}
+#close_dialog{
+    position: absolute;
+    right: 10px;
+    top: 10px;
+    border: none;
+    background-color: transparent !important;
+    color: black !important;
+    font-size: 32px;
+    cursor: pointer;
+    
+}
+@media (max-width: 768px) {
+  dialog {
+    width: 100%;
+  }
+
+
+}
+</style>
+
+
+    <dialog >
+        <p style="text-align: center;">Position the Sections </p>
+        <div class="dialog_container">
+            <section class="dropzone source">
+              <div class="draggable" id="drag-1" draggable="true">drag-1</div>
+              <div class="draggable" id="drag-2" draggable="true">drag-2</div>
+              <div class="draggable" id="drag-3" draggable="true">drag-3</div>
+              <div class="draggable" id="drag-4" draggable="true">drag-4</div>
+              <div class="draggable" id="drag-5" draggable="true">drag-5</div>
+            </section>
+          </div>
+    <button id="close_dialog">&times;</button>
+    </dialog>

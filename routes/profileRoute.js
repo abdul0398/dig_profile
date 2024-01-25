@@ -48,8 +48,8 @@ try {
     }
 
     const [rows] = await __pool.query(
-        'INSERT INTO profiles (name, client_id) VALUES (?, ?)',
-        [name, clientID]
+        'INSERT INTO profiles (name, client_id, about_us) VALUES (?, ?, ?)',
+        [name, clientID, JSON.stringify([])]
     );
 
     if (rows.insertId) {
@@ -58,6 +58,7 @@ try {
         const profileImgPath = path.join(baseProfilePath, 'profileImg');
         const awards = path.join(galleryPath, 'Awards');
         const testimonials = path.join(galleryPath, 'Testimonials');
+        const about = path.join(galleryPath, 'About');
 
         // Create base profile folder and nested folders
         await Promise.all([
@@ -65,7 +66,8 @@ try {
             fsPromises.mkdir(galleryPath, { recursive: true }),
             fsPromises.mkdir(profileImgPath, { recursive: true }),
             fsPromises.mkdir(awards, { recursive: true }),
-            fsPromises.mkdir(testimonials, { recursive: true })
+            fsPromises.mkdir(testimonials, { recursive: true }),
+            fsPromises.mkdir(about, { recursive: true })
         ]);
 
         // Create Default Sections
@@ -144,16 +146,57 @@ try {
             return res.status(404).json({message: "Profile not found"});
         }
         const template = profile[0].template_selected;
-        const [links] = await __pool.query(`SELECT * FROM links WHERE sectionId = ?`, [profile[0].id]);
-        if(links.length === 0){
-            return res.render(`temp${template}.ejs`, {profile: profile[0], links: []});
+        
+        const responseData = {};
+    
+        let [sections] = await __pool.query(`SELECT * FROM sections WHERE profileId = ? AND hidden = ?`, [profile[0].id, false]);
+        // Sorting sections Based on Sording order stored in profile
+        const sortOrder = profile[0].section_ordering;
+
+        if(sortOrder && sortOrder.length == sections.length){            
+            const sectionMap = new Map(sections.map(section => [section.id.toString(), section]));
+            const sortedSections = sortOrder.map(id => sectionMap.get(id));
+
+            sections =  sortedSections.filter(section => section !== undefined);
+        }
+        const sectionsIds = sections.map((section) => section.id);
+    
+        if(sectionsIds.length > 0){
+            const [links] = await __pool.query(`SELECT * from links WHERE sectionId IN (?) AND hidden = ?`, [sectionsIds, false]);
+            responseData.links = links;
+        }else{
+            responseData.links = [];
+        }
+    
+        responseData.profile = profile[0];
+        responseData.sections = sections || [];
+        const sectionLinkMap = {};
+
+        for (const section of responseData.sections) {
+            const sectionId = section.id;
+            const sectionType = section.type;
+            if(sectionType === "socials"){
+                continue;
+            }
+            const sectionHeading = section.heading;
+            const sectionLinks = responseData.links.filter(link => link.sectionId === sectionId);
+            sectionLinkMap[sectionHeading] = {
+                links: sectionLinks,
+                type: sectionType
+              };
+        };
+
+        socialsections = sections.filter(section => section.type === "socials");
+        const socialobj = {}
+        if(socialsections.length > 0){
+            const socialLinks = responseData.links.filter(link => link.sectionId === socialsections[0].id);
+            socialLinks.forEach(link => {
+                socialobj[link.name] = link.link;
+           })
         }
 
-        const [form] = await __pool.query(`SELECT * FROM form WHERE profileId = ?`, [profileId]);
-        if(form.length === 0){
-            return res.render(`temp${template}.ejs`, {profile: profile[0], links: links, forms: []});
-        }
-        return res.render(`temp${template}.ejs`, {profile: profile[0], links: links, forms: form});
+        console.log(socialobj);
+        return res.render(`temp${template}.ejs`, {sections:sectionLinkMap, profile:profile[0], social:socialobj});
     } catch (error) {
         console.error("Error in fetching profile", error.message);
         res.redirect("/error");
@@ -190,7 +233,17 @@ try {
         }
         const responseData = {};
     
-        const [sections] = await __pool.query(`SELECT * FROM sections WHERE profileId = ?`, [profile[0].id]);
+        let [sections] = await __pool.query(`SELECT * FROM sections WHERE profileId = ?`, [profile[0].id]);
+
+        // Sorting sections Based on Sording order stored in profile
+        const sortOrder = profile[0].section_ordering;
+
+        if(sortOrder && sortOrder.length == sections.length){            
+            const sectionMap = new Map(sections.map(section => [section.id.toString(), section]));
+            const sortedSections = sortOrder.map(id => sectionMap.get(id));
+
+            sections =  sortedSections.filter(section => section !== undefined);
+        }
         const sectionsIds = sections.map((section) => section.id);
     
         if(sectionsIds.length > 0){
@@ -210,72 +263,16 @@ try {
         console.error("Error in fetching profile:", error);
         return res.status(500).json({ message: "Internal Server Error" });
     }
-}).post('/updateLinks', verify, async (req, res) => {
-    const {data, profileId, templateSelected, description, name} = req.body;
-    const connection = await __pool.getConnection();
-    console.log(data);
-        try {
-
-            // Start a transaction
-            await connection.beginTransaction();
-
-            // Delete all existing sections and links for the profile
-
-            const FindSectionQuery = `SELECT id FROM sections WHERE profileId = ?`
-            const [results] = await connection.query(FindSectionQuery, [profileId]);
-
-            const sectionIds = results.map(result => result.id);
-            if(sectionIds.length > 0){
-                // Delete All the links in sections
-                const DeleteLinksQuery = `DELETE FROM links WHERE sectionId IN (?)`;
-                await connection.query(DeleteLinksQuery, [sectionIds]);
-            }
-
-            // Delete All The Sections
-            const deleteSections = 'DELETE FROM sections WHERE profileId = ?';
-            await connection.query(deleteSections, [profileId]);
-            
-            // Changing the profile details
-            await connection.query('UPDATE profiles SET name = ?, description = ?, template_selected = ? WHERE id = ?', [name, description, templateSelected, profileId]);
-            
-            // Create a New Listing section
-
-            const newListingSectionQuery = `INSERT INTO sections (heading, type, hidden, isDynamic, profileId) VALUES (?, ?, ?, ?, ?)`;
-            Object.entries(data).forEach(async ([key, value]) => {
-                const isDynamic = key == "mylistings"? true:false;
-                const [row] = await connection.query(newListingSectionQuery, [value.heading, key, value.hidden, isDynamic, profileId]);
-                
-                const links = value.links;
-                const sectionId = row.insertId;
-                const newLinkQuery = `INSERT INTO links (name, type, link, hidden, disabled, permanent, sectionId) VALUES (?, ?, ?, ?, ?, ?, ?)`;
-                const disabled = key == "free_tools"?true:false;
-                for (let i = 0; i < links.length; i++) {
-                    const name = links[i].name;
-                    const link = links[i].value;
-                    const hidden = links[i].hidden;
-                    const type = links[i].type;
-                    await connection.query(newLinkQuery, [name, type, link, hidden, disabled, true, sectionId ]);
-                }
-            });
-            // Commit the transaction
-            await connection.commit();
-            connection.release();
-
-            res.status(200).json({ message: 'Links updated successfully' });
-        } catch (error) {
-            // Rollback the transaction in case of error
-            await connection.rollback();
-            connection.release();
-            console.error("Error in transaction:", error);
-            res.status(500).json({ message: 'Error updating links' });
-        }
-   
-}).get("/api/linkcount/:linkId", (req,res)=>{
+}).get("/api/linkcount/:linkId", async (req,res)=>{
     const {linkId} = req.params;
-    console.log(linkId);
-    const updateQuery = `UPDATE links SET click_count = click_count + 1 WHERE id = ?`;
-    __pool.query(updateQuery, [linkId]);
-    res.status(200).json("Updated");
+    try {
+        const updateQuery = `UPDATE links SET click_count = click_count + 1 WHERE id = ?`;
+        await __pool.query(updateQuery, [linkId]);
+        res.status(200).json("Updated");
+    } catch (error) {
+        console.log("Error in updating link count", error.message);
+        res.status(500).json({message:"Internal Server Error"});
+    }
 }).post("/upload/gallery/:id", upload.single('image'), (req,res)=>{
     res.status(200).json({message:"Image uploaded successfully", file:req.file.filename});
 }).get("/api/get/gallery/:id/:galleryname", (req,res)=>{
@@ -422,6 +419,55 @@ try {
     try {
         await __pool.query(`DELETE FROM sections WHERE id = ?`, [id]);
         res.status(200).json({message:"Sucessfully Deleted a Section"});
+    } catch (error) {
+        console.log(error);
+        res.status(500).json({message:"Server Error"});
+    }
+}).post("/api/section/update/visibility", async (req,res)=>{
+    const {id, hidden, type, profile_id} = req.body;
+    try {
+        if(type){
+            await __pool.query(`UPDATE profiles SET ${type} = ? WHERE id = ?`, [hidden, profile_id]);
+            return res.status(200).json({message:"Sucessfully Changed"});
+        }
+        await __pool.query(`UPDATE sections SET hidden = ? WHERE id = ?`, [hidden, id]);
+        res.status(200).json({message:"Sucessfully Changed"});
+    } catch (error) {
+        console.log(error);
+        res.status(500).json({message:"Server Error"});
+    }
+}).post("/api/profile/sortOrder", async (req,res)=>{
+    const {id, sort_order} = req.body;
+    try {
+        await __pool.query(`UPDATE profiles SET section_ordering = ? WHERE id = ?`, [JSON.stringify(sort_order), id]);
+        res.status(200).json({message:"Sucessfully Changed"});
+    } catch (error) {
+        console.log(error);
+        res.status(500).json({message:"Server Error"});
+    }
+}).post("/api/profile/update/aboutUs", async (req,res)=>{
+    const {id, aboutUs} = req.body;
+    try {
+        await __pool.query(`UPDATE profiles SET about_us = ? WHERE id = ?`, [JSON.stringify(aboutUs), id]);
+        res.status(200).json({message:"Sucessfully Changed"});
+    } catch (error) {
+        console.log(error);
+        res.status(500).json({message:"Server Error"});
+    }
+}).get("/api/profiles/:profileId/get/about_us", async (req,res)=>{
+    const {profileId} = req.params;
+    try {
+        const [rows] = await __pool.query(`SELECT about_us from profiles WHERE id = ?`, [profileId]);
+        res.status(200).json({about_us:rows[0].about_us});
+    } catch (error) {
+        console.log(error.message);
+        res.redirect("/error");
+    }
+}).post("/api/profile/update/template", async (req,res)=>{
+    const {id, template} = req.body;
+    try {
+        await __pool.query(`UPDATE profiles SET template_selected = ? WHERE id = ?`, [template, id]);
+        res.status(200).json({message:"Sucessfully Changed"});
     } catch (error) {
         console.log(error);
         res.status(500).json({message:"Server Error"});
