@@ -472,6 +472,16 @@ try {
         console.log(error);
         res.status(500).json({message:"Server Error"});
     }
+}).get("/gallery/:profileId/:galleryname", async (req,res)=>{
+    const {profileId, galleryname} = req.params;
+    try {
+        res.render("showgallery.ejs", {id:profileId, galleryname:galleryname});
+    } catch (error) {
+        console.log(error.message);
+        res.redirect("/error");
+    }
+
+
 })
 
 
