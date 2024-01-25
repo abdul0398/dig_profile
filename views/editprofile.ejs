@@ -608,7 +608,6 @@
 
    async function showNext(elem) {
         const selectedTemplate = document.querySelector('div.image-container.selected').getAttribute('template_id');
-        console.log(selectedTemplate, profileDataState.templateSelected);
         if(selectedTemplate != profileDataState.templateSelected){
             profileDataState.templateSelected =  selectedTemplate
             await updatetemplate();
@@ -629,7 +628,6 @@
 }
 
     function populateProfilePreview() {
-        console.log(profileDataState.templateSelected);
         const sections = extractDataOfSectionsToPreview()
         if(profileDataState.templateSelected == 1){
             // Poluplating template 1
@@ -1038,7 +1036,6 @@
             type = eye.getAttribute("type");
         }
         const id = isSection?eye.getAttribute("section_id"):eye.getAttribute("link_id");
-        console.log(id, isSection,eye.getAttribute("section_id") );
         const hidden = !eye.classList.contains("eye_close");
         showSaveToast();
         await fetch(`/api/${isSection?"section":"link"}/update/visibility`, {
@@ -1193,7 +1190,6 @@
             const tempContainer = document.createElement('div');
             tempContainer.innerHTML = sectionHTML;
             const section = tempContainer.firstElementChild;
-            console.log(section);
 
             const container = button.closest('.Add_new_section');
             const parent = container.parentNode;
@@ -1236,7 +1232,6 @@
 
     async function deleteSection(elem) {
         const section =   document.querySelector(`[section_id="${elem.getAttribute("section_id")}"]`)
-       console.log(section);
        section.remove();
         const id = elem.getAttribute("section_id");
         const res = await fetch("/api/section/delete", {
@@ -1275,7 +1270,6 @@
             if(sectionhidden){
                 continue;
             }
-            console.log(section);
             const obj = {heading :section.querySelector("p")?.innerText};
             const links = Array.from(section.querySelectorAll(".input_container_with_eye"));
             const linksData = [];
@@ -1293,7 +1287,6 @@
             obj.links = linksData;
             sectionsData.push(obj);
         }
-        console.log(sectionsData);
         return sectionsData;
     }
 

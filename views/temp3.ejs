@@ -198,7 +198,11 @@
                     </a>
                 <%}else if(link.type == "calculator"){%>
                   <button cal_Link="https://abdul0398.github.io/<%=link.link%>/" style="font-size: 16px; border: none; cursor: pointer; color: white; margin:10px auto 10px auto; display: flex; justify-content: center; align-items: center; background-image: linear-gradient(178.54deg, #ff1212 7.67%, #ff2c1d); width: 330px; border-radius: 35px; height: 50px;" onclick="openCalculator(this)"><%=link.name%></button>
-                <%}%>
+                <%}else if(link.type == "gallery"){%>
+                  <li onclick="linkHandler(this)" redirect_Url="/gallery/<%=profile.id%>/<%=link.name%>" style="cursor: pointer; position: relative; margin:10px auto 10px auto; display: flex; justify-content: center; align-items: center; background-image: linear-gradient(178.54deg, #ff1212 7.67%, #ff2c1d); width: 330px; border-radius: 20px; height: 50px;">
+                    <a style="text-decoration: none; color: white;"><%=link.name%></a>
+                  </li>
+                  <%}%>
                 <%}%>
 
             <%}%>
@@ -545,6 +549,10 @@
       async function linkHandler(e){
         const linkId = e.getAttribute("linkId");
         let redirect_Url = e.getAttribute("redirect_Url");
+        if(!linkId){
+          window.open(redirect_Url, '_blank');
+          return;
+        }
         const res = await fetch(`/api/linkcount/${linkId}`,{
           method:"GET"
         })
@@ -553,7 +561,6 @@
           if (!redirect_Url.startsWith("http://") && !redirect_Url.startsWith("https://")) {
             redirect_Url = "https://" + redirect_Url; // Prepend 'https://' if it's not already there
         }
-        console.log(redirect_Url);
           window.open(redirect_Url, '_blank');
         }
       }
