@@ -180,11 +180,6 @@
                   word-wrap: break-word;"><%=profile.description%></p>
                     <%}%>
                 <%for(key in sections){%>
-                    <% if (key == "Book an appointment") { %>
-                      <button style="position: relative; font-size: 16px; border: none; cursor: pointer; color: white; margin: 10px auto 10px auto; display: flex; justify-content: center; align-items: center; background-color: #B68E00; width: 330px; border-radius: 35px; height: 50px;" onclick="showFormwithCalender(this)">Book An Appointment</button>
-                    <% } else if (key == "Lead Form") { %>
-                        <button form_name="Default" style="position: relative; font-size: 16px; border: none; cursor: pointer; color: white; margin: 10px auto 10px auto; display: flex; justify-content: center; align-items: center; background-color: #B68E00; width: 330px; border-radius: 35px; height: 50px;" onclick="showForm(this, false)">Lead Form</button>
-                    <% }else if(key != "socials"){ %>
                       <p class="text_style heading_style" style=" margin: 40px 30px 20px 30px; width: fit-content;" class="profile_heading"><%=key%></p>
                       <%for(link of sections[key]?.links){%>
                         <%if(link.type == "link"  && !(link.link == "" || link.link == "#")){%>
@@ -203,10 +198,14 @@
                           <li onclick="linkHandler(this)" redirect_Url="/gallery/<%=profile.id%>/<%=link.name%>" style="cursor: pointer; position: relative; margin:10px auto 10px auto; display: flex; justify-content: center; align-items: center; background-color: #B68E00; width: 330px; border-radius: 20px; height: 50px;">
                             <a style=" text-decoration: none; color: white;" ><%=link.name%></a>
                           </li>                     
-                          <%}%>
+                          <%}else if(link.type == "bookform"){%>
+                            <button style="position: relative; font-size: 16px; border: none; cursor: pointer; color: white; margin: 10px auto 10px auto; display: flex; justify-content: center; align-items: center; background-color: #B68E00; width: 330px; border-radius: 35px; height: 50px;" onclick="showFormwithCalender(this)">Book An Appointment</button>
+  
+                      <%}else if(link.type == "leadform"){%>
+                        <button form_name="Default" style="position: relative; font-size: 16px; border: none; cursor: pointer; color: white; margin: 10px auto 10px auto; display: flex; justify-content: center; align-items: center; background-color: #B68E00; width: 330px; border-radius: 35px; height: 50px;" onclick="showForm(this, false)">Lead Form</button>
+                      <%}%>
                         <%}%>
 
-                    <%}%>
                 <%}%>
 
                   
@@ -243,23 +242,26 @@
                   <%}%>
                   <div class="group-div">
                     <div class="group-parent1">
-                      <%if(social["Instagram"] && social["Instagram"] != "#"){%>
-                        <a style="margin: 0px 10px;" href="#" onclick="openLink('<%= social.Instagram %>')">
-                          <i class="fa-brands fa-square-instagram fa-2xl" style="color: #B68E00;"></i>
+                      <%if(social.Facebook && social.Facebook != "#"){%>
+                        <a style="margin: 0px 10px;" href="#" onclick="openLink('<%=social.Facebook%>')">
+                          <i class="fa-brands fa-2xl fa-facebook" style="color: #B68E00;"></i>
                         </a>
-                        
                       <%}%>
+
                       <%if(social.Linkedin && social.Linkedin != "#"){%>
                         <a style="margin: 0px 10px;" href="#" onclick="openLink('<%=social.Linkedin%>')">
                           <i class="fa-brands fa-linkedin fa-2xl" style="color: #B68E00;"></i>
 
                         </a>
                       <%}%>
-                      <%if(social.Facebook && social.Facebook != "#"){%>
-                        <a style="margin: 0px 10px;" href="#" onclick="openLink('<%=social.Facebook%>')">
-                          <i class="fa-brands fa-2xl fa-facebook" style="color: #B68E00;"></i>
+
+                      <%if(social["Instagram"] && social["Instagram"] != "#"){%>
+                        <a style="margin: 0px 10px;" href="#" onclick="openLink('<%= social.Instagram %>')">
+                          <i class="fa-brands fa-square-instagram fa-2xl" style="color: #B68E00;"></i>
                         </a>
+                        
                       <%}%>
+                     
                       
                     </div>
                     <img class="line-icon" alt="" src="./public/line-2@2x.png" />

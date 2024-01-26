@@ -691,7 +691,222 @@
     
             
         
-            
+            async function editHandler(curr_elem){
+                const id = curr_elem.getAttribute("profile_id");
+                const {profile, sections, forms} = await fetchProfileDetail(id);
+                document.querySelector(".profile_edit_container").style.display = "block";
+                const showformdiv = document.getElementById("show_profiles").innerHTML = "";
+                
+
+                // ########### Filling all the prexisting details to the edit page ###########
+                const templates = document.querySelectorAll(".image-container");
+                templates.forEach(template=>{
+                    if(template.getAttribute("template_id") == profile.template_selected){
+                        template.classList.add("selected");
+                    }else{
+                        template.classList.remove("selected");
+                    }
+                })
+                document.getElementById("profile_id").setAttribute("profile_id",id);
+                
+                const name = document.querySelectorAll(".agent-name")
+                name[0].innerHTML = profile.name;
+                name[1].innerHTML = profile.name;
+                name[2].innerHTML = profile.name;
+               
+                const preview_profile_img = document.getElementsByClassName("preview_profile_img");
+                    
+                for (let i = 0; i < preview_profile_img.length; i++) {
+                    preview_profile_img[i].src = profile.profile_img_path;
+                }
+
+                document.querySelectorAll(".desc_aboutUs")
+                .forEach(elem=>{
+                    elem.innerText = profile.description;
+                })
+
+                
+                profileDataState.templateSelected = profile.template_selected;
+                document.getElementById("profile_name_edit").value = profile.name;
+                document.getElementById("profile_name_edit").setAttribute("profile_id", profile.id)
+                document.getElementById("profile_desc").value = profile.description
+                document.getElementById("profile_desc").setAttribute("profile_id", profile.id);
+                document.getElementById("charCount").innerText = profile.description? profile.description.length + "/250": "0/250";
+                document.getElementById("viewProfileBtn").href = `/profile/${generateLongStringWithDelimiter(profile.id)}`;
+                
+                // Script Of a Dialog Box
+                async function startDialog() {
+                    const id =  document.getElementById("profile_id").getAttribute("profile_id");
+                    const {sections:updatedSection} = await fetchProfileDetail(id);
+                    populateDialogWithSections(updatedSection)
+                    const dropzoneSource = document.querySelector(".source");
+                    const dropzones = [...document.querySelectorAll(".dropzone")];
+                    const draggables = [...document.querySelectorAll(".draggable")];
+
+                    function getDragAfterElement(container, y) {
+                    const draggableElements = [
+                        ...container.querySelectorAll(".draggable:not(.is-dragging)")
+                    ];
+
+                    return draggableElements.reduce(
+                        (closest, child) => {
+                        const box = child.getBoundingClientRect();
+                        const offset = y - box.top - box.height / 2;
+
+                        if (offset < 0 && offset > closest.offset) {
+                            return {
+                            offset,
+                            element: child
+                            };
+                        } else {
+                            return closest;
+                        }
+                        },
+                        { offset: Number.NEGATIVE_INFINITY }
+                    ).element;
+                    }
+
+                    draggables.forEach((draggable) => {
+                    draggable.addEventListener("dragstart", (e) => {
+                        draggable.classList.add("is-dragging");
+                    });
+
+                    draggable.addEventListener("dragend", async(e) => {
+                        const {sections:updatedSection} = await fetchProfileDetail(id);
+                        const sortedsections = sortSectionsByIdOrder(updatedSection);
+                        popuplateSectionsAndLinks(sortedsections);
+                        draggable.classList.remove("is-dragging");
+                    });
+                    });
+
+                    dropzones.forEach((zone) => {
+                    zone.addEventListener("dragover", (e) => {
+                        e.preventDefault();
+                        const afterElement = getDragAfterElement(zone, e.clientY);
+                        const draggable = document.querySelector(".is-dragging");
+                        if (afterElement === null) {
+                        zone.appendChild(draggable);
+                        } else {
+                        zone.insertBefore(draggable, afterElement);
+                        }
+                    });
+                    });
+
+
+                
+                }
+                const dialog = document.querySelector("dialog");
+                const showButton = document.querySelector("#show_dialog");
+                const closeButton = document.querySelector("#close_dialog");
+
+                // "Show the dialog" button opens the dialog modally
+                showButton.addEventListener("click", () => {
+                    extractDataOfSectionsToPreview();
+                    dialog.showModal();
+                    startDialog();
+                });
+
+                // "Close" button closes the dialog
+                closeButton.addEventListener("click", async () => {
+                    dialog.close();
+                    const ids = extractsortOrder()
+                    await updateSortOrder(ids);
+                });
+
+                function extractsortOrder() {
+                    const draggableElements = document.querySelectorAll('.draggable');
+                    const ids = Array.from(draggableElements).map(element => element.getAttribute('id'));
+                    return ids;
+                }
+
+                function sortSectionsByIdOrder(sections) {
+                    const idOrder =  extractsortOrder();
+                    const sectionMap = new Map(sections.map(section => [section.id.toString(), section]));
+                    const sortedSections = idOrder.map(id => sectionMap.get(id));
+                    return sortedSections.filter(section => section !== undefined);
+                }
+
+                popuplateSectionsAndLinks(sections);
+                
+                
+            }
+          
+            function populateDialogWithSections(sections){ 
+                const container = document.querySelector(".source");
+                container.innerHTML = "";
+                sections.forEach((section, index)=>{
+                    container.innerHTML += `<div class="draggable" id="${section.id}" draggable="true">${section.type == "book"?"Book An Appointment":section.type == "lead"?"Lead Form":section.heading}</div>`
+                })
+            }
+
+            function popuplateSectionsAndLinks(sections) {
+                    const container = document.getElementById("dynamic_section_container"); 
+                    container.innerHTML = "";
+                    for (let index = 0; index < sections.length; index++) {
+                        const section = sections[index];
+                        container.innerHTML += ` <div class="Add_new_section" style="text-align: center;">
+                                    <div style="display: flex; width: 90%; margin: auto;">
+                                        <hr style="width: 96%; margin-right: 4%; background-color: #000; height: 2px; ">
+                                        <button onclick="AddnewSection(this)" class="addnew-section-btn">Add New Section</button>
+                                        <hr style="width: 96%; margin-left: 4%; background-color: #000; height: 2px;">
+                                    </div>
+                                </div>
+                            `
+
+
+                        
+                        let linkHtml = ""
+                        section.links.forEach(link=>{
+                            const handler = link.type == "link" ? 'onblur="updateLinkInDatabase(this)"' :link.type == "gallery"?'onclick="editGalleryOpenPopUp(this)"': link.type == "about_us"?`onclick="aboutUsHandler(this)"`: link.type == "leadform" || link.type == "bookform"?"":'onclick="edit_Form_show(this)"';
+                            const placeholder = link.type == "link" ? `${link.name} (PUT URL HERE)` :link.type == "gallery"?`${link.name} Click to edit gallery`:link.type == "about_us"?"About Us (Click to Edit)":link.type == "leadform" || link.type == "bookform"?link.name:`${link.name}Click to edit form`;
+                            const linkHidden = link.hidden;
+                            linkHtml += `
+                            <div class="input_container_with_eye">
+                                <input link_id="${link.id}" ${link.type == "calculator" || link.type == "leadform" || link.type == "bookform" ?"disabled":""}  ${handler} custom_type="${link.type}" value="${link.link?link.link:""}"  ${link.type != "link" && link.type != "calculator" && link.type != "leadform" && link.type != "bookform" ?'style="cursor: pointer; outline: none; caret-color: transparent;"':""} class="text_style" name="${link.name}" placeholder="${placeholder}" type="text">
+                                <i link_id="${link.id}" onclick="eyeToggleFunction(this, false)" class="eye fa-solid fa-eye ${linkHidden?"eye_close":"eye_open"}" style="margin: 0px 10px;"></i>
+                                ${!link.permanent ? `<i onclick="deleteLinkInDatabase(this)" link_id="${link.id}" class="fas fa-trash-alt delete-field-btn" style="color: #0066C9; cursor:pointer;" link_id="your_id" cursor="pointer"></i>` : ""}
+                                <i style="cursor:grab; margin-left:10px" class="handle fa-solid fa-grip-vertical"></i>                                
+                                ${link.type == "leadform"?`<i onclick="edit_Form_show(this)" name="Default" class="fa-solid fa-pen-to-square" style="margin-left:20px; cursor: pointer; color:#0066C9"></i>`:""}
+                                </div>
+                            `
+                        })
+
+                        const sectionHidden = section.hidden;
+                        const sectionhtml = ` 
+                        <div section_id="${section.id}" style="width: 100%; margin: 20px auto;">    
+                            <div style="display: flex;">
+                                <p section_id="${section.id}" style="margin-left: 25px; margin-bottom: 12px;" class="text_style">${section.heading}</p>
+                                <span>
+                                    <i section_id="${section.id}" onclick="eyeToggleFunction(this, true)" class="eye fa-solid fa-eye ${sectionHidden?"eye_close":"eye_open"}" style="margin: 0px 10px;"></i>
+                                    <i onclick="sectionHeadingHandler(this)" class="fa-solid fa-pen-to-square" style="cursor: pointer; color:#0066C9"></i>
+                                   ${!section.permanent?`<i onclick="deleteSection(this)" section_id="${section.id}"  class="fas fa-trash-alt delete-field-btn" style="margin-left:10px; cursor: pointer; color:#0066C9"></i>`:``}     
+                                </span>
+                            </div>                
+                            <div style="display: flex; flex-direction: column; border-radius: 10px; background-color: #F1F5F7; width: 90%; margin: 0px auto 10px auto;">
+                                <div sections_id="${section.id}" class="sortable-list inner-container-eyeinputs" style="min-height: 80%; width: 100%; margin: 20px 0px;">
+                                    ${linkHtml}
+                                </div>
+
+                                ${section.isDynamic?`<button section_id="${section.id}" class="add-more-filed-btn" onclick="addMoreField(this)">Add more fields</button>`:""}    
+                            </div>
+                        </div>
+                        `
+
+                        container.innerHTML += sectionhtml;
+                    }
+                    populateProfilePreview();  
+                    
+                    const sortableLists = document.querySelectorAll('.sortable-list');
+                    sortableLists.forEach(sortableList => {
+                        const sortable = new Sortable(sortableList, {
+                            handle:".handle",
+                            onEnd:async  function (evt) {
+                                populateProfilePreview();
+                                await saveLinkOrder(sortableList)
+                            },
+                        });
+                    });
+                }
             
             async function closeEditDiv(){
                 document.querySelector(".profile_edit_container").style.display = "none"
@@ -1045,255 +1260,6 @@
                         })
                     })
                 }
-
-            async function editHandler(curr_elem){
-                const id = curr_elem.getAttribute("profile_id");
-                const {profile, sections, forms} = await fetchProfileDetail(id);
-                document.querySelector(".profile_edit_container").style.display = "block";
-                const showformdiv = document.getElementById("show_profiles").innerHTML = "";
-                
-
-                // ########### Filling all the prexisting details to the edit page ###########
-                const templates = document.querySelectorAll(".image-container");
-                templates.forEach(template=>{
-                    if(template.getAttribute("template_id") == profile.template_selected){
-                        template.classList.add("selected");
-                    }else{
-                        template.classList.remove("selected");
-                    }
-                })
-                document.getElementById("profile_id").setAttribute("profile_id",id);
-                
-                const name = document.querySelectorAll(".agent-name")
-                name[0].innerHTML = profile.name;
-                name[1].innerHTML = profile.name;
-                name[2].innerHTML = profile.name;
-               
-                const preview_profile_img = document.getElementsByClassName("preview_profile_img");
-                    
-                for (let i = 0; i < preview_profile_img.length; i++) {
-                    preview_profile_img[i].src = profile.profile_img_path;
-                }
-
-                document.querySelectorAll(".desc_aboutUs")
-                .forEach(elem=>{
-                    elem.innerText = profile.description;
-                })
-
-                
-                profileDataState.templateSelected = profile.template_selected;
-                document.getElementById("profile_name_edit").value = profile.name;
-                document.getElementById("profile_name_edit").setAttribute("profile_id", profile.id)
-                document.getElementById("profile_desc").value = profile.description
-                document.getElementById("profile_desc").setAttribute("profile_id", profile.id);
-                document.getElementById("charCount").innerText = profile.description? profile.description.length + "/250": "0/250";
-                document.getElementById("viewProfileBtn").href = `/profile/${generateLongStringWithDelimiter(profile.id)}`;
-                
-                // Script Of a Dialog Box
-                async function startDialog() {
-                    const id =  document.getElementById("profile_id").getAttribute("profile_id");
-                    const {sections:updatedSection} = await fetchProfileDetail(id);
-                    populateDialogWithSections(updatedSection)
-                    const dropzoneSource = document.querySelector(".source");
-                    const dropzones = [...document.querySelectorAll(".dropzone")];
-                    const draggables = [...document.querySelectorAll(".draggable")];
-
-                    function getDragAfterElement(container, y) {
-                    const draggableElements = [
-                        ...container.querySelectorAll(".draggable:not(.is-dragging)")
-                    ];
-
-                    return draggableElements.reduce(
-                        (closest, child) => {
-                        const box = child.getBoundingClientRect();
-                        const offset = y - box.top - box.height / 2;
-
-                        if (offset < 0 && offset > closest.offset) {
-                            return {
-                            offset,
-                            element: child
-                            };
-                        } else {
-                            return closest;
-                        }
-                        },
-                        { offset: Number.NEGATIVE_INFINITY }
-                    ).element;
-                    }
-
-                    draggables.forEach((draggable) => {
-                    draggable.addEventListener("dragstart", (e) => {
-                        draggable.classList.add("is-dragging");
-                    });
-
-                    draggable.addEventListener("dragend", async(e) => {
-                        const {sections:updatedSection} = await fetchProfileDetail(id);
-                        const sortedsections = sortSectionsByIdOrder(updatedSection);
-                        popuplateSectionsAndLinks(sortedsections);
-                        draggable.classList.remove("is-dragging");
-                    });
-                    });
-
-                    dropzones.forEach((zone) => {
-                    zone.addEventListener("dragover", (e) => {
-                        e.preventDefault();
-                        const afterElement = getDragAfterElement(zone, e.clientY);
-                        const draggable = document.querySelector(".is-dragging");
-                        if (afterElement === null) {
-                        zone.appendChild(draggable);
-                        } else {
-                        zone.insertBefore(draggable, afterElement);
-                        }
-                    });
-                    });
-
-
-                
-                }
-                const dialog = document.querySelector("dialog");
-                const showButton = document.querySelector("#show_dialog");
-                const closeButton = document.querySelector("#close_dialog");
-
-                // "Show the dialog" button opens the dialog modally
-                showButton.addEventListener("click", () => {
-                    extractDataOfSectionsToPreview();
-                    dialog.showModal();
-                    startDialog();
-                });
-
-                // "Close" button closes the dialog
-                closeButton.addEventListener("click", async () => {
-                    dialog.close();
-                    const ids = extractsortOrder()
-                    await updateSortOrder(ids);
-                });
-
-                function extractsortOrder() {
-                    const draggableElements = document.querySelectorAll('.draggable');
-                    const ids = Array.from(draggableElements).map(element => element.getAttribute('id'));
-                    return ids;
-                }
-
-                function sortSectionsByIdOrder(sections) {
-                    const idOrder =  extractsortOrder();
-                    const sectionMap = new Map(sections.map(section => [section.id.toString(), section]));
-                    const sortedSections = idOrder.map(id => sectionMap.get(id));
-                    return sortedSections.filter(section => section !== undefined);
-                }
-
-                popuplateSectionsAndLinks(sections);
-                
-                
-            }
-          
-            function populateDialogWithSections(sections){ 
-                const container = document.querySelector(".source");
-                container.innerHTML = "";
-                sections.forEach((section, index)=>{
-                    container.innerHTML += `<div class="draggable" id="${section.id}" draggable="true">${section.type == "book"?"Book An Appointment":section.type == "lead"?"Lead Form":section.heading}</div>`
-                })
-            }
-
-            function popuplateSectionsAndLinks(sections) {
-                    const container = document.getElementById("dynamic_section_container"); 
-                    container.innerHTML = "";
-                    for (let index = 0; index < sections.length; index++) {
-                        const section = sections[index];
-                        container.innerHTML += ` <div class="Add_new_section" style="text-align: center;">
-                                    <div style="display: flex; width: 90%; margin: auto;">
-                                        <hr style="width: 96%; margin-right: 4%; background-color: #000; height: 2px; ">
-                                        <button onclick="AddnewSection(this)" class="addnew-section-btn">Add New Section</button>
-                                        <hr style="width: 96%; margin-left: 4%; background-color: #000; height: 2px;">
-                                    </div>
-                                </div>
-                            `
-
-                        if(section.type == "book"){
-                            container.innerHTML +=  `
-                            <div section_id="${section.id}" style="width: 100%; margin: 20px auto;">     
-                                <div style="display: flex; flex-direction: column; border-radius: 10px; background-color: #F1F5F7; width: 90%; margin: 0px auto 10px auto;">
-                                    <div style="min-height: 80%; width: 100%;  margin: 20px 0px;">
-                                        <div class="input_container_with_eye">
-                                            <input disabled class="text_style"  placeholder="Book an Appointment" type="text">
-                                            <i section_id="${section.id}" onclick="eyeToggleFunction(this, true)" type="book"  class="eye fa-solid fa-eye ${section.hidden?"eye_close":"eye_open"}" style="margin: 0px 10px;"></i>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>`
-                            continue;
-                        }else if(section.type == "Lead"){
-                            container.innerHTML +=  `
-                        <div section_id="${section.id}" style="width: 100%; margin: 20px auto;">     
-                            <div style="display: flex; flex-direction: column; border-radius: 10px; background-color: #F1F5F7; width: 90%; margin: 0px auto 10px auto;">
-                                <div style="min-height: 80%; width: 100%;  margin: 20px 0px;">
-                                    <div class="input_container_with_eye">
-                                        <input custom_type="form" class="text_style" value=""  placeholder="Lead Form" type="text">
-                                        <i section_id="${section.id}" onclick="eyeToggleFunction(this, true)" type="lead_hidden" class="eye fa-solid fa-eye ${section.hidden?"eye_close":"eye_open"}" style="margin: 0px 10px;"></i>
-                                        <i onclick="edit_Form_show(this)" name="Default" class="fa-solid fa-pen-to-square" style="cursor: pointer; color:#0066C9"></i>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>`
-                        continue;
-                        }
-
-                        
-                        let linkHtml = ""
-                        section.links.forEach(link=>{
-                            const handler = link.type == "link" ? 'onblur="updateLinkInDatabase(this)"' :link.type == "gallery"?'onclick="editGalleryOpenPopUp(this)"': link.type == "about_us"?`onclick="aboutUsHandler(this)"`:'onclick="edit_Form_show(this)"';
-                            const placeholder = link.type == "link" ? `${link.name} (PUT URL HERE)` :link.type == "gallery"?`${link.name} Click to edit gallery`:link.type == "about_us"?"About Us (Click to Edit)":`${link.name}Click to edit form`;
-                            const linkHidden = link.hidden;
-                            linkHtml += `
-                            <div class="input_container_with_eye">
-                                <input link_id="${link.id}" ${link.type == "calculator"?"disabled":""}  ${handler} custom_type="${link.type}" value="${link.link?link.link:""}"  ${link.type != "link" && link.type != "calculator" ?'style="cursor: pointer; outline: none; caret-color: transparent;"':""} class="text_style" name="${link.name}" placeholder="${placeholder}" type="text">
-                                <i link_id="${link.id}" onclick="eyeToggleFunction(this, false)" class="eye fa-solid fa-eye ${linkHidden?"eye_close":"eye_open"}" style="margin: 0px 10px;"></i>
-                                ${!link.permanent ? `<i onclick="deleteLinkInDatabase(this)" link_id="${link.id}" class="fas fa-trash-alt delete-field-btn" style="color: #0066C9; cursor:pointer;" link_id="your_id" cursor="pointer"></i>` : ""}
-                                <i style="cursor:grab; margin-left:10px" class="handle fa-solid fa-grip-vertical"></i>
-                                </div>
-                            `
-                        })
-
-                        const sectionHidden = section.hidden;
-                        const sectionhtml = ` 
-                        <div section_id="${section.id}" style="width: 100%; margin: 20px auto;">    
-                            <div style="display: flex;">
-                                <p section_id="${section.id}" style="margin-left: 25px; margin-bottom: 12px;" class="text_style">${section.heading}</p>
-                                <span>
-                                    <i section_id="${section.id}" onclick="eyeToggleFunction(this, true)" class="eye fa-solid fa-eye ${sectionHidden?"eye_close":"eye_open"}" style="margin: 0px 10px;"></i>
-                                    <i onclick="sectionHeadingHandler(this)" class="fa-solid fa-pen-to-square" style="cursor: pointer; color:#0066C9"></i>
-                                   ${!section.permanent?`<i onclick="deleteSection(this)" section_id="${section.id}"  class="fas fa-trash-alt delete-field-btn" style="margin-left:10px; cursor: pointer; color:#0066C9"></i>`:``}     
-                                </span>
-                            </div>                
-                            <div style="display: flex; flex-direction: column; border-radius: 10px; background-color: #F1F5F7; width: 90%; margin: 0px auto 10px auto;">
-                                <div sections_id="${section.id}" class="sortable-list inner-container-eyeinputs" style="min-height: 80%; width: 100%; margin: 20px 0px;">
-                                    ${linkHtml}
-                                </div>
-
-                                ${section.isDynamic?`<button section_id="${section.id}" class="add-more-filed-btn" onclick="addMoreField(this)">Add more fields</button>`:""}    
-                            </div>
-                        </div>
-                        `
-
-                        container.innerHTML += sectionhtml;
-                    }
-                    populateProfilePreview();  
-                    
-                    const sortableLists = document.querySelectorAll('.sortable-list');
-                    sortableLists.forEach(sortableList => {
-                        const sortable = new Sortable(sortableList, {
-                            handle:".handle",
-                            onEnd:async  function (evt) {
-                                populateProfilePreview();
-                                await saveLinkOrder(sortableList)
-                            },
-                        });
-                    });
-                }
-
-
-            
-
-
 
             async function client_edit_popup(elem){
                const clientID = elem.getAttribute("clientid");
@@ -1784,239 +1750,7 @@
                 }
             }
 
-
-            async function editHandler(curr_elem){
-            const id = curr_elem.getAttribute("profile_id");
-            const {profile, sections, links, forms} = await fetchProfileDetail(id);
-            document.querySelector(".profile_edit_container").style.display = "block";
-            const showformdiv = document.getElementById("show_profiles").innerHTML = "";
-            
-
-            // ########### Filling all the prexisting details to the edit page ###########
-            const templates = document.querySelectorAll(".image-container");
-            templates.forEach(template=>{
-                if(template.getAttribute("template_id") == profile.template_selected){
-                    template.classList.add("selected");
-                }else{
-                    template.classList.remove("selected");
-                }
-            })
-            document.getElementById("profile_id").setAttribute("profile_id",id);
-            
-            const name = document.querySelectorAll(".agent-name")
-            name[0].innerHTML = profile.name;
-            name[1].innerHTML = profile.name;
-            name[2].innerHTML = profile.name;
-            
-            const preview_profile_img = document.getElementsByClassName("preview_profile_img");
-                
-            for (let i = 0; i < preview_profile_img.length; i++) {
-                preview_profile_img[i].src = profile.profile_img_path;
-            }
-
-            document.querySelectorAll(".desc_aboutUs")
-            .forEach(elem=>{
-                elem.innerText = profile.description;
-            })
-
-            
-            profileDataState.templateSelected = profile.template_selected;
-            document.getElementById("profile_name_edit").value = profile.name;
-            document.getElementById("profile_name_edit").setAttribute("profile_id", profile.id)
-            document.getElementById("profile_desc").value = profile.description
-            document.getElementById("profile_desc").setAttribute("profile_id", profile.id);
-            document.getElementById("charCount").innerText = profile.description? profile.description.length + "/250": "0/250";
-            
-            
-            // Script Of a Dialog Box
-            async function startDialog() {
-                const id =  document.getElementById("profile_id").getAttribute("profile_id");
-                const {sections:updatedSection} = await fetchProfileDetail(id);
-                populateDialogWithSections(updatedSection)
-                const dropzoneSource = document.querySelector(".source");
-                const dropzones = [...document.querySelectorAll(".dropzone")];
-                const draggables = [...document.querySelectorAll(".draggable")];
-
-                function getDragAfterElement(container, y) {
-                const draggableElements = [
-                    ...container.querySelectorAll(".draggable:not(.is-dragging)")
-                ];
-
-                return draggableElements.reduce(
-                    (closest, child) => {
-                    const box = child.getBoundingClientRect();
-                    const offset = y - box.top - box.height / 2;
-
-                    if (offset < 0 && offset > closest.offset) {
-                        return {
-                        offset,
-                        element: child
-                        };
-                    } else {
-                        return closest;
-                    }
-                    },
-                    { offset: Number.NEGATIVE_INFINITY }
-                ).element;
-                }
-
-                draggables.forEach((draggable) => {
-                draggable.addEventListener("dragstart", (e) => {
-                    draggable.classList.add("is-dragging");
-                });
-
-                draggable.addEventListener("dragend", async(e) => {
-                    const {sections:updatedSection} = await fetchProfileDetail(id);
-                    const sortedsections = sortSectionsByIdOrder(updatedSection);
-                    popuplateSectionsAndLinks(sortedsections);
-                    draggable.classList.remove("is-dragging");
-                });
-                });
-
-                dropzones.forEach((zone) => {
-                zone.addEventListener("dragover", (e) => {
-                    e.preventDefault();
-                    const afterElement = getDragAfterElement(zone, e.clientY);
-                    const draggable = document.querySelector(".is-dragging");
-                    if (afterElement === null) {
-                    zone.appendChild(draggable);
-                    } else {
-                    zone.insertBefore(draggable, afterElement);
-                    }
-                });
-                });
-
-
-            
-            }
-            const dialog = document.querySelector("dialog");
-            const showButton = document.querySelector("#show_dialog");
-            const closeButton = document.querySelector("#close_dialog");
-
-            // "Show the dialog" button opens the dialog modally
-            showButton.addEventListener("click", () => {
-                extractDataOfSectionsToPreview();
-                dialog.showModal();
-                startDialog();
-            });
-
-            // "Close" button closes the dialog
-            closeButton.addEventListener("click", async () => {
-                dialog.close();
-                const ids = extractsortOrder()
-                await updateSortOrder(ids);
-            });
-
-            function extractsortOrder() {
-                const draggableElements = document.querySelectorAll('.draggable');
-                const ids = Array.from(draggableElements).map(element => element.getAttribute('id'));
-                return ids;
-            }
-
-            function sortSectionsByIdOrder(sections) {
-                const idOrder =  extractsortOrder();
-                const sectionMap = new Map(sections.map(section => [section.id.toString(), section]));
-                const sortedSections = idOrder.map(id => sectionMap.get(id));
-                return sortedSections.filter(section => section !== undefined);
-            }
-
-            popuplateSectionsAndLinks(sections);
-            
-            
-        }
-        
-            function populateDialogWithSections(sections){ 
-                const container = document.querySelector(".source");
-                container.innerHTML = "";
-                sections.forEach((section, index)=>{
-                    container.innerHTML += `<div class="draggable" id="${section.id}" draggable="true">${section.type == "book"?"Book An Appointment":section.type == "lead"?"Lead Form":section.heading}</div>`
-                })
-            }
-
-            function popuplateSectionsAndLinks(sections) {
-                const container = document.getElementById("dynamic_section_container"); 
-                container.innerHTML = "";
-                for (let index = 0; index < sections.length; index++) {
-                    const section = sections[index];
-                    container.innerHTML += ` <div class="Add_new_section" style="text-align: center;">
-                                <div style="display: flex; width: 90%; margin: auto;">
-                                    <hr style="width: 96%; margin-right: 4%; background-color: #000; height: 2px; ">
-                                    <button onclick="AddnewSection(this)" class="addnew-section-btn">Add New Section</button>
-                                    <hr style="width: 96%; margin-left: 4%; background-color: #000; height: 2px;">
-                                </div>
-                            </div>
-                        `
-
-                    if(section.type == "book"){
-                        container.innerHTML +=  `
-                        <div style="width: 100%; margin: 20px auto;">     
-                            <div style="display: flex; flex-direction: column; border-radius: 10px; background-color: #F1F5F7; width: 90%; margin: 0px auto 10px auto;">
-                                <div style="min-height: 80%; width: 100%;  margin: 20px 0px;">
-                                    <div class="input_container_with_eye">
-                                        <input disabled class="text_style"  placeholder="Book an Appointment" type="text">
-                                        <i section_id="${section.id}" onclick="eyeToggleFunction(this, true)" type="book"  class="eye fa-solid fa-eye ${section.hidden?"eye_close":"eye_open"}" style="margin: 0px 10px;"></i>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>`
-                        continue;
-                    }else if(section.type == "Lead"){
-                        container.innerHTML +=  `
-                    <div style="width: 100%; margin: 20px auto;">     
-                        <div style="display: flex; flex-direction: column; border-radius: 10px; background-color: #F1F5F7; width: 90%; margin: 0px auto 10px auto;">
-                            <div style="min-height: 80%; width: 100%;  margin: 20px 0px;">
-                                <div class="input_container_with_eye">
-                                    <input custom_type="form" class="text_style" value=""  placeholder="Lead Form" type="text">
-                                    <i section_id="${section.id}" onclick="eyeToggleFunction(this, true)" type="lead_hidden" class="eye fa-solid fa-eye ${section.hidden?"eye_close":"eye_open"}" style="margin: 0px 10px;"></i>
-                                    <i onclick="edit_Form_show(this)" name="Default" class="fa-solid fa-pen-to-square" style="cursor: pointer; color:#0066C9"></i>
-                                </div>
-                            </div>
-                        </div>
-                    </div>`
-                    continue;
-                    }
-
-                    const linksinSection = links.filter(link=>link.sectionId == section.id);
-                    let linkHtml = ""
-                    linksinSection.forEach(link=>{
-                        const handler = link.type == "link" ? 'onblur="updateLinkInDatabase(this)"' :link.type == "gallery"?'onclick="editGalleryOpenPopUp(this)"': link.type == "about_us"?`onclick="aboutUsHandler(this)"`:'onclick="edit_Form_show(this)"';
-                        const placeholder = link.type == "link" ? `${link.name} (PUT URL HERE)` :link.type == "gallery"?`${link.name} Click to edit gallery`:link.type == "about_us"?"About Us (Click to Edit)":`${link.name}Click to edit form`;
-                        const linkHidden = link.hidden;
-                        linkHtml += `
-                        <div class="input_container_with_eye">
-                            <input link_id="${link.id}" ${link.type == "calculator"?"disabled":""}  ${handler} custom_type="${link.type}" value="${link.link?link.link:""}"  ${link.type != "link" && link.type != "calculator" ?'style="cursor: pointer; outline: none; caret-color: transparent;"':""} class="text_style" name="${link.name}" placeholder="${placeholder}" type="text">
-                            <i link_id="${link.id}" onclick="eyeToggleFunction(this, false)" class="eye fa-solid fa-eye ${linkHidden?"eye_close":"eye_open"}" style="margin: 0px 10px;"></i>
-                            ${!link.permanent ? `<i onclick="deleteLinkInDatabase(this)" link_id="${link.id}" class="fas fa-trash-alt delete-field-btn" style="color: #0066C9; cursor:pointer;" link_id="your_id" cursor="pointer"></i>` : ""}
-                        </div>
-                        `
-                    })
-
-                    const sectionHidden = section.hidden;
-                    const sectionhtml = ` 
-                    <div section_id="${section.id}" style="width: 100%; margin: 20px auto;">    
-                        <div style="display: flex;">
-                            <p section_id="${section.id}" style="margin-left: 25px; margin-bottom: 12px;" class="text_style">${section.heading}</p>
-                            <span>
-                                <i section_id="${section.id}" onclick="eyeToggleFunction(this, true)" class="eye fa-solid fa-eye ${sectionHidden?"eye_close":"eye_open"}" style="margin: 0px 10px;"></i>
-                                <i onclick="sectionHeadingHandler(this)" class="fa-solid fa-pen-to-square" style="cursor: pointer; color:#0066C9"></i>
-                                ${!section.permanent?`<i onclick="deleteSection(this)" section_id="${section.id}"  class="fas fa-trash-alt delete-field-btn" style="margin-left:10px; cursor: pointer; color:#0066C9"></i>`:``}     
-                            </span>
-                        </div>                
-                        <div style="display: flex; flex-direction: column; border-radius: 10px; background-color: #F1F5F7; width: 90%; margin: 0px auto 10px auto;">
-                            <div class="inner-container-eyeinputs" style="min-height: 80%; width: 100%; margin: 20px 0px;">
-                                ${linkHtml}
-                            </div>
-
-                            ${section.isDynamic?`<button section_id="${section.id}" class="add-more-filed-btn" onclick="addMoreField(this)">Add more fields</button>`:""}    
-                        </div>
-                    </div>
-                    `
-
-                    container.innerHTML += sectionhtml;
-                }
-                populateProfilePreview();          
-            }
-            
+         
             function closeAllPopups() {
                 document.getElementsByClassName("questionContainer").innerHTML = "";
                 let openPopups = document.querySelectorAll('.open_popup');

@@ -178,11 +178,6 @@
             <%}%>
         <section id="profile_preview_innercontainer">
           <%for(key in sections){%>
-            <% if (key == "Book an appointment") { %>
-              <button style="position: relative; font-size: 16px; border: none; cursor: pointer; color: white; margin: 10px auto 10px auto; display: flex; justify-content: center; align-items: center; background-image: linear-gradient(178.54deg, #ff1212 7.67%, #ff2c1d); width: 330px; border-radius: 35px; height: 50px;" onclick="showFormwithCalender(this)">Book An Appointment</button>
-            <% } else if (key == "Lead Form") { %>
-                <button form_name="Default" style="position: relative; font-size: 16px; border: none; cursor: pointer; color: white; margin: 10px auto 10px auto; display: flex; justify-content: center; align-items: center; background-image: linear-gradient(178.54deg, #ff1212 7.67%, #ff2c1d); width: 330px; border-radius: 35px; height: 50px;" onclick="showForm(this, false)">Lead Form</button>
-            <% }else if(key != "socials"){ %>
               <p class="text_style heading_style" style="color: black; margin: 40px 30px 20px 30px; width: fit-content;" class="profile_heading"><%=key%></p>
               <%for(link of sections[key]?.links){%>
                 <%if(link.type == "link"  && !(link.link == "" || link.link == "#")){%>
@@ -202,10 +197,14 @@
                   <li onclick="linkHandler(this)" redirect_Url="/gallery/<%=profile.id%>/<%=link.name%>" style="cursor: pointer; position: relative; margin:10px auto 10px auto; display: flex; justify-content: center; align-items: center; background-image: linear-gradient(178.54deg, #ff1212 7.67%, #ff2c1d); width: 330px; border-radius: 20px; height: 50px;">
                     <a style="text-decoration: none; color: white;"><%=link.name%></a>
                   </li>
-                  <%}%>
+                  <%}else if(link.type == "bookform"){%>
+                    <button style="position: relative; font-size: 16px; border: none; cursor: pointer; color: white; margin: 10px auto 10px auto; display: flex; justify-content: center; align-items: center; background-image: linear-gradient(178.54deg, #ff1212 7.67%, #ff2c1d); width: 330px; border-radius: 35px; height: 50px;" onclick="showFormwithCalender(this)">Book An Appointment</button>
+
+              <%}else if(link.type == "leadform"){%>
+                <button form_name="Default" style="position: relative; font-size: 16px; border: none; cursor: pointer; color: white; margin: 10px auto 10px auto; display: flex; justify-content: center; align-items: center; background-image: linear-gradient(178.54deg, #ff1212 7.67%, #ff2c1d); width: 330px; border-radius: 35px; height: 50px;" onclick="showForm(this, false)">Lead Form</button>
+              <%}%>
                 <%}%>
 
-            <%}%>
         <%}%>
 
 
@@ -226,20 +225,7 @@
       display: flex;
       justify-content: space-around;">
         <div>
-          <%if(social["Instagram"] && social["Instagram"] != "#"){%>
-            <span style="margin: 0px 10px;">
-              <a href="#" onclick="openLink('<%=social.Instagram%>')">
-                <i class="fa-brands fa-square-instagram fa-2xl" style="color: #ff1212;"></i>
-              </a>
-            </span>
-          <%}%>
-          <%if(social.Linkedin && social.Linkedin != "#"){%>
-            <span style="margin: 0px 10px;">
-              <a href="#" onclick="openLink('<%=social.Linkedin%>')">
-                <i class="fa-brands fa-linkedin fa-2xl" style="color: #ff1212;"></i>
-              </a>
-            </span>
-          <%}%>
+
           <%if(social.Facebook && social.Facebook != "#"){%>
             <span style="margin: 0px 10px;">
               <a href="#" onclick="openLink('<%=social.Facebook%>')">
@@ -247,6 +233,24 @@
               </a>
             </span>
           <%}%>
+
+          <%if(social.Linkedin && social.Linkedin != "#"){%>
+            <span style="margin: 0px 10px;">
+              <a href="#" onclick="openLink('<%=social.Linkedin%>')">
+                <i class="fa-brands fa-linkedin fa-2xl" style="color: #ff1212;"></i>
+              </a>
+            </span>
+          <%}%>
+
+          <%if(social["Instagram"] && social["Instagram"] != "#"){%>
+            <span style="margin: 0px 10px;">
+              <a href="#" onclick="openLink('<%=social.Instagram%>')">
+                <i class="fa-brands fa-square-instagram fa-2xl" style="color: #ff1212;"></i>
+              </a>
+            </span>
+          <%}%>
+          
+         
         </div>
         
         
@@ -255,12 +259,12 @@
       </div>
     </div>
 
-    <%if(social["Call Us"] != "#" || social["WhatsApp"] != "#"){%>
+    <%if(social["Call Us"] != "" || social["WhatsApp"] != ""){%>
       <div style="height: 200px;">
         <div class="call-us-parent">
           <b class="call-us">Call us</b>
           <div class="group-parent1">
-            <%if(social["Call Us"] != "#"){%>
+            <%if(social["Call Us"] != "#" && social["Call Us"] != ""){%>
               <div class="rectangle-parent">
                 <a style="color: rgb(255, 255, 255);" href="tel:<%=social["Call Us"]%>">
                   <div class="rectangle-div"></div>
@@ -269,7 +273,7 @@
               </div>
             <%}%>
            
-            <%if(social["WhatsApp"] != "#"){%>
+            <%if(social["WhatsApp"] != "#"  && social["WhatsApp"] != "" ){%>
               <div class="rectangle-group">
                 <a target="_blank" href="https://wa.me/<%=social["WhatsApp"]%>" style="color: black;">
                   <div class="group-child3"></div>

@@ -118,26 +118,19 @@ module.exports.sections = [
         ]
     },
     {
-        heading: "Book an appointment",
-        type: "book",
+        heading: "Contact Me",
+        type: "contact",
         isDynamic: false,
         links: [
             {
-                type: "",
+                type: "bookform",
                 name: "Book an appointment",
                 link: ""
-            }
-        ]
-    },
-    {
-        heading: "Lead Form",
-        type: "Lead",
-        isDynamic: false,
-        links: [
+            },
             {
-                type: "form",
+                type: "leadform",
                 name: "Lead Form",
-                link: "Default"
+                link: ""
             }
         ]
     }
