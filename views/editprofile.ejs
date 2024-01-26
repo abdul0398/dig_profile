@@ -850,10 +850,14 @@
         const { value: formValues } = await Swal.fire({
         title: "Enter Field Name",
         html: `
-            <input id="swal-input1" class="swal2-input" placeholder="Field Name">
-            <label style="margin-top: 20px;">
-            <input type="radio" name="field_type" value="gallery"> New Gallery
+        <div style="display:flex">
+            <input style="margin: 1em; !important" id="swal-input1" class="swal2-input" placeholder="Field Name">
+            <label style="display: flex; align-items: center;">
+            <input type="radio" name="field_type" value="gallery"> 
+            <span style="margin-left: 5px;" >New Gallery</span>
             </label>
+        </div>
+            
             <label style="margin-top: 20px;">
                 <input type="radio" name="field_type" value="text"> Normal Field
             </label >
