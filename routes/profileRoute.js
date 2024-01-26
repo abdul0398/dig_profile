@@ -257,9 +257,9 @@ try {
 
     for (const section of sections) {
         const sectionLinksOrder = section.sortOrder; // Assuming sortOrder is a JSON string
+        const [links] = await __pool.query(`SELECT * FROM links WHERE sectionId = ?`, [section.id]);
 
         if (sectionLinksOrder && sectionLinksOrder.length > 0) {
-            const [links] = await __pool.query(`SELECT * FROM links WHERE sectionId = ?`, [section.id]);
 
             // Sorting links based on the order specified in the section
             const linkMap = new Map(links.map(link => [link.id.toString(), link]));
@@ -267,7 +267,7 @@ try {
 
             section.links = sortedLinks.filter(link => link !== undefined);
         } else {
-            section.links = [];
+            section.links = links;
         }
     }
 
