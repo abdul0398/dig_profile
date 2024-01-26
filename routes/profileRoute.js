@@ -42,7 +42,6 @@ try {
         'SELECT * FROM profiles WHERE name = ? AND client_id = ?',
         [name, clientID]
     );
-        console.log(existingProfiles);
     if (existingProfiles.length > 0) {
         return res.status(400).json({ message: 'Profile with this name already exists for the client.' });
     }
@@ -178,10 +177,24 @@ try {
             }
             const sectionHeading = section.heading;
             const sectionLinks = responseData.links.filter(link => link.sectionId === sectionId);
-            sectionLinkMap[sectionHeading] = {
-                links: sectionLinks,
-                type: sectionType
-              };
+
+            const linksOrder = section.sortOrder;
+            if (linksOrder && linksOrder.length == sectionLinks.length) {    
+                // Sorting links based on the order specified in the section
+                const linkMap = new Map(sectionLinks.map(link => [link.id.toString(), link]));
+                const sortedLinks = linksOrder.map(id => linkMap.get(id));
+    
+                sectionLinkMap[sectionHeading] = {
+                    links: sortedLinks,
+                    type: sectionType
+                  };
+
+            }else{
+                sectionLinkMap[sectionHeading] = {
+                    links: sectionLinks,
+                    type: sectionType
+                  };
+            }
         };
 
         socialsections = sections.filter(section => section.type === "socials");
@@ -192,8 +205,6 @@ try {
                 socialobj[link.name] = link.link;
            })
         }
-
-        console.log(socialobj);
         return res.render(`temp${template}.ejs`, {sections:sectionLinkMap, profile:profile[0], social:socialobj});
     } catch (error) {
         console.error("Error in fetching profile", error.message);
@@ -222,45 +233,55 @@ try {
         res.status(500).json({ message: "Error in uploading profile image" });
     }
 }).get("/api/profile/fetch/:profileId", verify, async (req,res)=>{
-    const {profileId} = req.params;
-    try {
-        const [profile] = await __pool.query(`SELECT * FROM profiles WHERE id = ?`, [profileId]);
-    
-        if (profile.length === 0) {
-            return res.status(404).json({ message: "Profile not found" });
-        }
-        const responseData = {};
-    
-        let [sections] = await __pool.query(`SELECT * FROM sections WHERE profileId = ?`, [profile[0].id]);
+    const { profileId } = req.params;
+try {
+    const [profile] = await __pool.query(`SELECT * FROM profiles WHERE id = ?`, [profileId]);
 
-        // Sorting sections Based on Sording order stored in profile
-        const sortOrder = profile[0].section_ordering;
-
-        if(sortOrder && sortOrder.length == sections.length){            
-            const sectionMap = new Map(sections.map(section => [section.id.toString(), section]));
-            const sortedSections = sortOrder.map(id => sectionMap.get(id));
-
-            sections =  sortedSections.filter(section => section !== undefined);
-        }
-        const sectionsIds = sections.map((section) => section.id);
-    
-        if(sectionsIds.length > 0){
-            const [links] = await __pool.query(`SELECT * from links WHERE sectionId IN (?)`, [sectionsIds]);
-            responseData.links = links;
-        }else{
-            responseData.links = [];
-        }
-        const [forms] = await __pool.query(`SELECT * FROM form WHERE profileId = ?`, [profileId]);
-    
-        responseData.profile = profile[0];
-        responseData.sections = sections || [];
-        responseData.forms = forms || [];
-    
-        return res.status(200).json(responseData);
-    } catch (error) {
-        console.error("Error in fetching profile:", error);
-        return res.status(500).json({ message: "Internal Server Error" });
+    if (profile.length === 0) {
+        return res.status(404).json({ message: "Profile not found" });
     }
+
+    const responseData = {};
+
+    let [sections] = await __pool.query(`SELECT * FROM sections WHERE profileId = ?`, [profile[0].id]);
+
+    // Sorting sections Based on Sorting order stored in profile
+    const sortOrder = profile[0].section_ordering;
+
+    if (sortOrder && sortOrder.length === sections.length) {
+        const sectionMap = new Map(sections.map(section => [section.id.toString(), section]));
+        const sortedSections = sortOrder.map(id => sectionMap.get(id));
+
+        sections = sortedSections.filter(section => section !== undefined);
+    }
+
+    for (const section of sections) {
+        const sectionLinksOrder = section.sortOrder; // Assuming sortOrder is a JSON string
+
+        if (sectionLinksOrder && sectionLinksOrder.length > 0) {
+            const [links] = await __pool.query(`SELECT * FROM links WHERE sectionId = ?`, [section.id]);
+
+            // Sorting links based on the order specified in the section
+            const linkMap = new Map(links.map(link => [link.id.toString(), link]));
+            const sortedLinks = sectionLinksOrder.map(id => linkMap.get(id));
+
+            section.links = sortedLinks.filter(link => link !== undefined);
+        } else {
+            section.links = [];
+        }
+    }
+
+    const [forms] = await __pool.query(`SELECT * FROM form WHERE profileId = ?`, [profileId]);
+
+    responseData.profile = profile[0];
+    responseData.sections = sections || [];
+    responseData.forms = forms || [];
+
+    return res.status(200).json(responseData);
+} catch (error) {
+    console.error("Error in fetching profile:", error);
+    return res.status(500).json({ message: "Internal Server Error" });
+}
 }).get("/api/linkcount/:linkId", async (req,res)=>{
     const {linkId} = req.params;
     try {
@@ -289,7 +310,6 @@ try {
 }).delete(`/api/delete/gallery/:id/:galleryname`, (req, res) => {
     const { id, galleryname } = req.params;
     const { imagePath } = req.body;
-    console.log(galleryname);
     if (fs.existsSync(`uploads/${id}/gallery/${galleryname}/${imagePath}`)) {
         // Delete the file
         fs.unlink(`uploads/${id}/gallery/${galleryname}/${imagePath}`, (err) => {
@@ -325,7 +345,6 @@ try {
     }
 }).post("/api/gallery/create", async (req,res)=>{
     const {id, galleryname} = req.body;
-    console.log(req.body);
 
     try {
         const gallerypath = path.join("uploads", String(id), "gallery" , galleryname);
@@ -393,6 +412,22 @@ try {
             await __pool.query('DELETE FROM form WHERE name = ? AND profileId = ?', [link[0].name, profile_id]);
         }
         await __pool.query(`DELETE FROM links WHERE id = ?`, [id]);
+         // Remove the link id from the sortOrder in the associated section
+    const [section] = await __pool.query(`SELECT * FROM sections WHERE id = ?`, [link[0].sectionId]);
+
+    if (section.length > 0) {
+        const sortOrder = section[0].sortOrder; // Assuming sortOrder is a JSON string
+
+        if (sortOrder && sortOrder.includes(id.toString())) {
+            // Remove the link id from the sortOrder
+            const updatedSortOrder = sortOrder.filter(linkId => linkId !== id);
+
+            // Update the sortOrder in the database
+            await __pool.query(`UPDATE sections SET sortOrder = ? WHERE id = ?`, [JSON.stringify(updatedSortOrder), link[0].sectionId]);
+        }
+    }
+
+
         res.status(200).json({message:"Sucessfully Deleted a Link"});
     } catch (error) {
         console.log(error);
@@ -412,10 +447,37 @@ try {
         console.log(error);
         res.status(500).json({message:"Server Error"});
     }
+}).post("/api/section/sortOrder", async (req,res)=>{
+   const {sectionId, ids} = req.body;
+    try {
+        await __pool.query(`UPDATE sections SET sortOrder = ? WHERE id = ?`, [JSON.stringify(ids), sectionId]);
+        res.status(200).json({message:"Sucessfully Changed"});
+    }catch (error) {
+        console.log(error);
+        res.status(500).json({message:"Server Error"});
+    }
 }).post("/api/section/delete", async (req,res)=>{
     const {id} = req.body;
     try {
+        const [section] = await __pool.query(`SELECT * FROM sections WHERE id = ?`, [id]);
+
         await __pool.query(`DELETE FROM sections WHERE id = ?`, [id]);
+
+        const [profile] = await __pool.query(`SELECT * FROM profiles WHERE id = ?`, [section[0].profileId]);
+
+        if (profile.length > 0) {
+            const sortOrder = profile[0].section_ordering; // Assuming sortOrder is a JSON string
+    
+            if (sortOrder && sortOrder.includes(id.toString())) {
+                // Remove the link id from the sortOrder
+                const updatedSortOrder = sortOrder.filter(sectionId => sectionId !== id);
+    
+                // Update the sortOrder in the database
+                await __pool.query(`UPDATE profiles SET section_ordering = ? WHERE id = ?`, [JSON.stringify(updatedSortOrder), section[0].profileId]);
+            }
+        }
+
+
         res.status(200).json({message:"Sucessfully Deleted a Section"});
     } catch (error) {
         console.log(error);

@@ -43,6 +43,7 @@ CREATE TABLE IF NOT EXISTS sections(
   hidden BOOLEAN DEFAULT FALSE,
   type VARCHAR(255) DEFAULT 'dynamic',
   isDynamic BOOLEAN DEFAULT FALSE,
+  sortOrder JSON,
   permanent BOOLEAN DEFAULT TRUE,
   profileId int NOT NULL,
   FOREIGN KEY (profileId) REFERENCES profiles(id) ON DELETE CASCADE

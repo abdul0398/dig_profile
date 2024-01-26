@@ -3,7 +3,8 @@
 
 <!-- Cropper.js JavaScript -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/cropperjs/1.6.1/cropper.min.js" integrity="sha512-9KkIqdfN7ipEW6B6k+Aq20PV31bjODg4AA52W+tYtAE0jE0kMx49bjJ3FgvS56wzmyfMUHbQ4Km2b7l9+Y/+Eg==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
-
+<!--Sortable Js-->
+<script src="https://cdn.jsdelivr.net/npm/sortablejs@latest/Sortable.min.js"></script>
 <body>
     <style>
     * {
@@ -966,13 +967,20 @@
                 // Remove the parent container when the trash icon is clicked
                 deleteLinkInDatabase(deleteIcon);
             };
+
+            let handleIcon = document.createElement('i');
+            handleIcon.className = 'handle fa-solid fa-grip-vertical';
+            handleIcon.style.cursor = "grab";
+            handleIcon.style.marginLeft = "10px";
+
             // Append the new elements to the container
             newInputContainer.appendChild(newInput);
             newInputContainer.appendChild(newEyeIcon);
             newInputContainer.appendChild(deleteIcon);
+            newInputContainer.appendChild(handleIcon);
 
             div_container.appendChild(newInputContainer);
-            
+            await saveLinkOrder(div_container)
             
         }
         populateProfilePreview()
@@ -1184,8 +1192,7 @@
                         </span>
                     </div>                
                     <div style="display: flex; flex-direction: column; border-radius: 10px; background-color: #F1F5F7; width: 90%; margin: 0px auto 10px auto;">
-                        <div class="inner-container-eyeinputs" style="min-height: 80%; width: 100%; margin-top: 20px;">
-                            <div class="mylisting_dynamic_container"></div>
+                        <div sections_id="${id}" class="sortable-list inner-container-eyeinputs" style="min-height: 80%; width: 100%; margin-top: 20px;">
                         </div>
                         <button section_id="${id}" class="add-more-filed-btn" onclick="addMoreField(this)">Add more fields</button>
                     </div>
