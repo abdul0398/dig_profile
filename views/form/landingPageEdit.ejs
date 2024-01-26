@@ -1,15 +1,15 @@
 <div id="form_popup" class="close_popup">
-  <div class="d-flex p-3 " id="meta_form_popup_inner"
-  style="position: fixed; height: 70vh; border-radius: 20px; background-color: #e5e5e5;
+  <div  id="meta_form_popup_inner"
+  style="position: fixed;max-width: fit-content; border-radius: 20px; background-color: #e5e5e5;
   top: 50%;
   left: 50%;
   transform: translate(-50%, -50%);z-index: 999; overflow: auto; width: 800px;">
+  <h4 class="text-center">Dynamic Form</h4>
   <span onclick="closeAllPopups()" id="close_popup_btn" ><i class="fa-solid fa-x"></i></span>
-    <div class="form-container w-75">
-      <h4 class="text-center">Dynamic Form</h4>
+  <div class="d-flex p-3 ">
       <form id="dynamic-form">
         <div
-          style="text-align: center; margin: 5px; padding: 10px; background-color: #ffffff; border-radius: 5px;">
+          style="overflow: auto; height: 60vh; text-align: center; margin: 0px 5px; padding: 10px; background-color: #ffffff; border-radius: 10px;">
           <!-- <input class="form_input" id="form_name" type="text" placeholder="Form Name"> -->
           <label>Discord Links</label>
           <div id="discord_metaform_field" style="text-align: start;">
@@ -43,7 +43,6 @@
             </div>
         </div>
       </form>
-    </div>
 
     <div class="preview" id="preview-background">
 
@@ -120,8 +119,9 @@
         padding: 66px 15px 20px 15px;
         background-color: #FFF;
         border-radius: 10px;
-        max-height: 600px;
+        height: 60vh;
         overflow-x: auto;
+
     }
     @media only screen and (max-width: 700px) {
       #preview-background{
@@ -145,6 +145,10 @@
   </div>  
       
     </div>
+  </div>
+
+
+
       <script>
         function addDiscordMetaform() {
         let inputContainer = document.getElementById('discord_container');

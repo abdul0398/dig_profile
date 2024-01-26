@@ -34,7 +34,7 @@ module.exports.sections = [
             {
                 type: "link",
                 name: "Personal Link",
-                link: "#"
+                link: ""
             },
             {
                 type: "gallery",
@@ -108,20 +108,13 @@ module.exports.sections = [
             {
                 type: "link",
                 name: "Call Us",
-                link: "00000000"
+                link: ""
             },
             {
                 type: "link",
                 name: "WhatsApp",
-                link: "00000000"
+                link: ""
             }
-        ]
-    },
-    {
-        heading: "Contact Me",
-        type: "contact",
-        isDynamic: false,
-        links: [
         ]
     },
     {

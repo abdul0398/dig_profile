@@ -343,7 +343,7 @@ try {
     const {id, hidden, type, profile_id} = req.body;
     try {
         if(type){
-            await __pool.query(`UPDATE profiles SET ${type} = ? WHERE id = ?`, [hidden, profile_id]);
+            await __pool.query(`UPDATE sections SET ${type} = ? WHERE id = ?`, [hidden, profile_id]);
             return res.status(200).json({message:"Sucessfully Changed"});
         }
         await __pool.query(`UPDATE links SET hidden = ? WHERE id = ?`, [hidden, id]);
@@ -424,10 +424,6 @@ try {
 }).post("/api/section/update/visibility", async (req,res)=>{
     const {id, hidden, type, profile_id} = req.body;
     try {
-        if(type){
-            await __pool.query(`UPDATE profiles SET ${type} = ? WHERE id = ?`, [hidden, profile_id]);
-            return res.status(200).json({message:"Sucessfully Changed"});
-        }
         await __pool.query(`UPDATE sections SET hidden = ? WHERE id = ?`, [hidden, id]);
         res.status(200).json({message:"Sucessfully Changed"});
     } catch (error) {
@@ -470,6 +466,16 @@ try {
         console.log(error);
         res.status(500).json({message:"Server Error"});
     }
+}).post("/api/profile/update/sectionsOrder", async (req,res)=>{
+    const {id, sectionsIds} = req.body;
+    try {
+        await __pool.query(`UPDATE profiles SET section_ordering = ? WHERE id = ?`, [JSON.stringify(sectionsIds), id]);
+        res.status(200).json({message:"Sucessfully Changed"});
+    } catch (error) {
+        console.log(error);
+        res.status(500).json({message:"Server Error"});
+    }
+
 }).get("/gallery/:profileId/:galleryname", async (req,res)=>{
     const {profileId, galleryname} = req.params;
     try {
@@ -478,9 +484,8 @@ try {
         console.log(error.message);
         res.redirect("/error");
     }
-
-
 })
+
 
 
 module.exports = router;

@@ -1086,7 +1086,7 @@
                 document.getElementById("profile_desc").value = profile.description
                 document.getElementById("profile_desc").setAttribute("profile_id", profile.id);
                 document.getElementById("charCount").innerText = profile.description? profile.description.length + "/250": "0/250";
-                
+                document.getElementById("viewProfileBtn").href = `/profile/${generateLongStringWithDelimiter(profile.id)}`;
                 
                 // Script Of a Dialog Box
                 async function startDialog() {
@@ -1209,7 +1209,7 @@
 
                         if(section.type == "book"){
                             container.innerHTML +=  `
-                            <div style="width: 100%; margin: 20px auto;">     
+                            <div section_id="${section.id}" style="width: 100%; margin: 20px auto;">     
                                 <div style="display: flex; flex-direction: column; border-radius: 10px; background-color: #F1F5F7; width: 90%; margin: 0px auto 10px auto;">
                                     <div style="min-height: 80%; width: 100%;  margin: 20px 0px;">
                                         <div class="input_container_with_eye">
@@ -1222,7 +1222,7 @@
                             continue;
                         }else if(section.type == "Lead"){
                             container.innerHTML +=  `
-                        <div style="width: 100%; margin: 20px auto;">     
+                        <div section_id="${section.id}" style="width: 100%; margin: 20px auto;">     
                             <div style="display: flex; flex-direction: column; border-radius: 10px; background-color: #F1F5F7; width: 90%; margin: 0px auto 10px auto;">
                                 <div style="min-height: 80%; width: 100%;  margin: 20px 0px;">
                                     <div class="input_container_with_eye">

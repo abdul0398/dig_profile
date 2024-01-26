@@ -363,7 +363,10 @@
     <div class="d_wrap" style="margin-bottom: 5px; display: flex; justify-content: space-between;">
         <div class="link_container" id="linkContainer">
             <div style="text-align: end;">
-                <button id="show_dialog">Change Sections Order</button>
+                <a target="_blank" href="#" id="viewProfileBtn" style="background-color: #0066C9 !important;"  class="btn btn-sm btn-facebook mt-3 me-2" >
+                    View
+                </a>
+                <button class="btn btn-sm mt-3 " style=" background-color: #0066C9 !important;" id="show_dialog">Change Sections Order</button>
             </div>
             <div style="width: 100%; margin: auto;">     
                 <p style="margin-left: 25px; margin-bottom: 12px;" class="text_style">Upload Your Picture</p>
@@ -419,11 +422,14 @@
             
                 <section id="profile_preview_container">
                     <p class="agent-name">AGENT NAME</p>
-                    <p class="desc_aboutUs" style="padding: 0px 5px; font-size: 12px; text-align: center;
+                    <p class="desc_aboutUs" style="padding: 0px 20px; font-size: 12px; text-align: center;
                    color: #000;"></p>
                     <section id="profile_preview_innercontainer">
                         
                     </section>
+                    
+                   
+
                     <style>
                         
                         .profile-card {
@@ -471,17 +477,6 @@
                         margin-top: 15px;
                         }
                     </style>
-                    <div class="profile-card">
-                        <div class="profile-photo-container">
-                            <img src="/dp.jpg" alt="Jackson Totham" class="profile-photo">
-                        </div>
-                        <h2 class="profile-name">Jackson Totham</h2>
-                        <p class="profile-title">CEO of Redbull</p>
-                        <p class="profile-quote">
-                            I really enjoyed working with them, they are Group of professionals and they know what they're Doing
-                        </p>
-                    </div>
-
                 </section>
             </div>
         </div>
@@ -506,7 +501,7 @@
             left: 50%;
             transform: translateX(-50%);">Hello</p>
                 <section style="position: relative; margin-top: 247px; width: 100%;" class="links_container">
-              <p class="desc_aboutUs" style="padding: 0px 5px; font-size: 12px; text-align: center; color: #fff; width: 100%;"></p>
+              <p class="desc_aboutUs" style="padding: 0px 20px; font-size: 12px; text-align: center; color: #fff; width: 100%;"></p>
           <section id="profile_preview_container_temp2">
 
           </section>
@@ -533,7 +528,7 @@
             left: 50%;
             transform: translateX(-50%);">Hello</p>
                 <section  style="position: relative; margin-top: 235px; width: 100%;" class="links_container">
-            <p class="desc_aboutUs" style="padding: 0px 5px; font-size: 12px; text-align: center;
+            <p class="desc_aboutUs" style="padding: 0px 20px; font-size: 12px; text-align: center;
             color: black;
     width: 100%;"></p>
     <section id="profile_preview_container_temp3">
@@ -1208,6 +1203,7 @@
             // Insert the new section after the clicked button's container
             parent.insertBefore(section, container);
 
+            await extractAndSaveOrderOFSections();
             populateProfilePreview();
         },
         allowOutsideClick: () => !Swal.isLoading()
@@ -1243,7 +1239,7 @@
 
     async function deleteSection(elem) {
         const section =   document.querySelector(`[section_id="${elem.getAttribute("section_id")}"]`)
-       section.remove();
+        section.remove();
         const id = elem.getAttribute("section_id");
         const res = await fetch("/api/section/delete", {
             method:"POST",
@@ -1396,5 +1392,24 @@
         var currentLength = textarea.value.length;
 
         charCount.textContent =  currentLength + "/" + textarea.getAttribute("maxlength");
+    }
+
+    async function extractAndSaveOrderOFSections(params) {
+        const container = document.getElementById("dynamic_section_container");
+        const sections = Array.from(container.children).filter(child=>{
+            return !child.classList.contains("Add_new_section");
+        })
+
+        const sectionsIds = sections.map(section=>{
+            return section.getAttribute("section_id");
+        })
+        const profile_id = document.getElementById("profile_id").getAttribute("profile_id");
+        await fetch(`/api/profile/update/sectionsOrder`, {
+            method:"POST",
+            headers: {
+                "Content-Type": "application/json"
+            },
+            body: JSON.stringify({id:profile_id, sectionsIds})
+        })
     }
 </script>
