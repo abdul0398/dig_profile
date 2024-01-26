@@ -276,7 +276,7 @@
         return data;
     }
     async function fetchprofileDetails(profileid){
-        const res = await fetch(`/api/getProfile/${profileid}`,{
+        const res = await fetch(`/api/profile/fetch/${profileid}`,{
             method:"GET"
         })
         const data = await res.json();
@@ -334,7 +334,7 @@
   <%}else{%>
     <script>
       async function fetchprofileDetails(profileid){
-          const res = await fetch(`/api/getProfile/${profileid}`,{
+          const res = await fetch(`/api/profile/fetch/${profileid}`,{
               method:"GET"
           })
           const data = await res.json();

@@ -33,7 +33,7 @@ router.get("/", verify, async(req,res)=>{
         const [profiles] = await __pool.query(`SELECT name, id FROM profiles WHERE client_id = ?`, [req.user.id]);
         res.render("dashboard.ejs", {clients: [], profiles: profiles});
     }
-}).post("/addprofile",verify, isAdmin, async (req,res)=>{
+}).post("/api/profile/create",verify, isAdmin, async (req,res)=>{
     const { name, clientID } = req.body;
 
 try {
@@ -58,7 +58,6 @@ try {
         const profileImgPath = path.join(baseProfilePath, 'profileImg');
         const awards = path.join(galleryPath, 'Awards');
         const testimonials = path.join(galleryPath, 'Testimonials');
-        const about = path.join(galleryPath, 'About');
 
         // Create base profile folder and nested folders
         await Promise.all([
@@ -67,7 +66,6 @@ try {
             fsPromises.mkdir(profileImgPath, { recursive: true }),
             fsPromises.mkdir(awards, { recursive: true }),
             fsPromises.mkdir(testimonials, { recursive: true }),
-            fsPromises.mkdir(about, { recursive: true })
         ]);
 
         // Create Default Sections
@@ -103,7 +101,7 @@ try {
     return res.status(500).json({ message: 'Internal Server Error' });
 }
 
-}).post("/api/edit/profilename/:profileId", verify, async (req,res)=>{
+}).post("/api/profile/edit/profileName/:profileId", verify, isAdmin, async (req,res)=>{
     const {profileId} = req.params;
     const {name} = req.body;
     try {
@@ -113,7 +111,7 @@ try {
     } catch (error) {
         console.log("Error in updating profile", error.message);
     }
-}).get("/api/delete/profile/:profileId", verify, async (req,res)=>{
+}).get("/api/profile/delete/:profileId", verify, isAdmin, async (req,res)=>{
     const {profileId} = req.params;
     try { 
         const profileFolderPath = path.join("uploads", profileId);
@@ -201,7 +199,7 @@ try {
         console.error("Error in fetching profile", error.message);
         res.redirect("/error");
     }
-}).post("/api/profileupload", verify,  upload.single('profile_image'), async (req,res)=>{
+}).post("/api/profile/uploadPhoto", verify,  upload.single('profile_image'), async (req,res)=>{
     const { profile_id } = req.body;
     try {
         // Fetch current profile image path
@@ -223,7 +221,7 @@ try {
         console.error("Error in uploading profile image", error.message);
         res.status(500).json({ message: "Error in uploading profile image" });
     }
-}).get("/api/getprofile/:profileId", verify, async (req,res)=>{
+}).get("/api/profile/fetch/:profileId", verify, async (req,res)=>{
     const {profileId} = req.params;
     try {
         const [profile] = await __pool.query(`SELECT * FROM profiles WHERE id = ?`, [profileId]);

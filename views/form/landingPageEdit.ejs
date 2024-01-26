@@ -403,7 +403,7 @@
 
 
       async function fetchProfileDetail (id){
-          const res = await fetch(`/api/getprofile/${id}`,{
+          const res = await fetch(`/api/profile/fetch/${id}`,{
               method:"GET"
           })
           const data = await res.json();

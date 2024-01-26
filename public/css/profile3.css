@@ -272,8 +272,9 @@ body {
     object-fit: cover;
   }
   .group-parent1 {
-    left: calc(50% - 66px);
-    width: 170px;
+    left: 50%;
+    width: 260px;
+    transform: translateX(-50%);
   }
   .group-child4,
   .line-icon {

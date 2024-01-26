@@ -145,6 +145,12 @@
        
         
     }
+    #charCount{
+        font-size: 10px;
+        color: #7b7b7b;
+        width: 95%;
+        margin: 10px auto 0px auto;
+    }
     .deleteButton{
         display: inline;
         width: fit-content;
@@ -296,6 +302,7 @@
     }
     #swal-input3{
         resize: vertical;
+        height: 150px;
         width: auto;
         transition: border-color .1s,box-shadow .1s;
         border: 1px solid #d9d9d9;
@@ -307,6 +314,9 @@
     }
     #swal-input3::placeholder{
        color: #b7b7b7;
+    }
+    .swal-height{
+        height: 80vh;
     }
     </style>
 
@@ -373,7 +383,8 @@
                 <div id="add_profile" style="display: flex; border-radius: 10px; background-color: #F1F5F7; min-height: 140px; width: 90%; margin: 0px auto 10px auto;">
                     <div style="height: 80%; width: 100%; margin-top: 10px;">
                         <input onblur="updateProfileInfo(this)" id="profile_name_edit" name="name" placeholder="Write Your Name Here" class="input_about" type="text">
-                        <textarea onblur="updateProfileInfo(this)" id="profile_desc" name="description" class="textarea_desc" style="display: block;" placeholder="Write Short Bio Here (250 Char Max)"></textarea> 
+                        <textarea onblur="updateProfileInfo(this)" id="profile_desc" oninput="limitTextarea(); updateCharCount();" maxlength="250" name="description" class="textarea_desc" style="display: block;" placeholder="Write Short Bio Here (250 Char Max)"></textarea> 
+                        <div id="charCount"></div>
                     </div>
                 </div>
             </div>
@@ -408,7 +419,7 @@
             
                 <section id="profile_preview_container">
                     <p class="agent-name">AGENT NAME</p>
-                    <p class="desc_aboutUs" style="text-align: center;
+                    <p class="desc_aboutUs" style="padding: 0px 5px; font-size: 12px; text-align: center;
                    color: #000;"></p>
                     <section id="profile_preview_innercontainer">
                         
@@ -495,7 +506,7 @@
             left: 50%;
             transform: translateX(-50%);">Hello</p>
                 <section style="position: relative; margin-top: 247px; width: 100%;" class="links_container">
-              <p class="desc_aboutUs" style="text-align: center; color: #fff; width: 100%;"></p>
+              <p class="desc_aboutUs" style="padding: 0px 5px; font-size: 12px; text-align: center; color: #fff; width: 100%;"></p>
           <section id="profile_preview_container_temp2">
 
           </section>
@@ -522,7 +533,7 @@
             left: 50%;
             transform: translateX(-50%);">Hello</p>
                 <section  style="position: relative; margin-top: 235px; width: 100%;" class="links_container">
-            <p class="desc_aboutUs" style="text-align: center;
+            <p class="desc_aboutUs" style="padding: 0px 5px; font-size: 12px; text-align: center;
             color: black;
     width: 100%;"></p>
     <section id="profile_preview_container_temp3">
@@ -595,7 +606,7 @@
         formdata.append("profile_id", profile_id);
         formdata.append("profile_image", blob, "profile_image.png");
         try {
-            const res = await fetch("/api/profileupload", {
+            const res = await fetch("/api/profile/uploadPhoto", {
                 method: "POST",
                 body: formdata,
             })
@@ -883,7 +894,7 @@
                 confirmButtonText: "Ok",
             }).then((result) => {
                 if (result.isConfirmed) {
-                    return;
+                    addMoreField(elem);
                 }
             });
             return;
@@ -1297,11 +1308,15 @@
         const { value: formValues } = await Swal.fire({
         title: "About Us",
         html: `
+        <div style="display:flex; flex-direction:column">
             <input id="swal-input1" value="${about_us?.[0]?about_us?.[0]:""}" class="swal2-input" placeholder="Heading">
             <input id="swal-input2" value="${about_us?.[1]?about_us?.[1]:""}" class="swal2-input" placeholder="Title">
-            <textarea style="" id="swal-input3" class="swal2-input" placeholder="Description">${about_us?.[2]?about_us?.[2]:""}</textarea>
+            <textarea id="swal-input3" class="swal2-input" placeholder="Description">${about_us?.[2]?about_us?.[2]:""}</textarea>    
+        </div>
         `,
         showCancelButton: true,
+        width :700,
+        customClass: 'swal-height',
         confirmButtonText: "Save",
         focusConfirm: false,
         preConfirm: () => {
@@ -1326,14 +1341,7 @@
                 title: resData.message,
                 icon: "success",
                 confirmButtonText: "NExT",
-            }).then((result) => {
-                if (result.isConfirmed) {
-                    const input = document.createElement("input");
-                    input.setAttribute("name", "About");
-                    editGalleryOpenPopUp(input);
-                }
-            });
-            return true;
+            })
         }else{
             Swal.fire({
                 title: resData.message,
@@ -1372,4 +1380,21 @@
         }  
     }
 
+    function limitTextarea() {
+        var textarea = document.getElementById("profile_desc");
+        var maxLength = parseInt(textarea.getAttribute("maxlength"));
+        var currentLength = textarea.value.length;
+
+        if (currentLength > maxLength) {
+            textarea.value = textarea.value.slice(0, maxLength);
+        }
+    }
+
+    function updateCharCount() {
+        var textarea = document.getElementById("profile_desc");
+        var charCount = document.getElementById("charCount");
+        var currentLength = textarea.value.length;
+
+        charCount.textContent =  currentLength + "/" + textarea.getAttribute("maxlength");
+    }
 </script>

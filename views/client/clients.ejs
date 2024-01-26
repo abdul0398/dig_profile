@@ -690,18 +690,7 @@
     
             
         
-            const defaltLinks = {
-                temp1:[
-                        { type: 'heading', link: null, name: null, heading: 'My active listings', sort_order: 1 },
-                        { type: 'link', link: 'https://www.propertyguru.com.sg/', name: 'Property Guru', heading: null, sort_order: 2 },
-                        { type: 'link', link: 'https://www.99.co/singapore', name: '99.co', heading: null, sort_order: 3 },
-                        { type: 'link', link: '#', name: 'Edge Property', heading: null, sort_order: 4 },
-                        { type: 'link', link: '#', name: 'SRX', heading: null, sort_order: 5 },
-                        { type: 'heading', link: null, name: null, heading: 'Digital Profile', sort_order: 6 },
-                        { type: 'link', link: '#', name: 'My Personal site', heading: null, sort_order: 8 },
-                        { type: 'link', link: '#', name: 'My Awards', heading: null, sort_order: 9 },
-                    ]
-            }
+            
             
             async function closeEditDiv(){
                 document.querySelector(".profile_edit_container").style.display = "none"
@@ -883,7 +872,7 @@
                const clientID = document.getElementsByClassName("selected_client")[0].getAttribute("mid");
                showLoadingOverlay();
                try {
-                const res = await fetch('/addprofile', {
+                const res = await fetch('/api/profile/create', {
                         method: 'POST',
                         headers: {
                             'Content-Type': 'application/json'
@@ -962,11 +951,11 @@
                             
                             
                             
-                            <a href="/api/delete/profile/${profile.id}" class="big_icon mt-3 btn-sm btn btn-danger me-2" >
+                            <a href="/api/profile/delete/${profile.id}" class="big_icon mt-3 btn-sm btn btn-danger me-2" >
                             Delete
                             </a>
     
-                            <a href="/api/delete/profile/${profile.id}" class="small_icon mt-3 ms-4">
+                            <a href="/api/profile/delete/${profile.id}" class="small_icon mt-3 ms-4">
                                 <i class="fa-solid fa-trash"></i>
                             </a>
     
@@ -1026,7 +1015,7 @@
             })
 
             async function fetchProfileDetail (id){
-                const res = await fetch(`/api/getprofile/${id}`,{
+                const res = await fetch(`/api/profile/fetch/${id}`,{
                     method:"GET"
                 })
                 const data = await res.json();
@@ -1039,7 +1028,7 @@
                         div.addEventListener("blur", async ()=>{
                           const name = div.textContent; 
                           const id = div.getAttribute("profile_id");
-                          const res = await fetch(`api/edit/profilename/${id}`, {
+                          const res = await fetch(`api/profile/edit/profileName/${id}`, {
                             method: 'POST',
                             headers: {
                                 'Content-Type': 'application/json',
@@ -1096,6 +1085,7 @@
                 document.getElementById("profile_name_edit").setAttribute("profile_id", profile.id)
                 document.getElementById("profile_desc").value = profile.description
                 document.getElementById("profile_desc").setAttribute("profile_id", profile.id);
+                document.getElementById("charCount").innerText = profile.description? profile.description.length + "/250": "0/250";
                 
                 
                 // Script Of a Dialog Box
@@ -1618,42 +1608,6 @@
                 }
             }
             
-            function formDeleteHandler(btn) {
-                const form_id = btn.getAttribute("form_id");
-                swal.fire({
-                    title: "Do you want to Delete the Form?",
-                    showCancelButton: true,
-                    confirmButtonText: "Delete",
-                    }).then(async (result) => {
-                        if (result.isConfirmed) {
-                            showLoadingOverlay();
-                            const res = await fetch(`/api/deleteform/${form_id}`, {
-                                method:"GET"
-                            });
-                            if(res.status == 200){
-                                hideLoadingOverlay();
-                                Swal.fire({
-                                    title: "Form Deleted Successfully",
-                                    icon: "success",
-                                    confirmButtonText: "Ok",
-                                })
-                            }else{
-                            swal.fire({
-                                    title: "Error",
-                                    text: resData.message,
-                                    icon: "error",
-                                    confirmButtonText: "Ok",
-                                    confirmButtonColor: "#002655",
-                                });
-                                hideLoadingOverlay();
-                            }
-                        } else if (result.isDenied) {
-                            hideLoadingOverlay();
-                            Swal.fire("Changes are not saved", "", "info");
-                        }
-                });   
-            }
-                        
             async function editForm(formId) {
                 event.preventDefault();
                 if(!validate()){
@@ -1762,11 +1716,11 @@
                             
                             
                             
-                            <a href="/api/delete/profile/${profile.id}" class="big_icon mt-3 btn-sm btn btn-danger me-2" >
+                            <a href="/api/profile/delete/${profile.id}" class="big_icon mt-3 btn-sm btn btn-danger me-2" >
                             Delete
                             </a>
     
-                            <a href="/api/delete/profile/${profile.id}" class="small_icon mt-3 ms-4">
+                            <a href="/api/profile/delete/${profile.id}" class="small_icon mt-3 ms-4">
                                 <i class="fa-solid fa-trash"></i>
                             </a>
     
@@ -1828,6 +1782,7 @@
             document.getElementById("profile_name_edit").setAttribute("profile_id", profile.id)
             document.getElementById("profile_desc").value = profile.description
             document.getElementById("profile_desc").setAttribute("profile_id", profile.id);
+            document.getElementById("charCount").innerText = profile.description? profile.description.length + "/250": "0/250";
             
             
             // Script Of a Dialog Box
@@ -2295,42 +2250,6 @@
                     editHandler(elem);
                     localStorage.removeItem('lastCreatedProfileID');
                 }
-            }
-            
-            function formDeleteHandler(btn) {
-                const form_id = btn.getAttribute("form_id");
-                swal.fire({
-                    title: "Do you want to Delete the Form?",
-                    showCancelButton: true,
-                    confirmButtonText: "Delete",
-                    }).then(async (result) => {
-                        if (result.isConfirmed) {
-                            showLoadingOverlay();
-                            const res = await fetch(`/api/deleteform/${form_id}`, {
-                                method:"GET"
-                            });
-                            if(res.status == 200){
-                                hideLoadingOverlay();
-                                Swal.fire({
-                                    title: "Form Deleted Successfully",
-                                    icon: "success",
-                                    confirmButtonText: "Ok",
-                                })
-                            }else{
-                            swal.fire({
-                                    title: "Error",
-                                    text: resData.message,
-                                    icon: "error",
-                                    confirmButtonText: "Ok",
-                                    confirmButtonColor: "#002655",
-                                });
-                                hideLoadingOverlay();
-                            }
-                        } else if (result.isDenied) {
-                            hideLoadingOverlay();
-                            Swal.fire("Changes are not saved", "", "info");
-                        }
-                });   
             }
                         
             async function editForm(formId) {
