@@ -85,7 +85,7 @@
             <span class="close-button">&times;</span>
             <h2>Upload Images</h2>
             <div class="upload-area">
-                <input type="file" id="imageInput" multiple>
+                <input accept="image/png, image/jpeg, image/jpg" type="file" id="imageInput" multiple>
                 <label for="imageInput">Choose Images</label>
             </div>
             <div id="imageList" class="image-list">
@@ -149,7 +149,7 @@
             });
             swal.fire({
                 title: "Success",
-                text: data.message,
+                text: "Upload Successful",
                 icon: "success",
                 confirmButtonText: "Ok",
                 confirmButtonColor: "#002655",

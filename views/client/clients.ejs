@@ -865,7 +865,7 @@
                         let linkHtml = ""
                         section.links.forEach(link=>{
                             const handler = link.type == "gallery"?'onclick="editGalleryOpenPopUp(this)"': link.type == "about_us"?`onclick="aboutUsHandler(this)"`: link.type == "leadform" || link.type == "bookform"?"":link.type == "calculator"? 'onclick="updatCalculatorName(this)"':link.type == "form"?'onclick="edit_Form_show(this)"':'onclick="updateLinkInDatabase(this)"';
-                            const placeholder = link.type == "link" ? `${link.name} (PUT URL HERE)` :link.type == "gallery"?`${link.name} Click to edit gallery`:link.type == "about_us"?"About Us (Click to Edit)":link.type == "leadform" || link.type == "bookform"?link.name: link.type == "calculator"?link.name:`${link.name} (Click to edit form)`;
+                            const placeholder = link.type == "link" ? `${link.name}` :link.type == "gallery"?`${link.name} Click to edit gallery`:link.type == "about_us"?"About Us (Click to Edit)":link.type == "leadform" || link.type == "bookform"?link.name: link.type == "calculator"?link.name:`${link.name} (Click to edit form)`;
                             const linkHidden = link.hidden;
                             linkHtml += `
                             <div class="input_container_with_eye">

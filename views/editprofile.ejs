@@ -937,12 +937,12 @@
            
         }
 
-        async function openGalleryPopup(name) {
+        async function openGalleryPopup(newGalleryname) {
             const modal_gallery = document.getElementById('imageUploadModal-gallery');
             showLoadingOverlay();
-            await fetchImagesPathAndPopulate(name)
+            await fetchImagesPathAndPopulate(newGalleryname)
             modal_gallery.style.display = 'block';
-            modal_gallery.setAttribute("gallery-name", galleryname);
+            modal_gallery.setAttribute("gallery-name", newGalleryname);
             hideLoadingOverlay() 
         }
 
@@ -1078,7 +1078,7 @@
         const fieldName= formValues[1];
         const type = formValues[0];     
             if(type == "text"){
-                createFieldHandler(elem, fieldName, div_container,"link", `${fieldName} (Put URL Here )`);
+                createFieldHandler(elem, fieldName, div_container,"link", `${fieldName}`);
             }else if(type == "gallery"){
                 const bool = await createGalleryFolder(fieldName);
                 if(bool){
@@ -1180,18 +1180,8 @@
         })
         const resData = await res.json()
         if(res.status == 200){
-            Swal.fire({
-                title: resData.message,
-                icon: "success",
-                confirmButtonText: "Ok",
-            });
             return resData.id;
         }else{
-            Swal.fire({
-                title: resData.message,
-                icon: "error",
-                confirmButtonText: "Ok",
-            });
             return false;
         }  
     }
@@ -1208,11 +1198,6 @@
         })
         const resData = await res.json()
         if(res.status == 200){
-            Swal.fire({
-                title: resData.message,
-                icon: "success",
-                confirmButtonText: "Ok",
-            });
             return true;
         }else{
             Swal.fire({
