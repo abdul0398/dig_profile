@@ -20,10 +20,10 @@
         text-align: center;
     }
     body{
-        background-color: #1a1616;
+        background-color: #ffffff;
     }
     .inline-gallery-container{
-        width: 80%;
+        width: 100%;
         margin: auto;
     }
 </style>
@@ -50,7 +50,7 @@
         container.innerHTML =  `<h1 class="heading_gallery">${galleryname}</h1>`
         data.forEach(elem=>{
             container.innerHTML += `<a href="/uploads/${profile_id}/gallery/${galleryname}/${elem}">
-                    <img style="object-fit: cover; height:200px" src="/uploads/${profile_id}/gallery/${galleryname}/${elem}" />
+                    <img style="border-radius:20px; object-fit: cover; height:350px" src="/uploads/${profile_id}/gallery/${galleryname}/${elem}" />
                 </a>`
         })
 

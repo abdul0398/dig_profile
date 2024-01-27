@@ -31,7 +31,7 @@
                 <button type="button" class="my-1 add-option-button" onclick="addEmailMetaform()">Add Email</button>
             </div>
           </div>
-          <p>QUESTIONS</p>
+          <p style="font-size: 0.875rem;">QUESTIONS</p>
           <div id="questionsContainer_meta">
           
             <button style="display: block;" type="button" id="add-question"
@@ -194,7 +194,7 @@
                   const optionDiv = document.createElement("div");
                   optionDiv.classList.add("option");
                   optionDiv.innerHTML = `
-                  <input type="text" class="options" name="option[]" placeholder="Option">
+                  <input type="text" class="form_input options" name="option[]" placeholder="Option">
                   <button type="button" class="delete-option-button">Delete option</button>
                   `;
                   optionsContainer.appendChild(optionDiv);
@@ -247,7 +247,7 @@
                   <button type="button" class="delete-question-button">Delete Question</button>
                   <div class="options-container">
                     <div class="option">
-                      <input type="text" name="option[]" placeholder="Option" class="options">
+                      <input type="text" name="option[]" placeholder="Option" class="form_input options">
                       <button type="button" class="delete-option-button">Delete option</button>
                     </div>
                   </div>

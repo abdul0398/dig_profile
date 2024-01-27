@@ -180,8 +180,8 @@ body {
   .call-us {
     position: absolute;
     top: 0;
-    left: calc(50% - 44px);
-    text-transform: uppercase;
+    left: 50%;
+    transform: translateX(-50%);
   }
   .rectangle-div {
     position: absolute;

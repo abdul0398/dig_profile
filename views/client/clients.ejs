@@ -177,12 +177,13 @@
       
       
         .question-group {
-          margin-bottom: 20px;
-          padding: 15px;
-          background-color: #dad7d7;
-          border-radius: 5px;
-          width: fit-content;
-          margin-top: 5px;
+            margin-bottom: 20px;
+            padding: 15px;
+            background-color: #fbfbfb;
+            border-radius: 5px;
+            width: fit-content;
+            margin-top: 5px;
+            border: 1px solid #c6c6c6;
         }
         .question-group button{
           margin-top: 5px;
@@ -853,7 +854,6 @@
                     container.innerHTML = "";
                     for (let index = 0; index < sections.length; index++) {
                         const section = sections[index];
-                        console.log(section);
                         container.innerHTML += ` <div class="Add_new_section" style="text-align: center;">
                                     <div style="display: flex; width: 90%; margin: auto;">
                                         <hr style="width: 96%; margin-right: 4%; background-color: #000; height: 2px; ">
@@ -875,7 +875,7 @@
                                 <i link_id="${link.id}" onclick="eyeToggleFunction(this, false)" class="eye fa-solid fa-eye ${linkHidden?"eye_close":"eye_open"}" style="margin: 0px 10px;"></i>
                                 ${!link.permanent ? `<i onclick="deleteLinkInDatabase(this)" link_id="${link.id}" class="fas fa-trash-alt delete-field-btn" style="color: #0066C9; cursor:pointer;" link_id="your_id" cursor="pointer"></i>` : ""}
                                 ${section.type !="socials"? `<i style="cursor:grab; margin-left:10px" class="handle fa-solid fa-grip-vertical"></i>`:""}                                 
-                                ${link.type == "leadform"?`<i name="Default" link_id="${link.id}" onclick="edit_Form_show(this)" custom_type="${link.type}" class="fa-solid fa-pen-to-square" style="margin-left:20px; cursor: pointer; color:#0066C9"></i>`:""}
+                                ${link.type == "leadform"?`<i name="${link.name}" name="Default" link_id="${link.id}" onclick="edit_Form_show(this)" custom_type="${link.type}" class="fa-solid fa-pen-to-square" style="margin-left:20px; cursor: pointer; color:#0066C9"></i>`:""}
                                 </div>
                             `
                         })
@@ -1024,14 +1024,14 @@
                         for (let j = 0; j < question.options.length; j++) {
                             optionsHTML += `
                             <div class="option">
-                                <input type="text" value="${question.options[j]}" name="option[${j}]" placeholder="Option" class="options">
+                                <input type="text" value="${question.options[j]}" name="option[${j}]" placeholder="Option" class="form_input options">
                                 <button type="button" class="delete-option-button">Delete option</button>
                             </div>
                             `;
                         }
                         questions_container.innerHTML += `
                         <div class="question-group">
-                            <input type="text" value="${question.question}" name="question[${index}]" placeholder="Question" class="question">
+                            <input type="text" value="${question.question}" name="question[${index}]" placeholder="Question" class="form_input question">
                             <button type="button" class="add-option-button">Add Option</button>
                             <button type="button" class="delete-question-button">Delete Question</button>
                             <div class="options-container">
@@ -1065,12 +1065,12 @@
                         const questionGroup = document.createElement("div");
                         questionGroup.classList.add("question-group");
                         questionGroup.innerHTML = `
-                        <input type="text" name="question[]" placeholder="Question" class="question">
+                        <input type="text" name="question[]" placeholder="Question" class="form_input question">
                         <button type="button" class="add-option-button">Add Option</button>
                         <button type="button" class="delete-question-button">Delete Question</button>
                         <div class="options-container">
                             <div class="option">
-                            <input type="text" name="option[]" placeholder="Option" class="options">
+                            <input type="text" name="option[]" placeholder="Option" class="form_input options">
                             <button type="button" class="delete-option-button">Delete option</button>
                             </div>
                         </div>
@@ -1117,7 +1117,7 @@
                         const optionDiv = document.createElement("div");
                         optionDiv.classList.add("option");
                         optionDiv.innerHTML = `
-                        <input type="text" class="options" name="option[]" placeholder="Option">
+                        <input type="text" class="form_input options" name="option[]" placeholder="Option">
                         <button type="button" class="delete-option-button">Delete option</button>
                         `;
                         optionsContainer.appendChild(optionDiv);
@@ -1208,62 +1208,94 @@
                 const type = btn.getAttribute("custom_type");
 
                 if(type =="leadform"){
-                    overlay.style.display = "block";
-                    const {form} = await fetchFormDetail(name);
-                    populateEditForm(form);
-                    document.getElementById("form_popup").classList.add("open_popup");
-                    document.getElementById("form_popup").classList.remove("close_popup");
-                    return;
-                }
-                const { value: newName } = await Swal.fire({
-                title: "Enter Form Name",
-                    input: "text",
-                    inputValue:name,
-                    showCancelButton: true,
-                    confirmButtonText:"Next",
-                    inputValidator: (value) => {
-                        if (!value) {
-                        return "You need to write something!";
+                    const { value: newLeadFormName } = await Swal.fire({
+                    title: "Enter Name",
+                        input: "text",
+                        inputValue:name,
+                        showCancelButton: true,
+                        confirmButtonText:"Next",
+                        inputValidator: (value) => {
+                            if (!value) {
+                            return "You need to write something!";
+                            }
                         }
-                    }
-                });
-                if(!newName){
-                    return;
-                }else if(newName == name){
-                    overlay.style.display = "block";
-                    const {form} = await fetchFormDetail(newName);
-                    populateEditForm(form);
-                    document.getElementById("form_popup").classList.add("open_popup");
-                    document.getElementById("form_popup").classList.remove("close_popup");
-                    return;
-                }
-
-                const res = await fetch("/api/form/update/name", {
-                    method:"POST",
-                    headers: {
-                        "Content-Type": "application/json"
-                    },
-                    body: JSON.stringify({id, type, name, newName})
-                })
-                const resData = await res.json()
-                if(res.status == 200){
-                showSaveToast();
-                    btn.name = newName;
-                    btn.placeholder = newName +" (Click to edit form)";
-                    populateProfilePreview();
-                    overlay.style.display = "block";
-                    const {form} = await fetchFormDetail(newName);
-                    populateEditForm(form);
-                    document.getElementById("form_popup").classList.add("open_popup");
-                    document.getElementById("form_popup").classList.remove("close_popup");
-                }else{
-                    Swal.fire({
-                        title: resData.message,
-                        icon: "error",
-                        confirmButtonText: "Ok",
                     });
-                }  
-              
+                    if(!newLeadFormName){
+                        return
+                    }else if(newLeadFormName == name){
+                        openForm("Default")
+                    }else{
+                        showSaveToast()
+                        await fetch("/api/link/update/link", {
+                            method:"POST",
+                            headers: {
+                                "Content-Type": "application/json"
+                            },
+                            body: JSON.stringify({id, newName:newLeadFormName})
+                        })
+                        btn.setAttribute("name",newLeadFormName );
+                        btn.parentNode.firstElementChild.name = newLeadFormName;
+                        btn.parentNode.firstElementChild.placeholder = newLeadFormName +" (Click to edit form)";
+                        populateProfilePreview();
+                        openForm("Default");
+                        return;
+                    }
+
+
+                }else{
+
+               
+                    const { value: newName } = await Swal.fire({
+                    title: "Enter Form Name",
+                        input: "text",
+                        inputValue:name,
+                        showCancelButton: true,
+                        confirmButtonText:"Next",
+                        inputValidator: (value) => {
+                            if (!value) {
+                            return "You need to write something!";
+                            }
+                        }
+                    });
+                    if(!newName){
+                        return;
+                    }else if(newName == name){
+                        openForm(name)
+                        return;
+                    }
+
+                    const res = await fetch("/api/form/update/name", {
+                        method:"POST",
+                        headers: {
+                            "Content-Type": "application/json"
+                        },
+                        body: JSON.stringify({id, type, name, newName})
+                    })
+                    const resData = await res.json()
+                    if(res.status == 200){
+                    showSaveToast();
+                        btn.name = newName;
+                        btn.placeholder = newName +" (Click to edit form)";
+                        populateProfilePreview();
+                        openForm(newName)
+                    }else{
+                        Swal.fire({
+                            title: resData.message,
+                            icon: "error",
+                            confirmButtonText: "Ok",
+                        });
+                    }  
+                }
+           async function openForm(name) {
+                overlay.style.display = "block";
+                const {form} = await fetchFormDetail(name);
+                populateEditForm(form);
+                document.getElementById("form_popup").classList.add("open_popup");
+                document.getElementById("form_popup").classList.remove("close_popup");
+            }
+            
+            
+            
             }
    
             function openLastCreatedProfile() {
