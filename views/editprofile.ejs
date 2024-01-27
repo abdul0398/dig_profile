@@ -894,7 +894,7 @@
 
     async function editGalleryOpenPopUp(input) {
         const galleryname = input.getAttribute("name");
-        const { value: name } = await Swal.fire({
+        const { value: newGalleryname } = await Swal.fire({
             title: "Enter Gallery Name",
             input: "text",
             inputValue:galleryname,
@@ -905,7 +905,11 @@
                 }
             }
         });
-        if (!name) {
+        console.log(newGalleryname, galleryname)
+        if (!newGalleryname ) {
+            return;
+        }else if(newGalleryname == galleryname){
+            openGalleryPopup(newGalleryname);
             return;
         }
 
@@ -916,7 +920,7 @@
             headers: {
                 'Content-Type': 'application/json',
             },
-            body: JSON.stringify({profileId:profile_id,id:link_id,newName:name}),
+            body: JSON.stringify({profileId:profile_id,id:link_id,newName:newGalleryname}),
         })
         const data = await res.json();
         if (res.status !== 200) {
@@ -926,16 +930,21 @@
                 confirmButtonText: "Ok",
         });
         }else{
-            input.placeholder = name + " (Click To edit Gallery)";
-            input.name = name
+            input.placeholder = newGalleryname + " (Click To edit Gallery)";
+            input.name = newGalleryname
             showSaveToast();
             populateProfilePreview();
+            openGalleryPopup(newGalleryname);
+           
+        }
+
+        async function openGalleryPopup(name) {
             const modal_gallery = document.getElementById('imageUploadModal-gallery');
             showLoadingOverlay();
             await fetchImagesPathAndPopulate(name)
             modal_gallery.style.display = 'block';
             modal_gallery.setAttribute("gallery-name", galleryname);
-            hideLoadingOverlay()
+            hideLoadingOverlay() 
         }
 
     }
