@@ -689,7 +689,14 @@
                 return btoa(combinedString);
             }
     
-            
+            async function fetchProfileDetail (id){
+                const res = await fetch(`/api/profile/fetch/${id}`,{
+                    method:"GET"
+                })
+                const data = await res.json();
+                return data;
+            }
+
         
             async function editHandler(curr_elem){
                 const id = curr_elem.getAttribute("profile_id");
@@ -697,7 +704,6 @@
                 document.querySelector(".profile_edit_container").style.display = "block";
                 const showformdiv = document.getElementById("show_profiles").innerHTML = "";
                 
-
                 // ########### Filling all the prexisting details to the edit page ###########
                 const templates = document.querySelectorAll(".image-container");
                 templates.forEach(template=>{
@@ -844,6 +850,7 @@
                     container.innerHTML = "";
                     for (let index = 0; index < sections.length; index++) {
                         const section = sections[index];
+                        console.log(section);
                         container.innerHTML += ` <div class="Add_new_section" style="text-align: center;">
                                     <div style="display: flex; width: 90%; margin: auto;">
                                         <hr style="width: 96%; margin-right: 4%; background-color: #000; height: 2px; ">
@@ -857,12 +864,12 @@
                         
                         let linkHtml = ""
                         section.links.forEach(link=>{
-                            const handler = link.type == "link" ? 'onclick="updateLinkInDatabase(this)"' :link.type == "gallery"?'onclick="editGalleryOpenPopUp(this)"': link.type == "about_us"?`onclick="aboutUsHandler(this)"`: link.type == "leadform" || link.type == "bookform"?"":'onclick="edit_Form_show(this)"';
-                            const placeholder = link.type == "link" ? `${link.name} (PUT URL HERE)` :link.type == "gallery"?`${link.name} Click to edit gallery`:link.type == "about_us"?"About Us (Click to Edit)":link.type == "leadform" || link.type == "bookform"?link.name:`${link.name}Click to edit form`;
+                            const handler = link.type == "link" ? 'onclick="updateLinkInDatabase(this)"' :link.type == "gallery"?'onclick="editGalleryOpenPopUp(this)"': link.type == "about_us"?`onclick="aboutUsHandler(this)"`: link.type == "leadform" || link.type == "bookform"?"":link.type == "calculator"? 'onclick="updatCalculatorName(this)"':'onclick="edit_Form_show(this)"';
+                            const placeholder = link.type == "link" ? `${link.name} (PUT URL HERE)` :link.type == "gallery"?`${link.name} Click to edit gallery`:link.type == "about_us"?"About Us (Click to Edit)":link.type == "leadform" || link.type == "bookform"?link.name: link.type == "calculator"?link.name:`${link.name} (Click to edit form)`;
                             const linkHidden = link.hidden;
                             linkHtml += `
                             <div class="input_container_with_eye">
-                                <input link_id="${link.id}" ${link.type == "calculator" || link.type == "leadform" || link.type == "bookform" ?"disabled":""}  ${handler} custom_type="${link.type}" value="${link.link?link.link:""}"  ${link.type != "calculator" && link.type != "leadform" && link.type != "bookform" ?'style="cursor: pointer; outline: none; caret-color: transparent;"':""} class="text_style" name="${link.name}" placeholder="${placeholder}" type="text">
+                                <input link_id="${link.id}" ${link.type == "leadform" || link.type == "bookform" ?"disabled":""}  ${handler} custom_type="${link.type}" value="${link.type == "link"?link.link: link.type =="calculator"?link.name:""}"  ${link.type != "leadform" && link.type != "bookform" ?'style="cursor: pointer; outline: none; caret-color: transparent;"':""} class="text_style" name="${link.name}" placeholder="${placeholder}" type="text">
                                 <i link_id="${link.id}" onclick="eyeToggleFunction(this, false)" class="eye fa-solid fa-eye ${linkHidden?"eye_close":"eye_open"}" style="margin: 0px 10px;"></i>
                                 ${!link.permanent ? `<i onclick="deleteLinkInDatabase(this)" link_id="${link.id}" class="fas fa-trash-alt delete-field-btn" style="color: #0066C9; cursor:pointer;" link_id="your_id" cursor="pointer"></i>` : ""}
                                 <i style="cursor:grab; margin-left:10px" class="handle fa-solid fa-grip-vertical"></i>                                
@@ -1230,13 +1237,6 @@
             });
             })
 
-            async function fetchProfileDetail (id){
-                const res = await fetch(`/api/profile/fetch/${id}`,{
-                    method:"GET"
-                })
-                const data = await res.json();
-                return data;
-            }
 
             function editableDivHandler(){
                     const divs = document.querySelectorAll(".editable_div");
@@ -1575,11 +1575,50 @@
 
             async function edit_Form_show(btn) {
                 const name = btn.getAttribute("name")
-                overlay.style.display = "block";
-                const {form} = await fetchFormDetail(name);
-                populateEditForm(form);
-                document.getElementById("form_popup").classList.add("open_popup");
-                document.getElementById("form_popup").classList.remove("close_popup");
+                const id = btn.getAttribute("link_id");
+                const type = btn.getAttribute("custom_type");
+
+                const { value: newName } = await Swal.fire({
+                title: "Enter Form Name",
+                    input: "text",
+                    inputValue:name,
+                    showCancelButton: true,
+                    inputValidator: (value) => {
+                        if (!value) {
+                        return "You need to write something!";
+                        }
+                    }
+                });
+                if(!newName){
+                    return;
+                }
+
+                const res = await fetch("/api/form/update/name", {
+                    method:"POST",
+                    headers: {
+                        "Content-Type": "application/json"
+                    },
+                    body: JSON.stringify({id, type, name, newName})
+                })
+                const resData = await res.json()
+                if(res.status == 200){
+                showSaveToast();
+                    btn.name = newName;
+                    btn.placeholder = newName +" (Click to edit form)";
+                    populateProfilePreview();
+                    overlay.style.display = "block";
+                    const {form} = await fetchFormDetail(newName);
+                    populateEditForm(form);
+                    document.getElementById("form_popup").classList.add("open_popup");
+                    document.getElementById("form_popup").classList.remove("close_popup");
+                }else{
+                    Swal.fire({
+                        title: resData.message,
+                        icon: "error",
+                        confirmButtonText: "Ok",
+                    });
+                }  
+              
             }
    
             function openLastCreatedProfile() {

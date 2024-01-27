@@ -258,13 +258,12 @@ try {
     for (const section of sections) {
         const sectionLinksOrder = section.sortOrder; // Assuming sortOrder is a JSON string
         const [links] = await __pool.query(`SELECT * FROM links WHERE sectionId = ?`, [section.id]);
-
         if (sectionLinksOrder && sectionLinksOrder.length > 0) {
-
+            
             // Sorting links based on the order specified in the section
             const linkMap = new Map(links.map(link => [link.id.toString(), link]));
             const sortedLinks = sectionLinksOrder.map(id => linkMap.get(id));
-
+            
             section.links = sortedLinks.filter(link => link !== undefined);
         } else {
             section.links = links;
@@ -276,7 +275,6 @@ try {
     responseData.profile = profile[0];
     responseData.sections = sections || [];
     responseData.forms = forms || [];
-
     return res.status(200).json(responseData);
 } catch (error) {
     console.error("Error in fetching profile:", error);
@@ -375,6 +373,15 @@ try {
     const {id, value, name} = req.body;
     try {
         await __pool.query(`UPDATE links SET link = ?, name = ? WHERE id = ?`, [value, name, id]);
+        res.status(200).json({message:"Sucessfully Changed"});
+    } catch (error) {
+        console.log(error);
+        res.status(500).json({message:"Server Error"});
+    }
+}).post("/api/link/update/link", verify, isAdmin, async (req,res)=>{
+    const {id, newName} = req.body;
+    try {
+        await __pool.query(`UPDATE links SET name = ? WHERE id = ?`, [newName, id]);
         res.status(200).json({message:"Sucessfully Changed"});
     } catch (error) {
         console.log(error);
@@ -546,6 +553,49 @@ try {
         console.log(error.message);
         res.redirect("/error");
     }
+}).post("/api/gallery/changeName/:oldName", async (req,res)=>{
+    const {oldName} = req.params;
+    const {id, newName, profileId} = req.body;
+    try {
+        const gallerypath = path.join("uploads", String(profileId), "gallery" , oldName);
+        // check if the gallery already exists with that name
+
+        const newgallerypath = path.join("uploads", String(profileId), "gallery" , newName);
+        if (fs.existsSync(newgallerypath)) {
+            return res.status(400).json({message:`Gallery with ${newName} is already present`});
+        }
+        if (fs.existsSync(gallerypath)) {
+            await fsPromises.rename(gallerypath, newgallerypath);
+        }
+
+        //Also change name of link 
+        await __pool.query(`UPDATE links SET name = ? WHERE id = ?`, [newName, id]);
+
+        res.status(200).json({message:"Sucessfully Changed"});
+    } catch (error) {
+        console.log(error);
+        res.status(500).json({message:"Server Error"});
+    }
+}).post("/api/form/update/name", async (req,res)=>{
+    const {id, name, type, newName} = req.body;
+    try {
+        if(type == "leadform" || type == "bookform"){
+            await __pool.query(`UPDATE links SET name = ? WHERE id = ?`, [newName, id]);
+            res.status(200).json({message:"Sucessfully Changed"});
+        }else{
+            const [forms] = await __pool.query(`SELECT * FROM form WHERE name = ?`, [newName]);
+            if(forms.length > 0){
+                return res.status(400).json({message:"Form with this name already exists"});
+            }
+            await __pool.query(`UPDATE form SET name = ? WHERE name = ?`, [newName, name]);
+            await __pool.query(`UPDATE links SET name = ? WHERE id = ?`, [newName, id]);
+            res.status(200).json({message:"Sucessfully Changed"});
+        }
+    } catch (error) {
+        console.log(error);
+        res.status(500).json({message:"Something Went Wrong"});
+    }
+
 })
 
 

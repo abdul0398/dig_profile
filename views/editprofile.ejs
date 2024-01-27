@@ -763,12 +763,50 @@
 
     async function editGalleryOpenPopUp(input) {
         const galleryname = input.getAttribute("name");
-        const modal_gallery = document.getElementById('imageUploadModal-gallery');
-        showLoadingOverlay();
-        await fetchImagesPathAndPopulate(galleryname)
-        modal_gallery.style.display = 'block';
-        modal_gallery.setAttribute("gallery-name", galleryname);
-        hideLoadingOverlay()
+        const { value: name } = await Swal.fire({
+            title: "Enter Gallery Name",
+            input: "text",
+            inputValue:galleryname,
+            showCancelButton: true,
+            inputValidator: (value) => {
+                if (!value) {
+                return "You need to write something!";
+                }
+            }
+        });
+        if (!name) {
+            return;
+        }
+
+        const link_id = input.getAttribute("link_id");
+        const profile_id = document.getElementById("profile_id").getAttribute("profile_id");
+        const res = await fetch(`/api/gallery/changeName/${galleryname}`, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({profileId:profile_id,id:link_id,newName:name}),
+        })
+        const data = await res.json();
+        if (res.status !== 200) {
+            Swal.fire({
+                title: data.message,
+                icon: "error",
+                confirmButtonText: "Ok",
+        });
+        }else{
+            input.placeholder = name + " (Click To edit Gallery)";
+            input.name = name
+            showSaveToast();
+            populateProfilePreview();
+            const modal_gallery = document.getElementById('imageUploadModal-gallery');
+            showLoadingOverlay();
+            await fetchImagesPathAndPopulate(name)
+            modal_gallery.style.display = 'block';
+            modal_gallery.setAttribute("gallery-name", galleryname);
+            hideLoadingOverlay()
+        }
+
     }
 
     async function fetchImagesPathAndPopulate(galleryname) {
@@ -947,6 +985,8 @@
             newInput.setAttribute("custom_type", type);
             newInput.setAttribute("link_id", id);
             newInput.type = "text";
+            newInput.setAttribute("value", "");
+            newInput.style = "cursor: pointer; outline: none; caret-color: transparent;";
 
             if(type == "link"){
                 newInput.addEventListener("blur", ()=> updateLinkInDatabase(newInput))
@@ -1068,15 +1108,16 @@
 
     async function updateLinkInDatabase(elem) {
         const id = elem.getAttribute("link_id");
-        const value = elem.value;
+        const value = elem.getAttribute("value");
         const name = elem.getAttribute("name");
         const { value: formValues } = await Swal.fire({
-        title: "Multiple inputs",
+        title: "Enter Name",
         html: `
-            <input id="swal-input1" value=${name} placeholder="Enter Name" class="swal2-input">
-            <input id="swal-input2" value=${value} Placeholder ="Enter Value" class="swal2-input">
+            <input id="swal-input1" value="${name}" placeholder="Enter Name" class="swal2-input">
+            <input id="swal-input2" value="${value}" Placeholder ="Enter Value" class="swal2-input">
         `,
         focusConfirm: false,
+        showCancelButton: true,
         preConfirm: () => {
             return [
             document.getElementById("swal-input1").value,
@@ -1454,5 +1495,46 @@
             },
             body: JSON.stringify({id:profile_id, sectionsIds})
         })
+    }
+
+    async function updatCalculatorName(input){
+        const name = input.value;
+
+        const { value: newName } = await Swal.fire({
+            title: "Enter Calculator Name",
+            input: "text",
+            inputValue:name,
+            showCancelButton: true,
+            inputValidator: (value) => {
+                if (!value) {
+                return "You need to write something!";
+                }
+            }
+        });
+        if(!newName){
+            return;
+        }
+
+        const id = input.getAttribute("link_id");
+        const res = await fetch("/api/link/update/link", {
+            method:"POST",
+            headers: {
+                "Content-Type": "application/json"
+            },
+            body: JSON.stringify({id, newName})
+        })
+        const resData = await res.json()
+        if(res.status == 200){
+          showSaveToast();
+            input.name = newName;
+            input.value = newName;
+            populateProfilePreview()
+        }else{
+            Swal.fire({
+                title: resData.message,
+                icon: "error",
+                confirmButtonText: "Ok",
+            });
+        }  
     }
 </script>
