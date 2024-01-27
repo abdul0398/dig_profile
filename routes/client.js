@@ -99,8 +99,8 @@ router.get("/clients", verify, async (req,res)=>{
         const insertUserQuery = `
             INSERT IGNORE INTO clients (name, email, hashed_password, salt, isVerified) VALUES (?, ?, ?, ?, ?)
         `;
-        await __pool.query(insertUserQuery, [name, email, crypto.pbkdf2Sync(password, salt, 310000, 32, 'sha256'), salt, true]);
-        res.status(200).json({message:"Client Registered Successfully"});
+        const [row] = await __pool.query(insertUserQuery, [name, email, crypto.pbkdf2Sync(password, salt, 310000, 32, 'sha256'), salt, true]);
+        res.status(200).json({message:"Client Registered Successfully", id:row.insertId});
     } catch (error) {
         console.log("Error is registering the Client =>" ,error.message);
         res.status(500).json({message:"An error occurred"});

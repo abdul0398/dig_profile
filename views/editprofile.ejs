@@ -899,6 +899,7 @@
             input: "text",
             inputValue:galleryname,
             showCancelButton: true,
+            confirmButtonText:"Next",
             inputValidator: (value) => {
                 if (!value) {
                 return "You need to write something!";
@@ -1409,6 +1410,14 @@
            
             // Insert the new section after the clicked button's container
             parent.insertBefore(section, container);
+            const sortableList = section.querySelector(".sortable-list");
+            const sortable = new Sortable(sortableList, {
+                handle:".handle",
+                onEnd:async  function (evt) {
+                    populateProfilePreview();
+                    await saveLinkOrder(sortableList)
+                },
+            });
 
             await extractAndSaveOrderOFSections();
             populateProfilePreview();

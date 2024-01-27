@@ -114,48 +114,59 @@
     });
 
     // Handle file input change
-    imageInput.addEventListener('change', function () {
-        const galleryname = document.getElementById("imageUploadModal-gallery").getAttribute("gallery-name");
-        if (this.files) {
-            Array.from(this.files).forEach(file => {
+    imageInput.addEventListener('change', async function () {
+    const galleryname = document.getElementById("imageUploadModal-gallery").getAttribute("gallery-name");
+    if (this.files) {
+        try {
+            await Promise.all(Array.from(this.files).map(async file => {
                 const reader = new FileReader();
-                reader.onload = async function (e) {
-                    showLoadingOverlay();
-                    const img_link = await uploadImage(file, galleryname);
-                    hideLoadingOverlay();
-                    const imgContainer = document.createElement('div');
-                    imgContainer.classList.add('image-container-gallery');
-
-                    const image = document.createElement('img');
-                    image.src = e.target.result;
-                    image.alt = 'Uploaded Image';
-                    image.setAttribute("path", img_link);
-
-                    const deleteButton = document.createElement('button');
-                    deleteButton.classList.add('delete-gallery-button');
-                    deleteButton.innerHTML = `&times;`;
-                    deleteButton.onclick = async function () {
-                        showLoadingOverlay();
-                        await deleteImage(image.getAttribute("path"));
-                        hideLoadingOverlay();
-                        imageList.removeChild(imgContainer);
+                const img_link = await new Promise(resolve => {
+                    reader.onload = function (e) {
+                        resolve(uploadImage(file, galleryname));
                     };
+                    reader.readAsDataURL(file);
+                });
 
-                    imgContainer.appendChild(image);
-                    imgContainer.appendChild(deleteButton);
-                    imageList.appendChild(imgContainer);
+                showLoadingOverlay();
+                const imgContainer = document.createElement('div');
+                imgContainer.classList.add('image-container-gallery');
+
+                const image = document.createElement('img');
+                image.src = reader.result;
+                image.alt = 'Uploaded Image';
+                image.setAttribute("path", img_link);
+
+                const deleteButton = document.createElement('button');
+                deleteButton.classList.add('delete-gallery-button');
+                deleteButton.innerHTML = `&times;`;
+                deleteButton.onclick = async function () {
+                    showLoadingOverlay();
+                    await deleteImage(image.getAttribute("path"));
+                    hideLoadingOverlay();
+                    imageList.removeChild(imgContainer);
                 };
-                reader.readAsDataURL(file);
-            });
+
+                imgContainer.appendChild(image);
+                imgContainer.appendChild(deleteButton);
+                imageList.appendChild(imgContainer);
+            }));
+
             swal.fire({
                 title: "Success",
                 text: "Upload Successful",
                 icon: "success",
                 confirmButtonText: "Ok",
                 confirmButtonColor: "#002655",
-            })
+            });
+        } catch (error) {
+            // Handle any errors that might occur during the process
+            console.error(error);
+        } finally {
+            hideLoadingOverlay();
         }
-    });
+    }
+});
+
 
 });
 
