@@ -371,10 +371,10 @@ try {
         console.log(error);
         res.status(500).json({message:"Server Error"});
     }
-}).post("/api/link/update/value", async (req,res)=>{
-    const {id, value} = req.body;
+}).post("/api/link/update/valueAndname", verify, isAdmin, async (req,res)=>{
+    const {id, value, name} = req.body;
     try {
-        await __pool.query(`UPDATE links SET link = ? WHERE id = ?`, [value, id]);
+        await __pool.query(`UPDATE links SET link = ?, name = ? WHERE id = ?`, [value, name, id]);
         res.status(200).json({message:"Sucessfully Changed"});
     } catch (error) {
         console.log(error);

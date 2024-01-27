@@ -1069,14 +1069,46 @@
     async function updateLinkInDatabase(elem) {
         const id = elem.getAttribute("link_id");
         const value = elem.value;
+        const name = elem.getAttribute("name");
+        const { value: formValues } = await Swal.fire({
+        title: "Multiple inputs",
+        html: `
+            <input id="swal-input1" value=${name} placeholder="Enter Name" class="swal2-input">
+            <input id="swal-input2" value=${value} Placeholder ="Enter Value" class="swal2-input">
+        `,
+        focusConfirm: false,
+        preConfirm: () => {
+            return [
+            document.getElementById("swal-input1").value,
+            document.getElementById("swal-input2").value
+            ];
+        }
+        });
+        if(formValues == true || formValues[1].length < 3){
+            Swal.fire({
+                title: "Please fill in all fields properly",
+                icon: "error",
+                confirmButtonText: "Ok",
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    updateLinkInDatabase(elem);
+                }
+            });
+            return;
+        }
+        const newName = formValues[0];
+        const newValue = formValues[1];
+        elem.setAttribute("name", newName);
+        elem.setAttribute("value", newValue);
+        populateProfilePreview();
         // Create a Fetch request
         showSaveToast();
-        await fetch('/api/link/update/value', {
+        await fetch('/api/link/update/valueAndname', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
             },
-            body: JSON.stringify({ id: id, value: value }),
+            body: JSON.stringify({ id: id, name:newName, value: newValue }),
         })
     }
 

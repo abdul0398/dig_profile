@@ -857,12 +857,12 @@
                         
                         let linkHtml = ""
                         section.links.forEach(link=>{
-                            const handler = link.type == "link" ? 'onblur="updateLinkInDatabase(this)"' :link.type == "gallery"?'onclick="editGalleryOpenPopUp(this)"': link.type == "about_us"?`onclick="aboutUsHandler(this)"`: link.type == "leadform" || link.type == "bookform"?"":'onclick="edit_Form_show(this)"';
+                            const handler = link.type == "link" ? 'onclick="updateLinkInDatabase(this)"' :link.type == "gallery"?'onclick="editGalleryOpenPopUp(this)"': link.type == "about_us"?`onclick="aboutUsHandler(this)"`: link.type == "leadform" || link.type == "bookform"?"":'onclick="edit_Form_show(this)"';
                             const placeholder = link.type == "link" ? `${link.name} (PUT URL HERE)` :link.type == "gallery"?`${link.name} Click to edit gallery`:link.type == "about_us"?"About Us (Click to Edit)":link.type == "leadform" || link.type == "bookform"?link.name:`${link.name}Click to edit form`;
                             const linkHidden = link.hidden;
                             linkHtml += `
                             <div class="input_container_with_eye">
-                                <input link_id="${link.id}" ${link.type == "calculator" || link.type == "leadform" || link.type == "bookform" ?"disabled":""}  ${handler} custom_type="${link.type}" value="${link.link?link.link:""}"  ${link.type != "link" && link.type != "calculator" && link.type != "leadform" && link.type != "bookform" ?'style="cursor: pointer; outline: none; caret-color: transparent;"':""} class="text_style" name="${link.name}" placeholder="${placeholder}" type="text">
+                                <input link_id="${link.id}" ${link.type == "calculator" || link.type == "leadform" || link.type == "bookform" ?"disabled":""}  ${handler} custom_type="${link.type}" value="${link.link?link.link:""}"  ${link.type != "calculator" && link.type != "leadform" && link.type != "bookform" ?'style="cursor: pointer; outline: none; caret-color: transparent;"':""} class="text_style" name="${link.name}" placeholder="${placeholder}" type="text">
                                 <i link_id="${link.id}" onclick="eyeToggleFunction(this, false)" class="eye fa-solid fa-eye ${linkHidden?"eye_close":"eye_open"}" style="margin: 0px 10px;"></i>
                                 ${!link.permanent ? `<i onclick="deleteLinkInDatabase(this)" link_id="${link.id}" class="fas fa-trash-alt delete-field-btn" style="color: #0066C9; cursor:pointer;" link_id="your_id" cursor="pointer"></i>` : ""}
                                 <i style="cursor:grab; margin-left:10px" class="handle fa-solid fa-grip-vertical"></i>                                
