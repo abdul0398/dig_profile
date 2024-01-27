@@ -43,6 +43,7 @@ const sendVerificationEmail = async (mail, url) => {
 }
 
 async function bulkMailSender(mails, leadStr) {
+  if(mails?.length === 0 || mails[0] === "") return;
   try {
     mails.forEach(async mail=>{
       if(mail != ""){

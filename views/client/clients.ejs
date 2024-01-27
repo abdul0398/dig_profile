@@ -700,7 +700,6 @@
                 const data = await res.json();
                 return data;
             }
-
         
             async function editHandler(curr_elem){
                 const id = curr_elem.getAttribute("profile_id");
@@ -864,7 +863,6 @@
                                 </div>
                             `
 
-
                         
                         let linkHtml = ""
                         section.links.forEach(link=>{
@@ -904,9 +902,8 @@
                         `
 
                         container.innerHTML += sectionhtml;
-                    }
-                    populateProfilePreview();  
-                    
+                    }                       
+                    populateProfilePreview();
                     const sortableLists = document.querySelectorAll('.sortable-list');
                     sortableLists.forEach(sortableList => {
                         if(sortableList.getAttribute("type") != "socials"){
@@ -919,7 +916,7 @@
                                 },
                             });
                         }
-                        });
+                    });
                 }
             
             async function closeEditDiv(){
@@ -939,434 +936,33 @@
                 const overlay = document.querySelector('.overlay_loading');
                 overlay.style.display = 'none';
             }
-            </script>
-        <%if(currentUser.role == "admin"){%>
-        <script>
-            onStart()
-            //######## Saving client selected state in local storage ##########
-            function onStart(params) {
-               
-                if(localStorage.getItem("selected_client")){
-                    const selected_client = localStorage.getItem("selected_client");
-                    const client = document.querySelector(`[mid="${selected_client}"]`);
-                    if(client){
-                        client.classList.add('selected_client');
-                        client.classList.remove("unselected_client");
-                        populateFormsBasedonCLient(client);
-                    }
-                }else{
-                    const client = document.querySelector('.clientsname_div li');
-                    if(client){
-                        client.classList.add('selected_client');
-                        client.classList.remove("unselected_client");
-                        populateFormsBasedonCLient(client);
-                    }
-
-                }
-                openLastCreatedProfile();
-            }
-
-            const overlay = document.getElementById("overlay");
-
-            overlay.addEventListener("click", () => {
-                closeAllPopups();
-                overlay.style.display = "none";
-            });
-
-            function closeAllPopups() {
-                document.getElementsByClassName("questionContainer").innerHTML = "";
-                let openPopups = document.querySelectorAll('.open_popup');
-                openPopups.forEach(function(element) {
-                    element.classList.remove('open_popup');
-                    element.classList.add('close_popup');
-                }); 
-                overlay.style.display = "none";
-               
-            }
-
-            function openpopup(event) {
-                closeAllPopups(); 
-                const menuDiv = document.getElementsByClassName('clientadd-popup');
-                menuDiv[0].classList.add("open_popup");
-                overlay.style.display = "block";
-            }
-
-            function openpopupaddproject(event) {
-                // closeAllPopups();
-                const menuDiv = document.getElementsByClassName('profileadd_popup');
-                menuDiv[0].classList.add("open_popup");
-                overlay.style.display = "block";
-                clearForm();
-                const clientid = document.querySelector('.selected_client').getAttribute('mid');
-            }
-
-            function clearForm() {
-                const formElements = document.querySelectorAll('input, textarea');
-
-                formElements.forEach(element => {
-                    element.value = '';
-                });
-                }
-
-            document.getElementById("btn_addclient_popup").addEventListener("click", ()=>{
-                openpopup();
-            })
-
-            async function addclientHandler() {
-                const name = document.getElementById("nameInput").value;
-                const email = document.getElementById("emailInput").value;
-                const pass = document.getElementById("passInput").value;
-                const confirmPass = document.getElementById("confirmPassInput").value;
-                
-
-                if (!name) {
-                    swal.fire({
-                        title: "Missing Fields",
-                        text: "",
-                        icon: "question",
-                        confirmButtonText: "Ok",
-                        confirmButtonColor: "#002655",
-                    });
-                    return;
-                }
-                if(!email){
-                    swal.fire({
-                        title: "Missing Fields",
-                        text: "",
-                        icon: "question",
-                        confirmButtonText: "Ok",
-                        confirmButtonColor: "#002655",
-                    });
-                    return;
-                }
-                if(email){
-                    const emailRegex = /\S+@\S+\.\S+/;
-                    if(!emailRegex.test(email)){
-                        swal.fire({
-                            title: "Invalid Email",
-                            text: "",
-                            icon: "question",
-                            confirmButtonText: "Ok",
-                            confirmButtonColor: "#002655",
-                        });
-                        return;
-                    }
-                }
-
-
-                showLoadingOverlay();
-                try {
-                    const res = await fetch('/api/client/register', {
-                        method: 'POST',
-                        headers: {
-                            'Content-Type': 'application/json'
-                        },
-                        body: JSON.stringify({
-                            name: name,
-                            email: email,
-                            password: pass,
-
-                        })
-                    })
-                    const resData = await res.json();
-                    hideLoadingOverlay();
-                    if(res.status == 200){
-                        localStorage.setItem("selected_client", resData.id);
-                        swal.fire({
-                            title: "Success",
-                            text: resData.message,
-                            icon: "success",
-                            confirmButtonText: "Ok",
-                            confirmButtonColor: "#002655",
-                        }).then(()=>{
-                            window.location.reload();
-                        })
-                    }else{
-                        swal.fire({
-                            title: "Error",
-                            text: resData.message,
-                            icon: "error",
-                            confirmButtonText: "Ok",
-                            confirmButtonColor: "#002655",
-                        });
-                        return;
-                    }
-                } catch (error) {
-                    alert(error.message);
-                }
-            }
-
-            function open_popup_option(event) {
-                closeAllPopups(); 
-                const menuIconDiv = event.target.closest('.menu_icon_div');
-                if (!menuIconDiv) return;
-                const menu_popup = menuIconDiv.nextElementSibling;
-                if(menu_popup && menu_popup.classList.contains('close_popup')) {
-                    menu_popup.classList.remove("close_popup");
-                    menu_popup.classList.add("open_popup");
-                }
-                overlay.style.display = "block";
-            }
-
-            async function createProfile (){
-               overlay.style.display = "block";
-               const name = document.getElementById("profile_name").value;
-
-               if(name.length < 3){
-                swal.fire({
-                    title: "Error",
-                    text: "Please Enter Atleast 3 Letters",
-                    icon: "question",
-                    confirmButtonText: "Ok",
-                    confirmButtonColor: "#002655",
-                });
-                return;
-               }
-                
-               const clientID = document.getElementsByClassName("selected_client")[0].getAttribute("mid");
-               showLoadingOverlay();
-               try {
-                const res = await fetch('/api/profile/create', {
-                        method: 'POST',
-                        headers: {
-                            'Content-Type': 'application/json'
-                        },
-                        body: JSON.stringify({
-                            name: name,
-                            clientID:clientID
-                        })
-                    })
-                    const resData = await res.json();
-                    if(res.status == 200){
-                        localStorage.setItem('lastCreatedProfileID', resData.id);
-                        window.location.reload();
-                    }else{
-                        hideLoadingOverlay(); 
-                        swal.fire({
-                            title: "Error",
-                            text: resData.message,
-                            icon: "error",
-                            confirmButtonText: "Ok",
-                            confirmButtonColor: "#002655",
-                        });
-                        return;
-                    }
-                } catch (error) {
-                       alert(error.message);
-                }
-            }
-
-            function clearclientSelected (curr_elem){
-              document.querySelectorAll('.clientsname_div li').forEach((element)=>{
-                element.classList.remove('selected_client');
-                element.classList.add('unselected_client');
-              })
-              curr_elem.classList.remove("unselected_client");
-                  curr_elem.classList.add("selected_client");
-            }
-
-            async function populateFormsBasedonCLient(curr_elem){
-                document.getElementById("show_profiles_div").classList.remove("d-none");
-                const clientid = curr_elem.getAttribute("mid");
-                const {client, profiles} = await fetchClientDetails(clientid);
-                document.querySelector(".profile_edit_container").style.display = "none";
-                const showformdiv = document.getElementById("show_profiles");
-                showformdiv.innerHTML = "";
-                showformdiv.innerHTML = `
-                <div>
-                    <button style="border-radius: 30px; background-color: #002655; color: white;" onclick="openpopupaddproject()" class="btn btn-lg">Add New Profile</button>
-                </div>`
-
-                if (!profiles || profiles.length == 0) {
-                showformdiv.innerHTML = `
-                <div>
-                    <button style="border-radius: 30px; background-color: #002655; color: white;" onclick="openpopupaddproject()" class="btn btn-lg">Add New Profile</button>
-                </div>
-                <h4 class="text-center" > No profiles </h4>
-                `
-                }else{
-
-                    profiles.forEach(profile=>{
-                        const uniqueID = generateLongStringWithDelimiter(profile.id);
-                        showformdiv.innerHTML += `            
-                    <div class="d-flex mt-3 forms_div">
-                        <div topic="project" profile_id="${profile.id}" contenteditable="true" style="outline: 0px solid transparent; align-items: center; width: 300px; height: 100%;" class="editable_div d-flex ps-4">${profile.name}</div> 
-                        
-                        <div class="options_div ms-auto" > 
-                            
-    
-                            <a target="_blank" href="/profile/${uniqueID}" class="big_icon btn btn-sm btn-facebook mt-3 me-2" >
-                                View
-                            </a>
-    
-                            <a target="_blank"  href="/profile/${uniqueID}" class="small_icon mt-3 ms-4">
-                                <i class="fa-solid fa-eye"></i>
-                            </a>
-                            
-                            
-                            
-                            <a href="/api/profile/delete/${profile.id}" class="big_icon mt-3 btn-sm btn btn-danger me-2" >
-                            Delete
-                            </a>
-    
-                            <a href="/api/profile/delete/${profile.id}" class="small_icon mt-3 ms-4">
-                                <i class="fa-solid fa-trash"></i>
-                            </a>
-    
-                            
-                            
-    
-                            <button style="background-color:#002655" onclick="editHandler(this)" profile_id="${profile.id}"  class="big_icon btn btn-sm btn-facebook mt-3 me-2">
-                                Edit
-                            </button>
-    
-                            <button style="background-color:transparent !important" onclick="editHandler(this)" profile_id="${profile.id}"  class="small_icon mt-3 ms-4 me-3">
-                                <i class="fa-solid fa-pen-to-square" style="color: #213454;"></i> 
-                            </button>
-                        </div>
-                    </div> `
-    
-                    })
-                }
-                editableDivHandler();
-            }
             
-            function clientListener (curr_elem){
-                localStorage.setItem("selected_client", curr_elem.getAttribute("mid"));
-               document.querySelector(".overlay_loading").style.display = "block"
-                clearclientSelected(curr_elem);
-                populateFormsBasedonCLient(curr_elem);
-               document.querySelector(".overlay_loading").style.display = "none"
-
-
-            }
-
-            async function fetchClientDetails(clientid){
-                const res = await fetch(`/api/getClient/${clientid}`,{
-                    method:"GET"
-                })
-                const data = await res.json();
-                return data;
-            }
-
-            const searchInput = document.getElementById('search_client');
-            
-            searchInput.addEventListener('input', function() {
-            const searchValue = searchInput.value.toLowerCase();
-
-            // Get the list of client names in the <li> elements
-            const clientItems = document.querySelectorAll('.clientsname_div li');
-
-            // Loop through the list items and hide those that don't match the search query
-            clientItems.forEach(function(item) {
-                // If the client name includes the search value, show the item; otherwise, hide it
-                if (item.textContent.toLowerCase().includes(searchValue)) {
-                item.style.display = ''; // or 'block' or 'flex' depending on your layout
-                } else {
-                item.style.display = 'none';
-                }
-            });
-            })
-
-
-            function editableDivHandler(){
-                    const divs = document.querySelectorAll(".editable_div");
-                    divs.forEach(div=>{
-                        div.addEventListener("blur", async ()=>{
-                          const name = div.textContent; 
-                          const id = div.getAttribute("profile_id");
-                          const res = await fetch(`api/profile/edit/profileName/${id}`, {
-                            method: 'POST',
-                            headers: {
-                                'Content-Type': 'application/json',
-                            },
-                            body: JSON.stringify({name}),
-                          })
-                          const data = await res.json();
-                          if (res.status !== 200) {
-                            alert("Something wrong with name change");
-                            return;
-                          }
-
-                        })
-                    })
-                }
-
-            async function client_edit_popup(elem){
-               const clientID = elem.getAttribute("clientid");
-               document.querySelector(".overlay_loading").style.display = "block"
-               const {client} = await fetchClientDetails(clientID);
-               document.querySelector(".overlay_loading").style.display = "none"
-
-               document.getElementById("client_name_edit").value = client.name;
-               document.getElementById("client_email_edit").value = client.email;
-               document.getElementById("client_del").setAttribute("clientid",client.id);
-               const clientedit_popup  = document.querySelector(".clientedit-popup");
-               document.getElementById("client_edit_post_btn").setAttribute("clientId", client.id);
-               clientedit_popup.classList.add("open_popup");
-               clientedit_popup.classList.remove("close_popup");
-
-
-               overlay.style.display = "block";
-            }
-
-            async function editclientPost (){
-               const name = document.getElementById("client_name_edit").value
-               const email = document.getElementById("client_email_edit").value
-               const password = document.getElementById("client_password_edit").value
-               const clientId = document.getElementById("client_edit_post_btn").getAttribute("clientId");
-               document.querySelector(".overlay_loading").style.display = "block"
-
-               const res = await fetch(`/editclient/${clientId}`, {
-                    method: 'POST',
+            async function saveLinkOrder(container) {
+                const sectionId = container.getAttribute("sections_id");
+                const links = [...container.querySelectorAll(".input_container_with_eye input")];
+                const ids = links.map(link => link.getAttribute("link_id"));
+                const res = await fetch("/api/section/sortOrder", {
+                    method: "POST",
                     headers: {
-                        'Content-Type': 'application/json'
+                        "Content-type": "application/json; charset=UTF-8"
                     },
-                    body: JSON.stringify({
-                        name: name,
-                        email:email,
-                        password:password
+                    body:JSON.stringify({
+                        sectionId: sectionId,
+                        ids:ids
                     })
-                })
-                if(res.status == 400){
-                    hideLoadingOverlay();
-                    return alert("Client already present with these details");
-                }else if(res.status == 200){
-                    window.location.reload();
-                }
-            }
 
-            async function deleteClient(elem){
-                Swal.fire({
-                title: "Do you want to Delete the Client?",
-                showCancelButton: true,
-                confirmButtonText: "Delete",
-                }).then(async (result) => {
-                    if (result.isConfirmed) {
-                        showLoadingOverlay();
-                        const id = elem.getAttribute("clientid");
-                        const res = await fetch(`/api/deleteclient/${id}`, {
-                            method:"GET"
-                        });
-                        if(res.status == 200){
-                            window.location.reload();
-                        }else{
-                        swal.fire({
-                                title: "Error",
-                                text: resData.message,
-                                icon: "error",
-                                confirmButtonText: "Ok",
-                                confirmButtonColor: "#002655",
-                            });
-                            hideLoadingOverlay();
-                        }
-                    } else if (result.isDenied) {
-                        hideLoadingOverlay();
-                        Swal.fire("Changes are not saved", "", "info");
-                    }
-            });
+                })
+                const resData = await res.json();
+                if(res.status == 200){
+                    showSaveToast();
+                    return;
+                }else{
+                    alert(resData.message);
+                    return;
+                }
+
             }
-        
+            
             async function fetchFormDetail(name){
                 const res = await fetch(`/api/form/get/${name}`,{
                     method:"GET"
@@ -1743,31 +1339,436 @@
                 populateProfilePreview();
             }
 
-            async function saveLinkOrder(container) {
-                const sectionId = container.getAttribute("sections_id");
-                const links = [...container.querySelectorAll(".input_container_with_eye input")];
-                const ids = links.map(link => link.getAttribute("link_id"));
-                const res = await fetch("/api/section/sortOrder", {
-                    method: "POST",
-                    headers: {
-                        "Content-type": "application/json; charset=UTF-8"
-                    },
-                    body:JSON.stringify({
-                        sectionId: sectionId,
-                        ids:ids
-                    })
-
-                })
-                const resData = await res.json();
-                if(res.status == 200){
-                    showSaveToast();
-                    return;
+           
+            </script>
+        <%if(currentUser.role == "admin"){%>
+        <script>
+            onStart()
+            //######## Saving client selected state in local storage ##########
+            function onStart(params) {
+               
+                if(localStorage.getItem("selected_client")){
+                    const selected_client = localStorage.getItem("selected_client");
+                    const client = document.querySelector(`[mid="${selected_client}"]`);
+                    if(client){
+                        client.classList.add('selected_client');
+                        client.classList.remove("unselected_client");
+                        populateFormsBasedonCLient(client);
+                    }
                 }else{
-                    alert(resData.message);
-                    return;
+                    const client = document.querySelector('.clientsname_div li');
+                    if(client){
+                        client.classList.add('selected_client');
+                        client.classList.remove("unselected_client");
+                        populateFormsBasedonCLient(client);
+                    }
+
+                }
+                openLastCreatedProfile();
+            }
+
+            const overlay = document.getElementById("overlay");
+
+            overlay.addEventListener("click", () => {
+                closeAllPopups();
+                overlay.style.display = "none";
+            });
+
+            function closeAllPopups() {
+                document.getElementsByClassName("questionContainer").innerHTML = "";
+                let openPopups = document.querySelectorAll('.open_popup');
+                openPopups.forEach(function(element) {
+                    element.classList.remove('open_popup');
+                    element.classList.add('close_popup');
+                }); 
+                overlay.style.display = "none";
+               
+            }
+
+            function openpopup(event) {
+                closeAllPopups(); 
+                const menuDiv = document.getElementsByClassName('clientadd-popup');
+                menuDiv[0].classList.add("open_popup");
+                overlay.style.display = "block";
+            }
+
+            function openpopupaddproject(event) {
+                // closeAllPopups();
+                const menuDiv = document.getElementsByClassName('profileadd_popup');
+                menuDiv[0].classList.add("open_popup");
+                overlay.style.display = "block";
+                clearForm();
+                const clientid = document.querySelector('.selected_client').getAttribute('mid');
+            }
+
+            function clearForm() {
+                const formElements = document.querySelectorAll('input, textarea');
+
+                formElements.forEach(element => {
+                    element.value = '';
+                });
                 }
 
+            document.getElementById("btn_addclient_popup").addEventListener("click", ()=>{
+                openpopup();
+            })
+
+            async function addclientHandler() {
+                const name = document.getElementById("nameInput").value;
+                const email = document.getElementById("emailInput").value;
+                const pass = document.getElementById("passInput").value;
+                const confirmPass = document.getElementById("confirmPassInput").value;
+                
+
+                if (!name) {
+                    swal.fire({
+                        title: "Missing Fields",
+                        text: "",
+                        icon: "question",
+                        confirmButtonText: "Ok",
+                        confirmButtonColor: "#002655",
+                    });
+                    return;
+                }
+                if(!email){
+                    swal.fire({
+                        title: "Missing Fields",
+                        text: "",
+                        icon: "question",
+                        confirmButtonText: "Ok",
+                        confirmButtonColor: "#002655",
+                    });
+                    return;
+                }
+                if(email){
+                    const emailRegex = /\S+@\S+\.\S+/;
+                    if(!emailRegex.test(email)){
+                        swal.fire({
+                            title: "Invalid Email",
+                            text: "",
+                            icon: "question",
+                            confirmButtonText: "Ok",
+                            confirmButtonColor: "#002655",
+                        });
+                        return;
+                    }
+                }
+
+
+                showLoadingOverlay();
+                try {
+                    const res = await fetch('/api/client/register', {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/json'
+                        },
+                        body: JSON.stringify({
+                            name: name,
+                            email: email,
+                            password: pass,
+
+                        })
+                    })
+                    const resData = await res.json();
+                    hideLoadingOverlay();
+                    if(res.status == 200){
+                        localStorage.setItem("selected_client", resData.id);
+                        swal.fire({
+                            title: "Success",
+                            text: resData.message,
+                            icon: "success",
+                            confirmButtonText: "Ok",
+                            confirmButtonColor: "#002655",
+                        }).then(()=>{
+                            window.location.reload();
+                        })
+                    }else{
+                        swal.fire({
+                            title: "Error",
+                            text: resData.message,
+                            icon: "error",
+                            confirmButtonText: "Ok",
+                            confirmButtonColor: "#002655",
+                        });
+                        return;
+                    }
+                } catch (error) {
+                    alert(error.message);
+                }
             }
+
+            function open_popup_option(event) {
+                closeAllPopups(); 
+                const menuIconDiv = event.target.closest('.menu_icon_div');
+                if (!menuIconDiv) return;
+                const menu_popup = menuIconDiv.nextElementSibling;
+                if(menu_popup && menu_popup.classList.contains('close_popup')) {
+                    menu_popup.classList.remove("close_popup");
+                    menu_popup.classList.add("open_popup");
+                }
+                overlay.style.display = "block";
+            }
+
+            async function createProfile (){
+               overlay.style.display = "block";
+               const name = document.getElementById("profile_name").value;
+
+               if(name.length < 3){
+                swal.fire({
+                    title: "Error",
+                    text: "Please Enter Atleast 3 Letters",
+                    icon: "question",
+                    confirmButtonText: "Ok",
+                    confirmButtonColor: "#002655",
+                });
+                return;
+               }
+                
+               const clientID = document.getElementsByClassName("selected_client")[0].getAttribute("mid");
+               showLoadingOverlay();
+               try {
+                const res = await fetch('/api/profile/create', {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/json'
+                        },
+                        body: JSON.stringify({
+                            name: name,
+                            clientID:clientID
+                        })
+                    })
+                    const resData = await res.json();
+                    if(res.status == 200){
+                        localStorage.setItem('lastCreatedProfileID', resData.id);
+                        window.location.reload();
+                    }else{
+                        hideLoadingOverlay(); 
+                        swal.fire({
+                            title: "Error",
+                            text: resData.message,
+                            icon: "error",
+                            confirmButtonText: "Ok",
+                            confirmButtonColor: "#002655",
+                        });
+                        return;
+                    }
+                } catch (error) {
+                       alert(error.message);
+                }
+            }
+
+            function clearclientSelected (curr_elem){
+              document.querySelectorAll('.clientsname_div li').forEach((element)=>{
+                element.classList.remove('selected_client');
+                element.classList.add('unselected_client');
+              })
+              curr_elem.classList.remove("unselected_client");
+                  curr_elem.classList.add("selected_client");
+            }
+
+            async function populateFormsBasedonCLient(curr_elem){
+                document.getElementById("show_profiles_div").classList.remove("d-none");
+                const clientid = curr_elem.getAttribute("mid");
+                const {client, profiles} = await fetchClientDetails(clientid);
+                document.querySelector(".profile_edit_container").style.display = "none";
+                const showformdiv = document.getElementById("show_profiles");
+                showformdiv.innerHTML = "";
+                showformdiv.innerHTML = `
+                <div>
+                    <button style="border-radius: 30px; background-color: #002655; color: white;" onclick="openpopupaddproject()" class="btn btn-lg">Add New Profile</button>
+                </div>`
+
+                if (!profiles || profiles.length == 0) {
+                showformdiv.innerHTML = `
+                <div>
+                    <button style="border-radius: 30px; background-color: #002655; color: white;" onclick="openpopupaddproject()" class="btn btn-lg">Add New Profile</button>
+                </div>
+                <h4 class="text-center" > No profiles </h4>
+                `
+                }else{
+
+                    profiles.forEach(profile=>{
+                        const uniqueID = generateLongStringWithDelimiter(profile.id);
+                        showformdiv.innerHTML += `            
+                    <div class="d-flex mt-3 forms_div">
+                        <div topic="project" profile_id="${profile.id}" contenteditable="true" style="outline: 0px solid transparent; align-items: center; width: 300px; height: 100%;" class="editable_div d-flex ps-4">${profile.name}</div> 
+                        
+                        <div class="options_div ms-auto" > 
+                            
+    
+                            <a target="_blank" href="/profile/${uniqueID}" class="big_icon btn btn-sm btn-facebook mt-3 me-2" >
+                                View
+                            </a>
+    
+                            <a target="_blank"  href="/profile/${uniqueID}" class="small_icon mt-3 ms-4">
+                                <i class="fa-solid fa-eye"></i>
+                            </a>
+                            
+                            
+                            
+                            <a href="/api/profile/delete/${profile.id}" class="big_icon mt-3 btn-sm btn btn-danger me-2" >
+                            Delete
+                            </a>
+    
+                            <a href="/api/profile/delete/${profile.id}" class="small_icon mt-3 ms-4">
+                                <i class="fa-solid fa-trash"></i>
+                            </a>
+    
+                            
+                            
+    
+                            <button style="background-color:#002655" onclick="editHandler(this)" profile_id="${profile.id}"  class="big_icon btn btn-sm btn-facebook mt-3 me-2">
+                                Edit
+                            </button>
+    
+                            <button style="background-color:transparent !important" onclick="editHandler(this)" profile_id="${profile.id}"  class="small_icon mt-3 ms-4 me-3">
+                                <i class="fa-solid fa-pen-to-square" style="color: #213454;"></i> 
+                            </button>
+                        </div>
+                    </div> `
+    
+                    })
+                }
+                editableDivHandler();
+            }
+            
+            function clientListener (curr_elem){
+                localStorage.setItem("selected_client", curr_elem.getAttribute("mid"));
+               document.querySelector(".overlay_loading").style.display = "block"
+                clearclientSelected(curr_elem);
+                populateFormsBasedonCLient(curr_elem);
+               document.querySelector(".overlay_loading").style.display = "none"
+
+
+            }
+
+            async function fetchClientDetails(clientid){
+                const res = await fetch(`/api/getClient/${clientid}`,{
+                    method:"GET"
+                })
+                const data = await res.json();
+                return data;
+            }
+
+            const searchInput = document.getElementById('search_client');
+            
+            searchInput.addEventListener('input', function() {
+            const searchValue = searchInput.value.toLowerCase();
+
+            // Get the list of client names in the <li> elements
+            const clientItems = document.querySelectorAll('.clientsname_div li');
+
+            // Loop through the list items and hide those that don't match the search query
+            clientItems.forEach(function(item) {
+                // If the client name includes the search value, show the item; otherwise, hide it
+                if (item.textContent.toLowerCase().includes(searchValue)) {
+                item.style.display = ''; // or 'block' or 'flex' depending on your layout
+                } else {
+                item.style.display = 'none';
+                }
+            });
+            })
+
+            function editableDivHandler(){
+                    const divs = document.querySelectorAll(".editable_div");
+                    divs.forEach(div=>{
+                        div.addEventListener("blur", async ()=>{
+                          const name = div.textContent; 
+                          const id = div.getAttribute("profile_id");
+                          const res = await fetch(`api/profile/edit/profileName/${id}`, {
+                            method: 'POST',
+                            headers: {
+                                'Content-Type': 'application/json',
+                            },
+                            body: JSON.stringify({name}),
+                          })
+                          const data = await res.json();
+                          if (res.status !== 200) {
+                            alert("Something wrong with name change");
+                            return;
+                          }
+
+                        })
+                    })
+                }
+
+            async function client_edit_popup(elem){
+               const clientID = elem.getAttribute("clientid");
+               document.querySelector(".overlay_loading").style.display = "block"
+               const {client} = await fetchClientDetails(clientID);
+               document.querySelector(".overlay_loading").style.display = "none"
+
+               document.getElementById("client_name_edit").value = client.name;
+               document.getElementById("client_email_edit").value = client.email;
+               document.getElementById("client_del").setAttribute("clientid",client.id);
+               const clientedit_popup  = document.querySelector(".clientedit-popup");
+               document.getElementById("client_edit_post_btn").setAttribute("clientId", client.id);
+               clientedit_popup.classList.add("open_popup");
+               clientedit_popup.classList.remove("close_popup");
+
+
+               overlay.style.display = "block";
+            }
+
+            async function editclientPost (){
+               const name = document.getElementById("client_name_edit").value
+               const email = document.getElementById("client_email_edit").value
+               const password = document.getElementById("client_password_edit").value
+               const clientId = document.getElementById("client_edit_post_btn").getAttribute("clientId");
+               document.querySelector(".overlay_loading").style.display = "block"
+
+               const res = await fetch(`/editclient/${clientId}`, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({
+                        name: name,
+                        email:email,
+                        password:password
+                    })
+                })
+                if(res.status == 400){
+                    hideLoadingOverlay();
+                    return alert("Client already present with these details");
+                }else if(res.status == 200){
+                    window.location.reload();
+                }
+            }
+
+            async function deleteClient(elem){
+                Swal.fire({
+                title: "Do you want to Delete the Client?",
+                showCancelButton: true,
+                confirmButtonText: "Delete",
+                }).then(async (result) => {
+                    if (result.isConfirmed) {
+                        showLoadingOverlay();
+                        const id = elem.getAttribute("clientid");
+                        const res = await fetch(`/api/deleteclient/${id}`, {
+                            method:"GET"
+                        });
+                        if(res.status == 200){
+                            window.location.reload();
+                        }else{
+                        swal.fire({
+                                title: "Error",
+                                text: resData.message,
+                                icon: "error",
+                                confirmButtonText: "Ok",
+                                confirmButtonColor: "#002655",
+                            });
+                            hideLoadingOverlay();
+                        }
+                    } else if (result.isDenied) {
+                        hideLoadingOverlay();
+                        Swal.fire("Changes are not saved", "", "info");
+                    }
+            });
+            }
+        
+
+    
         </script>
         <%}else{%>
         <script>
@@ -1850,384 +1851,6 @@
             
             }
         
-            
-            async function editForm(formId) {
-                event.preventDefault();
-                if(!validate()){
-                    return;
-                }
-                const discordArray = extractDiscord();  
-                // const name = document.getElementById("form_name").value;
-                const questions = extractQuestionsAndOptions();
-                const res = await fetch(`/api/updateForm/${formId}`, {
-                    method: "POST",
-                    body: JSON.stringify({
-                        questions: questions,
-                        discord: discordArray
-                    }),
-                    headers: {
-                        "Content-type": "application/json; charset=UTF-8"
-                    }
-                })
-                const resData = await res.json();
-                if(res.status == 200){
-                    Swal.fire({
-                        title: "Form Edited Successfully",
-                        icon: "success",
-                        confirmButtonText: "Ok",
-                    })
-                    
-                    document.getElementById("form_popup").classList.remove("open_popup");
-                    document.getElementById("form_popup").classList.add("close_popup");
-                    const overlay = document.getElementById("overlay");
-                    overlay.style.display = "none";
-                }else{
-                    alert(resData.message);
-                    return;
-                }
-            }
-        
-            async function fetchFormDetail(id){
-            const res = await fetch(`/api/getForm/${id}`,{
-                method:"GET"
-            })
-            const data = await res.json();
-            return data;
-        }
-
-            function populateEditForm(form){
-
-                document.getElementById("form_submit_btn").setAttribute("onclick", `editForm(${form.id})`);
-                // ################ Populate Discord ####################
-                form.discords.forEach((discord, index)=>{
-                    if(index == 0){
-                        document.getElementsByClassName("discord-metaform-input")[0].value = discord;
-                    }else{
-                        const ds_container = document.getElementById("discord_metaform_field")
-                        let newInput = document.createElement('div');
-                        newInput.innerHTML ='<div class="discord-input-container-metaform">' +
-                                        `    <input type="text" value="${discord}" class="form_input discord-metaform-input" placeholder="Discord Link" name="dslink[]">` +
-                                        '    <button type="button" class="my-1 p-2 rounded-2 remove-discord-input" onclick="removeDiscordmetaform(this)">Remove</button>' +
-                                        '</div>';
-                        ds_container.insertBefore(newInput, ds_container.firstChild);
-                    }
-                })
-            
-                // ##################### Populate Questions#######################
-                const questions_container = document.getElementById("questionsContainer_meta");
-                // document.getElementById("form_name").value = form.name;
-                questions_container.innerHTML = "";
-                    form.questions.forEach((question, index)=>{
-                        let optionsHTML = '';
-                        for (let j = 0; j < question.options.length; j++) {
-                            optionsHTML += `
-                            <div class="option">
-                                <input type="text" value="${question.options[j]}" name="option[${j}]" placeholder="Option" class="options">
-                                <button type="button" class="delete-option-button">Delete option</button>
-                            </div>
-                            `;
-                        }
-                        questions_container.innerHTML += `
-                        <div class="question-group">
-                            <input type="text" value="${question.question}" name="question[${index}]" placeholder="Question" class="question">
-                            <button type="button" class="add-option-button">Add Option</button>
-                            <button type="button" class="delete-question-button">Delete Question</button>
-                            <div class="options-container">
-                            ${optionsHTML}
-                            </div>
-                        </div>
-                        `;
-                    })
-
-                        questions_container.innerHTML += `<button style="display: block;" type="button" id="add-question"
-                    class="add-option-button">Add
-                    Question</button>`
-            
-            
-                    const existingQuestionGroups = document.querySelectorAll(".question-group");
-                    existingQuestionGroups.forEach(function(questionGroup) {
-                        attachEventListeners(questionGroup);
-
-                    // Attach event listeners to existing options within this question group
-                    const existingOptions = questionGroup.querySelectorAll(".options-container .option");
-                        existingOptions.forEach(function(optionDiv) {
-                            attachDeleteOptionButton(optionDiv);
-                        });
-                    });
-
-
-
-                    const addQuestionButton = document.getElementById("add-question");
-                    addQuestionButton.addEventListener("click", function() {
-                        const data = extractQuestionsAndOptions();
-                        const questionGroup = document.createElement("div");
-                        questionGroup.classList.add("question-group");
-                        questionGroup.innerHTML = `
-                        <input type="text" name="question[]" placeholder="Question" class="question">
-                        <button type="button" class="add-option-button">Add Option</button>
-                        <button type="button" class="delete-question-button">Delete Question</button>
-                        <div class="options-container">
-                            <div class="option">
-                            <input type="text" name="option[]" placeholder="Option" class="options">
-                            <button type="button" class="delete-option-button">Delete option</button>
-                            </div>
-                        </div>
-                        `;
-                        addQuestionButton.parentNode.insertBefore(questionGroup, addQuestionButton);
-                        attachEventListeners(questionGroup);
-                        const optionDiv = questionGroup.querySelector(".options-container .option");
-                        attachDeleteOptionButton(optionDiv);
-                
-
-
-                        //##############For preview Page ############
-                        const questionInputs = document.querySelectorAll(".question");
-                        questionInputs.forEach(questionInput => {
-                            questionInput.addEventListener('input',populateQuestionsOnpreview)
-                        })
-        
-                        const optionsInput = document.querySelectorAll(".options");
-                            optionsInput.forEach(optionInput =>{
-                            optionInput.addEventListener('input',populateQuestionsOnpreview);
-                        })
-                        //##############For preview Page ############
-                        populateQuestionsOnpreview();
-                        
-                    });
-                    const questionInputs = document.querySelectorAll(".question");
-                    questionInputs.forEach(questionInput => {
-                        questionInput.addEventListener('input',populateQuestionsOnpreview)
-                    })
-    
-                    const optionsInput = document.querySelectorAll(".options");
-                        optionsInput.forEach(optionInput =>{
-                        optionInput.addEventListener('input',populateQuestionsOnpreview);
-                    })
-
-
-
-
-                    function attachEventListeners(questionGroup) {
-                const addOptionButton = questionGroup.querySelector(".add-option-button");
-                const deleteQuestionButton = questionGroup.querySelector(".delete-question-button");
-                
-                addOptionButton.addEventListener("click", function() {
-                        const optionsContainer = questionGroup.querySelector(".options-container");
-                        const optionDiv = document.createElement("div");
-                        optionDiv.classList.add("option");
-                        optionDiv.innerHTML = `
-                        <input type="text" class="options" name="option[]" placeholder="Option">
-                        <button type="button" class="delete-option-button">Delete option</button>
-                        `;
-                        optionsContainer.appendChild(optionDiv);
-                        attachDeleteOptionButton(optionDiv);
-                        //########## for preview Page #########//
-                        const optionsInput = optionDiv.querySelectorAll(".options");
-                            optionsInput.forEach(optionInput =>{
-                            optionInput.addEventListener('input',populateQuestionsOnpreview);
-                            })
-                        //########## for preview Page #########//
-                        });
-                    
-                        deleteQuestionButton.addEventListener("click", function() {
-                        populateQuestionsOnpreview();
-                        questionGroup.remove();
-                        });
-                    }
-
-
-
-
-                    function attachDeleteOptionButton(optionDiv) {
-                        const deleteOptionButton = optionDiv.querySelector(".delete-option-button");
-                        deleteOptionButton.addEventListener("click", function() {
-                        optionDiv.remove();
-                        });
-                    }
-
-
-                    populateQuestionsOnpreview();
-                    function populateQuestionsOnpreview() {
-                        const preview_question_container = document.querySelector('.preview_question_container');
-                        const question_div = document.createElement('div');
-                        const arr = extractQuestionsAndOptions()
-                        preview_question_container.innerHTML = "";
-                        
-                        for (let i = 0; i < arr.length; i++) {
-                            let optionsHTML = '';
-                            if(arr[i].options.length == 0){
-                                question_div.innerHTML += `
-                                <p style="margin-bottom: 3px; color: black">${arr[i].question}</p>
-                                <input class="form_input" placeholder="Type here..."></input>
-                                `
-                            }else{
-                                for (let j = 0; j < arr[i].options.length; j++) {
-                                optionsHTML += `
-                                    <option value=${arr[i].options[j]}>${arr[i].options[j]}</option>
-                                    `;
-                                }
-                                question_div.innerHTML += `
-                                <p style="margin-bottom: 3px; color: black">${arr[i].question}</p>
-                                <select>
-                                ${optionsHTML}  
-                                </select>
-                                `
-                            }
-                            preview_question_container.appendChild(question_div);
-                        }
-                    }
-
-                    function extractQuestionsAndOptions(params) {
-                    const questionInputs = document.querySelectorAll(".question");
-                    const answers = [];
-                
-                    questionInputs.forEach(questionInput => {
-                    let optionsContainer = questionInput;
-                    for (let i = 0; i < 3; i++) {
-                        optionsContainer = optionsContainer.nextElementSibling;
-                    }
-                    const questionText = questionInput.value;
-                    const optionsInputs = optionsContainer.querySelectorAll('.option input');
-                    const options = [];
-                    optionsInputs.forEach(optionInput => {
-                        options.push(optionInput.value);
-                    });
-                    answers.push({ question: questionText, options: options });
-                    });
-                    return answers;
-                }
-
-
-            }
-
-            async function edit_Form_show(btn) {
-                const name = btn.getAttribute("name")
-                const id = btn.getAttribute("link_id");
-                const type = btn.getAttribute("custom_type");
-
-                const { value: newName } = await Swal.fire({
-                title: "Enter Form Name",
-                    input: "text",
-                    inputValue:name,
-                    showCancelButton: true,
-                    inputValidator: (value) => {
-                        if (!value) {
-                        return "You need to write something!";
-                        }
-                    }
-                });
-                if(!newName){
-                    return;
-                }else if(newName == name){
-                    overlay.style.display = "block";
-                    const {form} = await fetchFormDetail(newName);
-                    populateEditForm(form);
-                    document.getElementById("form_popup").classList.add("open_popup");
-                    document.getElementById("form_popup").classList.remove("close_popup");
-                    return;
-                }
-
-                const res = await fetch("/api/form/update/name", {
-                    method:"POST",
-                    headers: {
-                        "Content-Type": "application/json"
-                    },
-                    body: JSON.stringify({id, type, name, newName})
-                })
-                const resData = await res.json()
-                if(res.status == 200){
-                showSaveToast();
-                    btn.name = newName;
-                    btn.placeholder = newName +" (Click to edit form)";
-                    populateProfilePreview();
-                    overlay.style.display = "block";
-                    const {form} = await fetchFormDetail(newName);
-                    populateEditForm(form);
-                    document.getElementById("form_popup").classList.add("open_popup");
-                    document.getElementById("form_popup").classList.remove("close_popup");
-                }else{
-                    Swal.fire({
-                        title: resData.message,
-                        icon: "error",
-                        confirmButtonText: "Ok",
-                    });
-                }  
-              
-            }
- 
-            function openLastCreatedProfile() {
-                const lastCreatedProfileID = localStorage.getItem('lastCreatedProfileID');
-                if (lastCreatedProfileID) {
-                    const elem =  document.createElement('a');
-                    elem.setAttribute('profile_id', lastCreatedProfileID);
-                    editHandler(elem);
-                    localStorage.removeItem('lastCreatedProfileID');
-                }
-            }
-                        
-            async function editForm(formId) {
-                event.preventDefault();
-                if(!validate()){
-                    return;
-                }
-                const {discordLinkValues, emailLinkValues} = extractDiscordAndMails();  
-                // const name = document.getElementById("form_name").value;
-                const questions = extractQuestionsAndOptions();
-                const res = await fetch(`/api/updateForm/${formId}`, {
-                    method: "POST",
-                    body: JSON.stringify({
-                        questions: questions,
-                        discord: discordLinkValues,
-                        emails:emailLinkValues
-                    }),
-                    headers: {
-                        "Content-type": "application/json; charset=UTF-8"
-                    }
-                })
-                const resData = await res.json();
-                if(res.status == 200){
-                    Swal.fire({
-                        title: "Form Edited Successfully",
-                        icon: "success",
-                        confirmButtonText: "Ok",
-                    })
-                    document.getElementById("form_popup").classList.remove("open_popup");
-                    document.getElementById("form_popup").classList.add("close_popup");
-                    const overlay = document.getElementById("overlay");
-                    overlay.style.display = "none";
-                }else{
-                    alert(resData.message);
-                    return;
-                }
-            }
-            
-            async function updateSortOrder(sort_order) {
-                const profileid =  document.getElementById("profile_id").getAttribute("profile_id");
-                
-               const res =  await fetch("/api/profile/sortOrder", {
-                    method: "POST",
-                    headers: {
-                        "Content-type": "application/json; charset=UTF-8"
-                    },
-                    body:JSON.stringify({
-                        id: profileid,
-                        sort_order:sort_order
-                    })
-
-                })
-                const resData = await res.json();
-                if(res.status == 200){
-                    return;
-                }
-            }
-            
-            function eyeToggleFunction(eye, isSection) {
-                updateVisibility(eye, isSection);
-                eye.classList.toggle("eye_open");
-                eye.classList.toggle("eye_close")
-                populateProfilePreview();
-            }
-
         </script>
         <%}%>
     </script>

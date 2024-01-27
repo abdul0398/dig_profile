@@ -8,6 +8,7 @@ const {bulkMailSender} = require("../utils/mailHandler")
 router.post("/api/submitLead/:profilId", async (req,res)=>{
     const {profilId} = req.params;
     const {Name, Email, Mobile, Message, Booking, form_id, ...questions} = req.body;
+    console.log(req.body);
     try {
         const insertQuery = `INSERT INTO leads (name, email, phone, profileId, message, questions, booking) VALUES(?, ?, ?, ?, ?, ?, ?)`;
         const [row] = await __pool.query(insertQuery, [Name, Email, Mobile, profilId, Message, JSON.stringify([questions]), convertToMySQLDateTime(Booking)]);
@@ -17,10 +18,15 @@ router.post("/api/submitLead/:profilId", async (req,res)=>{
 
         const getFormQuery = `SELECT discords, emails FROM form WHERE id = ?`
         const [formRows] = await __pool.query(getFormQuery, [form_id]);
-        if(formRows.length > 0){
+        if(formRows.length > 0 ){
             const leadStr  = changeleadtoString(rows[0]);
             await bulkDiscordSender(formRows[0].discords, leadStr);
             await bulkMailSender(formRows[0].emails, leadStr);
+        }else if(form_id == "undefined"){
+            const [defaultForm] = await __pool.query(`SELECT * from form WHERE name = ?`, ["Default"]);
+            const leadStr  = changeleadtoString(rows[0]);
+            await bulkDiscordSender(defaultForm[0].discords, leadStr);
+            await bulkMailSender(defaultForm[0].emails, leadStr);
         }
         res.status(200).json("Sucessfully submitted Leads");
     } catch (error) {

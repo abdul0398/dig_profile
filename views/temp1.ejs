@@ -357,7 +357,7 @@
       const formName = e.getAttribute("form_name");
       const {form} = await fetchFormDetail(formName);
       document.getElementById("form_id_selected").innerText = form.id;
-        populateFormbasedOnBtn(form.questions);
+      populateFormbasedOnBtn(form.questions);
       document.querySelector("#popupform").style.display = "block";
       overlay.style.display = "block";
         }

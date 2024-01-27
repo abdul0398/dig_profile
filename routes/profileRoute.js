@@ -373,7 +373,7 @@ try {
         console.log(error);
         res.status(500).json({message:"Server Error"});
     }
-}).post("/api/link/update/valueAndname", verify, isAdmin, async (req,res)=>{
+}).post("/api/link/update/valueAndname", verify, async (req,res)=>{
     const {id, value, name} = req.body;
     try {
         await __pool.query(`UPDATE links SET link = ?, name = ? WHERE id = ?`, [value, name, id]);
@@ -382,7 +382,7 @@ try {
         console.log(error);
         res.status(500).json({message:"Server Error"});
     }
-}).post("/api/link/update/link", verify, isAdmin, async (req,res)=>{
+}).post("/api/link/update/link", verify, async (req,res)=>{
     const {id, newName} = req.body;
     try {
         await __pool.query(`UPDATE links SET name = ? WHERE id = ?`, [newName, id]);

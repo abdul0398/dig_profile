@@ -13,9 +13,14 @@ async function sendWebhookMessage(hookURL, projectName, msg) {
 }
 
 async function bulkDiscordSender(discords, leadStr){
-  discords.forEach(async dsLink => {
+  if(discords.length === 0 || discords[0] === "") return;
+try {
+  for(dsLink of discords){
     await sendWebhookMessage(dsLink,"Jome Journey", leadStr);
-  });
+  };
+} catch (error) {
+  console.log(error.message);
+}
   
 }
 module.exports = {sendWebhookMessage, bulkDiscordSender};
