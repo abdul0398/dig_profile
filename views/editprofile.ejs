@@ -427,6 +427,25 @@
                    color: #000;"></p>
                     <section id="profile_preview_innercontainer">
                         
+                        <div>
+                        <div style="display: flex;
+                        margin-top: 10px;
+                        width: fit-content;
+                        margin: 10px auto;">
+                            <li style="margin: 0px 10px;text-decoration: none;
+                            list-style: none;">
+                             <i class="fa-brands fa-xl fa-facebook" style="color: #0066C9;"></i>
+                            </li>
+                            <li style="margin: 0px 10px;text-decoration: none;
+                            list-style: none;">
+                             <i class="fa-brands fa-linkedin fa-xl" style="color: #0066C9;"></i>
+                            </li> 
+                            <li style="margin: 0px 10px;text-decoration: none;
+                            list-style: none;">
+                             <i class="fa-brands fa-square-instagram fa-xl" style="color: #0066C9;"></i>
+                            </li> 
+                        </div>
+                        </div>
                     </section>
                     
                    
@@ -636,41 +655,153 @@
 
     function populateProfilePreview() {
         const sections = extractDataOfSectionsToPreview()
+        console.log(sections);
         if(profileDataState.templateSelected == 1){
             // Poluplating template 1
             const profile_preview_container  = document.getElementById("profile_preview_innercontainer");
             profile_preview_container.innerHTML = "";
             sections.forEach(section => {
-                profile_preview_container.innerHTML += `${section.heading?`<p style="font-size: 12px; margin-bottom:2px; color: #000;padding-left:10px;" class="profile_heading">${section.heading}</p>`:""}`
-                section.links.forEach(link =>{
-                    profile_preview_container.innerHTML += `<li style="font-size: 12px; margin:0px auto 5px auto; display: flex; justify-content: center; align-items: center; background-color: #0066C9; width: 160px; border-radius: 20px; height: 32px;">
-                    <a style="pointer-events: none; color: white;">${link.name?link.name:link.placeholder}</a>
-                </li>`
-                })
+                if(section.type != "socials"){
+                    profile_preview_container.innerHTML += `${section.heading?`<p style="font-size: 12px; margin-bottom:2px; color: #000;padding-left:10px;" class="profile_heading">${section.heading}</p>`:""}`
+                    section.links.forEach(link =>{
+                        profile_preview_container.innerHTML += `<li style="font-size: 12px; margin:0px auto 5px auto; display: flex; justify-content: center; align-items: center; background-color: #0066C9; width: 160px; border-radius: 20px; height: 32px;">
+                        <a style="pointer-events: none; color: white;">${link.name?link.name:link.placeholder}</a>
+                    </li>`
+                    })
+                }
             });
+            const socials = socailsection = sections.find(section => section.type == "socials");
+            const fb = socials.links.find(link => link.type == "fb");
+            const insta = socials.links.find(link => link.type == "insta");
+            const linkedin = socials.links.find(link => link.type == "linked");
+            const call = socials.links.find(link => link.type == "call");
+            const whatsapp = socials.links.find(link => link.type == "whats");
+            profile_preview_container.innerHTML += `  <div style="margin-top: 10px;">
+                        <div style="display: flex;
+                        margin-top: 10px;
+                        width: fit-content;
+                        margin: 10px auto;">
+                        ${fb?` <li style="margin: 0px 10px;text-decoration: none;
+                            list-style: none;">
+                             <i class="fa-brands fa-xl fa-facebook" style="color: #0066C9;"></i>
+                            </li>`:""}
+                           
+                        ${linkedin?` <li style="margin: 0px 10px;text-decoration: none;
+                            list-style: none;">
+                             <i class="fa-brands fa-linkedin fa-xl" style="color: #0066C9;"></i>
+                            </li> `:""}
+                         ${insta?` <li style="margin: 0px 10px;text-decoration: none;
+                            list-style: none;">
+                             <i class="fa-brands fa-square-instagram fa-xl" style="color: #0066C9;"></i>
+                            </li> `:""}  
+                           
+                        </div>
+                        ${call || whatsapp?`<p style="color: black;font-size: 12px;text-align: center;">Call Us</p>`:""}
+                        ${call && call.link != ""?`<li style="font-size: 12px; margin:0px auto 5px auto; display: flex; justify-content: center; align-items: center; background-color: #0066C9; width: 160px; border-radius: 20px; height: 32px;">
+                            <a style="pointer-events: none; color: white;">Call</a>
+                            </li>`:""}
+                       ${whatsapp && whatsapp.link != ""?` <li style="font-size: 12px; margin:0px auto 5px auto; display: flex; justify-content: center; align-items: center; background-color: #0066C9; width: 160px; border-radius: 20px; height: 32px;">
+                        <a style="pointer-events: none; color: white;">Whatsapp</a>
+                    </li>`:""}
+                   
+                        </div>`
         }else if(profileDataState.templateSelected == 2){
             // populating template 2
             const profile_preview_container_temp2  = document.getElementById("profile_preview_container_temp2");
             profile_preview_container_temp2.innerHTML = "";
             sections.forEach(section => {
-                profile_preview_container_temp2.innerHTML += `${section.heading?`<p style="font-size: 12px; margin-bottom:2px; color: #fff;padding-left:10px;" class="profile_heading">${section.heading}</p>`:""}`
-                section.links.forEach(link =>{
-                    profile_preview_container_temp2.innerHTML += `<li style="font-size: 12px; margin:0px auto 5px auto; display: flex; justify-content: center; align-items: center; background-color: #b68e00; width: 160px; border-radius: 20px; height: 35px;">
-                        <a style="pointer-events: none; color: white;" >${link.name?link.name:link.placeholder}</a>
-                    </li>`
-                })
+                if(section.type != "socials"){
+                    profile_preview_container_temp2.innerHTML += `${section.heading?`<p style="font-size: 12px; margin-bottom:2px; color: #fff;padding-left:10px;" class="profile_heading">${section.heading}</p>`:""}`
+                    section.links.forEach(link =>{
+                        profile_preview_container_temp2.innerHTML += `<li style="font-size: 12px; margin:0px auto 5px auto; display: flex; justify-content: center; align-items: center; background-color: #b68e00; width: 160px; border-radius: 20px; height: 35px;">
+                            <a style="pointer-events: none; color: white;" >${link.name?link.name:link.placeholder}</a>
+                        </li>`
+                    })
+                }
             });
+            const socials = socailsection = sections.find(section => section.type == "socials");
+            const fb = socials.links.find(link => link.type == "fb");
+            const insta = socials.links.find(link => link.type == "insta");
+            const linkedin = socials.links.find(link => link.type == "linked");
+            const call = socials.links.find(link => link.type == "call");
+            const whatsapp = socials.links.find(link => link.type == "whats");
+            profile_preview_container_temp2.innerHTML += `  <div style="margin-top: 10px;">
+                        <div style="display: flex;
+                        margin-top: 10px;
+                        width: fit-content;
+                        margin: 10px auto;">
+                        ${fb?` <li style="margin: 0px 10px;text-decoration: none;
+                            list-style: none;">
+                             <i class="fa-brands fa-xl fa-facebook" style="color: #b68e00;"></i>
+                            </li>`:""}
+                           
+                        ${linkedin?` <li style="margin: 0px 10px;text-decoration: none;
+                            list-style: none;">
+                             <i class="fa-brands fa-linkedin fa-xl" style="color: #b68e00;"></i>
+                            </li> `:""}
+                         ${insta?` <li style="margin: 0px 10px;text-decoration: none;
+                            list-style: none;">
+                             <i class="fa-brands fa-square-instagram fa-xl" style="color: #b68e00;"></i>
+                            </li> `:""}  
+                           
+                        </div>
+                        ${call || whatsapp?`<p style="color: white;font-size: 12px;text-align: center;">Call Us</p>`:""}
+                        ${call && call.link != ""?`<li style="font-size: 12px; margin:0px auto 5px auto; display: flex; justify-content: center; align-items: center; background-color: #b68e00; width: 160px; border-radius: 20px; height: 32px;">
+                            <a style="pointer-events: none; color: white;">Call</a>
+                            </li>`:""}
+                       ${whatsapp && whatsapp.link != ""?` <li style="font-size: 12px; margin:0px auto 5px auto; display: flex; justify-content: center; align-items: center; background-color: #b68e00; width: 160px; border-radius: 20px; height: 32px;">
+                        <a style="pointer-events: none; color: white;">Whatsapp</a>
+                    </li>`:""}
+                   
+                        </div>`
         }else{
             const profile_preview_container_temp3  = document.getElementById("profile_preview_container_temp3");
             profile_preview_container_temp3.innerHTML = "";
             sections.forEach(section => {
-                profile_preview_container_temp3.innerHTML += `${section.heading?`<p style="font-size: 12px; margin-bottom:2px; color: #000;padding-left:10px;" class="profile_heading">${section.heading}</p>`:""}`
-                section.links.forEach(link =>{
-                    profile_preview_container_temp3.innerHTML += `<li style="font-size: 12px; margin:0px auto 5px auto; display: flex; justify-content: center; align-items: center; background-image: linear-gradient(178.54deg, #ff1212 7.67%, #ff2c1d); width: 160px; border-radius: 20px; height: 35px;">
-                        <a style="pointer-events: none; color: white;">${link.name?link.name:link.placeholder}</a>
-                    </li>`
-                })
+                if(section.type != "socials"){
+                    profile_preview_container_temp3.innerHTML += `${section.heading?`<p style="font-size: 12px; margin-bottom:2px; color: #000;padding-left:10px;" class="profile_heading">${section.heading}</p>`:""}`
+                    section.links.forEach(link =>{
+                        profile_preview_container_temp3.innerHTML += `<li style="font-size: 12px; margin:0px auto 5px auto; display: flex; justify-content: center; align-items: center; background-image: linear-gradient(178.54deg, #ff1212 7.67%, #ff2c1d); width: 160px; border-radius: 20px; height: 35px;">
+                            <a style="pointer-events: none; color: white;">${link.name?link.name:link.placeholder}</a>
+                        </li>`
+                    })
+                }
             });
+            const socials = socailsection = sections.find(section => section.type == "socials");
+            const fb = socials.links.find(link => link.type == "fb");
+            const insta = socials.links.find(link => link.type == "insta");
+            const linkedin = socials.links.find(link => link.type == "linked");
+            const call = socials.links.find(link => link.type == "call");
+            const whatsapp = socials.links.find(link => link.type == "whats");
+            profile_preview_container_temp3.innerHTML += `  <div style="margin-top: 10px;">
+                        <div style="display: flex;
+                        margin-top: 10px;
+                        width: fit-content;
+                        margin: 10px auto;">
+                        ${fb?` <li style="margin: 0px 10px;text-decoration: none;
+                            list-style: none;">
+                             <i class="fa-brands fa-xl fa-facebook" style="color: #ff2c1d;"></i>
+                            </li>`:""}
+                           
+                        ${linkedin?` <li style="margin: 0px 10px;text-decoration: none;
+                            list-style: none;">
+                             <i class="fa-brands fa-linkedin fa-xl" style="color: #ff2c1d;"></i>
+                            </li> `:""}
+                         ${insta?` <li style="margin: 0px 10px;text-decoration: none;
+                            list-style: none;">
+                             <i class="fa-brands fa-square-instagram fa-xl" style="color: #ff2c1d;"></i>
+                            </li> `:""}  
+                           
+                        </div>
+                        ${call || whatsapp?`<p style="color: black;font-size: 12px;text-align: center;">Call Us</p>`:""}
+                        ${call && call.link != ""?`<li style="font-size: 12px; margin:0px auto 5px auto; display: flex; justify-content: center; align-items: center; background-image: linear-gradient(178.54deg, #ff1212 7.67%, #ff2c1d); width: 160px; border-radius: 20px; height: 32px;">
+                            <a style="pointer-events: none; color: white;">Call</a>
+                            </li>`:""}
+                       ${whatsapp && whatsapp.link != ""?` <li style="font-size: 12px; margin:0px auto 5px auto; display: flex; justify-content: center; align-items: center; background-image: linear-gradient(178.54deg, #ff1212 7.67%, #ff2c1d); width: 160px; border-radius: 20px; height: 32px;">
+                        <a style="pointer-events: none; color: white;">Whatsapp</a>
+                    </li>`:""}
+                   
+                        </div>`
             
         }        
     }
@@ -1358,10 +1489,11 @@
         const sectionsData = [];
         for (const section of sections) {
             const sectionhidden =  section.querySelector(".eye").classList.contains("eye_close");
+            const sectionType = section.getAttribute("section_type");
             if(sectionhidden){
                 continue;
             }
-            const obj = {heading :section.querySelector("p")?.innerText};
+            const obj = {heading :section.querySelector("p")?.innerText, type:sectionType};
             const links = Array.from(section.querySelectorAll(".input_container_with_eye"));
             const linksData = [];
             for (const link of links) {
@@ -1370,8 +1502,11 @@
                 if(linkObj.hidden){
                     continue;
                 }
+
                 const input = link.querySelector("input");
+                linkObj.type = input.getAttribute("custom_type");
                 linkObj.name = input.getAttribute("name");
+                linkObj.link = input.getAttribute("value");
                 linkObj.placeholder = input.getAttribute("placeholder");
                 linksData.push(linkObj);
             }

@@ -91,27 +91,27 @@ module.exports.sections = [
         isDynamic: false,
         links: [
             {
-                type: "link",
+                type: "fb",
                 name: "Facebook",
                 link: "www.facebook.com"
             },
             {
-                type: "link",
+                type: "insta",
                 name: "Instagram",
                 link: "www.instagram.com"
             },
             {
-                type: "link",
+                type: "linked",
                 name: "Linkedin",
                 link: "www.linkedin.com"
             },
             {
-                type: "link",
+                type: "call",
                 name: "Call Us",
                 link: ""
             },
             {
-                type: "link",
+                type: "whats",
                 name: "WhatsApp",
                 link: ""
             }
