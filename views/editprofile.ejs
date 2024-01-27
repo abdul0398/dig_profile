@@ -1504,6 +1504,10 @@
 
     async function deleteSection(elem) {
         const section =   document.querySelector(`[section_id="${elem.getAttribute("section_id")}"]`)
+        const prevAddNewSection = section.previousElementSibling;
+        if(prevAddNewSection && prevAddNewSection.classList.contains("Add_new_section")){
+            prevAddNewSection.remove();
+        }
         section.remove();
         const id = elem.getAttribute("section_id");
         const res = await fetch("/api/section/delete", {
