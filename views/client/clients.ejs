@@ -2085,13 +2085,59 @@
 
             async function edit_Form_show(btn) {
                 const name = btn.getAttribute("name")
-                overlay.style.display = "block";
-                const {form} = await fetchFormDetail(name);
-                populateEditForm(form);
-                document.getElementById("form_popup").classList.add("open_popup");
-                document.getElementById("form_popup").classList.remove("close_popup");
+                const id = btn.getAttribute("link_id");
+                const type = btn.getAttribute("custom_type");
+
+                const { value: newName } = await Swal.fire({
+                title: "Enter Form Name",
+                    input: "text",
+                    inputValue:name,
+                    showCancelButton: true,
+                    inputValidator: (value) => {
+                        if (!value) {
+                        return "You need to write something!";
+                        }
+                    }
+                });
+                if(!newName){
+                    return;
+                }else if(newName == name){
+                    overlay.style.display = "block";
+                    const {form} = await fetchFormDetail(newName);
+                    populateEditForm(form);
+                    document.getElementById("form_popup").classList.add("open_popup");
+                    document.getElementById("form_popup").classList.remove("close_popup");
+                    return;
+                }
+
+                const res = await fetch("/api/form/update/name", {
+                    method:"POST",
+                    headers: {
+                        "Content-Type": "application/json"
+                    },
+                    body: JSON.stringify({id, type, name, newName})
+                })
+                const resData = await res.json()
+                if(res.status == 200){
+                showSaveToast();
+                    btn.name = newName;
+                    btn.placeholder = newName +" (Click to edit form)";
+                    populateProfilePreview();
+                    overlay.style.display = "block";
+                    const {form} = await fetchFormDetail(newName);
+                    populateEditForm(form);
+                    document.getElementById("form_popup").classList.add("open_popup");
+                    document.getElementById("form_popup").classList.remove("close_popup");
+                }else{
+                    Swal.fire({
+                        title: resData.message,
+                        icon: "error",
+                        confirmButtonText: "Ok",
+                    });
+                }  
+              
             }
-   
+ 
             function openLastCreatedProfile() {
                 const lastCreatedProfileID = localStorage.getItem('lastCreatedProfileID');
                 if (lastCreatedProfileID) {
