@@ -284,7 +284,7 @@ try {
     console.error("Error in fetching profile:", error);
     return res.status(500).json({ message: "Internal Server Error" });
 }
-}).get("/api/linkcount/:linkId", async (req,res)=>{
+}).get("/api/linkcount/:linkId",verify, async (req,res)=>{
     const {linkId} = req.params;
     try {
         const updateQuery = `UPDATE links SET click_count = click_count + 1 WHERE id = ?`;
@@ -294,9 +294,9 @@ try {
         console.log("Error in updating link count", error.message);
         res.status(500).json({message:"Internal Server Error"});
     }
-}).post("/upload/gallery/:id", upload.single('image'), (req,res)=>{
+}).post("/upload/gallery/:id",verify, upload.single('image'), (req,res)=>{
     res.status(200).json({message:"Image uploaded successfully", file:req.file.filename});
-}).get("/api/get/gallery/:id/:galleryname", (req,res)=>{
+}).get("/api/get/gallery/:id/:galleryname",verify, (req,res)=>{
     const {id, galleryname} = req.params;
     const galleryPath = path.join("uploads", id, "gallery", galleryname);
 
@@ -309,7 +309,7 @@ try {
         res.status(200).json({images:files});
     });
 
-}).delete(`/api/delete/gallery/:id/:galleryname`, (req, res) => {
+}).delete(`/api/delete/gallery/:id/:galleryname`,verify, (req, res) => {
     const { id, galleryname } = req.params;
     const { imagePath } = req.body;
     if (fs.existsSync(`uploads/${id}/gallery/${galleryname}/${imagePath}`)) {
@@ -334,7 +334,7 @@ try {
         res.redirect("/error");
     }
 
-}).post("/api/section/changeName/:id", async (req,res)=>{
+}).post("/api/section/changeName/:id",verify, async (req,res)=>{
     const {heading} = req.body;
     const {id} = req.params;
     try {
@@ -345,7 +345,7 @@ try {
         console.log(error);
         res.status(500).json({message:"Something Went Wrong"})
     }
-}).post("/api/gallery/create", async (req,res)=>{
+}).post("/api/gallery/create",verify, async (req,res)=>{
     const {id, galleryname} = req.body;
 
     try {
@@ -360,7 +360,7 @@ try {
         return res.status(500).json({message:"Error in creating folders for gallery"});        
     }
 
-}).post("/api/link/update/visibility", async (req,res)=>{
+}).post("/api/link/update/visibility",verify, async (req,res)=>{
     const {id, hidden, type, profile_id} = req.body;
     try {
         if(type){
@@ -391,7 +391,7 @@ try {
         console.log(error);
         res.status(500).json({message:"Server Error"});
     }
-}).post("/api/profile/update/info", async (req,res)=>{
+}).post("/api/profile/update/info",verify, async (req,res)=>{
     const {name, id, value} = req.body;
     try {
         await __pool.query(`UPDATE profiles SET ${name} = ? WHERE id = ?`, [value, id]);
@@ -400,7 +400,7 @@ try {
         console.log(error);
         res.status(500).json({message:"Server Error"});
     }
-}).post("/api/link/create", async (req,res)=>{
+}).post("/api/link/create",verify, async (req,res)=>{
     const {id, name, type, link} = req.body;
     try {
         const [row] = await __pool.query(`INSERT INTO links (name, type, link, sectionId, permanent) VALUES(?, ?, ?, ?, ?)`, [name, type, link, id, false]);
@@ -409,7 +409,7 @@ try {
         console.log(error);
         res.status(500).json({message:"Server Error"});
     }
-}).post("/api/link/delete", async (req,res)=>{
+}).post("/api/link/delete",verify, async (req,res)=>{
     const {id, profile_id} = req.body;
     try {
         //also delete the folder if it is a gallery
@@ -444,7 +444,7 @@ try {
         console.log(error);
         res.status(500).json({message:"Server Error"});
     }
-}).post("/api/section/create", async (req,res)=>{
+}).post("/api/section/create",verify, async (req,res)=>{
     const {id, name} = req.body;
     try {
         //check if the section already exists
@@ -458,7 +458,7 @@ try {
         console.log(error);
         res.status(500).json({message:"Server Error"});
     }
-}).post("/api/section/sortOrder", async (req,res)=>{
+}).post("/api/section/sortOrder",verify, async (req,res)=>{
    const {sectionId, ids} = req.body;
     try {
         await __pool.query(`UPDATE sections SET sortOrder = ? WHERE id = ?`, [JSON.stringify(ids), sectionId]);
@@ -467,7 +467,7 @@ try {
         console.log(error);
         res.status(500).json({message:"Server Error"});
     }
-}).post("/api/section/delete", async (req,res)=>{
+}).post("/api/section/delete",verify, async (req,res)=>{
     const {id} = req.body;
     try {
         const [section] = await __pool.query(`SELECT * FROM sections WHERE id = ?`, [id]);
@@ -494,7 +494,7 @@ try {
         console.log(error);
         res.status(500).json({message:"Server Error"});
     }
-}).post("/api/section/update/visibility", async (req,res)=>{
+}).post("/api/section/update/visibility",verify, async (req,res)=>{
     const {id, hidden, type, profile_id} = req.body;
     try {
         await __pool.query(`UPDATE sections SET hidden = ? WHERE id = ?`, [hidden, id]);
@@ -503,7 +503,7 @@ try {
         console.log(error);
         res.status(500).json({message:"Server Error"});
     }
-}).post("/api/profile/sortOrder", async (req,res)=>{
+}).post("/api/profile/sortOrder",verify, async (req,res)=>{
     const {id, sort_order} = req.body;
     try {
         await __pool.query(`UPDATE profiles SET section_ordering = ? WHERE id = ?`, [JSON.stringify(sort_order), id]);
@@ -512,7 +512,7 @@ try {
         console.log(error);
         res.status(500).json({message:"Server Error"});
     }
-}).post("/api/profile/update/aboutUs", async (req,res)=>{
+}).post("/api/profile/update/aboutUs",verify, async (req,res)=>{
     const {id, aboutUs} = req.body;
     try {
         await __pool.query(`UPDATE profiles SET about_us = ? WHERE id = ?`, [JSON.stringify(aboutUs), id]);
@@ -521,7 +521,7 @@ try {
         console.log(error);
         res.status(500).json({message:"Server Error"});
     }
-}).get("/api/profiles/:profileId/get/about_us", async (req,res)=>{
+}).get("/api/profiles/:profileId/get/about_us",verify, async (req,res)=>{
     const {profileId} = req.params;
     try {
         const [rows] = await __pool.query(`SELECT about_us from profiles WHERE id = ?`, [profileId]);
@@ -530,7 +530,7 @@ try {
         console.log(error.message);
         res.redirect("/error");
     }
-}).post("/api/profile/update/template", async (req,res)=>{
+}).post("/api/profile/update/template",verify, async (req,res)=>{
     const {id, template} = req.body;
     try {
         await __pool.query(`UPDATE profiles SET template_selected = ? WHERE id = ?`, [template, id]);
@@ -539,7 +539,7 @@ try {
         console.log(error);
         res.status(500).json({message:"Server Error"});
     }
-}).post("/api/profile/update/sectionsOrder", async (req,res)=>{
+}).post("/api/profile/update/sectionsOrder",verify, async (req,res)=>{
     const {id, sectionsIds} = req.body;
     try {
         await __pool.query(`UPDATE profiles SET section_ordering = ? WHERE id = ?`, [JSON.stringify(sectionsIds), id]);
@@ -557,7 +557,7 @@ try {
         console.log(error.message);
         res.redirect("/error");
     }
-}).post("/api/gallery/changeName/:oldName", async (req,res)=>{
+}).post("/api/gallery/changeName/:oldName",verify, async (req,res)=>{
     const {oldName} = req.params;
     const {id, newName, profileId} = req.body;
     try {
@@ -580,7 +580,7 @@ try {
         console.log(error);
         res.status(500).json({message:"Server Error"});
     }
-}).post("/api/form/update/name", async (req,res)=>{
+}).post("/api/form/update/name",verify, async (req,res)=>{
     const {id, name, type, newName} = req.body;
     try {
         if(type == "leadform" || type == "bookform"){
