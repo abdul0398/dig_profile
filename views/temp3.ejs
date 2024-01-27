@@ -176,7 +176,7 @@
           margin: auto;
           word-wrap: break-word;"><%=profile.description%></p>
             <%}%>
-        <section id="profile_preview_innercontainer">
+        <section style="margin-bottom: 30px;" id="profile_preview_innercontainer">
           <%for(key in sections){%>
               <p class="text_style heading_style" style="color: black; margin: 40px 30px 20px 30px; width: fit-content;" class="profile_heading"><%=key%></p>
               <%for(link of sections[key]?.links){%>
@@ -259,7 +259,7 @@
       </div>
     </div>
 
-    <%if(social["call"]|| social["whats"]){%>
+    <%if((social["whats"].link != ""  && social["call"]) || (social["whats"] && social["call"].link != "")){%>
       <div style="height: 200px;">
         <div class="call-us-parent">
           <b class="call-us">Call us</b>

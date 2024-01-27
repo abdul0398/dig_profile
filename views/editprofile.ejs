@@ -1281,7 +1281,7 @@
             title: "Enter Name",
             html: `
                 <input id="swal-input1" value="${name}" placeholder="Enter Name" class="swal2-input">
-                <input id="swal-input2" value="${value}" Placeholder ="Enter Value" class="swal2-input">
+                <input id="swal-input2" ${["call", "whats"].includes(type)?`type="number"`:`type="text"`} value="${value}" Placeholder ="Enter Value" class="swal2-input">
             `,
             focusConfirm: false,
             showCancelButton: true,
