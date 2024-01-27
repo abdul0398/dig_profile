@@ -213,23 +213,23 @@
               </section>
               <div style="height: 300px;">
                 <div class="group-parent">
-                  <%if(social["Call Us"] != "" || social["WhatsApp"] != ""){%>
+                  <%if(social["call"] || social["whats"]){%>
                   <div class="call-us-parent">
                     <b class="call-us">Call us</b>
                     <div class="group-container">
                       <div class="rectangle-group">
-                        <%if(social["Call Us"] != ""){%>
-                          <a style="color: white;" href="tel:<%=social["Call Us"]%>">
+                        <%if(social["call"]&& social["call"].link != ""){%>
+                          <a style="color: white;" href="tel:<%=social["call"].link%>">
                             <div class="rectangle-div">
-                              <b class="book-and-appointment">Call</b>
+                              <b class="book-and-appointment"><%=social["call"].name%></b>
                             </div>
                           </a>
                         <%}%>
                        
                       </div>
-                      <%if(social["WhatsApp"] != ""){%>
+                      <%if(social["whats"]&& social["whats"].link != ""){%>
                         <div class="rectangle-container">
-                          <a style="color: white;" href="https://wa.me/<%=social["WhatsApp"]%>" target="_blank">
+                          <a style="color: white;" href="https://wa.me/<%=social["whats"].link%>" target="_blank">
                             <div class="group-child1">
                               <b class="whatsapp">Whatsapp</b>
                             </div>
@@ -242,21 +242,21 @@
                   <%}%>
                   <div class="group-div">
                     <div class="group-parent1">
-                      <%if(social.Facebook && social.Facebook != "#"){%>
-                        <a style="margin: 0px 10px;" href="#" onclick="openLink('<%=social.Facebook%>')">
+                      <%if(social.fb && social.fb.link != ""){%>
+                        <a style="margin: 0px 10px;" href="#" onclick="openLink('<%=social.fb.link%>')">
                           <i class="fa-brands fa-2xl fa-facebook" style="color: #B68E00;"></i>
                         </a>
                       <%}%>
 
-                      <%if(social.Linkedin && social.Linkedin != "#"){%>
-                        <a style="margin: 0px 10px;" href="#" onclick="openLink('<%=social.Linkedin%>')">
+                      <%if(social.linked && social.linked.link != ""){%>
+                        <a style="margin: 0px 10px;" href="#" onclick="openLink('<%=social.linked.link%>')">
                           <i class="fa-brands fa-linkedin fa-2xl" style="color: #B68E00;"></i>
 
                         </a>
                       <%}%>
 
-                      <%if(social["Instagram"] && social["Instagram"] != "#"){%>
-                        <a style="margin: 0px 10px;" href="#" onclick="openLink('<%= social.Instagram %>')">
+                      <%if(social["insta"] && social["insta"].link != ""){%>
+                        <a style="margin: 0px 10px;" href="#" onclick="openLink('<%= social.insta.link %>')">
                           <i class="fa-brands fa-square-instagram fa-2xl" style="color: #B68E00;"></i>
                         </a>
                         

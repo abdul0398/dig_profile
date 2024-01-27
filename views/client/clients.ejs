@@ -873,7 +873,7 @@
                                 <i link_id="${link.id}" onclick="eyeToggleFunction(this, false)" class="eye fa-solid fa-eye ${linkHidden?"eye_close":"eye_open"}" style="margin: 0px 10px;"></i>
                                 ${!link.permanent ? `<i onclick="deleteLinkInDatabase(this)" link_id="${link.id}" class="fas fa-trash-alt delete-field-btn" style="color: #0066C9; cursor:pointer;" link_id="your_id" cursor="pointer"></i>` : ""}
                                 ${section.type !="socials"? `<i style="cursor:grab; margin-left:10px" class="handle fa-solid fa-grip-vertical"></i>`:""}                                 
-                                ${link.type == "leadform"?`<i onclick="edit_Form_show(this)" name="Default" class="fa-solid fa-pen-to-square" style="margin-left:20px; cursor: pointer; color:#0066C9"></i>`:""}
+                                ${link.type == "leadform"?`<i name="Default" link_id="${link.id}" onclick="edit_Form_show(this)" custom_type="${link.type}" class="fa-solid fa-pen-to-square" style="margin-left:20px; cursor: pointer; color:#0066C9"></i>`:""}
                                 </div>
                             `
                         })
@@ -886,7 +886,7 @@
                                 <span>
                                     <i section_id="${section.id}" onclick="eyeToggleFunction(this, true)" class="eye fa-solid fa-eye ${sectionHidden?"eye_close":"eye_open"}" style="margin: 0px 10px;"></i>
                                     <i onclick="sectionHeadingHandler(this)" class="fa-solid fa-pen-to-square" style="cursor: pointer; color:#0066C9"></i>
-                                   ${!section.permanent?`<i onclick="deleteSection(this)" section_id="${section.id}"  class="fas fa-trash-alt delete-field-btn" style="margin-left:10px; cursor: pointer; color:#0066C9"></i>`:``}     
+                                   ${!section.permanent?`<i  onclick="deleteSection(this)" section_id="${section.id}"  class="fas fa-trash-alt delete-field-btn" style="margin-left:10px; cursor: pointer; color:#0066C9"></i>`:``}     
                                 </span>
                             </div>                
                             <div style="display: flex; flex-direction: column; border-radius: 10px; background-color: #F1F5F7; width: 90%; margin: 0px auto 10px auto;">
@@ -1490,9 +1490,10 @@
         
                         const optionsInput = document.querySelectorAll(".options");
                             optionsInput.forEach(optionInput =>{
-                            optionInput.addEventListener('input',populateQuestionsOnpreview);
-                        })
+                                optionInput.addEventListener('input',populateQuestionsOnpreview);
+                            })
                         //##############For preview Page ############
+                        populateQuestionsOnpreview();
                     });
                     const questionInputs = document.querySelectorAll(".question");
                     questionInputs.forEach(questionInput => {
@@ -1530,8 +1531,8 @@
                         });
                     
                         deleteQuestionButton.addEventListener("click", function() {
-                        populateQuestionsOnpreview();
-                        questionGroup.remove();
+                            questionGroup.remove();
+                            populateQuestionsOnpreview();
                         });
                     }
 
@@ -1542,6 +1543,7 @@
                         const deleteOptionButton = optionDiv.querySelector(".delete-option-button");
                         deleteOptionButton.addEventListener("click", function() {
                         optionDiv.remove();
+                        populateQuestionsOnpreview();
                         });
                     }
 
@@ -1605,6 +1607,14 @@
                 const id = btn.getAttribute("link_id");
                 const type = btn.getAttribute("custom_type");
 
+                if(type =="leadform"){
+                    overlay.style.display = "block";
+                    const {form} = await fetchFormDetail(name);
+                    populateEditForm(form);
+                    document.getElementById("form_popup").classList.add("open_popup");
+                    document.getElementById("form_popup").classList.remove("close_popup");
+                    return;
+                }
                 const { value: newName } = await Swal.fire({
                 title: "Enter Form Name",
                     input: "text",
@@ -1977,6 +1987,8 @@
                             optionInput.addEventListener('input',populateQuestionsOnpreview);
                         })
                         //##############For preview Page ############
+                        populateQuestionsOnpreview();
+                        
                     });
                     const questionInputs = document.querySelectorAll(".question");
                     questionInputs.forEach(questionInput => {

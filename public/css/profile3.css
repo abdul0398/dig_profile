@@ -299,7 +299,7 @@ body {
   }
   .group-parent {
     position: absolute;
-    bottom: 71px;
+   
     left: calc(50% - 181px);
     width: 22.63rem;
     height: 10.31rem;

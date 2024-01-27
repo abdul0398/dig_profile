@@ -236,24 +236,24 @@
           <div class="social_icons">
 
             <li>
-              <%if(social["Facebook"] && social["Facebook"] != "#"){%>
-                <a style="margin: 0px 10px;" href="#" onclick="openLink('<%=social.Facebook%>')">
+              <%if(social["fb"] && social["fb"].link != "#"){%>
+                <a style="margin: 0px 10px;" href="#" onclick="openLink('<%=social.fb.link%>')">
                   <i class="fa-brands fa-2xl fa-facebook" style="color: #0066C9;"></i>
                 </a>
               <%}%>
             </li>
            
             <li>
-              <%if(social["Instagram"] && social["Instagram"] != "#"){%>
-                <a style="margin: 0px 10px;" href="#" onclick="openLink('<%=social.Instagram%>')">
+              <%if(social["linked"] && social["linked"].link != "#"){%>
+                <a style="margin: 0px 10px;" href="#" onclick="openLink('<%=social.linked.link%>')">
                   <i class="fa-brands fa-linkedin fa-2xl" style="color: #0066C9;"></i>
                 </a>
               <%}%>
 
             </li>
             <li>
-              <%if(social.Linkedin && social.Linkedin != "#"){%>
-                <a style="margin: 0px 10px;" href="#" onclick="openLink('<%=social.Linkedin%>')">
+              <%if(social.insta && social.insta.link != "#"){%>
+                <a style="margin: 0px 10px;" href="#" onclick="openLink('<%=social.insta.link%>')">
                   <i class="fa-brands fa-square-instagram fa-2xl" style="color: #0066C9;"></i>
                 </a>
               <%}%>
@@ -262,18 +262,18 @@
           </div>
 
 
-          <%if(social["Call Us"] != "" || social["WhatsApp"] != ""){%>
+          <%if(social.call || social.whats){%>
             <p style="color: #000; margin: 50px auto 15px auto; width: fit-content;" class="profile_heading">CALL US</p>
           <%}%>
           
-          <%if(social["Call Us"] != "" || social["WhatsApp"] != ""){%>
-            <%if(social["Call Us"] != "" || social["Call Us"] != "#"){%>
-              <li onclick="linkHandler(this)" redirect_Url="tel:<%=social["Call Us"]%>" style="cursor: pointer; background-color: #0066C9; margin:0px auto 5px auto; display: flex; justify-content: center; align-items: center;  width: 330px; border-radius: 35px; height: 50px;">
-                <a target="_blank" style="text-decoration: none; color: rgb(255, 255, 255);" >Call</a>
+          <%if(social.call || social.whats){%>
+            <%if(social.call && (social.call.link != "" || social.call.link != "#")){%>
+              <li onclick="linkHandler(this)" redirect_Url="tel:<%=social.call.link%>" style="cursor: pointer; background-color: #0066C9; margin:0px auto 5px auto; display: flex; justify-content: center; align-items: center;  width: 330px; border-radius: 35px; height: 50px;">
+                <a target="_blank" style="text-decoration: none; color: rgb(255, 255, 255);" ><%=social.call.name%></a>
               </li>
             <%}%>
-            <%if(social["WhatsApp"] != "" || social["WhatsApp"] != "#"){%>
-              <li onclick="linkHandler(this)" redirect_Url="https://wa.me/<%=social["WhatsApp"]%>"  style="cursor: pointer; background-color: #0066C9; margin:0px auto 5px auto; display: flex; justify-content: center; align-items: center; width: 330px; border-radius: 35px; height: 50px;">
+            <%if(social.whats && social.whats.link != ""){%>
+              <li onclick="linkHandler(this)" redirect_Url="https://wa.me/<%=social.whats.link%>"  style="cursor: pointer; background-color: #0066C9; margin:0px auto 5px auto; display: flex; justify-content: center; align-items: center; width: 330px; border-radius: 35px; height: 50px;">
                 <a target="_blank" style="text-decoration: none; color: rgb(255, 255, 255);" >Whats App</a>
               </li>
             <%}%>

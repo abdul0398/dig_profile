@@ -202,7 +202,11 @@ try {
         if(socialsections.length > 0){
             const socialLinks = responseData.links.filter(link => link.sectionId === socialsections[0].id);
             socialLinks.forEach(link => {
-                socialobj[link.name] = link.link;
+                socialobj[link.type] = {
+                    name:link.name,
+                    type: link.type,
+                    link:link.link
+                };
            })
         }
         return res.render(`temp${template}.ejs`, {sections:sectionLinkMap, profile:profile[0], social:socialobj});

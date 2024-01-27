@@ -671,6 +671,9 @@
                 }
             });
             const socials = socailsection = sections.find(section => section.type == "socials");
+            if(!socials){
+                return;
+            }
             const fb = socials.links.find(link => link.type == "fb");
             const insta = socials.links.find(link => link.type == "insta");
             const linkedin = socials.links.find(link => link.type == "linked");
@@ -720,6 +723,9 @@
                 }
             });
             const socials = socailsection = sections.find(section => section.type == "socials");
+            if(!socials){
+                return;
+            }
             const fb = socials.links.find(link => link.type == "fb");
             const insta = socials.links.find(link => link.type == "insta");
             const linkedin = socials.links.find(link => link.type == "linked");
@@ -768,6 +774,9 @@
                 }
             });
             const socials = socailsection = sections.find(section => section.type == "socials");
+            if(!socials){
+                return;
+            }
             const fb = socials.links.find(link => link.type == "fb");
             const insta = socials.links.find(link => link.type == "insta");
             const linkedin = socials.links.find(link => link.type == "linked");
@@ -1234,47 +1243,87 @@
         const id = elem.getAttribute("link_id");
         const value = elem.getAttribute("value");
         const name = elem.getAttribute("name");
-        const { value: formValues } = await Swal.fire({
-        title: "Enter Name",
-        html: `
-            <input id="swal-input1" value="${name}" placeholder="Enter Name" class="swal2-input">
-            <input id="swal-input2" value="${value}" Placeholder ="Enter Value" class="swal2-input">
-        `,
-        focusConfirm: false,
-        showCancelButton: true,
-        preConfirm: () => {
-            return [
-            document.getElementById("swal-input1").value,
-            document.getElementById("swal-input2").value
-            ];
-        }
-        });
-        if(formValues == true || formValues[1].length < 3){
+        const type = elem.getAttribute("custom_type");
+        if(["fb", "insta", "linked"].includes(type)){
             Swal.fire({
-                title: "Please fill in all fields properly",
-                icon: "error",
-                confirmButtonText: "Ok",
-            }).then((result) => {
-                if (result.isConfirmed) {
-                    updateLinkInDatabase(elem);
+                title: "Link",
+                input: "text",
+                inputAttributes: {
+                    autocapitalize: "off"
+                },
+                showCancelButton: true,
+                inputValue:value,
+                confirmButtonText: "Save",
+                showLoaderOnConfirm: true,
+                inputValidator: (value) => {
+                        if (!value) {
+                        return "You need to Write something!";
+                        }
+                    },
+                preConfirm: async (fieldValue) => {
+                    elem.setAttribute("value", fieldValue);
+                    populateProfilePreview();
+                    // Create a Fetch request
+                    showSaveToast();
+                    await fetch('/api/link/update/valueAndname', {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/json',
+                        },
+                        body: JSON.stringify({ id: id, name:name, value: fieldValue }),
+                    })
+                    
                 }
+            });            
+
+        }else{
+            const { value: formValues } = await Swal.fire({
+            title: "Enter Name",
+            html: `
+                <input id="swal-input1" value="${name}" placeholder="Enter Name" class="swal2-input">
+                <input id="swal-input2" value="${value}" Placeholder ="Enter Value" class="swal2-input">
+            `,
+            focusConfirm: false,
+            showCancelButton: true,
+            preConfirm: () => {
+                return [
+                document.getElementById("swal-input1").value,
+                document.getElementById("swal-input2").value
+                ];
+            }
             });
-            return;
+            if(!formValues){
+                return;
+            }
+            if(formValues == true || !formValues || formValues[1].length < 3){
+                Swal.fire({
+                    title: "Please fill in all fields properly",
+                    icon: "error",
+                    confirmButtonText: "Ok",
+                }).then((result) => {
+                    if (result.isConfirmed) {
+                        updateLinkInDatabase(elem);
+                    }
+                });
+                return;
+            }
+            const newName = formValues[0];
+            const newValue = formValues[1];
+            elem.setAttribute("name", newName);
+            elem.setAttribute("value", newValue);
+            populateProfilePreview();
+            // Create a Fetch request
+            showSaveToast();
+            await fetch('/api/link/update/valueAndname', {
+    
+    
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({ id: id, name:newName, value: newValue }),
+            })
         }
-        const newName = formValues[0];
-        const newValue = formValues[1];
-        elem.setAttribute("name", newName);
-        elem.setAttribute("value", newValue);
-        populateProfilePreview();
-        // Create a Fetch request
-        showSaveToast();
-        await fetch('/api/link/update/valueAndname', {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json',
-            },
-            body: JSON.stringify({ id: id, name:newName, value: newValue }),
-        })
     }
 
     async function updateProfileInfo(elem) {

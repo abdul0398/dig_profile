@@ -209,6 +209,8 @@
             
                 deleteQuestionButton.addEventListener("click", function() {
                   questionGroup.remove();
+                  console.log("Hello");
+                  populateQuestionsOnpreview();
                 });
               }
             
@@ -216,6 +218,7 @@
                 const deleteOptionButton = optionDiv.querySelector(".delete-option-button");
                 deleteOptionButton.addEventListener("click", function() {
                   optionDiv.remove();
+                  populateQuestionsOnpreview()
                 });
               }
   
@@ -267,7 +270,8 @@
                       optionInput.addEventListener('input',populateQuestionsOnpreview);
                     })
                   //##############For preview Page ############
-            });
+                  populateQuestionsOnpreview();
+                });
     });
   
     function extractQuestionsAndOptions(params) {
@@ -309,6 +313,7 @@
         });
       });
       function populateQuestionsOnpreview() {
+        console.log("inside Taht function")
             const preview_question_container = document.querySelector('.preview_question_container');
             const question_div = document.createElement('div');
             const arr = extractQuestionsAndOptions()

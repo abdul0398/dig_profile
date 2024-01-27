@@ -15,8 +15,8 @@ async function setMiddleWares() {
     app.use(express.static('public'));
     app.engine('ejs', ejsMate);
     app.set('view engine', 'ejs');
-    app.use(bodyParser.urlencoded({extended: true}));
-    app.use(bodyParser.json());
+    app.use(bodyParser.urlencoded({extended: true,  limit: '50mb' }));
+    app.use(bodyParser.json({ limit: '50mb' }));
     app.use(cors());
     const sessionConfig = {
         secret: process.env.secret || "RANDOMSECRET",

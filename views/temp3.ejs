@@ -226,25 +226,25 @@
       justify-content: space-around;">
         <div>
 
-          <%if(social.Facebook && social.Facebook != "#"){%>
+          <%if(social.fb && social.fb.link != "#"){%>
             <span style="margin: 0px 10px;">
-              <a href="#" onclick="openLink('<%=social.Facebook%>')">
+              <a href="#" onclick="openLink('<%=social.fb.link%>')">
                 <i class="fa-brands fa-2xl fa-facebook" style="color: #ff1212;"></i>
               </a>
             </span>
           <%}%>
 
-          <%if(social.Linkedin && social.Linkedin != "#"){%>
+          <%if(social.linked && social.linked.link != "#"){%>
             <span style="margin: 0px 10px;">
-              <a href="#" onclick="openLink('<%=social.Linkedin%>')">
+              <a href="#" onclick="openLink('<%=social.linked.link%>')">
                 <i class="fa-brands fa-linkedin fa-2xl" style="color: #ff1212;"></i>
               </a>
             </span>
           <%}%>
 
-          <%if(social["Instagram"] && social["Instagram"] != "#"){%>
+          <%if(social["insta"] && social["insta"].link != "#"){%>
             <span style="margin: 0px 10px;">
-              <a href="#" onclick="openLink('<%=social.Instagram%>')">
+              <a href="#" onclick="openLink('<%=social.insta.link%>')">
                 <i class="fa-brands fa-square-instagram fa-2xl" style="color: #ff1212;"></i>
               </a>
             </span>
@@ -259,25 +259,25 @@
       </div>
     </div>
 
-    <%if(social["Call Us"] != "" || social["WhatsApp"] != ""){%>
+    <%if(social["call"]|| social["whats"]){%>
       <div style="height: 200px;">
         <div class="call-us-parent">
           <b class="call-us">Call us</b>
           <div class="group-parent1">
-            <%if(social["Call Us"] != "#" && social["Call Us"] != ""){%>
+            <%if(social["call"] && social["call"].link != ""){%>
               <div class="rectangle-parent">
-                <a style="color: rgb(255, 255, 255);" href="tel:<%=social["Call Us"]%>">
+                <a style="color: rgb(255, 255, 255);" href="tel:<%=social["call"].link%>">
                   <div class="rectangle-div"></div>
-                  <b class="book-and-appointment">Call</b>
+                  <b class="book-and-appointment"><%=social["call"].name%></b>
                 </a>
               </div>
             <%}%>
            
-            <%if(social["WhatsApp"] != "#"  && social["WhatsApp"] != "" ){%>
+            <%if(social["whats"]  && social["whats"].link != "" ){%>
               <div class="rectangle-group">
-                <a target="_blank" href="https://wa.me/<%=social["WhatsApp"]%>" style="color: black;">
+                <a target="_blank" href="https://wa.me/<%=social["whats"].link%>" style="color: black;">
                   <div class="group-child3"></div>
-                  <b class="whatsapp">Whatsapp</b>
+                  <b class="whatsapp"><%=social["whats"].name%></b>
                 </a>
               </div>
             <%}%>
