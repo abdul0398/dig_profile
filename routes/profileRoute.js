@@ -150,7 +150,7 @@ try {
         // Sorting sections Based on Sording order stored in profile
         const sortOrder = profile[0].section_ordering;
 
-        if(sortOrder && sortOrder.length == sections.length){            
+        if(sortOrder){            
             const sectionMap = new Map(sections.map(section => [section.id.toString(), section]));
             const sortedSections = sortOrder.map(id => sectionMap.get(id));
 

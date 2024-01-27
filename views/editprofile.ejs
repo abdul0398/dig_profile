@@ -905,7 +905,6 @@
                 }
             }
         });
-        console.log(newGalleryname, galleryname)
         if (!newGalleryname ) {
             return;
         }else if(newGalleryname == galleryname){
@@ -1028,13 +1027,12 @@
         const { value: formValues } = await Swal.fire({
         title: "Enter Field Name",
         html: `
-        <div style="display:flex">
-            <input style="margin: 1em; !important" id="swal-input1" class="swal2-input" placeholder="Field Name">
-            <label style="display: flex; align-items: center;">
+        
+            <input id="swal-input1" class="swal2-input" placeholder="Field Name">
+            <label>
             <input type="radio" name="field_type" value="gallery"> 
-            <span style="margin-left: 5px;" >New Gallery</span>
+            New Gallery
             </label>
-        </div>
             
             <label style="margin-top: 20px;">
                 <input type="radio" name="field_type" value="text"> Normal Field
@@ -1129,7 +1127,7 @@
             newInput.style = "cursor: pointer; outline: none; caret-color: transparent;";
 
             if(type == "link"){
-                newInput.addEventListener("blur", ()=> updateLinkInDatabase(newInput))
+                newInput.addEventListener("click", ()=> updateLinkInDatabase(newInput))
             }else if(type == "gallery"){
                 newInput.addEventListener("click",()=> editGalleryOpenPopUp(newInput))
             }else{

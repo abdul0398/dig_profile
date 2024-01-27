@@ -147,6 +147,13 @@
                 };
                 reader.readAsDataURL(file);
             });
+            swal.fire({
+                title: "Success",
+                text: data.message,
+                icon: "success",
+                confirmButtonText: "Ok",
+                confirmButtonColor: "#002655",
+            })
         }
     });
 
@@ -210,13 +217,7 @@
             }
 
             const data = await response.json();
-            swal.fire({
-                title: "Success",
-                text: data.message,
-                icon: "success",
-                confirmButtonText: "Ok",
-                confirmButtonColor: "#002655",
-            })
+          
             return data.file;
         } catch (error) {
             console.error('Upload failed', error);

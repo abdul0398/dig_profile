@@ -872,7 +872,7 @@
                                 <input link_id="${link.id}" ${link.type == "leadform" || link.type == "bookform" ?"disabled":""}  ${handler} custom_type="${link.type}" value="${link.type == "link" ||link.type == "fb" || link.type == "insta" || link.type == "linked" || link.type == "call" || link.type == "whats"?link.link: link.type =="calculator"?link.name:""}"  ${link.type != "leadform" && link.type != "bookform" ?'style="cursor: pointer; outline: none; caret-color: transparent;"':""} class="text_style" name="${link.name}" placeholder="${placeholder}" type="text">
                                 <i link_id="${link.id}" onclick="eyeToggleFunction(this, false)" class="eye fa-solid fa-eye ${linkHidden?"eye_close":"eye_open"}" style="margin: 0px 10px;"></i>
                                 ${!link.permanent ? `<i onclick="deleteLinkInDatabase(this)" link_id="${link.id}" class="fas fa-trash-alt delete-field-btn" style="color: #0066C9; cursor:pointer;" link_id="your_id" cursor="pointer"></i>` : ""}
-                                <i style="cursor:grab; margin-left:10px" class="handle fa-solid fa-grip-vertical"></i>                                
+                                ${section.type !="socials"? `<i style="cursor:grab; margin-left:10px" class="handle fa-solid fa-grip-vertical"></i>`:""}                                 
                                 ${link.type == "leadform"?`<i onclick="edit_Form_show(this)" name="Default" class="fa-solid fa-pen-to-square" style="margin-left:20px; cursor: pointer; color:#0066C9"></i>`:""}
                                 </div>
                             `
@@ -890,7 +890,7 @@
                                 </span>
                             </div>                
                             <div style="display: flex; flex-direction: column; border-radius: 10px; background-color: #F1F5F7; width: 90%; margin: 0px auto 10px auto;">
-                                <div sections_id="${section.id}" class="sortable-list inner-container-eyeinputs" style="min-height: 80%; width: 100%; margin: 20px 0px;">
+                                <div sections_id="${section.id}" type="${section.type}"  class="sortable-list inner-container-eyeinputs" style="min-height: 80%; width: 100%; margin: 20px 0px;">
                                     ${linkHtml}
                                 </div>
 
@@ -905,14 +905,17 @@
                     
                     const sortableLists = document.querySelectorAll('.sortable-list');
                     sortableLists.forEach(sortableList => {
-                        const sortable = new Sortable(sortableList, {
-                            handle:".handle",
-                            onEnd:async  function (evt) {
-                                populateProfilePreview();
-                                await saveLinkOrder(sortableList)
-                            },
+                        if(sortableList.getAttribute("type") != "socials"){
+                           
+                            const sortable = new Sortable(sortableList, {
+                                handle:".handle",
+                                onEnd:async  function (evt) {
+                                    populateProfilePreview();
+                                    await saveLinkOrder(sortableList)
+                                },
+                            });
+                        }
                         });
-                    });
                 }
             
             async function closeEditDiv(){
@@ -1022,6 +1025,30 @@
                     });
                     return;
                 }
+                if(!email){
+                    swal.fire({
+                        title: "Missing Fields",
+                        text: "",
+                        icon: "question",
+                        confirmButtonText: "Ok",
+                        confirmButtonColor: "#002655",
+                    });
+                    return;
+                }
+                if(email){
+                    const emailRegex = /\S+@\S+\.\S+/;
+                    if(!emailRegex.test(email)){
+                        swal.fire({
+                            title: "Invalid Email",
+                            text: "",
+                            icon: "question",
+                            confirmButtonText: "Ok",
+                            confirmButtonColor: "#002655",
+                        });
+                        return;
+                    }
+                }
+
 
                 showLoadingOverlay();
                 try {
@@ -1590,6 +1617,13 @@
                     }
                 });
                 if(!newName){
+                    return;
+                }else if(newName == name){
+                    overlay.style.display = "block";
+                    const {form} = await fetchFormDetail(newName);
+                    populateEditForm(form);
+                    document.getElementById("form_popup").classList.add("open_popup");
+                    document.getElementById("form_popup").classList.remove("close_popup");
                     return;
                 }
 
