@@ -646,8 +646,13 @@
                                             </div>
                                         </div>
                                 <%}%>
-                                <div id="show_profiles_div" style="color: black;"
-                                    class="d-none w-75 h-500">
+                                <%if(currentUser.role === "admin"){%>
+                                    <div id="show_profiles_div" style="color: black;"
+                                        class="d-none w-75 h-500">
+                                <%}else{%>
+                                    <div id="show_profiles_div" style="color: black;"
+                                        class="d-none w-100 h-500">
+                                <%}%>
                                 <%- include('../editprofile.ejs') %>
                                 <div id="show_profiles" class="ms-3"></div>
                                 </div>
@@ -1826,7 +1831,7 @@
                 <h4 class="text-center" > No profiles </h4>
                 `
                 }else{
-                    showformdiv.innerHTML = `<h4 class="text-center" > profiles </h4>`
+                    showformdiv.innerHTML = `<h4 class="text-center" ><%=currentUser.name%> Profiles </h4>`
                     profiles.forEach(profile=>{
                         const uniqueID = generateLongStringWithDelimiter(profile.id);
                         showformdiv.innerHTML += `            

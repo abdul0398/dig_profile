@@ -42,7 +42,7 @@ async function verifyForClient(email, password, cb) {
 
 function serializeUser(user, cb) {
     process.nextTick(function() {
-      cb(null, { id: user.id, username: user.email, role: user.role, status: user.status })
+      cb(null, { id: user.id, username: user.email, role: user.role, status: user.status, name:user.name })
     })
 }
 
