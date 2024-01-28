@@ -276,7 +276,7 @@
         return data;
     }
     async function fetchprofileDetails(profileid){
-        const res = await fetch(`/api/profile/fetch/${profileid}`,{
+        const res = await fetch(`/api/profile/fetch/analytics/${profileid}`,{
             method:"GET"
         })
         const data = await res.json();
@@ -333,8 +333,8 @@
   </script>
   <%}else{%>
     <script>
-      async function fetchprofileDetails(profileid){
-          const res = await fetch(`/api/profile/fetch/${profileid}`,{
+      async function fetchprofileDetails(profileId){
+          const res = await fetch(`/api/profile/fetch/analytics/${profileId}`,{
               method:"GET"
           })
           const data = await res.json();
@@ -342,10 +342,12 @@
       }
     
       document.getElementById("profile_dropdown").addEventListener("change", async ()=>{
+        console.log("Hello");
         const profileId = document.getElementById("profile_dropdown").value;
         const profileName = document.getElementById("profile_dropdown").options[document.getElementById("profile_dropdown").selectedIndex].text;
         document.getElementById("profile_name").innerHTML = profileName;
         document.getElementById("analytics_body").innerHTML = "";
+        console.log(profileId);
         const {profile, links, forms} = await fetchprofileDetails(profileId);
         document.getElementById("profile_clicks").innerHTML = profile.views + " views";
         const profile_links = links.filter(link => link.type == "link");

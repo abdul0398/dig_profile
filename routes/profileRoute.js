@@ -600,6 +600,17 @@ try {
         res.status(500).json({message:"Something Went Wrong"});
     }
 
+}).get("/api/profile/fetch/analytics/:profileId", verify, async (req,res)=>{
+    const {profileId} = req.params;
+    try {
+        const [rows] = await __pool.query(`SELECT * FROM profiles WHERE id = ?`, [profileId]);
+        const [sections] = await __pool.query(`SELECT * FROM sections WHERE profileId = ?`, [profileId]);
+        const [links] = await __pool.query(`SELECT * FROM links WHERE sectionId IN (?)`, [sections.map(section => section.id)]);
+        res.status(200).json({profile:rows[0], links:links});
+    } catch (error) {
+        console.log(error.message);
+        res.redirect("/error");
+    }
 })
 
 
