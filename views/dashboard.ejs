@@ -347,7 +347,6 @@
         const profileName = document.getElementById("profile_dropdown").options[document.getElementById("profile_dropdown").selectedIndex].text;
         document.getElementById("profile_name").innerHTML = profileName;
         document.getElementById("analytics_body").innerHTML = "";
-        console.log(profileId);
         const {profile, links, forms} = await fetchprofileDetails(profileId);
         document.getElementById("profile_clicks").innerHTML = profile.views + " views";
         const profile_links = links.filter(link => link.type == "link");

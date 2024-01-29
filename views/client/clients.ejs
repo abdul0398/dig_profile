@@ -1297,6 +1297,7 @@
                 populateEditForm(form);
                 document.getElementById("form_popup").classList.add("open_popup");
                 document.getElementById("form_popup").classList.remove("close_popup");
+                document.getElementsByTagName("body")[0].style.overflow = "hidden";
             }
             
             
@@ -1419,6 +1420,8 @@
                     element.classList.add('close_popup');
                 }); 
                 overlay.style.display = "none";
+                document.getElementsByTagName("body")[0].style.overflow = "auto";
+
                
             }
 
@@ -1885,6 +1888,8 @@
                     element.classList.add('close_popup');
                 }); 
                 overlay.style.display = "none";
+                document.getElementsByTagName("body")[0].style.overflow = "auto";
+
             
             }
         

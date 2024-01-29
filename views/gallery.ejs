@@ -103,6 +103,7 @@
     // Function to close the modal-gallery
     function closeModal_gallery() {
         modal_gallery.style.display = 'none';
+        document.getElementsByTagName("body")[0].style.overflow = "auto";
         if (imageInput && imageInput.files) {
             imageInput.value = '';
         }

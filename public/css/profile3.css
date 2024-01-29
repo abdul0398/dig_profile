@@ -81,6 +81,7 @@ body {
     top: 0;
     left: 50%;
     transform: translateX(-50%);
+    font-size: 26px;
     width: 330px;
     text-align: center;
   }
@@ -335,6 +336,6 @@ body {
     overflow: hidden;
     text-align: left;
     color: var(--color-white);
-    font-family: var(--font-roboto);
+    font-family: var(--font-quicksand);
     box-shadow: 0 2px 5px rgba(0,0,0,0.1);
   }

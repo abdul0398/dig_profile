@@ -139,7 +139,6 @@ body {
   text-align: center;
   transform: translateX(-50%);
   font-size: 26px;
-  font-family: var(--font-roboto);
   color: var(--color-royalblue-100);
 }
 .digital-profile,

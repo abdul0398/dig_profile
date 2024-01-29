@@ -41,7 +41,6 @@
     }
     .text_style{
       color: #FFF;
-      font-family: Quicksand;
       font-size: 16px;
       font-style: normal;
       font-weight: 600;
@@ -157,7 +156,7 @@
       </div>
         <div class="overlay" id="overlay"></div>
           <div class="div">
-            <section style="height: 401px;">
+            <section style="height: 410px;">
                 <div class="child"></div>
                 <div class="item"></div>
                 <div class="inner"></div>
@@ -218,7 +217,7 @@
                     <b class="call-us">Call us</b>
                     <div class="group-container">
                       <div class="rectangle-group">
-                        <%if(social["call"]&& social["call"].link != ""){%>
+                        <%if(social["call"] && social["call"].link != ""){%>
                           <a style="color: white;" href="tel:<%=social["call"].link%>">
                             <div class="rectangle-div">
                               <b class="book-and-appointment"><%=social["call"].name%></b>
@@ -227,7 +226,7 @@
                         <%}%>
                        
                       </div>
-                      <%if(social["whats"]&& social["whats"].link != ""){%>
+                      <%if(social["whats"] && social["whats"].link != ""){%>
                         <div class="rectangle-container">
                           <a style="color: white;" href="https://wa.me/<%=social["whats"].link%>" target="_blank">
                             <div class="group-child1">

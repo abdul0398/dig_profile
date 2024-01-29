@@ -960,6 +960,7 @@
             modal_gallery.style.display = 'block';
             modal_gallery.setAttribute("gallery-name", newGalleryname);
             hideLoadingOverlay() 
+            document.getElementsByTagName("body")[0].style.overflow = "hidden";
         }
 
     }
