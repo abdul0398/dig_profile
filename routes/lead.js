@@ -96,7 +96,9 @@ router.post("/api/submitLead/:profilId", async (req,res)=>{
         }else{
             const [profilesResult] = await __pool.query(getProfilesQuery, [userId]);
             const profiles = profilesResult.map(profile => profile.id);
-    
+            if(profiles.length === 0){
+                return res.status(200).json({ leads: [], profiles: []});
+            }
             const [leads] = await __pool.query(getLeadsQuery, [profiles]);
             
             res.status(200).json({ leads, profiles: profilesResult});
