@@ -450,6 +450,17 @@
                     });
                 });
 
+
+
+
+                function objectToString(obj) {
+                    const filteredValues = Object.values(obj).filter(value => value !== null && value !== undefined);
+                    const stringValues = filteredValues.map(value => String(value));
+                    const resultString = stringValues.join(', ');
+                    return resultString;
+                }
+
+
                 function applyFilters() {
                     const id = document.querySelector(".selected_client").getAttribute("mid");
                     let filterleads = leads;
@@ -461,7 +472,7 @@
                                 const profile = profiles.find(elem=>{
                                     return elem.id == lead.profileId;
                                 })
-                                let objectAsString = JSON.stringify(lead + profile.name);
+                                let objectAsString = objectToString(lead) + profile.name;
                                 return objectAsString.toLocaleLowerCase().includes(search_value.toLocaleLowerCase());
                             })
                         }
@@ -681,6 +692,13 @@
                   profile_filter.addEventListener("change", applyFilters);
                   input_search.addEventListener("input", applyFilters);
   
+                  function objectToString(obj) {
+                    const filteredValues = Object.values(obj).filter(value => value !== null && value !== undefined);
+                    const stringValues = filteredValues.map(value => String(value));
+                    const resultString = stringValues.join(', ');
+                    return resultString;
+                }
+
                   function applyFilters() {
                       let filterleads = leads;
                       profile_filter_value = profile_filter.value
@@ -688,7 +706,7 @@
                     
                           if(search_value){
                               filterleads = filterleads.filter(lead=>{ 
-                                  let objectAsString = JSON.stringify(lead);
+                                  let objectAsString = objectToString(lead);
                                   return objectAsString.toLocaleLowerCase().includes(search_value.toLocaleLowerCase());
                               })
                           }

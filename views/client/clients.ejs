@@ -1471,21 +1471,21 @@
                     });
                     return;
                 }
-                if(!email){
-                    swal.fire({
-                        title: "Missing Fields",
-                        text: "",
-                        icon: "question",
-                        confirmButtonText: "Ok",
-                        confirmButtonColor: "#002655",
-                    });
-                    return;
-                }
                 if(email){
                     const emailRegex = /\S+@\S+\.\S+/;
                     if(!emailRegex.test(email)){
                         swal.fire({
                             title: "Invalid Email",
+                            text: "",
+                            icon: "question",
+                            confirmButtonText: "Ok",
+                            confirmButtonColor: "#002655",
+                        });
+                        return;
+                    }
+                    if(pass != confirmPass || !pass || !confirmPass || pass.length < 6){ 
+                        swal.fire({
+                            title: "Enter Valid Password (More than 6 Letters)",
                             text: "",
                             icon: "question",
                             confirmButtonText: "Ok",
