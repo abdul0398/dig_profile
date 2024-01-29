@@ -39,14 +39,17 @@
     start();
     async function start(params) {
         const data = await fetchgalleryImages();
-        if(data.length == 0){
-            return;
-        }
+        console.log(data);
+        
         document.getElementsByTagName("body")[0].innerHTML += `<div id="animated-thumbnails-gallery" class="inline-gallery-container">
             
             </div>`
         const container = document.getElementById("animated-thumbnails-gallery");
         container.innerHTML = "";
+        if(data.length == 0){
+            container.innerHTML =  `<h1 class="heading_gallery">No Uploads</h1>`
+            return;
+        }
         container.innerHTML =  `<h1 class="heading_gallery">${galleryname}</h1>`
         data.forEach(elem=>{
             container.innerHTML += `<a href="/uploads/${profile_id}/gallery/${galleryname}/${elem}">

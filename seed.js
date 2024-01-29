@@ -17,7 +17,7 @@ module.exports.sections = [
             {
                 type: "link",
                 name: "Edge Property",
-                link: "www.edgeproperty.sg"
+                link: "www.edgeprop.sg"
             },
             {
                 type: "link",

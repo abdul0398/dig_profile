@@ -1343,6 +1343,7 @@
                     })
                     document.getElementById("form_popup").classList.remove("open_popup");
                     document.getElementById("form_popup").classList.add("close_popup");
+                document.getElementsByTagName("body")[0].style.overflow = "auto";
                     const overlay = document.getElementById("overlay");
                     overlay.style.display = "none";
                 }else{
@@ -1514,6 +1515,7 @@
                     hideLoadingOverlay();
                     if(res.status == 200){
                         localStorage.setItem("selected_client", resData.id);
+                        closeAllPopups();
                         swal.fire({
                             title: "Success",
                             text: resData.message,

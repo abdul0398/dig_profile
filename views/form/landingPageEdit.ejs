@@ -343,8 +343,6 @@
             }
         }
 
-      
-
       function validate() {
         const answers = extractQuestionsAndOptions();
             //#################Validation function#######################
@@ -367,8 +365,6 @@
           // }
           return true;
       }
-
-
 
       async function saveForm() {
         event.preventDefault();
@@ -419,9 +415,6 @@
           return data;
       }
 
-
-
- 
       function extractDiscordAndMails(params) {
           let discordLinks = document.querySelectorAll('input[name="dslink[]"]');
           let emailsLinks = document.querySelectorAll('input[name="Emails[]"]');
