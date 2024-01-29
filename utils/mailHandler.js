@@ -15,8 +15,8 @@ let htmlContent = fs.readFileSync(htmlFilePath, 'utf8');
 
 
 const transporter = nodemailer.createTransport({
-    host: 'smtp-relay.brevo.com',
-    port: 587,
+    host: 'mail.jomejourney.com',
+    port: 465,
     auth: {
         user: sender_mail,
         pass: app_pass
