@@ -969,7 +969,8 @@
             }
             
             async function fetchFormDetail(name){
-                const res = await fetch(`/api/form/get/${name}`,{
+                const profile_id = document.getElementById("profile_id").getAttribute("profile_id");
+                const res = await fetch(`/api/form/get/${name}/${profile_id}`,{
                     method:"GET"
                 })
                 const data = await res.json();

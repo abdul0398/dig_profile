@@ -21,12 +21,12 @@ router.post("/api/form/create", verify, async (req,res)=>{
         res.status(400).json({message: "Error in adding form"});
     }
 
-}).get("/api/form/get/:name", async (req,res)=>{
-    const {name} = req.params;
+}).get("/api/form/get/:name/:id", async (req,res)=>{
+    const {name, id} = req.params;
     try {
         console.log(name);
-        const getQuery = `SELECT * FROM form WHERE name = ?`;
-        const [forms] = await __pool.query(getQuery, [name]);
+        const getQuery = `SELECT * FROM form WHERE name = ? AND profileId = ?`;
+        const [forms] = await __pool.query(getQuery, [name, id]);
         if (forms.length === 0) {
             return res.status(400).json({ message: "Form not found" });
         }

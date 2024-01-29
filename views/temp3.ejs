@@ -379,7 +379,7 @@
     if(!name){
       return {form:{questions: []}};
     }
-      const res = await fetch(`/api/form/get/${name}`,{
+    const res = await fetch(`/api/form/get/${name}/<%=profile.id%>`,{
           method:"GET"
       })
       const data = await res.json();
