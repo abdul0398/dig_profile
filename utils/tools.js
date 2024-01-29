@@ -19,7 +19,7 @@ function changeleadtoString(lead) {
   }
 
   const result = resultStrings.join('\n');
-  const str = `New Lead please Take Note!\n=============================\n\nHello, you have a new lead :\n\n●  Name: ${lead.name}\n●  Contact: https://wa.me/${lead.phone}\n●  Email: ${lead.email}${lead.booking ? "\n●  Booking:" + lead.booking : ""}\n${result}`;
+  const str = `New Lead please Take Note!\n=============================\n\nHello, you have a new lead :\n\n●  Name: ${lead.name}\n●  Contact: https://wa.me/${lead.phone}\n●  Email: ${lead.email}\n●  Message: ${lead.message}${lead.booking ? "\n●  Booking:" + lead.booking : ""}\n${result}`;
   return str;
 }
 
