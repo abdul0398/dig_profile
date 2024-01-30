@@ -33,7 +33,7 @@ body {
   .group-item {
     position: absolute;
     top: 11.42rem;
-    left: 0;
+    left: -23px;
     border-radius: 170px;
     background: linear-gradient(178.54deg, red 7.67%, #f10);
     width: 17.34rem;
@@ -59,7 +59,8 @@ body {
   }
   .child {
     top: 4.31rem;
-    left: 6.38rem;
+    transform: translateX(-50%);
+    left: 50%;
     border-radius: 119px;
     width: 14.19rem;
     height: 14.13rem;
@@ -322,7 +323,7 @@ body {
     box-shadow: 0 2px 5px rgba(0,0,0,0.1);
     border-radius: 30px;
     background-color: var(--color-white);
-    width: 416px;
+    width: 380px;
     min-height: 1000px;
     overflow: hidden;
     text-align: left;

@@ -128,12 +128,12 @@ try {
         res.redirect("/error");
     }
 }).get("/profile/:profileId", async (req,res)=>{
+    try {
     const profile_base64 = req.params.profileId;
     const decodedString = Buffer.from(profile_base64, 'base64').toString('ascii');
     const delimiter = "--";
     const parts = decodedString.split(delimiter);
     const profileId = parts[0];
-    try {
         // update the view count
         const updateQuery = `UPDATE profiles SET views = views + 1 WHERE id = ?`;
         await __pool.query(updateQuery, [profileId]);
