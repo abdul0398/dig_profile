@@ -72,7 +72,8 @@ body {
   .rectangle-parent {
     position: absolute;
     top: 4.06rem;
-    left: 7.19rem;
+    left: 50%;
+    transform: translateX(-50%);
     width: 12.6rem;
     height: 12.56rem;
   }
@@ -330,7 +331,7 @@ body {
     position: relative;
     border-radius: 30px;
     background: linear-gradient(-90deg, #fec600 5%, #9f7c00 70.83%);
-    width: 423px;
+    max-width: 423px;
     margin: auto;
     min-height: 51rem;
     overflow: hidden;
