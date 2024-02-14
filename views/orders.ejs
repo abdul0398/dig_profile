@@ -1,0 +1,370 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <link rel="apple-touch-icon" sizes="76x76" href="/assets/img/apple-icon.png">
+  <link rel="icon" type="image/png" href="/logo.png">
+  <title>
+   Jome Journey
+  </title>
+  <!--     Fonts and icons     -->
+  <link rel="stylesheet" type="text/css" href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700,900|Roboto+Slab:400,700" />
+  <!-- Nucleo Icons -->
+  <link href="/assets/css/nucleo-icons.css" rel="stylesheet" />
+  <link href="/assets/css/nucleo-svg.css" rel="stylesheet" />
+  <!-- Font Awesome Icons -->
+  <script src="https://kit.fontawesome.com/658a2960da.js"
+  crossorigin="anonymous"></script>
+  <!-- Material Icons -->
+  <link href="https://fonts.googleapis.com/icon?family=Material+Icons+Round" rel="stylesheet">
+  <!-- CSS Files -->
+  <link id="pagestyle" href="/assets/css/material-dashboard.css?v=3.1.0" rel="stylesheet" />
+  <!-- Nepcha Analytics (nepcha.com) -->
+  <!-- Nepcha is a easy-to-use web analytics. No cookies and fully compliant with GDPR, CCPA and PECR. -->
+  <script defer data-site="YOUR_DOMAIN_HERE" src="https://api.nepcha.com/js/nepcha-analytics.js"></script>
+  <script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
+    new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
+    j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
+    'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
+    })(window,document,'script','dataLayer','GTM-K3SG3FFJ');  
+</script>
+</head>
+
+<body class="g-sidenav-show  bg-gray-200">
+  <noscript><iframe
+    src="https://www.googletagmanager.com/ns.html?id=GTM-K3SG3FFJ"
+    height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
+  <aside style="background-color: #0E4884 !important" class="sidenav navbar navbar-vertical navbar-expand-xs border-0 border-radius-xl my-3 fixed-start ms-3" id="sidenav-main">
+    <div class="sidenav-header">
+      <i class="fas fa-times p-3 cursor-pointer text-white opacity-5 position-absolute end-0 top-0 d-none d-xl-none" aria-hidden="true" id="iconSidenav"></i>
+      <a class="navbar-brand m-0"
+      href="/"
+      >
+        <img src="/logo.png" class="navbar-brand-img h-100" alt="main_logo">
+        <span class="ms-1 font-weight-bold text-white">Jome Journey</span>
+      </a>
+    </div>
+    <hr class="horizontal light mt-0 mb-2">
+    <div class="collapse navbar-collapse  w-auto " id="sidenav-collapse-main">
+      <ul class="navbar-nav">
+        <li class="nav-item">
+          <a style="background-color: #002655;" class="nav-link text-white active href="/">
+            <div class="text-white text-center me-2 d-flex align-items-center justify-content-center">
+              <i class="material-icons opacity-10">dashboard</i>
+            </div>
+            <span class="nav-link-text ms-1">Dashboard</span>
+          </a>
+        </li>
+        <%if(currentUser.role == "admin"){%>
+            <li class="nav-item">
+                <a style="background-color: #002655;" class="nav-link text-white active href="/orders">
+                  <div class="text-white text-center me-2 d-flex align-items-center justify-content-center">
+                    <i class="material-icons opacity-10">Orders</i>
+                  </div>
+                  <span class="nav-link-text ms-1">Orders</span>
+                </a>
+            </li>
+        <%}%>
+        <li class="nav-item">
+          <a class="nav-link text-white " href="/clients">
+            <div class="text-white text-center me-2 d-flex align-items-center justify-content-center">
+              <i class="fa-solid fa-users"  style="color: #ffffff;"></i>
+            </div>
+            <%if(currentUser.role == "user"){%>
+            
+              <span class="nav-link-text ms-1">Profiles</span>
+            
+            <%}else{%>
+            
+              <span class="nav-link-text ms-1">Clients</span>
+            
+            <%}%>
+          </a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link text-white" href="/leads">
+              <div
+                  class="text-white text-center me-2 d-flex align-items-center justify-content-center">
+                  <i class="fa-solid fa-database"></i>
+              </div>
+              <span class="nav-link-text ms-1">Leads</span>
+          </a>
+      </li>
+        <li class="nav-item">
+          <a class="nav-link text-white" href="/logout">
+            <div class="text-white text-center me-2 d-flex align-items-center justify-content-center">
+              <i class="material-icons opacity-10">logout</i>
+            </div>
+            <span class="nav-link-text ms-1">Log Out</span>
+          </a>
+        </li>
+      </ul>
+    </div>
+  </aside>
+  <main class="main-content position-relative max-height-vh-100 h-100 border-radius-lg ">
+    <!-- Navbar -->
+    <nav class="navbar navbar-main navbar-expand-lg px-0 mx-4 shadow-none border-radius-xl" id="navbarBlur" data-scroll="true">
+      <div class="container-fluid py-1 px-3">
+        <nav aria-label="breadcrumb">
+          <ol class="breadcrumb bg-transparent mb-0 pb-0 pt-1 px-0 me-sm-6 me-5">
+            <li class="breadcrumb-item text-sm"><a class="opacity-5 text-dark" href="javascript:;">Pages</a></li>
+            <li class="breadcrumb-item text-sm text-dark active" aria-current="page">Dashboard</li>
+          </ol>
+          <h6 class="font-weight-bolder mb-0">Dashboard</h6>
+        </nav>
+        <li class="ms-auto nav-item d-xl-none ps-3 d-flex align-items-center">
+          <a href="javascript:;" class="nav-link text-body p-0" id="iconNavbarSidenav">
+            <div class="sidenav-toggler-inner">
+              <i class="sidenav-toggler-line"></i>
+              <i class="sidenav-toggler-line"></i>
+              <i class="sidenav-toggler-line"></i>
+            </div>
+          </a>
+        </li>
+      </div>
+    </nav>
+    <!-- End Navbar -->
+    <div class="container-fluid py-4">
+      <div class="row">
+        <%if(currentUser.role == "admin"){%>
+          <div class="col-xl-3 col-sm-6 mb-xl-0 mb-4">
+            <div class="card">
+              <div class="card-header p-3 pt-2">
+                <div class="icon icon-lg icon-shape bg-gradient-dark shadow-dark text-center border-radius-xl mt-n4 position-absolute">
+                  <i class="material-icons opacity-10">people</i>
+                </div>
+                <div class="text-end pt-1">
+                  <p class="text-sm mb-0 text-capitalize">Total Clients</p>
+                  <h4 class="mb-0"><%=clients.length%></h4>
+                </div>
+              </div>
+              <hr class="dark horizontal my-0">
+              <div class="card-footer p-3">
+              </div>
+            </div>
+          </div>
+          <div class="col-xl-3 col-sm-6 mb-xl-0 mb-4">
+            <div class="card">
+              <div class="card-header p-3 pt-2">
+                <div class="icon icon-lg icon-shape bg-gradient-primary shadow-primary text-center border-radius-xl mt-n4 position-absolute">
+                  <i class="material-icons opacity-10">person</i>
+                </div>
+                <div class="text-end pt-1">
+                  <p class="text-sm mb-0 text-capitalize">Total Profiles</p>
+                  <h4 class="mb-0"><%=profiles.length%></h4>
+                </div>
+              </div>
+              <hr class="dark horizontal my-0">
+              <div class="card-footer p-3">
+              </div>
+            </div>
+          </div>
+        <div class="col-xl-3 col-sm-6 mb-xl-0 mb-4">
+          <div class="card">
+            <div class="card-header p-3 pt-2">
+              <div class="icon icon-lg icon-shape bg-gradient-success shadow-success text-center border-radius-xl mt-n4 position-absolute">
+                <i class="material-icons opacity-10">person</i>
+              </div>
+              <div class="text-end pt-1">
+                <p class="text-sm mb-0 text-capitalize">Choose Client</p>
+                <select style="width: 58%;
+                border: none;
+                padding: 5px 10px;
+                border-radius: 6px;
+            " name="" id="client_dropdown">
+            <option selected disabled> Select Client</option>
+            <%for(let i = 0; i < clients.length; i++){%>
+                  <option value="<%=clients[i].id%>"><%=clients[i].name%></option>
+            <%}%>
+
+                </select>
+              </div>
+            </div>
+            <hr class="dark horizontal my-0">
+            <div class="card-footer p-3">
+            </div>
+          </div>
+        </div>
+        <%}%>
+        <div class="col-xl-3 col-sm-6">
+          <div class="card">
+            <div class="card-header p-3 pt-2">
+              <div class="icon icon-lg icon-shape bg-gradient-info shadow-info text-center border-radius-xl mt-n4 position-absolute">
+                <i class="material-icons opacity-10">person</i>
+              </div>
+              <div class="text-end pt-1">
+                <p class="text-sm mb-0 text-capitalize">Profiles</p>
+                <select style="width: 58%;
+                border: none;
+                padding: 5px 10px;
+                border-radius: 6px;
+            " name="" id="profile_dropdown">
+            <option selected disabled>Choose</option>
+            <%if(currentUser.role == "user"){%>
+              <%for(let i = 0; i < profiles.length; i++){%>
+                  <option value="<%=profiles[i].id%>"><%=profiles[i].name%></option>
+              <%}%>
+            <%}%>
+                </select>
+              </div>
+            </div>
+            <hr class="dark horizontal my-0">
+            <div class="card-footer p-3">
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="row mt-3">
+        <div class="col-12">
+          <div class="card my-4">
+            <div class="card-header p-0 position-relative mt-n4 mx-3 z-index-2">
+              <div style="background-color: #002655;" class="d-flex shadow-primary border-radius-lg pt-4 pb-3">
+                <h6 class="text-white text-capitalize ps-3">Analytics table</h6>
+                <div class="ms-auto me-lg-5">
+                  <p class="text-center text-white text-capitalize" id="profile_name"></p>
+                  <p class="text-center text-white text-bolder "  id="profile_clicks"></p>
+                </div>
+              </div>
+            </div>
+            <div class="card-body px-0 pb-2">
+              <div class="table-responsive p-0">
+                <table class="table align-items-center mb-0">
+                  <thead>
+                    <tr>
+                      <th class="text-uppercase text-secondary text-xs font-weight-bolder opacity-7">Links</th>
+                      <th class="text-uppercase text-secondary text-xs font-weight-bolder opacity-7 ps-2">Clicks</th>
+                    </tr>
+                  </thead>
+                  <tbody id="analytics_body">
+                  </tbody>
+                </table>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </main>
+ 
+  <!--   Core JS Files   -->
+  <script src="/assets/js/core/popper.min.js"></script>
+  <script src="/assets/js/core/bootstrap.min.js"></script>
+  <script src="/assets/js/plugins/perfect-scrollbar.min.js"></script>
+  <script src="/assets/js/plugins/smooth-scrollbar.min.js"></script>
+  <script src="/assets/js/plugins/chartjs.min.js"></script>
+  <!-- Github buttons -->
+  <script async defer src="https://buttons.github.io/buttons.js"></script>
+  <!-- Control Center for Material Dashboard: parallax effects, scripts for the example pages etc -->
+  <script src="/assets/js/material-dashboard.min.js?v=3.1.0"></script>
+</body>
+<%if(currentUser.role == "admin"){%>
+  <script>
+    async function fetchClientDetails(clientid){
+        const res = await fetch(`/api/getClient/${clientid}`,{
+            method:"GET"
+        })
+        const data = await res.json();
+        return data;
+    }
+    async function fetchprofileDetails(profileid){
+        const res = await fetch(`/api/profile/fetch/analytics/${profileid}`,{
+            method:"GET"
+        })
+        const data = await res.json();
+        return data;
+    }
+  
+  
+    document.getElementById("client_dropdown").addEventListener("change", async ()=>{
+      document.getElementById("profile_dropdown").innerHTML = "";
+      let client_id = document.getElementById("client_dropdown").value;
+      const data = await fetchClientDetails(client_id);
+      profiles = data.profiles;
+      links = data.links;
+      if(!profiles || profiles.length == 0){
+        document.getElementById("profile_dropdown").innerHTML += `<option selected disabled> No Profiles</option>`
+      }else{
+        document.getElementById("profile_dropdown").innerHTML += `<option disabled selected >Select Profile</option>`
+        for(let i = 0; i < profiles.length; i++){
+          document.getElementById("profile_dropdown").innerHTML += `<option value="${profiles[i].id}">${profiles[i].name}</option>`
+        }
+      }
+    })
+  
+    document.getElementById("profile_dropdown").addEventListener("change", async ()=>{
+      const profileId = document.getElementById("profile_dropdown").value;
+      const profileName = document.getElementById("profile_dropdown").options[document.getElementById("profile_dropdown").selectedIndex].text;
+      document.getElementById("profile_name").innerHTML = profileName;
+      document.getElementById("analytics_body").innerHTML = "";
+      const {profile, links, forms} = await fetchprofileDetails(profileId);
+
+      document.getElementById("profile_clicks").innerHTML = profile.views + " views";
+      const profile_links = links.filter(link => link.type == "link");
+      
+      for(let i = 0; i < profile_links.length; i++){
+        document.getElementById("analytics_body").innerHTML += `
+        <tr>
+          <td>
+            <div class="d-flex px-2 py-1">
+              <div class="d-flex flex-column justify-content-center">
+                <h6 class="mb-0 text-sm">${profile_links[i].name}</h6>
+              </div>
+            </div>
+          </td>
+          <td>
+            <p class="text-m font-weight-bold mb-0">${profile_links[i].click_count}</p>
+          </td>
+        </tr>
+        `
+      }
+  
+    })
+  
+  
+  </script>
+  <%}else{%>
+    <script>
+      async function fetchprofileDetails(profileId){
+          const res = await fetch(`/api/profile/fetch/analytics/${profileId}`,{
+              method:"GET"
+          })
+          const data = await res.json();
+          return data;
+      }
+    
+      document.getElementById("profile_dropdown").addEventListener("change", async ()=>{
+        console.log("Hello");
+        const profileId = document.getElementById("profile_dropdown").value;
+        const profileName = document.getElementById("profile_dropdown").options[document.getElementById("profile_dropdown").selectedIndex].text;
+        document.getElementById("profile_name").innerHTML = profileName;
+        document.getElementById("analytics_body").innerHTML = "";
+        const {profile, links, forms} = await fetchprofileDetails(profileId);
+        document.getElementById("profile_clicks").innerHTML = profile.views + " views";
+        const profile_links = links.filter(link => link.type == "link");
+        
+        for(let i = 0; i < profile_links.length; i++){
+          document.getElementById("analytics_body").innerHTML += `
+          <tr>
+            <td>
+              <div class="d-flex px-2 py-1">
+                <div class="d-flex flex-column justify-content-center">
+                  <h6 class="mb-0 text-sm">${profile_links[i].name}</h6>
+                </div>
+              </div>
+            </td>
+            <td>
+              <p class="text-m font-weight-bold mb-0">${profile_links[i].click_count}</p>
+            </td>
+          </tr>
+          `
+        }
+    
+      })
+    
+    
+    </script>
+  
+    <%}%>
+</html>
