@@ -17,8 +17,22 @@ router.get("/orders", verify, isAdmin, async (req, res, next) => {
 .post("/api/orders/create", upload.array(), async (req, res) => {
     try {
         const {rawRequest} = req.body;
-        const data = extractData(JSON.parse(rawRequest))
-        console.log(data);
+        const {
+            fullName,
+            email,
+            phone,
+            ceaNo,
+            propertiesListings,
+            propertyLinks,
+            socials,
+            socialLinks,
+            aboutUs,
+            feedback,
+            imageLinks
+
+        } = extractData(JSON.parse(rawRequest))
+        const [order] = await __pool.query("INSERT INTO orders (name, email, phone, other, images) VALUES (?, ?, ?, ?, ?)",
+        [fullName, email, phone, JSON.stringify({ ceaNo, propertiesListings, propertyLinks, socials, socialLinks, aboutUs, feedback }), JSON.stringify(imageLinks)]);
         res.status(200).json("Order Saved Successfully");
     } catch (error) {
         console.error(error);
@@ -70,17 +84,17 @@ function extractData(data) {
   
     // Returning the extracted data
     return {
-      fullName,
-      email,
-      phone,
-      ceaNo,
-      propertiesListings,
-    propertyLinks,
-    socials,
-    socialLinks,
-    aboutUs,
-    feedback,
-      imageLinks
+        fullName,
+        email,
+        phone,
+        ceaNo,
+        propertiesListings,
+        propertyLinks,
+        socials,
+        socialLinks,
+        aboutUs,
+        feedback,
+        imageLinks
     };
   }
 
