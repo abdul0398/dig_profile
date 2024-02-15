@@ -1,4 +1,3 @@
-const zipper = require("zip-local");
 var admz = require("adm-zip");
 const multer = require('multer');
 const router = require("express").Router();
@@ -18,20 +17,31 @@ router.get("/orders", verify, isAdmin, async (req, res, next) => {
 })
 .post("/api/orders/create", setUploadPath, async (req, res) => {
     try {
-        req.upload.array('images')(req, res, async function (err) {
-            if (err instanceof multer.MulterError) {
-                return res.status(500).json(err);
-            } else if (err) {
-                return res.status(500).json(err);
-            }
-            console.log(req.files);
-            console.log(req.body);
-            // const directory = typeof req.file == Array ? req.files[0].destination : null;
-            // const { name, email, phone, other } = req.body;
-            // const insertQuery = "INSERT INTO orders (name, email, phone, other, path) VALUES (?, ?, ?, ?, ?)";
-            // await __pool.query(insertQuery, [name, email, phone, JSON.stringify(other), directory]);
-            // res.status(200).json("Order Saved Successfully");
-        });
+        // req.upload.array('images')(req, res, async function (err) {
+        //     if (err instanceof multer.MulterError) {
+        //         return res.status(500).json(err);
+        //     } else if (err) {
+        //         return res.status(500).json(err);
+        //     }
+            
+        //     console.log(req.body);
+        //     // const directory = typeof req.file == Array ? req.files[0].destination : null;
+        //     // const { name, email, phone, other } = req.body;
+        //     // const insertQuery = "INSERT INTO orders (name, email, phone, other, path) VALUES (?, ?, ?, ?, ?)";
+        //     // await __pool.query(insertQuery, [name, email, phone, JSON.stringify(other), directory]);
+        // });
+        const {rawRequest} = req.body;
+        console.log(rawRequest);
+        console.log(JSON.parse(rawRequest));
+        const {
+            q2_fullName_1:name,
+            q3_mail_2 :email,
+            q4_phone_3:phone,
+            q20_typeA : cea_number,
+            q13_whatProperty:propertiesPortal,
+         } = JSON.parse(rawRequest);
+         console.log(name, email, phone, cea_number, propertiesPortal);
+        res.status(200).json("Order Saved Successfully");
     } catch (error) {
         console.error(error);
         res.status(500).json({ message: "Internal Server Error" });
