@@ -55,7 +55,7 @@ function extractData(data) {
     const phone = data.q4_phone_3.full;
     const ceaNo = data.q20_typeA;
     const propertiesListings = data.q13_whatProperty;
-    const propertyLinks = q7_longText_6;
+    const propertyLinks = data.q7_longText_6;
     const socials = data.q16_whatAre;
     const socialLinks = data.q18_kindlyShare;
     const aboutUs = data.q8_longText_7;
