@@ -1,5 +1,8 @@
 const router = require("express").Router();
+const multer = require("multer");
 const { verify, isAdmin } = require("../middlewares/verify");
+
+const upload = multer({ dest: 'uploads/' })
 
 
 router.get("/orders", verify, isAdmin, async (req, res, next) => {
@@ -11,20 +14,19 @@ router.get("/orders", verify, isAdmin, async (req, res, next) => {
         next();
     }
 })
-.post("/api/orders/create", async (req, res) => {
+.post("/api/orders/create", upload.array(), async (req, res) => {
     try {
-       console.log(req.body);
-        // const {rawRequest} = req.body;
-        // console.log(rawRequest);
-        // console.log(JSON.parse(rawRequest));
-        // const {
-        //     q2_fullName_1:name,
-        //     q3_mail_2 :email,
-        //     q4_phone_3:phone,
-        //     q20_typeA : cea_number,
-        //     q13_whatProperty:propertiesPortal,
-        //  } = JSON.parse(rawRequest);
-        //  console.log(name, email, phone, cea_number, propertiesPortal);
+        const {rawRequest} = req.body;
+        console.log(rawRequest);
+        console.log(JSON.parse(rawRequest));
+        const {
+            q2_fullName_1:name,
+            q3_mail_2 :email,
+            q4_phone_3:phone,
+            q20_typeA : cea_number,
+            q13_whatProperty:propertiesPortal,
+         } = JSON.parse(rawRequest);
+         console.log(name, email, phone, cea_number, propertiesPortal);
         res.status(200).json("Order Saved Successfully");
     } catch (error) {
         console.error(error);
