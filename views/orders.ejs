@@ -181,7 +181,7 @@
   </main>
   <dialog class="position-relative min-height-500 w-lg-50 w-100 w-md-50 border-0 rounded rounded-3">
     <button onclick="closeDialog(this)" class="position-absolute top-1 end-1 border-0 bg-transparent text-3xl">&times;</button>
-    <div class="modal-content mt-3">
+    <div class="modal-content mt-6">
         <div class="modal-header">
             <h5 class="modal-title mx-auto">Order Details</h5>
         </div>
@@ -209,10 +209,9 @@
     btn.parentNode.close();
   }
 
-  function openDialogShowDetails(e) {
-    const jsonOrders = '<%- JSON.stringify(orders) %>';
-    const orders = JSON.parse(jsonOrders);
-    const order = orders.find(order => order.id == e.id);
+async function openDialogShowDetails(e) {
+    const id = e.id;
+    const [order] = await fetchOrderById(id);
     const other = order.other;
     console.log(order);
     const dialog = document.querySelector('dialog');
@@ -232,6 +231,12 @@
     `;
     dialog.showModal();
 }
+
+  async function fetchOrderById(id) {
+    const res = await fetch(`/api/order/fetch/${id}`);
+    const data = await res.json();
+    return data;
+  }
 
 
 

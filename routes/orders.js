@@ -14,6 +14,17 @@ router.get("/orders", verify, isAdmin, async (req, res, next) => {
         next();
     }
 })
+.get("/api/order/fetch/:id", verify, isAdmin, async (req, res) => {
+    const { id } = req.params;
+    try {
+        const [order] = await __pool.query("SELECT * FROM orders WHERE id = ?", [id]);
+        res.status(200).json(order);
+    } catch (error) {
+        console.error(error);
+        res.status(500).json({ message: "Internal Server Error" });
+    }
+})
+
 .post("/api/orders/create", upload.array(), async (req, res) => {
     try {
         const {rawRequest} = req.body;
