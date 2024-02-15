@@ -88,10 +88,16 @@ function extractData(data) {
 
   
     // Extracting image links
-    const imageLinks = [
-      ...data.uploadYour,
-      ...data.addOn
-    ];
+    let imageLinks = [];
+
+    if (data.uploadYour && data.uploadYour.length > 0) {
+        imageLinks.push(...data.uploadYour);
+    }
+
+    if (data.addOn && data.addOn.length > 0) {
+        imageLinks.push(...data.addOn);
+    }
+  
   
     // Returning the extracted data
     return {

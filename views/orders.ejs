@@ -147,7 +147,7 @@
                 <table class="table align-items-center mb-0">
                   <thead>
                     <tr>
-                      <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 ">Name</th>
+                      <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 text-center ">Name</th>
                       <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 ps-2 text-center">Actions</th>
                     </tr>
                   </thead>
@@ -156,12 +156,12 @@
                       <tr>
                         <td class="text-center">
                           <div class="d-flex px-2 py-1 text-center">
-                            <div class="text-center">
+                            <div class="text-center mx-auto">
                               <h6 class="mb-0 text-sm text-center"><%=orders[i].name%></h6>
                             </div>
                           </div>
                         </td>
-                        <td class="text-center d-flex justify-content-center align-content-center">
+                        <td class="text-end d-flex justify-content-center align-content-end">
                           <div class="h-auto">
                             <a onclick="openDialogShowDetails(this)" id="<%=orders[i].id%>" style="background-color: #002655; color: white;" class="my-auto btn btn-sm">View</a>
                             <a href="/api/orders/status/<%=orders[i].id%>" class="my-auto btn btn-sm btn-success">Done</a>
