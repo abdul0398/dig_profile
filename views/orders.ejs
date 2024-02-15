@@ -30,6 +30,13 @@
     'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
     })(window,document,'script','dataLayer','GTM-K3SG3FFJ');  
 </script>
+<style>
+  .modal-para {
+  font-weight: initial;
+  color: #333;
+}
+
+</style>
 </head>
 
 <body class="g-sidenav-show  bg-gray-200">
@@ -145,22 +152,24 @@
                     </tr>
                   </thead>
                   <tbody>
-                    <tr>
-                      <td class="text-center">
-                        <div class="d-flex px-2 py-1 text-center">
-                          <div class="text-center">
-                            <h6 class="mb-0 text-sm text-center">John Michael</h6>
+                    <%for(let i = 0; i < orders.length; i++){%>
+                      <tr>
+                        <td class="text-center">
+                          <div class="d-flex px-2 py-1 text-center">
+                            <div class="text-center">
+                              <h6 class="mb-0 text-sm text-center"><%=orders[i].name%></h6>
+                            </div>
                           </div>
-                        </div>
-                      </td>
-                      <td class="text-center d-flex justify-content-center align-content-center">
-                        <div class="h-auto">
-                          <a onclick="openDialogShowDetails(this)" style="background-color: #002655; color: white;" class="my-auto btn btn-sm">View</a>
-                          <a href="/api/orders/status/id" class="my-auto btn btn-sm btn-success">Done</a>
-                          <a href="/api/orders/delete/:id" class="my-auto btn btn-sm btn-danger">Delete</a>
-                        </div>
-                      </td>
-                    </tr>
+                        </td>
+                        <td class="text-center d-flex justify-content-center align-content-center">
+                          <div class="h-auto">
+                            <a onclick="openDialogShowDetails(this)" id="<%=orders[i].id%>" style="background-color: #002655; color: white;" class="my-auto btn btn-sm">View</a>
+                            <a href="/api/orders/status/<%=orders[i].id%>" class="my-auto btn btn-sm btn-success">Done</a>
+                            <a href="/api/orders/delete/<%=orders[i].id%>" class="my-auto btn btn-sm btn-danger">Delete</a>
+                          </div>
+                        </td>
+                      </tr>
+                    <%}%>
                   </tbody>
                 </table>
               </div>
@@ -174,7 +183,7 @@
     <button onclick="closeDialog(this)" class="position-absolute top-1 end-1 border-0 bg-transparent text-3xl">&times;</button>
     <div class="modal-content mt-3">
         <div class="modal-header">
-            <h5 class="modal-title text-center">Order Details</h5>
+            <h5 class="modal-title mx-auto">Order Details</h5>
         </div>
         <div class="modal-body">
             <p>Modal body text goes here.</p>
@@ -200,10 +209,30 @@
     btn.parentNode.close();
   }
 
-  function openDialogShowDetails(e){
+  function openDialogShowDetails(e) {
+    const jsonOrders = '<%- JSON.stringify(orders) %>';
+    const orders = JSON.parse(jsonOrders);
+    const order = orders.find(order => order.id == e.id);
+    const other = order.other;
+    console.log(order);
     const dialog = document.querySelector('dialog');
+    const modalBody = dialog.querySelector('.modal-body')
+    modalBody.innerHTML = "";
+    const imagesLinksHTML = order.images.map(imageLink => `<a href="${imageLink}" target="_blank">${imageLink}</a>`).join('<br>');
+    modalBody.innerHTML = `
+      <p class="modal-para"><strong>Name:</strong> ${order.name}</p>
+      <p class="modal-para"><strong>Phone:</strong> ${order.phone}</p>
+      <p class="modal-para"><strong>Email:</strong> ${order.email}</p>
+      <p class="modal-para"><strong>CEA:</strong> ${other.ceaNo}</p>
+      <p class="modal-para"><strong>Socials:</strong> ${other.socialLinks}</p>
+      <p class="modal-para"><strong>Property Listings:</strong> ${other.propertyLinks}</p>
+      <p class="modal-para"><strong>About Us:</strong> ${other.aboutUs}</p>
+      <p class="modal-para"><strong>Feedback:</strong> ${other.feedback}</p>
+      <p class="modal-para"><strong>Images:</strong><br>${imagesLinksHTML}</p>
+    `;
     dialog.showModal();
-  }
+}
+
 
 
 

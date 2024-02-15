@@ -43,7 +43,7 @@ router.get("/orders", verify, isAdmin, async (req, res, next) => {
     const { id } = req.params;
     try {
         const [order] = await __pool.query("UPDATE orders SET status = ? WHERE id = ? ", ["closed", id]);
-        res.status(200).json(order);
+        res.redirect("/orders");
     } catch (error) {
         console.error(error);
         res.status(500).json({ message: "Internal Server Error" });
@@ -53,7 +53,7 @@ router.get("/orders", verify, isAdmin, async (req, res, next) => {
     const { id } = req.params;
     try {
         const [order] = await __pool.query("DELETE FROM orders WHERE id = ?", [id]);
-        res.status(200).json(order);
+        res.redirect("/orders");
     } catch (error) {
         console.error(error);
         res.status(500).json({ message: "Internal Server Error" });
