@@ -8,7 +8,8 @@ const upload = multer({ dest: 'uploads/' })
 router.get("/orders", verify, isAdmin, async (req, res, next) => {
     try {
         const [orders] = await __pool.query("SELECT * FROM orders");
-        res.render("orders.ejs", { orders });
+        const [pending] = await __pool.query("SELECT COUNT(*) FROM orders WHERE status = ?", ["pending"]);
+        res.render("orders.ejs", { orders, pending: pending[0]["COUNT(*)"] });
     } catch (error) {
         console.log(error);
         next();
