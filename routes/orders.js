@@ -73,7 +73,13 @@ function extractData(data) {
       fullName,
       email,
       phone,
-      typeA,
+      ceaNo,
+      propertiesListings,
+    propertyLinks,
+    socials,
+    socialLinks,
+    aboutUs,
+    feedback,
       imageLinks
     };
   }
