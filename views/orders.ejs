@@ -1,209 +1,289 @@
 <!DOCTYPE html>
 <html lang="en">
 
-<head>
-  <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-  <link rel="apple-touch-icon" sizes="76x76" href="/assets/img/apple-icon.png">
-  <link rel="icon" type="image/png" href="/logo.png">
-  <title>
-   Jome Journey
-  </title>
-  <!--     Fonts and icons     -->
-  <link rel="stylesheet" type="text/css" href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700,900|Roboto+Slab:400,700" />
-  <!-- Nucleo Icons -->
-  <link href="/assets/css/nucleo-icons.css" rel="stylesheet" />
-  <link href="/assets/css/nucleo-svg.css" rel="stylesheet" />
-  <!-- Font Awesome Icons -->
-  <script src="https://kit.fontawesome.com/658a2960da.js"
-  crossorigin="anonymous"></script>
-  <!-- Material Icons -->
-  <link href="https://fonts.googleapis.com/icon?family=Material+Icons+Round" rel="stylesheet">
-  <!-- CSS Files -->
-  <link id="pagestyle" href="/assets/css/material-dashboard.css?v=3.1.0" rel="stylesheet" />
-  <!-- Nepcha Analytics (nepcha.com) -->
-  <!-- Nepcha is a easy-to-use web analytics. No cookies and fully compliant with GDPR, CCPA and PECR. -->
-  <script defer data-site="YOUR_DOMAIN_HERE" src="https://api.nepcha.com/js/nepcha-analytics.js"></script>
-  <script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
-    new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
-    j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
-    'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
-    })(window,document,'script','dataLayer','GTM-K3SG3FFJ');  
-</script>
-<style>
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport"
+      content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <link rel="apple-touch-icon" sizes="76x76"
+      href="/assets/img/apple-icon.png">
+    <link rel="icon" type="image/png" href="/logo.png">
+    <title>
+      Jome Journey
+    </title>
+    <!--     Fonts and icons     -->
+    <link rel="stylesheet" type="text/css"
+      href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700,900|Roboto+Slab:400,700" />
+    <!-- Nucleo Icons -->
+    <link href="/assets/css/nucleo-icons.css" rel="stylesheet" />
+    <link href="/assets/css/nucleo-svg.css" rel="stylesheet" />
+    <!-- Font Awesome Icons -->
+    <script src="https://kit.fontawesome.com/658a2960da.js"
+      crossorigin="anonymous"></script>
+    <!-- Material Icons -->
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons+Round"
+      rel="stylesheet">
+    <!-- CSS Files -->
+    <link id="pagestyle" href="/assets/css/material-dashboard.css?v=3.1.0"
+      rel="stylesheet" />
+
+    <!-- Sweet alert -->
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <style>
   .modal-para {
   font-weight: initial;
   color: #333;
 }
 
 </style>
-</head>
+  </head>
 
-<body class="g-sidenav-show  bg-gray-200">
-  <noscript><iframe
-    src="https://www.googletagmanager.com/ns.html?id=GTM-K3SG3FFJ"
-    height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
-  <aside style="background-color: #0E4884 !important" class="sidenav navbar navbar-vertical navbar-expand-xs border-0 border-radius-xl my-3 fixed-start ms-3" id="sidenav-main">
-    <div class="sidenav-header">
-      <i class="fas fa-times p-3 cursor-pointer text-white opacity-5 position-absolute end-0 top-0 d-none d-xl-none" aria-hidden="true" id="iconSidenav"></i>
-      <a class="navbar-brand m-0"
-      href="/"
-      >
-        <img src="/logo.png" class="navbar-brand-img h-100" alt="main_logo">
-        <span class="ms-1 font-weight-bold text-white">Jome Journey</span>
-      </a>
-    </div>
-    <hr class="horizontal light mt-0 mb-2">
-    <div class="collapse navbar-collapse  w-auto " id="sidenav-collapse-main">
-      <ul class="navbar-nav">
-        <li class="nav-item">
-          <a class="nav-link text-white" href="/">
-            <div class="text-white text-center me-2 d-flex align-items-center justify-content-center">
-              <i class="material-icons opacity-10">dashboard</i>
-            </div>
-            <span class="nav-link-text ms-1">Dashboard</span>
-          </a>
-        </li>
-        <%if(currentUser.role == "admin"){%>
-            <li class="nav-item">
-                <a style="background-color: #002655;" class="nav-link text-white active" href="/orders">
-                  <div class="text-white text-center me-2 d-flex align-items-center justify-content-center">
-                    <i class="material-icons opacity-10">checklist</i>
-                  </div>
-                  <span class="nav-link-text ms-1">Orders</span>
-                </a>
-            </li>
-        <%}%>
-        <li class="nav-item">
-          <a class="nav-link text-white " href="/clients">
-            <div class="text-white text-center me-2 d-flex align-items-center justify-content-center">
-              <i class="fa-solid fa-users"  style="color: #ffffff;"></i>
-            </div>
-            <%if(currentUser.role == "user"){%>
-            
-              <span class="nav-link-text ms-1">Profiles</span>
-            
-            <%}else{%>
-            
-              <span class="nav-link-text ms-1">Clients</span>
-            
-            <%}%>
-          </a>
-        </li>
-        <li class="nav-item">
-          <a class="nav-link text-white" href="/leads">
+  <body class="g-sidenav-show  bg-gray-200">
+    <noscript><iframe
+        src="https://www.googletagmanager.com/ns.html?id=GTM-K3SG3FFJ"
+        height="0" width="0"
+        style="display:none;visibility:hidden"></iframe></noscript>
+    <aside style="background-color: #0E4884 !important"
+      class="sidenav navbar navbar-vertical navbar-expand-xs border-0 border-radius-xl my-3 fixed-start ms-3"
+      id="sidenav-main">
+      <div class="sidenav-header">
+        <i
+          class="fas fa-times p-3 cursor-pointer text-white opacity-5 position-absolute end-0 top-0 d-none d-xl-none"
+          aria-hidden="true" id="iconSidenav"></i>
+        <a class="navbar-brand m-0"
+          href="/">
+          <img src="/logo.png" class="navbar-brand-img h-100" alt="main_logo">
+          <span class="ms-1 font-weight-bold text-white">Jome Journey</span>
+        </a>
+      </div>
+      <hr class="horizontal light mt-0 mb-2">
+      <div class="collapse navbar-collapse  w-auto " id="sidenav-collapse-main">
+        <ul class="navbar-nav">
+          <li class="nav-item">
+            <a class="nav-link text-white" href="/">
               <div
-                  class="text-white text-center me-2 d-flex align-items-center justify-content-center">
-                  <i class="fa-solid fa-database"></i>
+                class="text-white text-center me-2 d-flex align-items-center justify-content-center">
+                <i class="material-icons opacity-10">dashboard</i>
+              </div>
+              <span class="nav-link-text ms-1">Dashboard</span>
+            </a>
+          </li>
+          <%if(currentUser.role == "admin"){%>
+          <li class="nav-item">
+            <a style="background-color: #002655;"
+              class="nav-link text-white active" href="/orders">
+              <div
+                class="text-white text-center me-2 d-flex align-items-center justify-content-center">
+                <i class="material-icons opacity-10">checklist</i>
+              </div>
+              <span class="nav-link-text ms-1">Orders(<%=orders.length%>)</span>
+            </a>
+          </li>
+          <%}%>
+          <li class="nav-item">
+            <a class="nav-link text-white " href="/clients">
+              <div
+                class="text-white text-center me-2 d-flex align-items-center justify-content-center">
+                <i class="fa-solid fa-users" style="color: #ffffff;"></i>
+              </div>
+              <%if(currentUser.role == "user"){%>
+
+              <span class="nav-link-text ms-1">Profiles</span>
+
+              <%}else{%>
+
+              <span class="nav-link-text ms-1">Clients</span>
+
+              <%}%>
+            </a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link text-white" href="/leads">
+              <div
+                class="text-white text-center me-2 d-flex align-items-center justify-content-center">
+                <i class="fa-solid fa-database"></i>
               </div>
               <span class="nav-link-text ms-1">Leads</span>
-          </a>
-      </li>
-        <li class="nav-item">
-          <a class="nav-link text-white" href="/logout">
-            <div class="text-white text-center me-2 d-flex align-items-center justify-content-center">
-              <i class="material-icons opacity-10">logout</i>
-            </div>
-            <span class="nav-link-text ms-1">Log Out</span>
-          </a>
-        </li>
-      </ul>
-    </div>
-  </aside>
-  <main class="main-content position-relative max-height-vh-100 h-100 border-radius-lg ">
-    <!-- Navbar -->
-    <nav class="navbar navbar-main navbar-expand-lg px-0 mx-4 shadow-none border-radius-xl" id="navbarBlur" data-scroll="true">
-      <div class="container-fluid py-1 px-3">
-        <nav aria-label="breadcrumb">
-          <ol class="breadcrumb bg-transparent mb-0 pb-0 pt-1 px-0 me-sm-6 me-5">
-            <li class="breadcrumb-item text-sm"><a class="opacity-5 text-dark" href="javascript:;">Pages</a></li>
-            <li class="breadcrumb-item text-sm text-dark active" aria-current="page">Orders</li>
-          </ol>
-          <h6 class="font-weight-bolder mb-0">Orders</h6>
-        </nav>
-        <li class="ms-auto nav-item d-xl-none ps-3 d-flex align-items-center">
-          <a href="javascript:;" class="nav-link text-body p-0" id="iconNavbarSidenav">
-            <div class="sidenav-toggler-inner">
-              <i class="sidenav-toggler-line"></i>
-              <i class="sidenav-toggler-line"></i>
-              <i class="sidenav-toggler-line"></i>
-            </div>
-          </a>
-        </li>
-      </div>
-    </nav>
-    <!-- End Navbar -->
-    <div class="container-fluid py-4">
-      <div class="row">
-        <div class="col-12">
-          <div class="card my-4">
-            <div class="card-header p-0 position-relative mt-n4 mx-3 z-index-2">
-              <div style="background-color: #002655;" class="border-radius-lg pt-4 pb-3">
-                <h6 class="text-white text-capitalize ps-3">Orders</h6>
+            </a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link text-white" href="/logout">
+              <div
+                class="text-white text-center me-2 d-flex align-items-center justify-content-center">
+                <i class="material-icons opacity-10">logout</i>
               </div>
-            </div>
-            <div class="card-body px-0 pb-2">
-              <div class="table-responsive p-0">
-                <table class="table align-items-center mb-0">
-                  <thead>
-                    <tr>
-                      <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 text-center ">Name</th>
-                      <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 ps-2 text-center">Actions</th>
-                    </tr>
-                  </thead>
-                  <tbody>
-                    <%for(let i = 0; i < orders.length; i++){%>
+              <span class="nav-link-text ms-1">Log Out</span>
+            </a>
+          </li>
+        </ul>
+      </div>
+    </aside>
+    <main
+      class="main-content position-relative max-height-vh-100 h-100 border-radius-lg ">
+      <!-- Navbar -->
+      <nav
+        class="navbar navbar-main navbar-expand-lg px-0 mx-4 shadow-none border-radius-xl"
+        id="navbarBlur" data-scroll="true">
+        <div class="container-fluid py-1 px-3">
+          <nav aria-label="breadcrumb">
+            <ol
+              class="breadcrumb bg-transparent mb-0 pb-0 pt-1 px-0 me-sm-6 me-5">
+              <li class="breadcrumb-item text-sm"><a class="opacity-5 text-dark"
+                  href="javascript:;">Pages</a></li>
+              <li class="breadcrumb-item text-sm text-dark active"
+                aria-current="page">Orders</li>
+            </ol>
+            <h6 class="font-weight-bolder mb-0">Orders</h6>
+          </nav>
+          <li class="ms-auto nav-item d-xl-none ps-3 d-flex align-items-center">
+            <a href="javascript:;" class="nav-link text-body p-0"
+              id="iconNavbarSidenav">
+              <div class="sidenav-toggler-inner">
+                <i class="sidenav-toggler-line"></i>
+                <i class="sidenav-toggler-line"></i>
+                <i class="sidenav-toggler-line"></i>
+              </div>
+            </a>
+          </li>
+        </div>
+      </nav>
+      <!-- End Navbar -->
+      <div class="container-fluid py-4">
+        <div class="row">
+          <div class="col-12">
+            <div class="card my-4">
+              <div
+                class="card-header p-0 position-relative mt-n4 mx-3 z-index-2">
+                <div style="background-color: #002655;"
+                  class="d-flex border-radius-lg pt-4 pb-3">
+                  <h6 class="text-white text-capitalize ps-3">Orders</h6>
+
+                  <select onchange="filterHandler(this)"
+                    class="form-select px-2 mt-2 w-30 w-lg-10 w-md-20 ms-auto bg-white me-3 mb-3"
+                    aria-label="Default select example">
+                    <option selected value="pending">Pending</option>
+                    <option value="closed">Done</option>
+                  </select>
+
+                </div>
+              </div>
+              <div class="card-body px-0 pb-2">
+                <div class="table-responsive p-0">
+                  <table class="table align-items-center mb-0">
+                    <thead>
+                      <tr>
+                        <th
+                          class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 text-center ">Name</th>
+                        <th
+                          class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 ps-2 text-center">Actions</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      <%for(let i = 0; i < orders.length; i++){%>
+                      <%if(orders[i].status == "pending"){%>
                       <tr>
                         <td class="text-center">
                           <div class="d-flex px-2 py-1 text-center">
                             <div class="text-center mx-auto">
-                              <h6 class="mb-0 text-sm text-center"><%=orders[i].name%></h6>
+                              <h6
+                                class="mb-0 text-sm text-center"><%=orders[i].name%></h6>
                             </div>
                           </div>
                         </td>
-                        <td class="text-end d-flex justify-content-center align-content-end">
+                        <td
+                          class="text-end d-flex justify-content-center align-content-end">
                           <div class="h-auto">
-                            <a onclick="openDialogShowDetails(this)" id="<%=orders[i].id%>" style="background-color: #002655; color: white;" class="my-auto btn btn-sm">View</a>
-                            <a href="/api/orders/status/<%=orders[i].id%>" class="my-auto btn btn-sm btn-success">Done</a>
-                            <a href="/api/orders/delete/<%=orders[i].id%>" class="my-auto btn btn-sm btn-danger">Delete</a>
+                            <a onclick="openDialogShowDetails(this)"
+                              id="<%=orders[i].id%>"
+                              style="background-color: #002655; color: white;"
+                              class="my-auto btn btn-sm">View</a>
+                            <a onclick="statusHandler(this)"
+                              id="<%=orders[i].id%>"
+                              class="my-auto btn btn-sm btn-success">Done</a>
+                            <a onclick="deleteHandler(this)"
+                              id="<%=orders[i].id%>"
+                              class="my-auto btn btn-sm btn-danger">Delete</a>
                           </div>
                         </td>
                       </tr>
-                    <%}%>
-                  </tbody>
-                </table>
+                      <%}%>
+                      <%}%>
+                    </tbody>
+                  </table>
+                </div>
               </div>
             </div>
           </div>
         </div>
       </div>
-    </div>
-  </main>
-  <dialog class="position-relative min-height-500 w-lg-50 w-100 w-md-50 border-0 rounded rounded-3">
-    <button onclick="closeDialog(this)" class="position-absolute top-1 end-1 border-0 bg-transparent text-3xl">&times;</button>
-    <div class="modal-content mt-6">
+    </main>
+    <dialog
+      class="position-relative min-height-500 w-lg-50 w-100 w-md-50 border-0 rounded rounded-3">
+      <button onclick="closeDialog(this)"
+        class="position-absolute top-1 end-1 border-0 bg-transparent text-3xl">&times;</button>
+      <div class="modal-content mt-6">
         <div class="modal-header">
-            <h5 class="modal-title mx-auto">Order Details</h5>
+          <h5 class="modal-title mx-auto">Order Details</h5>
         </div>
         <div class="modal-body">
-            <p>Modal body text goes here.</p>
+          <p>Modal body text goes here.</p>
         </div>
-    </div>
-</dialog>
+      </div>
+    </dialog>
 
- 
-  <!--   Core JS Files   -->
-  <script src="/assets/js/core/popper.min.js"></script>
-  <script src="/assets/js/core/bootstrap.min.js"></script>
-  <script src="/assets/js/plugins/perfect-scrollbar.min.js"></script>
-  <script src="/assets/js/plugins/smooth-scrollbar.min.js"></script>
-  <script src="/assets/js/plugins/chartjs.min.js"></script>
-  <!-- Github buttons -->
-  <script async defer src="https://buttons.github.io/buttons.js"></script>
-  <!-- Control Center for Material Dashboard: parallax effects, scripts for the example pages etc -->
-  <script src="/assets/js/material-dashboard.min.js?v=3.1.0"></script>
-</body>
-<script>
+    <!--   Core JS Files   -->
+    <script src="/assets/js/core/popper.min.js"></script>
+    <script src="/assets/js/core/bootstrap.min.js"></script>
+    <script src="/assets/js/plugins/perfect-scrollbar.min.js"></script>
+    <script src="/assets/js/plugins/smooth-scrollbar.min.js"></script>
+    <script src="/assets/js/plugins/chartjs.min.js"></script>
+    <!-- Github buttons -->
+    <script async defer src="https://buttons.github.io/buttons.js"></script>
+    <!-- Control Center for Material Dashboard: parallax effects, scripts for the example pages etc -->
+    <script src="/assets/js/material-dashboard.min.js?v=3.1.0"></script>
+  </body>
+  <script>
+  let orders = [];
+  start();
+ async function start() {
+    const res = await fetch('/api/orders');
+    const data = await res.json();
+    orders = data;
+  }
+
+  async function filterHandler(select){
+    const value = select.value;
+    const tbody = document.querySelector('tbody');
+    tbody.innerHTML = "";
+    for(let i = 0; i < orders.length; i++){
+      const doneHtml = `<a onclick="statusHandler(this)"
+                              id="${orders[i].id}"
+                              class="my-auto btn btn-sm btn-success">Done</a>`
+      if(orders[i].status == value){
+        tbody.innerHTML += `
+          <tr>
+            <td class="text-center">
+              <div class="d-flex px-2 py-1 text-center">
+                <div class="text-center mx-auto">
+                  <h6 class="mb-0 text-sm text-center">${orders[i].name}</h6>
+                </div>
+              </div>
+            </td>
+            <td class="text-end d-flex justify-content-center align-content-end">
+              <div class="h-auto">
+                <a onclick="openDialogShowDetails(this)" id="${orders[i].id}" style="background-color: #002655; color: white;" class="my-auto btn btn-sm">View</a>
+                ${orders[i].status == "pending" ? doneHtml : ""}
+                <a onclick="deleteHandler(this)"
+                  id="${orders[i].id}"
+                  class="my-auto btn btn-sm btn-danger">Delete</a>
+              </div>
+            </td>
+          </tr>
+        `;
+      }
+    }
+  }
+
 
   function closeDialog(btn) {
     btn.parentNode.close();
@@ -213,11 +293,12 @@ async function openDialogShowDetails(e) {
     const id = e.id;
     const [order] = await fetchOrderById(id);
     const other = order.other;
-    console.log(order);
     const dialog = document.querySelector('dialog');
     const modalBody = dialog.querySelector('.modal-body')
     modalBody.innerHTML = "";
-    const imagesLinksHTML = order.images.map(imageLink => `<a href="${imageLink}" target="_blank">${imageLink}</a>`).join('<br>');
+    const addonHTML = order.images.addon.map(imageLink => `<a href="${imageLink}" target="_blank">${imageLink}</a>`).join('<br>');
+    const imagesHTML = order.images.images.map(imageLink => `<a href="${imageLink}" target="_blank">${imageLink}</a>`).join('<br>');
+
     modalBody.innerHTML = `
       <p class="modal-para"><strong>Name:</strong> ${order.name}</p>
       <p class="modal-para"><strong>Phone:</strong> ${order.phone}</p>
@@ -227,7 +308,9 @@ async function openDialogShowDetails(e) {
       <p class="modal-para"><strong>Property Listings:</strong> ${other.propertyLinks}</p>
       <p class="modal-para"><strong>About Us:</strong> ${other.aboutUs}</p>
       <p class="modal-para"><strong>Feedback:</strong> ${other.feedback}</p>
-      <p class="modal-para"><strong>Images:</strong><br>${imagesLinksHTML}</p>
+      <p class="modal-para"><strong>Images:</strong><br>${imagesHTML}</p>
+      <p class="modal-para"><strong>Add on:</strong><br>${addonHTML}</p>
+
     `;
     dialog.showModal();
 }
@@ -236,6 +319,74 @@ async function openDialogShowDetails(e) {
     const res = await fetch(`/api/order/fetch/${id}`);
     const data = await res.json();
     return data;
+  }
+
+  async function deleteHandler(e) {
+    const id = e.id;
+    Swal.fire({
+      title: "Are you sure?",
+      text: "You won't be able to revert this!",
+      icon: "warning",
+      showCancelButton: true,
+      confirmButtonColor: "#d33",
+      cancelButtonColor: "#002655",
+      confirmButtonText: "Delete"
+    }).then(async (result) => {
+      if (result.isConfirmed) {
+        const res = await fetch(`/api/orders/delete/${id}`);
+        const data = await res.json();
+        if(res.status == 200){
+          Swal.fire({
+            title: 'Success',
+            text: 'Order deleted successfully',
+            icon: 'success',
+            confirmButtonText: 'Ok',
+            confirmButtonColor: "#002655",
+          }).then(result=>{
+            if(result.isConfirmed){
+              window.location.reload();
+            }
+          })
+        }
+      }
+    });
+   
+  }
+
+  async function statusHandler(e) {
+    Swal.fire({
+      title: "Are you sure Order is Completed?",
+      icon: "warning",
+      showCancelButton: true,
+      confirmButtonColor: "#4CAF50",
+      cancelButtonColor: "#002655",
+      confirmButtonText: "Yes, Done!"
+    }).then(async (result) => {
+      if (result.isConfirmed) {
+        const id = e.id;
+    const res = await fetch(`/api/orders/status/${id}`);
+    const data = await res.json();
+    if(res.status == 200){
+      Swal.fire({
+        title: 'Success',
+        text: 'Order status updated successfully',
+        icon: 'success',
+        confirmButtonText: 'Ok',
+        confirmButtonColor: "#002655",
+      }).then(result=>{
+        if(result.isConfirmed){
+          window.location.reload();
+        }
+      })
+    }
+      }
+    });
+
+
+
+
+
+    
   }
 
 

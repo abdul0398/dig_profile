@@ -41,13 +41,14 @@ router.post("/api/submitLead/:profilId", async (req,res)=>{
     const userId = req.user.id;
     
     try {
+        const [orders] = await __pool.query(`SELECT COUNT(*) FROM orders WHERE status = 'pending'`);
         // First, get the clients for the given userId
         const [clientsResult] = await __pool.query(getClientsQuery);
         const clients = clientsResult.map(client => client.id);
     
         // If no clients found, return empty data
         if (clients.length === 0) {
-            return res.render("lead/lead.ejs", { leads: [], profiles: [], clients: [] });
+            return res.render("lead/lead.ejs", { leads: [], profiles: [], clients: [], orders:orders[0]["COUNT(*)"] });
         }
     
         // Then, get the profiles for these clients
@@ -57,7 +58,7 @@ router.post("/api/submitLead/:profilId", async (req,res)=>{
         // Finally, get the leads for these profiles
         const [leads] = await __pool.query(getLeadsQuery, [profiles]);
     
-        res.render("lead/lead.ejs", { leads, profiles: profilesResult, clients: clientsResult });
+        res.render("lead/lead.ejs", { leads, profiles: profilesResult, clients: clientsResult, orders:orders[0]["COUNT(*)"] });
     } catch (error) {
         console.error(error);
         res.status(500).send("Server Error");

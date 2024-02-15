@@ -7,7 +7,7 @@ const upload = multer({ dest: 'uploads/' })
 
 router.get("/orders", verify, isAdmin, async (req, res, next) => {
     try {
-        const [orders] = await __pool.query("SELECT * FROM orders WHERE status = 'pending'");
+        const [orders] = await __pool.query("SELECT * FROM orders");
         res.render("orders.ejs", { orders });
     } catch (error) {
         console.log(error);
@@ -24,7 +24,16 @@ router.get("/orders", verify, isAdmin, async (req, res, next) => {
         res.status(500).json({ message: "Internal Server Error" });
     }
 })
+.get("/api/orders", verify, isAdmin, async (req, res) => {
+    try {
+        const [orders] = await __pool.query("SELECT * FROM orders");
+        res.status(200).json(orders);
+    } catch (error) {
+        console.error(error);
+        res.status(500).json({ message: "Internal Server Error" });
+    }
 
+})
 .post("/api/orders/create", upload.array(), async (req, res) => {
     try {
         const {rawRequest} = req.body;
@@ -39,11 +48,12 @@ router.get("/orders", verify, isAdmin, async (req, res, next) => {
             socialLinks,
             aboutUs,
             feedback,
-            imageLinks
+            images,
+            addOn
 
         } = extractData(JSON.parse(rawRequest))
         const [order] = await __pool.query("INSERT INTO orders (name, email, phone, other, images) VALUES (?, ?, ?, ?, ?)",
-        [fullName, email, phone, JSON.stringify({ ceaNo, propertiesListings, propertyLinks, socials, socialLinks, aboutUs, feedback }), JSON.stringify(imageLinks)]);
+        [fullName, email, phone, JSON.stringify({ ceaNo, propertiesListings, propertyLinks, socials, socialLinks, aboutUs, feedback }), JSON.stringify({images:images, addon:addOn})]);
         res.status(200).json("Order Saved Successfully");
     } catch (error) {
         console.error(error);
@@ -54,7 +64,7 @@ router.get("/orders", verify, isAdmin, async (req, res, next) => {
     const { id } = req.params;
     try {
         const [order] = await __pool.query("UPDATE orders SET status = ? WHERE id = ? ", ["closed", id]);
-        res.redirect("/orders");
+        res.status(200).json("Order Status Updated Successfully");
     } catch (error) {
         console.error(error);
         res.status(500).json({ message: "Internal Server Error" });
@@ -64,7 +74,7 @@ router.get("/orders", verify, isAdmin, async (req, res, next) => {
     const { id } = req.params;
     try {
         const [order] = await __pool.query("DELETE FROM orders WHERE id = ?", [id]);
-        res.redirect("/orders");
+        res.status(200).json("Order Deleted Successfully");
     } catch (error) {
         console.error(error);
         res.status(500).json({ message: "Internal Server Error" });
@@ -88,14 +98,15 @@ function extractData(data) {
 
   
     // Extracting image links
-    let imageLinks = [];
+    let images = [];
+    let addOn = [];
 
     if (data.uploadYour && data.uploadYour.length > 0) {
-        imageLinks.push(...data.uploadYour);
+        images.push(...data.uploadYour);
     }
 
     if (data.addOn && data.addOn.length > 0) {
-        imageLinks.push(...data.addOn);
+        addOn.push(...data.addOn);
     }
   
   
@@ -111,7 +122,8 @@ function extractData(data) {
         socialLinks,
         aboutUs,
         feedback,
-        imageLinks
+        images,
+        addOn
     };
   }
 

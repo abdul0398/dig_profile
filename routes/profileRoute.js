@@ -28,7 +28,8 @@ router.get("/", verify, async(req,res)=>{
     if(req.user.role == "admin"){
         const [profiles] = await __pool.query(`SELECT name, id FROM profiles`);
         const [clients] = await __pool.query(`SELECT name, id FROM clients`);
-        res.render("dashboard.ejs", {clients: clients, profiles: profiles});
+        const [orders] = await __pool.query(`SELECT COUNT(*) FROM orders WHERE status = 'pending'`);
+        res.render("dashboard.ejs", {clients: clients, profiles: profiles, orders:orders[0]["COUNT(*)"]});
     }else{
         const [profiles] = await __pool.query(`SELECT name, id FROM profiles WHERE client_id = ?`, [req.user.id]);
         res.render("dashboard.ejs", {clients: [], profiles: profiles});
