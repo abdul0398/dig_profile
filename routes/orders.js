@@ -6,6 +6,7 @@ const upload = multer({ dest: 'uploads/' })
 
 
 router.get("/orders", verify, isAdmin, async (req, res, next) => {
+    res.setHeader('Cache-Control', 'no-store, no-cache');
     try {
         const [orders] = await __pool.query("SELECT * FROM orders");
         const [pending] = await __pool.query("SELECT COUNT(*) FROM orders WHERE status = ?", ["pending"]);

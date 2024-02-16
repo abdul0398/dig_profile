@@ -187,43 +187,7 @@
                       </tr>
                     </thead>
                     <tbody>
-                      <%for(let i = 0; i < orders.length; i++){%>
-                        <%if(orders[i].status == "pending"){%>
-                      <tr>
-                        <td class="text-center">
-                          <div class="d-flex px-2 py-1 text-center">
-                            <div class="text-center mx-auto">
-                              <h6
-                                class="mb-0 text-sm text-center"><%=orders[i].name%></h6>
-                            </div>
-                          </div>
-                        </td>
-                        <td
-                          class="d-none d-lg-table-cell d-md-table-cell text-center">
-                          <h6 class="mb-0 text-sm"><%=orders[i].email%></h6>
-                        </td>
-                        <td
-                          class="d-none d-lg-table-cell d-md-table-cell text-center">
-                          <h6 class="mb-0 text-sm"><%= new Date(orders[i].created_at).toLocaleDateString('en-US', { year: 'numeric', month: 'short', day: '2-digit' }) %></h6>
-                        </td>
-                        <td
-                          class="text-end d-flex justify-content-center align-content-end">
-                          <div class="h-auto">
-                            <a onclick="openDialogShowDetails(this)"
-                              id="<%=orders[i].id%>"
-                              style="background-color: #002655; color: white;"
-                              class="my-auto btn btn-sm">View</a>
-                            <a onclick="statusHandler(this)"
-                              id="<%=orders[i].id%>"
-                              class="my-auto btn btn-sm btn-success">Done</a>
-                            <a onclick="deleteHandler(this)"
-                              id="<%=orders[i].id%>"
-                              class="my-auto btn btn-sm btn-danger">Delete</a>
-                          </div>
-                        </td>
-                      </tr>
-                      <%}%>
-                      <%}%>
+                     
                     </tbody>
                   </table>
                 </div>
@@ -275,30 +239,31 @@ async function start() {
       </tr>
       `;
     }
+    console.log(pendingOrders);
     for(let i = 0; i < pendingOrders.length; i++){
         tbody.innerHTML += `
           <tr>
             <td class="text-center">
               <div class="d-flex px-2 py-1 text-center">
                 <div class="text-center mx-auto">
-                  <h6 class="mb-0 text-sm text-center">${orders[i].name}</h6>
+                  <h6 class="mb-0 text-sm text-center">${pendingOrders[i].name}</h6>
                 </div>
               </div>
             </td>
             <td
               class="d-none d-lg-table-cell d-md-table-cell text-center">
-              <h6 class="mb-0 text-sm">${orders[i].email}</h6>
+              <h6 class="mb-0 text-sm">${pendingOrders[i].email}</h6>
             </td>
             <td
               class="d-none d-lg-table-cell d-md-table-cell text-center">
-              <h6 class="mb-0 text-sm">${new Date(orders[i].created_at).toLocaleDateString('en-US', { year: 'numeric', month: 'short', day: '2-digit' })}</h6>
+              <h6 class="mb-0 text-sm">${new Date(pendingOrders[i].created_at).toLocaleDateString('en-US', { year: 'numeric', month: 'short', day: '2-digit' })}</h6>
             </td>
             <td class="text-end d-flex justify-content-center align-content-end">
               <div class="h-auto">
-                <a onclick="openDialogShowDetails(this)" id="${orders[i].id}" style="background-color: #002655; color: white;" class="my-auto btn btn-sm">View</a>
-                <a onclick="statusHandler(this)" id="${orders[i].id}" class="my-auto btn btn-sm btn-success">Done</a>
+                <a onclick="openDialogShowDetails(this)" id="${pendingOrders[i].id}" style="background-color: #002655; color: white;" class="my-auto btn btn-sm">View</a>
+                <a onclick="statusHandler(this)" id="${pendingOrders[i].id}" class="my-auto btn btn-sm btn-success">Done</a>
                 <a onclick="deleteHandler(this)"
-                  id="${orders[i].id}"
+                  id="${pendingOrders[i].id}"
                   class="my-auto btn btn-sm btn-danger">Delete</a>
               </div>
             </td>
@@ -322,7 +287,7 @@ async function start() {
     }
     for(let i = 0; i < filterOrders.length; i++){
       const doneHtml = `
-      <a onclick="statusHandler(this)" id="${orders[i].id}" class="my-auto btn btn-sm btn-success">Done</a>`
+      <a onclick="statusHandler(this)" id="${filterOrders[i].id}" class="my-auto btn btn-sm btn-success">Done</a>`
       if(filterOrders[i].status == value){
         tbody.innerHTML += `
           <tr>
