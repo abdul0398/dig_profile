@@ -172,15 +172,23 @@
                   <table class="table align-items-center mb-0">
                     <thead>
                       <tr>
-                        <th
-                          class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 text-center ">Name</th>
-                        <th
-                          class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 ps-2 text-center">Actions</th>
+                        <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 text-center ">
+                          Name
+                        </th>
+                        <th class="d-none d-lg-table-cell d-md-table-cell text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 text-center ">
+                          Email
+                        </th>
+                        <th class="d-none d-lg-table-cell d-md-table-cell text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 text-center ">
+                          Date
+                        </th>
+                        <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 ps-2 text-center">
+                          Actions
+                        </th>
                       </tr>
                     </thead>
                     <tbody>
                       <%for(let i = 0; i < orders.length; i++){%>
-                      <%if(orders[i].status == "pending"){%>
+                        <%if(orders[i].status == "pending"){%>
                       <tr>
                         <td class="text-center">
                           <div class="d-flex px-2 py-1 text-center">
@@ -189,6 +197,14 @@
                                 class="mb-0 text-sm text-center"><%=orders[i].name%></h6>
                             </div>
                           </div>
+                        </td>
+                        <td
+                          class="d-none d-lg-table-cell d-md-table-cell text-center">
+                          <h6 class="mb-0 text-sm"><%=orders[i].email%></h6>
+                        </td>
+                        <td
+                          class="d-none d-lg-table-cell d-md-table-cell text-center">
+                          <h6 class="mb-0 text-sm"><%= new Date(orders[i].created_at).toLocaleDateString('en-US', { year: 'numeric', month: 'short', day: '2-digit' }) %></h6>
                         </td>
                         <td
                           class="text-end d-flex justify-content-center align-content-end">
@@ -245,20 +261,67 @@
   <script>
   let orders = [];
   start();
- async function start() {
+async function start() {
     const res = await fetch('/api/orders');
     const data = await res.json();
     orders = data;
-  }
+    const tbody = document.querySelector('tbody');
+    tbody.innerHTML = "";
+    const pendingOrders = orders.filter(order => order.status == "pending");
+    if(pendingOrders.length == 0){
+      tbody.innerHTML = `
+      <tr>
+        <td colspan="4" class="text-center">No pending orders</td>
+      </tr>
+      `;
+    }
+    for(let i = 0; i < pendingOrders.length; i++){
+        tbody.innerHTML += `
+          <tr>
+            <td class="text-center">
+              <div class="d-flex px-2 py-1 text-center">
+                <div class="text-center mx-auto">
+                  <h6 class="mb-0 text-sm text-center">${orders[i].name}</h6>
+                </div>
+              </div>
+            </td>
+            <td
+              class="d-none d-lg-table-cell d-md-table-cell text-center">
+              <h6 class="mb-0 text-sm">${orders[i].email}</h6>
+            </td>
+            <td
+              class="d-none d-lg-table-cell d-md-table-cell text-center">
+              <h6 class="mb-0 text-sm">${new Date(orders[i].created_at).toLocaleDateString('en-US', { year: 'numeric', month: 'short', day: '2-digit' })}</h6>
+            </td>
+            <td class="text-end d-flex justify-content-center align-content-end">
+              <div class="h-auto">
+                <a onclick="openDialogShowDetails(this)" id="${orders[i].id}" style="background-color: #002655; color: white;" class="my-auto btn btn-sm">View</a>
+                <a onclick="statusHandler(this)" id="${orders[i].id}" class="my-auto btn btn-sm btn-success">Done</a>
+                <a onclick="deleteHandler(this)"
+                  id="${orders[i].id}"
+                  class="my-auto btn btn-sm btn-danger">Delete</a>
+              </div>
+            </td>
+          </tr>
+        `;
+    }
+}
 
   async function filterHandler(select){
     const value = select.value;
     const tbody = document.querySelector('tbody');
     tbody.innerHTML = "";
-    for(let i = 0; i < orders.length; i++){
-      const doneHtml = `<a onclick="statusHandler(this)"
-                              id="${orders[i].id}"
-                              class="my-auto btn btn-sm btn-success">Done</a>`
+    const filterOrders = orders.filter(order => order.status == value);
+    if(filterOrders.length == 0){
+      tbody.innerHTML = `
+      <tr>
+        <td colspan="4" class="text-center">No ${value} orders</td>
+      </tr>
+      `;
+    }
+    for(let i = 0; i < filterOrders.length; i++){
+      const doneHtml = `
+      <a onclick="statusHandler(this)" id="${orders[i].id}" class="my-auto btn btn-sm btn-success">Done</a>`
       if(orders[i].status == value){
         tbody.innerHTML += `
           <tr>
@@ -268,6 +331,14 @@
                   <h6 class="mb-0 text-sm text-center">${orders[i].name}</h6>
                 </div>
               </div>
+            </td>
+            <td
+              class="d-none d-lg-table-cell d-md-table-cell text-center">
+              <h6 class="mb-0 text-sm">${orders[i].email}</h6>
+            </td>
+            <td
+              class="d-none d-lg-table-cell d-md-table-cell text-center">
+              <h6 class="mb-0 text-sm">${ new Date(orders[i].created_at).toLocaleDateString('en-US', { year: 'numeric', month: 'short', day: '2-digit' })}</h6>
             </td>
             <td class="text-end d-flex justify-content-center align-content-end">
               <div class="h-auto">
