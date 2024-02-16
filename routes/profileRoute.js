@@ -128,13 +128,14 @@ try {
         console.log("Error in deleting profile", error.message);
         res.redirect("/error");
     }
-}).get("/profile/:profileId", async (req,res)=>{
+}).get("/profile/:profileId/:profilename", async (req,res)=>{
     try {
-    const profile_base64 = req.params.profileId;
-    const decodedString = Buffer.from(profile_base64, 'base64').toString('ascii');
-    const delimiter = "--";
-    const parts = decodedString.split(delimiter);
-    const profileId = parts[0];
+    const {profileId, profilename} = req.params;
+
+        const [rows] = await __pool.query(`SELECT * FROM profiles WHERE id = ? && name = ?`, [profileId, profilename]);
+        if(rows.length === 0){
+            return res.redirect("/error");
+        }
         // update the view count
         const updateQuery = `UPDATE profiles SET views = views + 1 WHERE id = ?`;
         await __pool.query(updateQuery, [profileId]);

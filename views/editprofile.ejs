@@ -1346,6 +1346,9 @@
             },
             body: JSON.stringify({name, id: id, value: value }),
         })
+        const viewBtn = document.getElementById("viewProfileBtn");
+        const profileId = document.getElementById("profile_id").getAttribute("profile_id");
+        viewBtn.href = `/profile/${profileId}/${value}`;
     }
   
     async function deleteLinkInDatabase(elem) {
