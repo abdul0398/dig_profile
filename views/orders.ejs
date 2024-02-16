@@ -312,6 +312,7 @@ async function start() {
     const tbody = document.querySelector('tbody');
     tbody.innerHTML = "";
     const filterOrders = orders.filter(order => order.status == value);
+    console.log(filterOrders, value);
     if(filterOrders.length == 0){
       tbody.innerHTML = `
       <tr>
@@ -322,30 +323,30 @@ async function start() {
     for(let i = 0; i < filterOrders.length; i++){
       const doneHtml = `
       <a onclick="statusHandler(this)" id="${orders[i].id}" class="my-auto btn btn-sm btn-success">Done</a>`
-      if(orders[i].status == value){
+      if(filterOrders[i].status == value){
         tbody.innerHTML += `
           <tr>
             <td class="text-center">
               <div class="d-flex px-2 py-1 text-center">
                 <div class="text-center mx-auto">
-                  <h6 class="mb-0 text-sm text-center">${orders[i].name}</h6>
+                  <h6 class="mb-0 text-sm text-center">${filterOrders[i].name}</h6>
                 </div>
               </div>
             </td>
             <td
               class="d-none d-lg-table-cell d-md-table-cell text-center">
-              <h6 class="mb-0 text-sm">${orders[i].email}</h6>
+              <h6 class="mb-0 text-sm">${filterOrders[i].email}</h6>
             </td>
             <td
               class="d-none d-lg-table-cell d-md-table-cell text-center">
-              <h6 class="mb-0 text-sm">${ new Date(orders[i].created_at).toLocaleDateString('en-US', { year: 'numeric', month: 'short', day: '2-digit' })}</h6>
+              <h6 class="mb-0 text-sm">${ new Date(filterOrders[i].created_at).toLocaleDateString('en-US', { year: 'numeric', month: 'short', day: '2-digit' })}</h6>
             </td>
             <td class="text-end d-flex justify-content-center align-content-end">
               <div class="h-auto">
-                <a onclick="openDialogShowDetails(this)" id="${orders[i].id}" style="background-color: #002655; color: white;" class="my-auto btn btn-sm">View</a>
-                ${orders[i].status == "pending" ? doneHtml : ""}
+                <a onclick="openDialogShowDetails(this)" id="${filterOrders[i].id}" style="background-color: #002655; color: white;" class="my-auto btn btn-sm">View</a>
+                ${filterOrders[i].status == "pending" ? doneHtml : ""}
                 <a onclick="deleteHandler(this)"
-                  id="${orders[i].id}"
+                  id="${filterOrders[i].id}"
                   class="my-auto btn btn-sm btn-danger">Delete</a>
               </div>
             </td>
