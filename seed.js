@@ -114,6 +114,11 @@ module.exports.sections = [
                 type: "whats",
                 name: "WhatsApp",
                 link: ""
+            },
+            {
+                type: "tiktok",
+                name: "TikTok",
+                link: ""
             }
         ]
     },

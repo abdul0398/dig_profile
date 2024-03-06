@@ -263,6 +263,13 @@
               </a>
             </span>
           <%}%>
+          <%if(social["tiktok"] && social["tiktok"].link != "#"){%>
+            <span style="margin: 0px 10px;">
+              <a href="#" onclick="openLink('<%=social.tiktok.link%>')">
+                <i class="fa-brands fa-tiktok fa-2xl" style="color: #ff1212;"></i>
+              </a>
+            </span>
+          <%}%>
           
          
         </div>

@@ -685,6 +685,7 @@
             const linkedin = socials.links.find(link => link.type == "linked");
             const call = socials.links.find(link => link.type == "call");
             const whatsapp = socials.links.find(link => link.type == "whats");
+            const tiktok = socials.links.find(link => link.type == "tiktok");
             profile_preview_container.innerHTML += `  <div style="margin-top: 10px;">
                         <div style="display: flex;
                         margin-top: 10px;
@@ -699,11 +700,14 @@
                             list-style: none;">
                              <i class="fa-brands fa-linkedin fa-xl" style="color: #0066C9;"></i>
                             </li> `:""}
-                         ${insta?` <li style="margin: 0px 10px;text-decoration: none;
+                        ${insta?` <li style="margin: 0px 10px;text-decoration: none;
                             list-style: none;">
                              <i class="fa-brands fa-square-instagram fa-xl" style="color: #0066C9;"></i>
                             </li> `:""}  
-                           
+                        ${tiktok?` <li style="margin: 0px 10px;text-decoration: none;
+                        list-style: none;">
+                            <i class="fa-brands fa-tiktok fa-xl" style="color: #0066C9;"></i>
+                        </li> `:""}
                         </div>
                         ${call || whatsapp?`<p style="color: black;font-size: 12px;text-align: center;">Call Us</p>`:""}
                         ${call && call.link != ""?`<li style="font-size: 12px; margin:0px auto 5px auto; display: flex; justify-content: center; align-items: center; background-color: #0066C9; width: 160px; border-radius: 20px; height: 32px;">
@@ -737,6 +741,7 @@
             const linkedin = socials.links.find(link => link.type == "linked");
             const call = socials.links.find(link => link.type == "call");
             const whatsapp = socials.links.find(link => link.type == "whats");
+            const tiktok = socials.links.find(link => link.type == "tiktok");
             profile_preview_container_temp2.innerHTML += `  <div style="margin-top: 10px;">
                         <div style="display: flex;
                         margin-top: 10px;
@@ -755,6 +760,11 @@
                             list-style: none;">
                              <i class="fa-brands fa-square-instagram fa-xl" style="color: #b68e00;"></i>
                             </li> `:""}  
+                         ${tiktok?` <li style="margin: 0px 10px;text-decoration: none;
+                        list-style: none;">
+                            <i class="fa-brands fa-tiktok fa-xl" style="color: #b68e00;"></i>
+                        </li> `:""}
+                        
                            
                         </div>
                         ${call || whatsapp?`<p style="color: white;font-size: 12px;text-align: center;">Call Us</p>`:""}
@@ -788,6 +798,7 @@
             const linkedin = socials.links.find(link => link.type == "linked");
             const call = socials.links.find(link => link.type == "call");
             const whatsapp = socials.links.find(link => link.type == "whats");
+            const tiktok = socials.links.find(link => link.type == "tiktok");
             profile_preview_container_temp3.innerHTML += `  <div style="margin-top: 10px;">
                         <div style="display: flex;
                         margin-top: 10px;
@@ -802,10 +813,15 @@
                             list-style: none;">
                              <i class="fa-brands fa-linkedin fa-xl" style="color: #ff2c1d;"></i>
                             </li> `:""}
-                         ${insta?` <li style="margin: 0px 10px;text-decoration: none;
+                        ${insta?` <li style="margin: 0px 10px;text-decoration: none;
                             list-style: none;">
                              <i class="fa-brands fa-square-instagram fa-xl" style="color: #ff2c1d;"></i>
                             </li> `:""}  
+
+                        ${tiktok?` <li style="margin: 0px 10px;text-decoration: none;
+                            list-style: none;">
+                                <i class="fa-brands fa-tiktok fa-xl" style="color: #ff2c1d;"></i>
+                            </li> `:""}
                            
                         </div>
                         ${call || whatsapp?`<p style="color: black;font-size: 12px;text-align: center;">Call Us</p>`:""}

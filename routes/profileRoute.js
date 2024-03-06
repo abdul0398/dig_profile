@@ -277,7 +277,6 @@ try {
     }
 
     const [forms] = await __pool.query(`SELECT * FROM form WHERE profileId = ?`, [profileId]);
-
     responseData.profile = profile[0];
     responseData.sections = sections || [];
     responseData.forms = forms || [];
