@@ -226,7 +226,7 @@
                   <%}else if(link.type == "form"){%>
                     <button class="text_style" form_name="<%=link.name%>"  style="position: relative; border: none; cursor: pointer; color: white; margin:10px auto 10px auto; display: flex; justify-content: center; align-items: center; background-color: #0066C9; width: 330px; border-radius: 35px; height: 50px;" onclick="showForm(this, false)"><%=link.name%></button>
                   <%}else if(link.type == "about_us"){%>
-                    <a target="_blank" href="/aboutus/<%=profile.id%>" style="position: relative; cursor: pointer; text-decoration: none; color: white;  margin:10px auto 10px auto; display: flex; justify-content: center; align-items: center; background-color: #0066C9; width: 330px; border-radius: 35px; height: 50px;" >
+                    <a target="_blank" href="/aboutus/<%=profile.id%>?temp=1" style="position: relative; cursor: pointer; text-decoration: none; color: white;  margin:10px auto 10px auto; display: flex; justify-content: center; align-items: center; background-color: #0066C9; width: 330px; border-radius: 35px; height: 50px;" >
                       About
                       </a>
                   <%}else if(link.type == "calculator"){%>

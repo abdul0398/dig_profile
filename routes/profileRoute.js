@@ -327,9 +327,10 @@ try {
     } 
 }).get("/aboutus/:profileId", async (req,res)=>{
     const {profileId} = req.params;
+    const {temp} = req.query;
     try {
         const [rows] = await __pool.query(`SELECT profile_img_path,about_us from profiles WHERE id = ?`, [profileId]);
-        res.render("aboutUs.ejs", {about_us:rows[0].about_us, img_link:rows[0].profile_img_path, id:profileId});
+        res.render("aboutUs.ejs", {about_us:rows[0].about_us, img_link:rows[0].profile_img_path, id:profileId, temp:temp});
     } catch (error) {
         console.log(error.message);
         res.redirect("/error");
