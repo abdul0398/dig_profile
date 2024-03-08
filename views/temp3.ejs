@@ -202,7 +202,7 @@
                 <%}else if(link.type == "form"){%>
                   <button form_name="<%=link.name%>" style="position: relative; font-size: 16px; border: none; cursor: pointer; color: white; margin: 10px auto 10px auto; display: flex; justify-content: center; align-items: center; background-image: linear-gradient(178.54deg, #ff1212 7.67%, #ff2c1d); width: 330px; border-radius: 35px; height: 50px;" onclick="showForm(this, false)"><%=link.name%></button>
                   <%}else if(link.type == "about_us"){%>
-                  <a target="_blank" href="/aboutus/<%=profile.id%>?temp=3" style="position: relative; cursor: pointer; text-decoration: none; color: white;  margin:10px auto 10px auto; display: flex; justify-content: center; align-items: center; background-image: linear-gradient(178.54deg, #ff1212 7.67%, #ff2c1d); width: 330px; border-radius: 35px; height: 50px;" >
+                  <a target="_blank" href="/aboutus/<%=profile.id%>" style="position: relative; cursor: pointer; text-decoration: none; color: white;  margin:10px auto 10px auto; display: flex; justify-content: center; align-items: center; background-image: linear-gradient(178.54deg, #ff1212 7.67%, #ff2c1d); width: 330px; border-radius: 35px; height: 50px;" >
                     About
                     </a>
                 <%}else if(link.type == "calculator"){%>

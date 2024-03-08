@@ -327,10 +327,9 @@ try {
     } 
 }).get("/aboutus/:profileId", async (req,res)=>{
     const {profileId} = req.params;
-    const {temp} = req.query;
     try {
-        const [rows] = await __pool.query(`SELECT profile_img_path,about_us from profiles WHERE id = ?`, [profileId]);
-        res.render("aboutUs.ejs", {about_us:rows[0].about_us, img_link:rows[0].profile_img_path, id:profileId, temp:temp});
+        const [rows] = await __pool.query(`SELECT profile_img_path,about_us, template_selected from profiles WHERE id = ?`, [profileId]);
+        res.render("aboutUs.ejs", {about_us:rows[0].about_us, img_link:rows[0].profile_img_path, id:profileId, temp:rows[0].template_selected});
     } catch (error) {
         console.log(error.message);
         res.redirect("/error");
