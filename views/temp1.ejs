@@ -294,7 +294,7 @@
               <%}%>
               <%if(social.whats && social.whats.link != ""){%>
                 <li onclick="linkHandler(this)" redirect_Url="https://wa.me/<%=social.whats.link%>"  style="cursor: pointer; background-color: #0066C9; margin:0px auto 5px auto; display: flex; justify-content: center; align-items: center; width: 165px; border-radius: 35px; height: 50px;">
-                  <a target="_blank" style="text-decoration: none; color: rgb(255, 255, 255);" >Whats App</a>
+                  <a target="_blank" style="text-decoration: none; color: rgb(255, 255, 255);" ><%=social.whats.name%></a>
                 </li>
               <%}%>
             </div>
