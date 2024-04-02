@@ -232,7 +232,7 @@
         <img class="child" alt="" src="/<%=profile.profile_img_path%>" />
 
   <div style="max-height: 350px;">
-    <div style="height: 150px;">
+    <div style="height: 80px;">
       <div style="width: 20.63rem;
       margin: auto;
       height: 2.13rem;
@@ -280,30 +280,26 @@
       </div>
     </div>
 
-    <%if((social["whats"]  || social["call"])){%>
-      <div style="height: 200px;">
-        <div class="call-us-parent">
-          <b class="call-us">Call us</b>
-          <div class="group-parent1">
-            <%if(social["call"] && social["call"].link != ""){%>
-              <div class="rectangle-parent">
-                <a style="color: rgb(255, 255, 255);" href="tel:<%=social["call"].link%>">
-                  <div class="rectangle-div"></div>
-                  <b class="book-and-appointment"><%=social["call"].name%></b>
-                </a>
-              </div>
-            <%}%>
-           
-            <%if(social["whats"]  && social["whats"].link != "" ){%>
-              <div class="rectangle-group">
-                <a target="_blank" href="https://wa.me/<%=social["whats"].link%>" style="color: black;">
-                  <div class="group-child3"></div>
-                  <b class="whatsapp"><%=social["whats"].name%></b>
-                </a>
-              </div>
-            <%}%>
-            
+    <%if(social["call"] || social["whats"]){%>
+      <div style="position: relative; padding-bottom: 50px;">
+        <p style="color: black; text-align: center;">Call us</p>
+        <div style="display: flex; justify-content: space-around; width: 90%; margin: auto;">
+
+          <%if(social["call"] && social["call"].link != ""){%>
+          <div style="width: 165px;">
+            <a target="_blank" href="tel:<%=social["call"].link%>">
+              <button style="background-color: #ff1212; width: 100%; height: 50px; border:none; border-radius: 35px; color: white;"><%=social["call"].name%></button>
+            </a>
           </div>
+          <%}%>
+          <%if(social["whats"] && social["whats"].link != ""){%>
+          <div style="width: 165px;">
+            <a target="_blank" href="https://wa.me/<%=social["whats"].link%>">
+              <button style="background-color: transparent; width: 100%; height: 50px; border:1px solid #ff1212 ; border-radius: 35px; color: black;"><%=social["whats"].name%></button>
+            </a>
+          </div>
+          <%}%>
+
         </div>
       </div>
     <%}%>

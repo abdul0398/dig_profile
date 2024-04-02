@@ -231,13 +231,13 @@ body {
     left: calc(50% - 165px);
     border-radius: var(--br-6xl);
     background: linear-gradient(178.54deg, #ff1212 7.67%, #ff2c1d);
-    width: 20.63rem;
+    width: 9.63rem;
     height: 3.13rem;
   }
   .book-and-appointment {
     position: absolute;
-    top: 0.94rem;
-    left: 50%;
+    top: 0.8rem;
+    left: 23%;
     transform: translateX(-50%);
   }
   .group-child3,
@@ -253,16 +253,16 @@ body {
     border-radius: var(--br-6xl);
     border: 1px solid var(--color-red-100);
     box-sizing: border-box;
-    width: 20.69rem;
+    width: 9.69rem;
   }
   .whatsapp {
     position: absolute;
-    top: 0.94rem;
-    left: calc(50% - 40.5px);
+    top: 0.8rem;
+    left: calc(50% - 125.5px);
   }
   .rectangle-group {
-    top: 4.38rem;
-    left: calc(50% - 165.5px);
+    top: 0rem;
+    left: calc(50% - 3.5px);
     height: 3.13rem;
     color: var(--color-red-100);
   }
