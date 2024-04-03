@@ -516,7 +516,10 @@ try {
 }).post("/api/profile/update/aboutUs",verify, async (req,res)=>{
     const {id, aboutUs} = req.body;
     try {
-        await __pool.query(`UPDATE profiles SET about_us = ? WHERE id = ?`, [JSON.stringify(aboutUs), id]);
+        const fieldName = aboutUs[0];
+        const trimAboutus = aboutUs.slice(1);
+        await __pool.query(`UPDATE profiles SET about_us = ? WHERE id = ?`, [JSON.stringify(trimAboutus), id]);
+        await __pool.query(`UPDATE links SET name = ? WHERE type = "about_us" AND sectionId IN (SELECT id from sections WHERE profileId = ?)`, [fieldName, id]);
         res.status(200).json({message:"Sucessfully Changed"});
     } catch (error) {
         console.log(error);
@@ -526,7 +529,9 @@ try {
     const {profileId} = req.params;
     try {
         const [rows] = await __pool.query(`SELECT about_us from profiles WHERE id = ?`, [profileId]);
-        res.status(200).json({about_us:rows[0].about_us});
+        const [about_us] = await __pool.query('SELECT * from links where type = "about_us" AND sectionId IN (SELECT id from sections WHERE profileId = ?)', [profileId]);
+        const fieldName = about_us[0].name;
+        res.status(200).json({about_us:rows[0].about_us, fieldName:fieldName});
     } catch (error) {
         console.log(error.message);
         res.redirect("/error");

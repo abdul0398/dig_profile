@@ -1,1065 +1,1431 @@
- <!-- Cropper.js CSS -->
- <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/cropperjs/1.6.1/cropper.min.css" integrity="sha512-hvNR0F/e2J7zPPfLC9auFe3/SE0yG4aJCOd/qxew74NN7eyiSKjr7xJJMu1Jy2wf7FXITpWS1E/RY8yzuXN7VA==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+<!-- Cropper.js CSS -->
+<link
+  rel="stylesheet"
+  href="https://cdnjs.cloudflare.com/ajax/libs/cropperjs/1.6.1/cropper.min.css"
+  integrity="sha512-hvNR0F/e2J7zPPfLC9auFe3/SE0yG4aJCOd/qxew74NN7eyiSKjr7xJJMu1Jy2wf7FXITpWS1E/RY8yzuXN7VA=="
+  crossorigin="anonymous"
+  referrerpolicy="no-referrer"
+/>
 
 <!-- Cropper.js JavaScript -->
-<script src="https://cdnjs.cloudflare.com/ajax/libs/cropperjs/1.6.1/cropper.min.js" integrity="sha512-9KkIqdfN7ipEW6B6k+Aq20PV31bjODg4AA52W+tYtAE0jE0kMx49bjJ3FgvS56wzmyfMUHbQ4Km2b7l9+Y/+Eg==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+<script
+  src="https://cdnjs.cloudflare.com/ajax/libs/cropperjs/1.6.1/cropper.min.js"
+  integrity="sha512-9KkIqdfN7ipEW6B6k+Aq20PV31bjODg4AA52W+tYtAE0jE0kMx49bjJ3FgvS56wzmyfMUHbQ4Km2b7l9+Y/+Eg=="
+  crossorigin="anonymous"
+  referrerpolicy="no-referrer"
+></script>
 <!--Sortable Js-->
 <script src="https://cdn.jsdelivr.net/npm/sortablejs@latest/Sortable.min.js"></script>
 <body>
-    <style>
+  <style>
     * {
-        font-family: 'Arial', sans-serif;
+      font-family: "Arial", sans-serif;
     }
-    
+
     body {
-        font-family: 'Arial', sans-serif;
-        margin: 0;
-        padding: 0;
-        background-color: #f4f4f4;
+      font-family: "Arial", sans-serif;
+      margin: 0;
+      padding: 0;
+      background-color: #f4f4f4;
     }
 
     .container {
-        max-width: 600px;
-        margin: 0 auto;
-        padding: 20px;
-        text-align: center;
+      max-width: 600px;
+      margin: 0 auto;
+      padding: 20px;
+      text-align: center;
     }
 
-    .header, .footer {
-        padding: 10px 0;
+    .header,
+    .footer {
+      padding: 10px 0;
     }
 
-    .profile-image-options, .theme-options {
-        display: flex;
-        margin-bottom: 20px;
+    .profile-image-options,
+    .theme-options {
+      display: flex;
+      margin-bottom: 20px;
     }
 
     .profile-image {
-        padding: 6px 8px;
-        border-radius: 24px;
-        color: black;
-        margin-right: 5px;
-        cursor: pointer;
+      padding: 6px 8px;
+      border-radius: 24px;
+      color: black;
+      margin-right: 5px;
+      cursor: pointer;
     }
 
     .theme-card {
-        width: 30%;
-        border: 1px solid #ccc;
-        border-radius: 8px;
-        overflow: hidden;
-        background-color: #fff;
+      width: 30%;
+      border: 1px solid #ccc;
+      border-radius: 8px;
+      overflow: hidden;
+      background-color: #fff;
     }
 
     .theme-header {
-        background-color: #333;
-        color: #fff;
-        padding: 5px;
+      background-color: #333;
+      color: #fff;
+      padding: 5px;
     }
 
     .theme-content {
-        padding: 10px;
-        height: 100px; /* Adjust as needed */
+      padding: 10px;
+      height: 100px; /* Adjust as needed */
     }
 
     .select-button {
-        width: 100%;
-        padding: 10px;
-        border: none;
-        background-color: #0084ff;
-        color: #fff;
-        cursor: pointer;
+      width: 100%;
+      padding: 10px;
+      border: none;
+      background-color: #0084ff;
+      color: #fff;
+      cursor: pointer;
     }
 
     .continue-button {
-        width: 35%;
-        height: 35px;
-        padding: 5px;
-        border: none;
-        background-color: #002655;
-        border-radius: 24px;
-        color: #fff;
-        font-size: 12px;
+      width: 35%;
+      height: 35px;
+      padding: 5px;
+      border: none;
+      background-color: #002655;
+      border-radius: 24px;
+      color: #fff;
+      font-size: 12px;
     }
-    .continue-button:hover{
-        cursor: pointer;
+    .continue-button:hover {
+      cursor: pointer;
     }
     .theme-options .image-container {
-        width: 100px;
-        overflow: hidden;
-        height: 85px;
-        margin: 0px 10px;
-        border: 1px solid #cdcdcd;
-        border-radius: 13px;
-        cursor: pointer;
-
+      width: 100px;
+      overflow: hidden;
+      height: 85px;
+      margin: 0px 10px;
+      border: 1px solid #cdcdcd;
+      border-radius: 13px;
+      cursor: pointer;
     }
 
     .theme-options img {
-        width: 100%;
-        object-position: center;
+      width: 100%;
+      object-position: center;
     }
-    .profile_edit_container{
-        display: none;
-       
-        height: 100%;
-        
+    .profile_edit_container {
+      display: none;
+
+      height: 100%;
     }
-    .selected{
-        box-shadow: 0px 0px 39px 5px rgba(0,0,0,1);
+    .selected {
+      box-shadow: 0px 0px 39px 5px rgba(0, 0, 0, 1);
     }
-    #add_profile{
-        background-size: cover !important;
-        background-position: center !important;
-        font-size: 14px;
+    #add_profile {
+      background-size: cover !important;
+      background-position: center !important;
+      font-size: 14px;
     }
-    .footer{
-        position: absolute;
-        bottom: 10px;
-        width: 50%;
+    .footer {
+      position: absolute;
+      bottom: 10px;
+      width: 50%;
     }
-    .link{
-        background-color: beige;
-        border-radius: 20px;
-        height: 120px;
-        display: flex;
-        padding: 20px;
-        flex-direction: column;
-        margin-top: 10px;
+    .link {
+      background-color: beige;
+      border-radius: 20px;
+      height: 120px;
+      display: flex;
+      padding: 20px;
+      flex-direction: column;
+      margin-top: 10px;
     }
-    .link input{
-        border: none;
-        border-bottom: 1px solid rgb(180, 180, 180);
-        background-color: transparent;
-    } 
-    #addLinkButton, #addHeadingButton, #addFormBtn, #editFormBtn, #editgallery{
-        padding: 6px 8px;
-        border: 1px solid gray;
-        border-radius: 24px;
-        background-color: #FFFFFF !important;
-        color: gray !important;
-        cursor: pointer;
-        font-size: 14px;
+    .link input {
+      border: none;
+      border-bottom: 1px solid rgb(180, 180, 180);
+      background-color: transparent;
     }
-    .link_container, #link_container_dynamic{
-        width: 100%;
-        overflow: auto;
-       
-        
+    #addLinkButton,
+    #addHeadingButton,
+    #addFormBtn,
+    #editFormBtn,
+    #editgallery {
+      padding: 6px 8px;
+      border: 1px solid gray;
+      border-radius: 24px;
+      background-color: #ffffff !important;
+      color: gray !important;
+      cursor: pointer;
+      font-size: 14px;
     }
-    #charCount{
-        font-size: 10px;
-        color: #7b7b7b;
-        width: 95%;
-        margin: 10px auto 0px auto;
+    .link_container,
+    #link_container_dynamic {
+      width: 100%;
+      overflow: auto;
     }
-    .deleteButton{
-        display: inline;
-        width: fit-content;
-        cursor: pointer;
-        margin: auto;
+    #charCount {
+      font-size: 10px;
+      color: #7b7b7b;
+      width: 95%;
+      margin: 10px auto 0px auto;
     }
-    .break_between_inputs{
-        width: 100%;
+    .deleteButton {
+      display: inline;
+      width: fit-content;
+      cursor: pointer;
+      margin: auto;
     }
-    #drag_icon{
-        cursor: grab;
+    .break_between_inputs {
+      width: 100%;
     }
-    .fixed_link{
-        background-color: beige;
-        border-radius: 20px;
-        display: flex;
-        padding: 20px;
-        flex-direction: column;
-        margin-top: 10px;
+    #drag_icon {
+      cursor: grab;
     }
-    .fixed_link input{
-        border: none;
-        border-bottom: 1px solid rgb(180, 180, 180);
-        background-color: transparent;
+    .fixed_link {
+      background-color: beige;
+      border-radius: 20px;
+      display: flex;
+      padding: 20px;
+      flex-direction: column;
+      margin-top: 10px;
     }
-    .d_wrap{
-        flex-wrap: nowrap;
+    .fixed_link input {
+      border: none;
+      border-bottom: 1px solid rgb(180, 180, 180);
+      background-color: transparent;
+    }
+    .d_wrap {
+      flex-wrap: nowrap;
     }
     @media only screen and (max-width: 600px) {
-    .d_wrap{
+      .d_wrap {
         flex-wrap: wrap;
-    }
-    .temp{
+      }
+      .temp {
         display: none !important;
-    }
+      }
     }
     .modal {
-        display: none;
-        position: fixed;
-        z-index: 2;
-        left: 0;
-        top: 0;
-        width: 100%;
-        height: 100%;
-        overflow: auto;
-        background-color: rgba(0,0,0,0.4);
+      display: none;
+      position: fixed;
+      z-index: 2;
+      left: 0;
+      top: 0;
+      width: 100%;
+      height: 100%;
+      overflow: auto;
+      background-color: rgba(0, 0, 0, 0.4);
     }
 
     .modal-content {
-        background-color: #fefefe;
-        margin: 6% auto;
-        padding: 20px;
-        border: none;
-        width: fit-content; /* Adjust width as needed */
-        max-width: 500px;
-        height: auto; /* Adjust height automatically based on content */
-        max-height: 80%; /* Limit the maximum height */
-        background: transparent;
-
+      background-color: #fefefe;
+      margin: 6% auto;
+      padding: 20px;
+      border: none;
+      width: fit-content; /* Adjust width as needed */
+      max-width: 500px;
+      height: auto; /* Adjust height automatically based on content */
+      max-height: 80%; /* Limit the maximum height */
+      background: transparent;
     }
 
     .modal-footer {
-        padding: 10px;
+      padding: 10px;
     }
 
     #profileImage {
-        max-width: 100%; /* Ensure image does not exceed the width of modal */
-        height: auto; /* Adjust height automatically */
-        max-height: 400px; /* Maximum height for the image */
+      max-width: 100%; /* Ensure image does not exceed the width of modal */
+      height: auto; /* Adjust height automatically */
+      max-height: 400px; /* Maximum height for the image */
     }
 
     /* Responsive adjustments */
     @media screen and (max-width: 600px) {
-        .modal-content {
-            width: 80%;
-        }
+      .modal-content {
+        width: 80%;
+      }
     }
-    .display_none{
-        display: none;
+    .display_none {
+      display: none;
     }
-    .text_style{
-        color: #000;
-        font-family: Inter;
-        font-size: 12px;
-        font-style: normal;
-        font-weight: 400;
-        line-height: normal; 
+    .text_style {
+      color: #000;
+      font-family: Inter;
+      font-size: 12px;
+      font-style: normal;
+      font-weight: 400;
+      line-height: normal;
     }
-    .input_about{
-        width: 95%;
-        display: block;
-        margin: 10px auto;
-        margin-top: auto;
-        border-radius: 7px;
-        border: none;
-        font-size: 12px;
-        padding: 8px 20px;
+    .input_about {
+      width: 95%;
+      display: block;
+      margin: 10px auto;
+      margin-top: auto;
+      border-radius: 7px;
+      border: none;
+      font-size: 12px;
+      padding: 8px 20px;
     }
-    .textarea_desc{
-        width: 95%;
-        display: block;
-        margin: auto;
-        margin-top: auto;
-        font-size: 12px;
-        border-radius: 7px;
-        border: none;
-        padding: 8px 20px 20px;
-        margin-top: 10px;
-        resize: none;
+    .textarea_desc {
+      width: 95%;
+      display: block;
+      margin: auto;
+      margin-top: auto;
+      font-size: 12px;
+      border-radius: 7px;
+      border: none;
+      padding: 8px 20px 20px;
+      margin-top: 10px;
+      resize: none;
     }
 
-    .addnew-section-btn{
-        width: 320px;
-        border-radius: 19px;
-        font-size: 12px;
-        padding: 4px 7px;
-        border: none;
-        background-color: #0066C9 !important;
+    .addnew-section-btn {
+      width: 320px;
+      border-radius: 19px;
+      font-size: 12px;
+      padding: 4px 7px;
+      border: none;
+      background-color: #0066c9 !important;
     }
-    .add-more-filed-btn{
-        border-radius: 20px;
-        font-size: 10px;
-        background-color: #0066C9 !important;
-        padding: 3px 7px;
-        margin: 10px auto 10px auto;
-        width: 90px;
+    .add-more-filed-btn {
+      border-radius: 20px;
+      font-size: 10px;
+      background-color: #0066c9 !important;
+      padding: 3px 7px;
+      margin: 10px auto 10px auto;
+      width: 90px;
     }
-    .input_container_with_eye{
-        width: 95%;
-        margin: auto;
-        background-color: white;
-        display: flex;
-        border-radius: 10px;
-        padding: 12px 10px;
-        margin-bottom: 8px;
+    .input_container_with_eye {
+      width: 95%;
+      margin: auto;
+      background-color: white;
+      display: flex;
+      border-radius: 10px;
+      padding: 12px 10px;
+      margin-bottom: 8px;
     }
     .input_container_with_eye input {
-        width: 100%;
-        border: none;
+      width: 100%;
+      border: none;
     }
-    .eye{
-        cursor: pointer;
+    .eye {
+      cursor: pointer;
     }
-    .eye_open{
-        color: #0066C9;
+    .eye_open {
+      color: #0066c9;
     }
-    .eye_close{
-        color: #000;
+    .eye_close {
+      color: #000;
     }
-    #swal-input3{
-        resize: vertical;
-        height: 150px;
-        width: auto;
-        transition: border-color .1s,box-shadow .1s;
-        border: 1px solid #d9d9d9;
-        border-radius: .1875em;
-        background: rgba(0,0,0,0);
-        box-shadow: inset 0 1px 1px rgba(0,0,0,.06),0 0 0 3px rgba(0,0,0,0);
-        font-size: 1.125em;  margin: 1em 2em 3px;
-        color: #4a4a4a;
+    #swal-input3 {
+      resize: vertical;
+      height: 150px;
+      width: auto;
+      transition: border-color 0.1s, box-shadow 0.1s;
+      border: 1px solid #d9d9d9;
+      border-radius: 0.1875em;
+      background: rgba(0, 0, 0, 0);
+      box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.06),
+        0 0 0 3px rgba(0, 0, 0, 0);
+      font-size: 1.125em;
+      margin: 1em 2em 3px;
+      color: #4a4a4a;
     }
-    #swal-input3::placeholder{
-       color: #b7b7b7;
+    #swal-input3::placeholder {
+      color: #b7b7b7;
     }
-    .swal-height{
-        height: 80vh;
+    .swal-height {
+      height: 80vh;
     }
-    #swal-input1, #swal-input2{
-        width: 80%;
+    #swal-input1,
+    #swal-input2 {
+      width: 80%;
     }
     @media (max-width: 600px) {
-        #swal-input1, #swal-input2{
-            width: 70%;
-        }
+      #swal-input1,
+      #swal-input2 {
+        width: 70%;
+      }
     }
-    </style>
+  </style>
 
-<div class="profile_edit_container ms-3">
-    <div style="text-align: end;">
-        <span style="text-align: end; cursor: pointer;" onclick="closeEditDiv()">X</span>
+  <div class="profile_edit_container ms-3">
+    <div style="text-align: end">
+      <span style="text-align: end; cursor: pointer" onclick="closeEditDiv()"
+        >X</span
+      >
     </div>
     <p hidden id="profile_id"></p>
     <section id="step1" class="profile-selection">
       <header>
-        <h4 style="color: black;">Choose your appearance</h4>
-        <p style="font-size: 10px; opacity: 0.5;" >You can change this and view more options later.</p>
+        <h4 style="color: black">Choose your appearance</h4>
+        <p style="font-size: 10px; opacity: 0.5">
+          You can change this and view more options later.
+        </p>
       </header>
-    <div class="theme-options">
+      <div class="theme-options">
         <div template_id="1" class="image-container">
-            <img src="./temp1.jpg">
+          <img src="./temp1.jpg" />
         </div>
-        
+
         <div template_id="2" class="image-container">
-          <img src="./temp2.jpg">
+          <img src="./temp2.jpg" />
         </div>
-        
+
         <div template_id="3" class="image-container">
-          <img src="./temp3.jpg" >
+          <img src="./temp3.jpg" />
         </div>
       </div>
-      <button id="nextBtn" onclick="showNext(this)" class="continue-button">Continue</button>
-  </section>
-  <section style="display: none;" id="step2" class="section_two two">
-
-    <div id="modal" class="modal">
+      <button id="nextBtn" onclick="showNext(this)" class="continue-button">
+        Continue
+      </button>
+    </section>
+    <section style="display: none" id="step2" class="section_two two">
+      <div id="modal" class="modal">
         <div class="modal-content">
-            <img id="profileImage" />
-            <div style="text-align: center;" class="modal_footer">
-                <button style="width: 250px;
+          <img id="profileImage" />
+          <div style="text-align: center" class="modal_footer">
+            <button
+              style="
+                width: 250px;
                 padding: 5px 10px;
                 border-radius: 24px;
-                height: 50px;" id="cropImage">Crop Image</button>
-            </div>
+                height: 50px;
+              "
+              id="cropImage"
+            >
+              Crop Image
+            </button>
+          </div>
         </div>
-    </div>
-    
+      </div>
 
-    <div class="d_wrap" style="margin-bottom: 5px; display: flex; justify-content: space-between;">
+      <div
+        class="d_wrap"
+        style="
+          margin-bottom: 5px;
+          display: flex;
+          justify-content: space-between;
+        "
+      >
         <div class="link_container" id="linkContainer">
-            <div style="text-align: end;">
-                <a target="_blank" href="#" id="viewProfileBtn" style="background-color: #0066C9 !important;"  class="btn btn-sm btn-facebook mt-3 me-2" >
-                    View
-                </a>
-                <button class="btn btn-sm mt-3 " style=" background-color: #0066C9 !important;" id="show_dialog">Change Sections Order</button>
+          <div style="text-align: end">
+            <a
+              target="_blank"
+              href="#"
+              id="viewProfileBtn"
+              style="background-color: #0066c9 !important"
+              class="btn btn-sm btn-facebook mt-3 me-2"
+            >
+              View
+            </a>
+            <button
+              class="btn btn-sm mt-3"
+              style="background-color: #0066c9 !important"
+              id="show_dialog"
+            >
+              Change Sections Order
+            </button>
+          </div>
+          <div style="width: 100%; margin: auto">
+            <p
+              style="margin-left: 25px; margin-bottom: 12px"
+              class="text_style"
+            >
+              Upload Your Picture
+            </p>
+            <div
+              id="add_profile"
+              style="
+                cursor: pointer;
+                display: flex;
+                justify-content: center;
+                align-items: center;
+                border: 1px dashed #000;
+                background-color: #f1f5f7;
+                height: 140px;
+                width: 90%;
+                margin: 0px auto 10px auto;
+              "
+            >
+              <div style="text-align: center">
+                <input
+                  hidden
+                  type="file"
+                  id="profile_image_upload"
+                  name="profile_image"
+                  accept="image/*"
+                  style="display: none"
+                />
+                <i
+                  class="fa-solid fa-cloud-arrow-up fa-2xl"
+                  style="color: #99aebe"
+                ></i>
+                <p
+                  style="
+                    margin-top: 10px;
+                    color: #6f6f6f;
+                    font-size: 12px;
+                    font-weight: bold;
+                  "
+                >
+                  Drag And drop files here
+                </p>
+              </div>
             </div>
-            <div style="width: 100%; margin: auto;">     
-                <p style="margin-left: 25px; margin-bottom: 12px;" class="text_style">Upload Your Picture</p>
-                <div id="add_profile" style="cursor: pointer; display: flex; justify-content: center; align-items: center; border: 1px dashed #000; background-color: #F1F5F7; height: 140px; width: 90%; margin: 0px auto 10px auto;">
-                    <div style="text-align: center;">
-                        <input hidden type="file" id="profile_image_upload" name="profile_image" accept="image/*" style="display: none;">
-                        <i class="fa-solid fa-cloud-arrow-up fa-2xl" style="color: #99AEBE;"></i>
-                        <p style="margin-top: 10px; color: #6f6f6f;
-                        font-size: 12px; font-weight: bold;">Drag And drop files here</p>
-                    </div>
-                </div>
-            </div>
-        
-            <!-- About Section -->
-            <div style="width: 100%; margin: 20px auto;">     
-                <p style="margin-left: 25px; margin-bottom: 12px;" class="text_style">Write Short Bio</p>
-                <div id="add_profile" style="display: flex; border-radius: 10px; background-color: #F1F5F7; min-height: 140px; width: 90%; margin: 0px auto 10px auto;">
-                    <div style="height: 80%; width: 100%; margin-top: 10px;">
-                        <input onblur="updateProfileInfo(this)" id="profile_name_edit" name="name" placeholder="Write Your Name Here" class="input_about" type="text">
-                        <textarea onblur="updateProfileInfo(this)" id="profile_desc" oninput="limitTextarea(); updateCharCount();" maxlength="250" name="description" class="textarea_desc" style="display: block;" placeholder="Write Short Bio Here (250 Char Max)"></textarea> 
-                        <div id="charCount"></div>
-                    </div>
-                </div>
-            </div>
+          </div>
 
-            <div id="dynamic_section_container">
-
-
+          <!-- About Section -->
+          <div style="width: 100%; margin: 20px auto">
+            <p
+              style="margin-left: 25px; margin-bottom: 12px"
+              class="text_style"
+            >
+              Write Short Bio
+            </p>
+            <div
+              id="add_profile"
+              style="
+                display: flex;
+                border-radius: 10px;
+                background-color: #f1f5f7;
+                min-height: 140px;
+                width: 90%;
+                margin: 0px auto 10px auto;
+              "
+            >
+              <div style="height: 80%; width: 100%; margin-top: 10px">
+                <input
+                  onblur="updateProfileInfo(this)"
+                  id="profile_name_edit"
+                  name="name"
+                  placeholder="Write Your Name Here"
+                  class="input_about"
+                  type="text"
+                />
+                <textarea
+                  onblur="updateProfileInfo(this)"
+                  id="profile_desc"
+                  oninput="limitTextarea(); updateCharCount();"
+                  maxlength="250"
+                  name="description"
+                  class="textarea_desc"
+                  style="display: block"
+                  placeholder="Write Short Bio Here (250 Char Max)"
+                ></textarea>
+                <div id="charCount"></div>
+              </div>
             </div>
+          </div>
+
+          <div id="dynamic_section_container"></div>
         </div>
 
         <!-- Start of previewing Template 1 -->
         <div class="temp" id="temp1">
-                <!-- Start of previewing Template 1 -->
-            <link rel="stylesheet" href="/css/profile_small.css" />
-            <div class="div">
-                <section style="height: 250px;">
-                    <div class="child"></div>
-                    <div class="group-parent">
-                    <div class="rectangle-parent">
-                        <div class="group-child"></div>
-                        <div class="group-item"></div>
-                    </div>
-                    <img class="group-inner" alt="" src="./group-47@2x.png" />
-                    </div>
-                    <div class="rectangle-group">
-                    <div class="rectangle-div">
-                        <img class="preview_profile_img polygon-icon" alt="" src="./dp.jpg" />
-                    </div>
-                    </div>
-                    <div class="item"></div>
-                </section>
-            
-                <section id="profile_preview_container">
-                    <p class="agent-name">AGENT NAME</p>
-                    <p class="desc_aboutUs" style="padding: 0px 20px; font-size: 12px; text-align: center;
-                   color: #000;"></p>
-                    <section id="profile_preview_innercontainer">
-                        
-                        <div>
-                        <div style="display: flex;
-                        margin-top: 10px;
-                        width: fit-content;
-                        margin: 10px auto;">
-                            <li style="margin: 0px 10px;text-decoration: none;
-                            list-style: none;">
-                             <i class="fa-brands fa-xl fa-facebook" style="color: #0066C9;"></i>
-                            </li>
-                            <li style="margin: 0px 10px;text-decoration: none;
-                            list-style: none;">
-                             <i class="fa-brands fa-linkedin fa-xl" style="color: #0066C9;"></i>
-                            </li> 
-                            <li style="margin: 0px 10px;text-decoration: none;
-                            list-style: none;">
-                             <i class="fa-brands fa-square-instagram fa-xl" style="color: #0066C9;"></i>
-                            </li> 
-                        </div>
-                        </div>
-                    </section>
-                    
-                   
+          <!-- Start of previewing Template 1 -->
+          <link rel="stylesheet" href="/css/profile_small.css" />
+          <div class="div">
+            <section style="height: 250px">
+              <div class="child"></div>
+              <div class="group-parent">
+                <div class="rectangle-parent">
+                  <div class="group-child"></div>
+                  <div class="group-item"></div>
+                </div>
+                <img class="group-inner" alt="" src="./group-47@2x.png" />
+              </div>
+              <div class="rectangle-group">
+                <div class="rectangle-div">
+                  <img
+                    class="preview_profile_img polygon-icon"
+                    alt=""
+                    src="./dp.jpg"
+                  />
+                </div>
+              </div>
+              <div class="item"></div>
+            </section>
 
-                    <style>
-                        
-                        .profile-card {
-                            display: none;
-                        position: absolute;
-                        bottom: 312px;
-                        left: 50%;
-                        background-color: #ffffff;
-                        border-radius: 8px;
-                        box-shadow: 0 4px 8px rgb(0 0 0 / 10%);
-                        width: 60%;
-                        padding: 20px;
-                        margin: 20px;
-                        font-family: 'Arial', sans-serif;
-                        translate: -55%;
-                        box-shadow: 1px -1px 13px 0px rgba(0,0,0,0.26);
-                
-                        }
-                        .profile-photo-container {
-                        display: flex;
-                        align-items: center;
-                        justify-content: center;
-                        
-                        }
-                        .profile-photo {
-                        border-radius: 50%;
-                        width: 80px;
-                        height: 80px;
-                        object-fit: cover;
-                        border: 3px solid #000;
-                        }
-                        .profile-name {
-                        font-size: 18px;
-                        font-weight: bold;
-                        margin: 0;
-                        }
-                        .profile-title {
-                        font-size: 14px;
-                        color: #555;
-                        margin: 0;
-                        }
-                        .profile-quote {
-                        font-size: 14px;
-                        color: #333;
-                        margin-top: 15px;
-                        }
-                    </style>
-                </section>
-            </div>
+            <section id="profile_preview_container">
+              <p class="agent-name">AGENT NAME</p>
+              <p
+                class="desc_aboutUs"
+                style="
+                  padding: 0px 20px;
+                  font-size: 12px;
+                  text-align: center;
+                  color: #000;
+                "
+              ></p>
+              <section id="profile_preview_innercontainer">
+                <div>
+                  <div
+                    style="
+                      display: flex;
+                      margin-top: 10px;
+                      width: fit-content;
+                      margin: 10px auto;
+                    "
+                  >
+                    <li
+                      style="
+                        margin: 0px 10px;
+                        text-decoration: none;
+                        list-style: none;
+                      "
+                    >
+                      <i
+                        class="fa-brands fa-xl fa-facebook"
+                        style="color: #0066c9"
+                      ></i>
+                    </li>
+                    <li
+                      style="
+                        margin: 0px 10px;
+                        text-decoration: none;
+                        list-style: none;
+                      "
+                    >
+                      <i
+                        class="fa-brands fa-linkedin fa-xl"
+                        style="color: #0066c9"
+                      ></i>
+                    </li>
+                    <li
+                      style="
+                        margin: 0px 10px;
+                        text-decoration: none;
+                        list-style: none;
+                      "
+                    >
+                      <i
+                        class="fa-brands fa-square-instagram fa-xl"
+                        style="color: #0066c9"
+                      ></i>
+                    </li>
+                  </div>
+                </div>
+              </section>
+
+              <style>
+                .profile-card {
+                  display: none;
+                  position: absolute;
+                  bottom: 312px;
+                  left: 50%;
+                  background-color: #ffffff;
+                  border-radius: 8px;
+                  box-shadow: 0 4px 8px rgb(0 0 0 / 10%);
+                  width: 60%;
+                  padding: 20px;
+                  margin: 20px;
+                  font-family: "Arial", sans-serif;
+                  translate: -55%;
+                  box-shadow: 1px -1px 13px 0px rgba(0, 0, 0, 0.26);
+                }
+                .profile-photo-container {
+                  display: flex;
+                  align-items: center;
+                  justify-content: center;
+                }
+                .profile-photo {
+                  border-radius: 50%;
+                  width: 80px;
+                  height: 80px;
+                  object-fit: cover;
+                  border: 3px solid #000;
+                }
+                .profile-name {
+                  font-size: 18px;
+                  font-weight: bold;
+                  margin: 0;
+                }
+                .profile-title {
+                  font-size: 14px;
+                  color: #555;
+                  margin: 0;
+                }
+                .profile-quote {
+                  font-size: 14px;
+                  color: #333;
+                  margin-top: 15px;
+                }
+              </style>
+            </section>
+          </div>
         </div>
-        
+
         <!-- Start of previewing Template 2 -->
         <div class="temp" id="temp2">
-        
-            <div class="div" style="overflow: auto;
-            position: sticky; top: 30px; background-color: #1D1D1D;">
-            <img class="preview_profile_img" src="" style="width: 110px;
-            height: 110px;
-            position: absolute;
-            top: 42px;
-            left: 49px;
-            z-index: 1;
-            border-radius: 64px;" alt="">
-            <img src="./temp2_ss.png" alt="" style=" width: 100%; height: 100%; object-fit: cover; position: absolute;">
-            <p class="agent-name" style="position: absolute;
-            top: 200px;
-            color: #ffffff;
-            width: max-content;
-            left: 50%;
-            transform: translateX(-50%);">Hello</p>
-                <section style="position: relative; margin-top: 247px; width: 100%;" class="links_container">
-              <p class="desc_aboutUs" style="padding: 0px 20px; font-size: 12px; text-align: center; color: #fff; width: 100%;"></p>
-          <section id="profile_preview_container_temp2">
-
-          </section>
-                </section>
-            </div>
-
+          <div
+            class="div"
+            style="
+              overflow: auto;
+              position: sticky;
+              top: 30px;
+              background-color: #1d1d1d;
+            "
+          >
+            <img
+              class="preview_profile_img"
+              src=""
+              style="
+                width: 110px;
+                height: 110px;
+                position: absolute;
+                top: 42px;
+                left: 49px;
+                z-index: 1;
+                border-radius: 64px;
+              "
+              alt=""
+            />
+            <img
+              src="./temp2_ss.png"
+              alt=""
+              style="
+                width: 100%;
+                height: 100%;
+                object-fit: cover;
+                position: absolute;
+              "
+            />
+            <p
+              class="agent-name"
+              style="
+                position: absolute;
+                top: 200px;
+                color: #ffffff;
+                width: max-content;
+                left: 50%;
+                transform: translateX(-50%);
+              "
+            >
+              Hello
+            </p>
+            <section
+              style="position: relative; margin-top: 247px; width: 100%"
+              class="links_container"
+            >
+              <p
+                class="desc_aboutUs"
+                style="
+                  padding: 0px 20px;
+                  font-size: 12px;
+                  text-align: center;
+                  color: #fff;
+                  width: 100%;
+                "
+              ></p>
+              <section id="profile_preview_container_temp2"></section>
+            </section>
+          </div>
         </div>
-        
+
         <!-- Start of previewing Template 3 -->
-        <div class="temp" id="temp3" style="position: sticky; top: 1px;">
-            <div class="div" style="overflow: auto;
-            position: sticky; background-color: #ffffff;">
-            <img class="preview_profile_img" src="" style="width: 120px;
-            height: 120px;
-            position: absolute;
-            top: 24px;
-            left: 47px;
-            z-index: 1;
-            border-radius: 64px;" alt="">
-            <img src="./temp3_ss.png" alt="" style=" width: 100%; height: 100%; object-fit: cover; position: absolute;">
-            <p class="agent-name" style="width: max-content; position: absolute;
-            top: 172px;
-            color: black;
-            left: 50%;
-            transform: translateX(-50%);">Hello</p>
-                <section  style="position: relative; margin-top: 235px; width: 100%;" class="links_container">
-            <p class="desc_aboutUs" style="padding: 0px 20px; font-size: 12px; text-align: center;
-            color: black;
-    width: 100%;"></p>
-    <section id="profile_preview_container_temp3">
-
-    </section>
-                </section>
-                
-            </div>
-
+        <div class="temp" id="temp3" style="position: sticky; top: 1px">
+          <div
+            class="div"
+            style="overflow: auto; position: sticky; background-color: #ffffff"
+          >
+            <img
+              class="preview_profile_img"
+              src=""
+              style="
+                width: 120px;
+                height: 120px;
+                position: absolute;
+                top: 24px;
+                left: 47px;
+                z-index: 1;
+                border-radius: 64px;
+              "
+              alt=""
+            />
+            <img
+              src="./temp3_ss.png"
+              alt=""
+              style="
+                width: 100%;
+                height: 100%;
+                object-fit: cover;
+                position: absolute;
+              "
+            />
+            <p
+              class="agent-name"
+              style="
+                width: max-content;
+                position: absolute;
+                top: 172px;
+                color: black;
+                left: 50%;
+                transform: translateX(-50%);
+              "
+            >
+              Hello
+            </p>
+            <section
+              style="position: relative; margin-top: 235px; width: 100%"
+              class="links_container"
+            >
+              <p
+                class="desc_aboutUs"
+                style="
+                  padding: 0px 20px;
+                  font-size: 12px;
+                  text-align: center;
+                  color: black;
+                  width: 100%;
+                "
+              ></p>
+              <section id="profile_preview_container_temp3"></section>
+            </section>
+          </div>
         </div>
-
-
-    </div>
-    <div style="display: flex;">
-        <button style="margin: auto;" id="prevBtn" onclick="showPrev()" class="continue-button">Previous</button>
-    </div>
+      </div>
+      <div style="display: flex">
+        <button
+          style="margin: auto"
+          id="prevBtn"
+          onclick="showPrev()"
+          class="continue-button"
+        >
+          Previous
+        </button>
+      </div>
     </section>
-</div>
+  </div>
 
-<%- include('ordermodal.ejs') %>
-
+  <%- include('ordermodal.ejs') %>
 </body>
 <script>
+  let profileDataState = {
+    templateSelected: 1,
+  };
+  onStart();
 
-    let profileDataState = {
-        templateSelected: 1,
+  function onStart() {
+    eventListnerHandler();
+    croppable();
+  }
+
+  function eventListnerHandler(params) {
+    const divs = document.getElementsByClassName("image-container");
+    for (let i = 0; i < divs.length; i++) {
+      divs[i].addEventListener("click", () => {
+        for (let j = 0; j < divs.length; j++) {
+          divs[j].classList.remove("selected");
+        }
+        divs[i].classList.add("selected");
+      });
     }
-    onStart();
+    document.getElementById("add_profile").addEventListener("click", () => {
+      document.getElementById("profile_image_upload").click();
+    });
 
-    function onStart(){
-        eventListnerHandler();
-        croppable();
-    }
-
-
-    function eventListnerHandler(params) {
-       const divs = document.getElementsByClassName("image-container");
-       for (let i = 0; i < divs.length; i++) {
-           divs[i].addEventListener("click", () => {
-               for (let j = 0; j < divs.length; j++) {
-                   divs[j].classList.remove("selected");
-               }
-               divs[i].classList.add("selected");
-           });
-       }
-       document.getElementById("add_profile").addEventListener("click", () => {
-           document.getElementById("profile_image_upload").click();
-       });
-
-       document.getElementById("profile_desc").addEventListener("input", ()=>{
-        document.querySelectorAll(".desc_aboutUs")
-        .forEach(elem=>{
-            elem.innerText = document.getElementById("profile_desc").value;
-        })
-       })
-       document.getElementById("profile_name_edit").addEventListener("input", ()=>{
+    document.getElementById("profile_desc").addEventListener("input", () => {
+      document.querySelectorAll(".desc_aboutUs").forEach((elem) => {
+        elem.innerText = document.getElementById("profile_desc").value;
+      });
+    });
+    document
+      .getElementById("profile_name_edit")
+      .addEventListener("input", () => {
         const value = document.getElementById("profile_name_edit").value;
         const name = document.querySelectorAll(".agent-name");
         name[0].innerHTML = value;
         name[1].innerHTML = value;
         name[2].innerHTML = value;
-       })
-   }
+      });
+  }
 
-    async function imageUploadHandler(blob) {
-        const profile_id = document.getElementById("profile_id").getAttribute("profile_id");
-        const formdata = new FormData();
-        formdata.append("dp", true);
-        formdata.append("profile_id", profile_id);
-        formdata.append("profile_image", blob, "profile_image.png");
-        try {
-            const res = await fetch("/api/profile/uploadPhoto", {
-                method: "POST",
-                body: formdata,
-            })
+  async function imageUploadHandler(blob) {
+    const profile_id = document
+      .getElementById("profile_id")
+      .getAttribute("profile_id");
+    const formdata = new FormData();
+    formdata.append("dp", true);
+    formdata.append("profile_id", profile_id);
+    formdata.append("profile_image", blob, "profile_image.png");
+    try {
+      const res = await fetch("/api/profile/uploadPhoto", {
+        method: "POST",
+        body: formdata,
+      });
 
-            const data = await res.json();
-        } catch (error) {
-            console.log(error.message);
-        }
-   }
-
-   async function showNext(elem) {
-        const selectedTemplate = document.querySelector('div.image-container.selected').getAttribute('template_id');
-        if(selectedTemplate != profileDataState.templateSelected){
-            profileDataState.templateSelected =  selectedTemplate
-            await updatetemplate();
-        }
-        populateProfilePreview();
-        document.querySelectorAll(".temp").forEach(element => {
-            element.style.display = "none";
-        });
-        document.getElementById(`temp${selectedTemplate}`).style.display = "block";
-        document.getElementById('step1').style.display = 'none';
-        document.getElementById('step2').style.display = 'block';
-        
+      const data = await res.json();
+    } catch (error) {
+      console.log(error.message);
     }
+  }
 
-    function showPrev() {
-    document.getElementById('step1').style.display = 'block';
-    document.getElementById('step2').style.display = 'none';
-}
+  async function showNext(elem) {
+    const selectedTemplate = document
+      .querySelector("div.image-container.selected")
+      .getAttribute("template_id");
+    if (selectedTemplate != profileDataState.templateSelected) {
+      profileDataState.templateSelected = selectedTemplate;
+      await updatetemplate();
+    }
+    populateProfilePreview();
+    document.querySelectorAll(".temp").forEach((element) => {
+      element.style.display = "none";
+    });
+    document.getElementById(`temp${selectedTemplate}`).style.display = "block";
+    document.getElementById("step1").style.display = "none";
+    document.getElementById("step2").style.display = "block";
+  }
 
-    function populateProfilePreview() {
-        const sections = extractDataOfSectionsToPreview()
-        if(profileDataState.templateSelected == 1){
-            // Poluplating template 1
-            const profile_preview_container  = document.getElementById("profile_preview_innercontainer");
-            profile_preview_container.innerHTML = "";
-            sections.forEach(section => {
-                if(section.type != "socials"){
-                    profile_preview_container.innerHTML += `${section.heading?`<p style="font-size: 12px; margin-bottom:2px; color: #000;padding-left:10px;" class="profile_heading">${section.heading}</p>`:""}`
-                    section.links.forEach(link =>{
-                        profile_preview_container.innerHTML += `<li style="font-size: 12px; margin:0px auto 5px auto; display: flex; justify-content: center; align-items: center; background-color: #0066C9; width: 160px; border-radius: 20px; height: 32px;">
-                        <a style="pointer-events: none; color: white;">${link.name?link.name:link.placeholder}</a>
-                    </li>`
-                    })
-                }
-            });
-            const socials = socailsection = sections.find(section => section.type == "socials");
-            if(!socials){
-                return;
-            }
-            const fb = socials.links.find(link => link.type == "fb");
-            const insta = socials.links.find(link => link.type == "insta");
-            const linkedin = socials.links.find(link => link.type == "linked");
-            const call = socials.links.find(link => link.type == "call");
-            const whatsapp = socials.links.find(link => link.type == "whats");
-            const tiktok = socials.links.find(link => link.type == "tiktok");
-            profile_preview_container.innerHTML += `  <div style="margin-top: 10px;">
+  function showPrev() {
+    document.getElementById("step1").style.display = "block";
+    document.getElementById("step2").style.display = "none";
+  }
+
+  function populateProfilePreview() {
+    const sections = extractDataOfSectionsToPreview();
+    if (profileDataState.templateSelected == 1) {
+      // Poluplating template 1
+      const profile_preview_container = document.getElementById(
+        "profile_preview_innercontainer"
+      );
+      profile_preview_container.innerHTML = "";
+      sections.forEach((section) => {
+        if (section.type != "socials") {
+          profile_preview_container.innerHTML += `${
+            section.heading
+              ? `<p style="font-size: 12px; margin-bottom:2px; color: #000;padding-left:10px;" class="profile_heading">${section.heading}</p>`
+              : ""
+          }`;
+          section.links.forEach((link) => {
+            profile_preview_container.innerHTML += `<li style="font-size: 12px; margin:0px auto 5px auto; display: flex; justify-content: center; align-items: center; background-color: #0066C9; width: 160px; border-radius: 20px; height: 32px;">
+                        <a style="pointer-events: none; color: white;">${
+                          link.name ? link.name : link.placeholder
+                        }</a>
+                    </li>`;
+          });
+        }
+      });
+      const socials = (socailsection = sections.find(
+        (section) => section.type == "socials"
+      ));
+      if (!socials) {
+        return;
+      }
+      const fb = socials.links.find((link) => link.type == "fb");
+      const insta = socials.links.find((link) => link.type == "insta");
+      const linkedin = socials.links.find((link) => link.type == "linked");
+      const call = socials.links.find((link) => link.type == "call");
+      const whatsapp = socials.links.find((link) => link.type == "whats");
+      const tiktok = socials.links.find((link) => link.type == "tiktok");
+      profile_preview_container.innerHTML += `  <div style="margin-top: 10px;">
                         <div style="display: flex;
                         margin-top: 10px;
                         width: fit-content;
                         margin: 10px auto;">
-                        ${fb?` <li style="margin: 0px 10px;text-decoration: none;
+                        ${
+                          fb
+                            ? ` <li style="margin: 0px 10px;text-decoration: none;
                             list-style: none;">
                              <i class="fa-brands fa-xl fa-facebook" style="color: #0066C9;"></i>
-                            </li>`:""}
+                            </li>`
+                            : ""
+                        }
                            
-                        ${linkedin?` <li style="margin: 0px 10px;text-decoration: none;
+                        ${
+                          linkedin
+                            ? ` <li style="margin: 0px 10px;text-decoration: none;
                             list-style: none;">
                              <i class="fa-brands fa-linkedin fa-xl" style="color: #0066C9;"></i>
-                            </li> `:""}
-                        ${insta?` <li style="margin: 0px 10px;text-decoration: none;
+                            </li> `
+                            : ""
+                        }
+                        ${
+                          insta
+                            ? ` <li style="margin: 0px 10px;text-decoration: none;
                             list-style: none;">
                              <i class="fa-brands fa-square-instagram fa-xl" style="color: #0066C9;"></i>
-                            </li> `:""}  
-                        ${tiktok?` <li style="margin: 0px 10px;text-decoration: none;
+                            </li> `
+                            : ""
+                        }  
+                        ${
+                          tiktok
+                            ? ` <li style="margin: 0px 10px;text-decoration: none;
                         list-style: none;">
                             <i class="fa-brands fa-tiktok fa-xl" style="color: #0066C9;"></i>
-                        </li> `:""}
+                        </li> `
+                            : ""
+                        }
                         </div>
-                        ${call || whatsapp?`<p style="color: black;font-size: 12px;text-align: center;">Call Us</p>`:""}
-                        ${call && call.link != ""?`<li style="font-size: 12px; margin:0px auto 5px auto; display: flex; justify-content: center; align-items: center; background-color: #0066C9; width: 160px; border-radius: 20px; height: 32px;">
-                            <a style="pointer-events: none; color: white;">Call</a>
-                            </li>`:""}
-                       ${whatsapp && whatsapp.link != ""?` <li style="font-size: 12px; margin:0px auto 5px auto; display: flex; justify-content: center; align-items: center; background-color: #0066C9; width: 160px; border-radius: 20px; height: 32px;">
-                        <a style="pointer-events: none; color: white;">Whatsapp</a>
-                    </li>`:""}
-                   
-                        </div>`
-        }else if(profileDataState.templateSelected == 2){
-            // populating template 2
-            const profile_preview_container_temp2  = document.getElementById("profile_preview_container_temp2");
-            profile_preview_container_temp2.innerHTML = "";
-            sections.forEach(section => {
-                if(section.type != "socials"){
-                    profile_preview_container_temp2.innerHTML += `${section.heading?`<p style="font-size: 12px; margin-bottom:2px; color: #fff;padding-left:10px;" class="profile_heading">${section.heading}</p>`:""}`
-                    section.links.forEach(link =>{
-                        profile_preview_container_temp2.innerHTML += `<li style="font-size: 12px; margin:0px auto 5px auto; display: flex; justify-content: center; align-items: center; background-color: #b68e00; width: 160px; border-radius: 20px; height: 35px;">
-                            <a style="pointer-events: none; color: white;" >${link.name?link.name:link.placeholder}</a>
-                        </li>`
-                    })
-                }
-            });
-            const socials = socailsection = sections.find(section => section.type == "socials");
-            if(!socials){
-                return;
-            }
-            const fb = socials.links.find(link => link.type == "fb");
-            const insta = socials.links.find(link => link.type == "insta");
-            const linkedin = socials.links.find(link => link.type == "linked");
-            const call = socials.links.find(link => link.type == "call");
-            const whatsapp = socials.links.find(link => link.type == "whats");
-            const tiktok = socials.links.find(link => link.type == "tiktok");
-            profile_preview_container_temp2.innerHTML += `  <div style="margin-top: 10px;">
+                        ${
+                          call || whatsapp
+                            ? `<p style="color: black;font-size: 12px;text-align: center;">Call Us</p>`
+                            : ""
+                        }
+                        <div style="display: flex; width: 100%; height: 100px; justify-content: space-around;">
+                            ${
+                              call && call.link != ""
+                                ? ` <li onclick="linkHandler(this)" redirect_Url="tel:" style="cursor: pointer; background-color: #0066C9; margin:0px auto 5px auto; display: flex; justify-content: center; align-items: center;  width: 80px; border-radius: 35px; height: 32px; font-size:12px">
+                                <a target="_blank" style="text-decoration: none; pointer-events: none; color: white;" >${call.name}</a>
+                                </li> `
+                                : ""
+                            }
+
+                          ${
+                            whatsapp && whatsapp.link != ""
+                              ? `       <li onclick="linkHandler(this)" redirect_Url="https://wa.me/"  style="cursor: pointer; background-color: #0066C9; margin:0px auto 5px auto; display: flex; justify-content: center; align-items: center; width: 80px; border-radius: 35px; height: 32px; font-size:12px">
+                                <a target="_blank" style="text-decoration: none; pointer-events: none; color: white;" >${whatsapp.name}</a>
+                                </li> `
+                              : ""
+                          }
+                        </div>
+                        </div>`;
+    } else if (profileDataState.templateSelected == 2) {
+      // populating template 2
+      const profile_preview_container_temp2 = document.getElementById(
+        "profile_preview_container_temp2"
+      );
+      profile_preview_container_temp2.innerHTML = "";
+      sections.forEach((section) => {
+        if (section.type != "socials") {
+          profile_preview_container_temp2.innerHTML += `${
+            section.heading
+              ? `<p style="font-size: 12px; margin-bottom:2px; color: #fff;padding-left:10px;" class="profile_heading">${section.heading}</p>`
+              : ""
+          }`;
+          section.links.forEach((link) => {
+            profile_preview_container_temp2.innerHTML += `<li style="font-size: 12px; margin:0px auto 5px auto; display: flex; justify-content: center; align-items: center; background-color: #b68e00; width: 160px; border-radius: 20px; height: 35px;">
+                            <a style="pointer-events: none; color: white;" >${
+                              link.name ? link.name : link.placeholder
+                            }</a>
+                        </li>`;
+          });
+        }
+      });
+      const socials = (socailsection = sections.find(
+        (section) => section.type == "socials"
+      ));
+      if (!socials) {
+        return;
+      }
+      const fb = socials.links.find((link) => link.type == "fb");
+      const insta = socials.links.find((link) => link.type == "insta");
+      const linkedin = socials.links.find((link) => link.type == "linked");
+      const call = socials.links.find((link) => link.type == "call");
+      const whatsapp = socials.links.find((link) => link.type == "whats");
+      const tiktok = socials.links.find((link) => link.type == "tiktok");
+      profile_preview_container_temp2.innerHTML += `  <div style="margin-top: 10px;">
                         <div style="display: flex;
                         margin-top: 10px;
                         width: fit-content;
                         margin: 10px auto;">
-                        ${fb?` <li style="margin: 0px 10px;text-decoration: none;
+                        ${
+                          fb
+                            ? ` <li style="margin: 0px 10px;text-decoration: none;
                             list-style: none;">
                              <i class="fa-brands fa-xl fa-facebook" style="color: #b68e00;"></i>
-                            </li>`:""}
+                            </li>`
+                            : ""
+                        }
                            
-                        ${linkedin?` <li style="margin: 0px 10px;text-decoration: none;
+                        ${
+                          linkedin
+                            ? ` <li style="margin: 0px 10px;text-decoration: none;
                             list-style: none;">
                              <i class="fa-brands fa-linkedin fa-xl" style="color: #b68e00;"></i>
-                            </li> `:""}
-                         ${insta?` <li style="margin: 0px 10px;text-decoration: none;
+                            </li> `
+                            : ""
+                        }
+                         ${
+                           insta
+                             ? ` <li style="margin: 0px 10px;text-decoration: none;
                             list-style: none;">
                              <i class="fa-brands fa-square-instagram fa-xl" style="color: #b68e00;"></i>
-                            </li> `:""}  
-                         ${tiktok?` <li style="margin: 0px 10px;text-decoration: none;
+                            </li> `
+                             : ""
+                         }  
+                         ${
+                           tiktok
+                             ? ` <li style="margin: 0px 10px;text-decoration: none;
                         list-style: none;">
                             <i class="fa-brands fa-tiktok fa-xl" style="color: #b68e00;"></i>
-                        </li> `:""}
+                        </li> `
+                             : ""
+                         }
                         
                            
                         </div>
-                        ${call || whatsapp?`<p style="color: white;font-size: 12px;text-align: center;">Call Us</p>`:""}
-                        ${call && call.link != ""?`<li style="font-size: 12px; margin:0px auto 5px auto; display: flex; justify-content: center; align-items: center; background-color: #b68e00; width: 160px; border-radius: 20px; height: 32px;">
-                            <a style="pointer-events: none; color: white;">Call</a>
-                            </li>`:""}
-                       ${whatsapp && whatsapp.link != ""?` <li style="font-size: 12px; margin:0px auto 5px auto; display: flex; justify-content: center; align-items: center; background-color: #b68e00; width: 160px; border-radius: 20px; height: 32px;">
-                        <a style="pointer-events: none; color: white;">Whatsapp</a>
-                    </li>`:""}
-                   
-                        </div>`
-        }else{
-            const profile_preview_container_temp3  = document.getElementById("profile_preview_container_temp3");
-            profile_preview_container_temp3.innerHTML = "";
-            sections.forEach(section => {
-                if(section.type != "socials"){
-                    profile_preview_container_temp3.innerHTML += `${section.heading?`<p style="font-size: 12px; margin-bottom:2px; color: #000;padding-left:10px;" class="profile_heading">${section.heading}</p>`:""}`
-                    section.links.forEach(link =>{
-                        profile_preview_container_temp3.innerHTML += `<li style="font-size: 12px; margin:0px auto 5px auto; display: flex; justify-content: center; align-items: center; background-image: linear-gradient(178.54deg, #ff1212 7.67%, #ff2c1d); width: 160px; border-radius: 20px; height: 35px;">
-                            <a style="pointer-events: none; color: white;">${link.name?link.name:link.placeholder}</a>
-                        </li>`
-                    })
-                }
-            });
-            const socials = socailsection = sections.find(section => section.type == "socials");
-            if(!socials){
-                return;
-            }
-            const fb = socials.links.find(link => link.type == "fb");
-            const insta = socials.links.find(link => link.type == "insta");
-            const linkedin = socials.links.find(link => link.type == "linked");
-            const call = socials.links.find(link => link.type == "call");
-            const whatsapp = socials.links.find(link => link.type == "whats");
-            const tiktok = socials.links.find(link => link.type == "tiktok");
-            profile_preview_container_temp3.innerHTML += `  <div style="margin-top: 10px;">
+                        ${
+                          call || whatsapp
+                            ? `<p style="color: white;font-size: 12px;text-align: center;">Call Us</p>`
+                            : ""
+                        }
+
+
+                        <div style="position: relative; padding-bottom: 40px;">
+                            <div style="display: flex; justify-content: space-around; width: 90%; margin: auto;">
+                                ${
+                                  call && call.link != ""
+                                    ? `<div style="width: 165px;">
+                                    <a target="_blank" href="tel:" style="pointer-events:none">
+                                        <button style="background-color: #B68E00 !important; width: 100%; font-size:12px; height: 32px; border:none; border-radius: 35px; color: white;">${call.name}</button>
+                                    </a>
+                                </div>`
+                                    : ""
+                                }
+                                ${
+                                  whatsapp && whatsapp.link != ""
+                                    ? `
+                                <div style="width: 165px;">
+                                    <a target="_blank" href="https://wa.me/" style="pointer-events:none">
+                                        <button style="background-color: transparent !important; width: 100%; height: 32px; font-size:12px; border:1px solid #B68E00 ; border-radius: 35px; color: white;">${whatsapp.name}</button>
+                                    </a>
+                                </div>`
+                                    : ""
+                                }
+                            </div>
+                        </div>
+                        </div>`;
+    } else {
+      const profile_preview_container_temp3 = document.getElementById(
+        "profile_preview_container_temp3"
+      );
+      profile_preview_container_temp3.innerHTML = "";
+      sections.forEach((section) => {
+        if (section.type != "socials") {
+          profile_preview_container_temp3.innerHTML += `${
+            section.heading
+              ? `<p style="font-size: 12px; margin-bottom:2px; color: #000;padding-left:10px;" class="profile_heading">${section.heading}</p>`
+              : ""
+          }`;
+          section.links.forEach((link) => {
+            profile_preview_container_temp3.innerHTML += `<li style="font-size: 12px; margin:0px auto 5px auto; display: flex; justify-content: center; align-items: center; background-image: linear-gradient(178.54deg, #ff1212 7.67%, #ff2c1d); width: 160px; border-radius: 20px; height: 35px;">
+                            <a style="pointer-events: none; color: white;">${
+                              link.name ? link.name : link.placeholder
+                            }</a>
+                        </li>`;
+          });
+        }
+      });
+      const socials = (socailsection = sections.find(
+        (section) => section.type == "socials"
+      ));
+      if (!socials) {
+        return;
+      }
+      const fb = socials.links.find((link) => link.type == "fb");
+      const insta = socials.links.find((link) => link.type == "insta");
+      const linkedin = socials.links.find((link) => link.type == "linked");
+      const call = socials.links.find((link) => link.type == "call");
+      const whatsapp = socials.links.find((link) => link.type == "whats");
+      const tiktok = socials.links.find((link) => link.type == "tiktok");
+      profile_preview_container_temp3.innerHTML += `  <div style="margin-top: 10px;">
                         <div style="display: flex;
                         margin-top: 10px;
                         width: fit-content;
                         margin: 10px auto;">
-                        ${fb?` <li style="margin: 0px 10px;text-decoration: none;
+                        ${
+                          fb
+                            ? ` <li style="margin: 0px 10px;text-decoration: none;
                             list-style: none;">
                              <i class="fa-brands fa-xl fa-facebook" style="color: #ff2c1d;"></i>
-                            </li>`:""}
+                            </li>`
+                            : ""
+                        }
                            
-                        ${linkedin?` <li style="margin: 0px 10px;text-decoration: none;
+                        ${
+                          linkedin
+                            ? ` <li style="margin: 0px 10px;text-decoration: none;
                             list-style: none;">
                              <i class="fa-brands fa-linkedin fa-xl" style="color: #ff2c1d;"></i>
-                            </li> `:""}
-                        ${insta?` <li style="margin: 0px 10px;text-decoration: none;
+                            </li> `
+                            : ""
+                        }
+                        ${
+                          insta
+                            ? ` <li style="margin: 0px 10px;text-decoration: none;
                             list-style: none;">
                              <i class="fa-brands fa-square-instagram fa-xl" style="color: #ff2c1d;"></i>
-                            </li> `:""}  
+                            </li> `
+                            : ""
+                        }  
 
-                        ${tiktok?` <li style="margin: 0px 10px;text-decoration: none;
+                        ${
+                          tiktok
+                            ? ` <li style="margin: 0px 10px;text-decoration: none;
                             list-style: none;">
                                 <i class="fa-brands fa-tiktok fa-xl" style="color: #ff2c1d;"></i>
-                            </li> `:""}
+                            </li> `
+                            : ""
+                        }
                            
                         </div>
-                        ${call || whatsapp?`<p style="color: black;font-size: 12px;text-align: center;">Call Us</p>`:""}
-                        ${call && call.link != ""?`<li style="font-size: 12px; margin:0px auto 5px auto; display: flex; justify-content: center; align-items: center; background-image: linear-gradient(178.54deg, #ff1212 7.67%, #ff2c1d); width: 160px; border-radius: 20px; height: 32px;">
-                            <a style="pointer-events: none; color: white;">Call</a>
-                            </li>`:""}
-                       ${whatsapp && whatsapp.link != ""?` <li style="font-size: 12px; margin:0px auto 5px auto; display: flex; justify-content: center; align-items: center; background-image: linear-gradient(178.54deg, #ff1212 7.67%, #ff2c1d); width: 160px; border-radius: 20px; height: 32px;">
-                        <a style="pointer-events: none; color: white;">Whatsapp</a>
-                    </li>`:""}
-                   
-                        </div>`
-            
-        }        
-    }
+                        ${
+                          call || whatsapp
+                            ? `<p style="color: black;font-size: 12px;text-align: center;">Call Us</p>`
+                            : ""
+                        }
 
-    async function addFormPopup(){
-    document.getElementById("form_submit_btn").setAttribute("onclick", "saveForm()");
+                        <div style="position: relative; padding-bottom: 50px;">
+                            <div style="display: flex; justify-content: space-around; width: 90%; margin: auto;">
+                                ${
+                                  call && call.link != ""
+                                    ? `
+                                <div style="width: 165px;">
+                                    <a target="_blank" href="tel:">
+                                    <button style="background-image: linear-gradient(178.54deg, #ff1212 7.67%, #ff2c1d); width: 100%; height: 32px; border:none; border-radius: 35px; color: white; font-size:12px">${call.name}</button>
+                                    </a>
+                                </div>`
+                                    : ""
+                                }
+
+                                ${
+                                  whatsapp && whatsapp.link != ""
+                                    ? `
+                                <div style="width: 165px;">
+                                    <a target="_blank" href="https://wa.me/">
+                                    <button style="background-image: linear-gradient(178.54deg, #ff1212 7.67%, #ff2c1d); width: 100%; height: 32px; border-radius: 35px; color: white; font-size:12px">${whatsapp.name}</button>
+                                    </a>
+                                </div>`
+                                    : ""
+                                }
+                            </div>
+                        </div>
+                        </div>`;
+    }
+  }
+
+  async function addFormPopup() {
+    document
+      .getElementById("form_submit_btn")
+      .setAttribute("onclick", "saveForm()");
     const overlay = document.getElementById("overlay");
     overlay.style.display = "block";
     document.getElementById("form_popup").classList.add("open_popup");
     document.getElementById("form_popup").classList.remove("close_popup");
-}
+  }
 
-    async function editFormHandler(){
+  async function editFormHandler() {
     const overlay = document.getElementById("overlay");
     overlay.style.display = "block";
     const modal = document.querySelector(".form_edit_popup");
     modal.classList.add("open_popup");
-    modal.classList.remove("close_popup");   
-}
+    modal.classList.remove("close_popup");
+  }
 
-    function showLoadingOverlay() {
-        const overlay = document.querySelector('.overlay_loading');
-        overlay.style.display = 'block';
-    }
+  function showLoadingOverlay() {
+    const overlay = document.querySelector(".overlay_loading");
+    overlay.style.display = "block";
+  }
 
-    function hideLoadingOverlay() {
-    const overlay = document.querySelector('.overlay_loading');
-    overlay.style.display = 'none';
-}
+  function hideLoadingOverlay() {
+    const overlay = document.querySelector(".overlay_loading");
+    overlay.style.display = "none";
+  }
 
-    function croppable(params) {
+  function croppable(params) {
     let cropper;
 
-    document.getElementById('profile_image_upload').addEventListener('change', function(event) {
+    document
+      .getElementById("profile_image_upload")
+      .addEventListener("change", function (event) {
         let file = event.target.files[0];
-        document.getElementById('profile_image_upload').value = null;
+        document.getElementById("profile_image_upload").value = null;
         let reader = new FileReader();
 
-        reader.onload = function(e) {
-            let img = document.getElementById('profileImage');
-            img.src = e.target.result;
+        reader.onload = function (e) {
+          let img = document.getElementById("profileImage");
+          img.src = e.target.result;
 
-            // Show the modal
-            document.getElementById('modal').style.display = 'block';
+          // Show the modal
+          document.getElementById("modal").style.display = "block";
 
-            // Initialize Cropper.js on the image
-            if (cropper) {
-                cropper.destroy();
-            }
-            cropper = new Cropper(img, {
-                aspectRatio: 1,
-                viewMode: 1,
-                modal:false,
-                background:false,
-                zoomable:false
-            });
+          // Initialize Cropper.js on the image
+          if (cropper) {
+            cropper.destroy();
+          }
+          cropper = new Cropper(img, {
+            aspectRatio: 1,
+            viewMode: 1,
+            modal: false,
+            background: false,
+            zoomable: false,
+          });
         };
         reader.readAsDataURL(file);
-    });
+      });
 
-    document.getElementById('cropImage').addEventListener('click', async function() {
-        let file = cropper.getCroppedCanvas().toDataURL('image/png');
+    document
+      .getElementById("cropImage")
+      .addEventListener("click", async function () {
+        let file = cropper.getCroppedCanvas().toDataURL("image/png");
         const blob = await (await fetch(file)).blob();
         showLoadingOverlay();
         await imageUploadHandler(blob);
-        hideLoadingOverlay()
-        const preview_profile_img = document.getElementsByClassName("preview_profile_img");
+        hideLoadingOverlay();
+        const preview_profile_img = document.getElementsByClassName(
+          "preview_profile_img"
+        );
         for (let i = 0; i < preview_profile_img.length; i++) {
-            preview_profile_img[i].src = file;
+          preview_profile_img[i].src = file;
         }
         Swal.fire("Saved!", "", "success");
-        document.getElementById('modal').style.display = 'none';
+        document.getElementById("modal").style.display = "none";
 
         // Destroy the cropper instance
         cropper.destroy();
         cropper = null;
-    });
+      });
 
     // Optional: Close the modal if clicked outside of it
-    window.onclick = function(event) {
-        if (event.target.className === 'modal') {
-            document.getElementById('modal').style.display = "none";
-            if (cropper) {
-                cropper.destroy();
-                cropper = null;
-            }
+    window.onclick = function (event) {
+      if (event.target.className === "modal") {
+        document.getElementById("modal").style.display = "none";
+        if (cropper) {
+          cropper.destroy();
+          cropper = null;
         }
+      }
     };
-}
+  }
 
-    async function editGalleryOpenPopUp(input) {
-        const galleryname = input.getAttribute("name");
-        const { value: newGalleryname } = await Swal.fire({
-            title: "Enter Gallery Name",
-            input: "text",
-            inputValue:galleryname,
-            showCancelButton: true,
-            confirmButtonText:"Next",
-            inputValidator: (value) => {
-                if (!value) {
-                return "You need to write something!";
-                }
-            }
-        });
-        if (!newGalleryname ) {
-            return;
-        }else if(newGalleryname == galleryname){
-            openGalleryPopup(newGalleryname);
-            return;
+  async function editGalleryOpenPopUp(input) {
+    const galleryname = input.getAttribute("name");
+    const { value: newGalleryname } = await Swal.fire({
+      title: "Enter Gallery Name",
+      input: "text",
+      inputValue: galleryname,
+      showCancelButton: true,
+      confirmButtonText: "Next",
+      inputValidator: (value) => {
+        if (!value) {
+          return "You need to write something!";
         }
-
-        const link_id = input.getAttribute("link_id");
-        const profile_id = document.getElementById("profile_id").getAttribute("profile_id");
-        const res = await fetch(`/api/gallery/changeName/${galleryname}`, {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json',
-            },
-            body: JSON.stringify({profileId:profile_id,id:link_id,newName:newGalleryname}),
-        })
-        const data = await res.json();
-        if (res.status !== 200) {
-            Swal.fire({
-                title: data.message,
-                icon: "error",
-                confirmButtonText: "Ok",
-        });
-        }else{
-            input.placeholder = newGalleryname + " (Click To edit Gallery)";
-            input.name = newGalleryname
-            showSaveToast();
-            populateProfilePreview();
-            openGalleryPopup(newGalleryname);
-           
-        }
-
-        async function openGalleryPopup(newGalleryname) {
-            const modal_gallery = document.getElementById('imageUploadModal-gallery');
-            showLoadingOverlay();
-            await fetchImagesPathAndPopulate(newGalleryname)
-            modal_gallery.style.display = 'block';
-            modal_gallery.setAttribute("gallery-name", newGalleryname);
-            hideLoadingOverlay() 
-            document.getElementsByTagName("body")[0].style.overflow = "hidden";
-        }
-
+      },
+    });
+    if (!newGalleryname) {
+      return;
+    } else if (newGalleryname == galleryname) {
+      openGalleryPopup(newGalleryname);
+      return;
     }
 
-    async function fetchImagesPathAndPopulate(galleryname) {
-            const id = document.getElementById("profile_id").getAttribute("profile_id");
-            const response = await fetch(`/api/get/gallery/${id}/${galleryname}`);
-            const {images} = await response.json();
-            const imageList = document.getElementById('imageList');
-            imageList.innerHTML = "";
-            images.forEach(img_link =>{
-                const imgContainer = document.createElement('div');
-                imgContainer.classList.add('image-container-gallery');
-
-                const image = document.createElement('img');
-                image.src = `uploads/${id}/gallery/${galleryname}/${img_link}`;
-                image.alt = 'Uploaded Image';
-                image.setAttribute("path", img_link);
-
-                const deleteButton = document.createElement('button');
-                deleteButton.classList.add('delete-gallery-button');
-                deleteButton.innerHTML = `&times;`;
-                deleteButton.onclick = async function () {
-                    showLoadingOverlay();
-                    await deleteImage(image.getAttribute("path"));
-                    hideLoadingOverlay();
-                    imageList.removeChild(imgContainer);
-                };
-
-                imgContainer.appendChild(image);
-                imgContainer.appendChild(deleteButton);
-                imageList.appendChild(imgContainer);
-            })
-        }
-
-
-    function sectionHeadingHandler(elem) {
-        const para = elem.parentNode.previousElementSibling;
-        if(para){
-            para.contentEditable = true;
-            para.classList.add('editable');
-            para.focus();
-        }
-        para.addEventListener("blur", async function (){
-            const id = para.getAttribute("section_id");
-            const heading = para.innerText
-            await changeSectionHeading(id,heading);
-            para.contentEditable = false;
-            para.classList.remove('editable');
-
-        })
+    const link_id = input.getAttribute("link_id");
+    const profile_id = document
+      .getElementById("profile_id")
+      .getAttribute("profile_id");
+    const res = await fetch(`/api/gallery/changeName/${galleryname}`, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        profileId: profile_id,
+        id: link_id,
+        newName: newGalleryname,
+      }),
+    });
+    const data = await res.json();
+    if (res.status !== 200) {
+      Swal.fire({
+        title: data.message,
+        icon: "error",
+        confirmButtonText: "Ok",
+      });
+    } else {
+      input.placeholder = newGalleryname + " (Click To edit Gallery)";
+      input.name = newGalleryname;
+      showSaveToast();
+      populateProfilePreview();
+      openGalleryPopup(newGalleryname);
     }
 
-    async function changeSectionHeading(id, heading) {
-            const res = await fetch(`/api/section/changeName/${id}`, {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
-                },
-                body: JSON.stringify({heading}),
-            })
-            const data = await res.json();
-            if (res.status !== 200) {
-                Swal.fire({
-                    title: data.message,
-                    icon: "error",
-                    confirmButtonText: "Ok",
-                });
-            }else{
-                Swal.fire({
-                    title: data.message,
-                    icon: "success",
-                    confirmButtonText: "Ok",
-                });
-            }
-        }
+    async function openGalleryPopup(newGalleryname) {
+      const modal_gallery = document.getElementById("imageUploadModal-gallery");
+      showLoadingOverlay();
+      await fetchImagesPathAndPopulate(newGalleryname);
+      modal_gallery.style.display = "block";
+      modal_gallery.setAttribute("gallery-name", newGalleryname);
+      hideLoadingOverlay();
+      document.getElementsByTagName("body")[0].style.overflow = "hidden";
+    }
+  }
 
-    async function addMoreField(elem) {
-        const div_container = elem.previousElementSibling;
-        // Prompt the user for the name of the field
-        const { value: formValues } = await Swal.fire({
-        title: "Enter Field Name",
-        html: `
+  async function fetchImagesPathAndPopulate(galleryname) {
+    const id = document.getElementById("profile_id").getAttribute("profile_id");
+    const response = await fetch(`/api/get/gallery/${id}/${galleryname}`);
+    const { images } = await response.json();
+    const imageList = document.getElementById("imageList");
+    imageList.innerHTML = "";
+    images.forEach((img_link) => {
+      const imgContainer = document.createElement("div");
+      imgContainer.classList.add("image-container-gallery");
+
+      const image = document.createElement("img");
+      image.src = `uploads/${id}/gallery/${galleryname}/${img_link}`;
+      image.alt = "Uploaded Image";
+      image.setAttribute("path", img_link);
+
+      const deleteButton = document.createElement("button");
+      deleteButton.classList.add("delete-gallery-button");
+      deleteButton.innerHTML = `&times;`;
+      deleteButton.onclick = async function () {
+        showLoadingOverlay();
+        await deleteImage(image.getAttribute("path"));
+        hideLoadingOverlay();
+        imageList.removeChild(imgContainer);
+      };
+
+      imgContainer.appendChild(image);
+      imgContainer.appendChild(deleteButton);
+      imageList.appendChild(imgContainer);
+    });
+  }
+
+  function sectionHeadingHandler(elem) {
+    const para = elem.parentNode.previousElementSibling;
+    if (para) {
+      para.contentEditable = true;
+      para.classList.add("editable");
+      para.focus();
+    }
+    para.addEventListener("blur", async function () {
+      const id = para.getAttribute("section_id");
+      const heading = para.innerText;
+      await changeSectionHeading(id, heading);
+      para.contentEditable = false;
+      para.classList.remove("editable");
+    });
+  }
+
+  async function changeSectionHeading(id, heading) {
+    const res = await fetch(`/api/section/changeName/${id}`, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({ heading }),
+    });
+    const data = await res.json();
+    if (res.status !== 200) {
+      Swal.fire({
+        title: data.message,
+        icon: "error",
+        confirmButtonText: "Ok",
+      });
+    } else {
+      Swal.fire({
+        title: data.message,
+        icon: "success",
+        confirmButtonText: "Ok",
+      });
+    }
+  }
+
+  async function addMoreField(elem) {
+    const div_container = elem.previousElementSibling;
+    // Prompt the user for the name of the field
+    const { value: formValues } = await Swal.fire({
+      title: "Enter Field Name",
+      html: `
         
             <input id="swal-input1" class="swal2-input" placeholder="Field Name">
             <label>
@@ -1074,390 +1440,431 @@
                 <input type="radio" name="field_type" value="form"> Form
             </label>
         `,
-        showCancelButton: true,
-        confirmButtonText: "Save",
-        focusConfirm: false,
-        inputValidator: (result) => {
+      showCancelButton: true,
+      confirmButtonText: "Save",
+      focusConfirm: false,
+      inputValidator: (result) => {
         if (!result || result[0] == "" || result[1] == "") {
-            return Promise.resolve('Please fill in all fields properly');
-            }
-        },
-        preConfirm: () => {
-            var radioButtons = document.getElementsByName('field_type');
-            for (var i = 0; i < radioButtons.length; i++) {
-                if (radioButtons[i].checked) {
-                    return [
-                        radioButtons[i].value,
-                        document.getElementById("swal-input1").value,
-                    ];
-                }
-            }
+          return Promise.resolve("Please fill in all fields properly");
         }
-        });
-
-        //validate Form Fields
-        if(formValues == true || formValues[1].length < 3){
-            Swal.fire({
-                title: "Please fill in all fields properly",
-                icon: "error",
-                confirmButtonText: "Ok",
-            }).then((result) => {
-                if (result.isConfirmed) {
-                    addMoreField(elem);
-                }
-            });
-            return;
+      },
+      preConfirm: () => {
+        var radioButtons = document.getElementsByName("field_type");
+        for (var i = 0; i < radioButtons.length; i++) {
+          if (radioButtons[i].checked) {
+            return [
+              radioButtons[i].value,
+              document.getElementById("swal-input1").value,
+            ];
+          }
         }
-        const fieldName= formValues[1];
-        const type = formValues[0];     
-            if(type == "text"){
-                createFieldHandler(elem, fieldName, div_container,"link", `${fieldName}`);
-            }else if(type == "gallery"){
-                const bool = await createGalleryFolder(fieldName);
-                if(bool){
-                    createFieldHandler(elem, fieldName, div_container, type, `${fieldName} (Click To edit Gallery)`);
-                }
-            }else{
-                const bool = await createFormForField(fieldName);
-                if(bool){
-                    createFieldHandler(elem, fieldName, div_container, type, `${fieldName} (Click To edit Form)`);
-                }
-            }
-    }
+      },
+    });
 
-    async function createFieldHandler(elem, fieldName, div_container, type, placeholder){
-        const section_id = elem.getAttribute("section_id");
-        const id = await createNewLinkInSection(section_id, type, fieldName, type == "link"?"":null);
-        if(!id){
-            Swal.fire({
-                title: "Something went wrong",
-                icon: "error",
-                confirmButtonText: "Ok",
-            }).then((result) => {
-                if (result.isConfirmed) {
-                    return;
-                }
-            });
-            return 
+    //validate Form Fields
+    if (formValues == true || formValues[1].length < 3) {
+      Swal.fire({
+        title: "Please fill in all fields properly",
+        icon: "error",
+        confirmButtonText: "Ok",
+      }).then((result) => {
+        if (result.isConfirmed) {
+          addMoreField(elem);
         }
+      });
+      return;
+    }
+    const fieldName = formValues[1];
+    const type = formValues[0];
+    if (type == "text") {
+      createFieldHandler(
+        elem,
+        fieldName,
+        div_container,
+        "link",
+        `${fieldName}`
+      );
+    } else if (type == "gallery") {
+      const bool = await createGalleryFolder(fieldName);
+      if (bool) {
+        createFieldHandler(
+          elem,
+          fieldName,
+          div_container,
+          type,
+          `${fieldName} (Click To edit Gallery)`
+        );
+      }
+    } else {
+      const bool = await createFormForField(fieldName);
+      if (bool) {
+        createFieldHandler(
+          elem,
+          fieldName,
+          div_container,
+          type,
+          `${fieldName} (Click To edit Form)`
+        );
+      }
+    }
+  }
 
-        if (fieldName) {
-            // Create a new input container with the specified name
-            let newInputContainer = document.createElement('div');
-            newInputContainer.className = 'input_container_with_eye';
-
-            let newInput = document.createElement('input');
-            newInput.className = 'text_style';
-            newInput.name = fieldName;
-            newInput.placeholder = placeholder;
-            if(type != "link"){
-                newInput.style.cursor = "pointer"
-            }
-            newInput.setAttribute("custom_type", type);
-            newInput.setAttribute("link_id", id);
-            newInput.type = "text";
-            newInput.setAttribute("value", "");
-            newInput.style = "cursor: pointer; outline: none; caret-color: transparent;";
-
-            if(type == "link"){
-                newInput.addEventListener("click", ()=> updateLinkInDatabase(newInput))
-            }else if(type == "gallery"){
-                newInput.addEventListener("click",()=> editGalleryOpenPopUp(newInput))
-            }else{
-                newInput.addEventListener("click",()=> edit_Form_show(newInput))
-            }
-
-            let newEyeIcon = document.createElement('i');
-            newEyeIcon.className = 'eye fa-solid fa-eye eye_open';
-            newEyeIcon.style.margin = '0px 10px';
-
-            newEyeIcon.addEventListener("click",()=>{eyeToggleFunction(newEyeIcon)});
-
-            let deleteIcon = document.createElement('i');
-            deleteIcon.className = 'fas fa-trash-alt delete-field-btn';
-            deleteIcon.style.color = "#0066C9"
-            deleteIcon.setAttribute("link_id", id);
-            deleteIcon.style.cursor = "pointer"
-            deleteIcon.onclick = function () {
-                // Remove the parent container when the trash icon is clicked
-                deleteLinkInDatabase(deleteIcon);
-            };
-
-            let handleIcon = document.createElement('i');
-            handleIcon.className = 'handle fa-solid fa-grip-vertical';
-            handleIcon.style.cursor = "grab";
-            handleIcon.style.marginLeft = "10px";
-
-            // Append the new elements to the container
-            newInputContainer.appendChild(newInput);
-            newInputContainer.appendChild(newEyeIcon);
-            newInputContainer.appendChild(deleteIcon);
-            newInputContainer.appendChild(handleIcon);
-
-            div_container.appendChild(newInputContainer);
-            await saveLinkOrder(div_container)
-            
+  async function createFieldHandler(
+    elem,
+    fieldName,
+    div_container,
+    type,
+    placeholder
+  ) {
+    const section_id = elem.getAttribute("section_id");
+    const id = await createNewLinkInSection(
+      section_id,
+      type,
+      fieldName,
+      type == "link" ? "" : null
+    );
+    if (!id) {
+      Swal.fire({
+        title: "Something went wrong",
+        icon: "error",
+        confirmButtonText: "Ok",
+      }).then((result) => {
+        if (result.isConfirmed) {
+          return;
         }
-        populateProfilePreview()
-   
+      });
+      return;
     }
 
+    if (fieldName) {
+      // Create a new input container with the specified name
+      let newInputContainer = document.createElement("div");
+      newInputContainer.className = "input_container_with_eye";
 
-    async function createNewLinkInSection(section_id, type, name, link){
-        const res = await fetch("/api/link/create", {
-            method:"POST",
-            headers: {
-                "Content-Type": "application/json"
-            },
-            body: JSON.stringify({id:section_id, type, name, link})
-        })
-        const resData = await res.json()
-        if(res.status == 200){
-            return resData.id;
-        }else{
-            return false;
-        }  
+      let newInput = document.createElement("input");
+      newInput.className = "text_style";
+      newInput.name = fieldName;
+      newInput.placeholder = placeholder;
+      if (type != "link") {
+        newInput.style.cursor = "pointer";
+      }
+      newInput.setAttribute("custom_type", type);
+      newInput.setAttribute("link_id", id);
+      newInput.type = "text";
+      newInput.setAttribute("value", "");
+      newInput.style =
+        "cursor: pointer; outline: none; caret-color: transparent;";
+
+      if (type == "link") {
+        newInput.addEventListener("click", () =>
+          updateLinkInDatabase(newInput)
+        );
+      } else if (type == "gallery") {
+        newInput.addEventListener("click", () =>
+          editGalleryOpenPopUp(newInput)
+        );
+      } else {
+        newInput.addEventListener("click", () => edit_Form_show(newInput));
+      }
+
+      let newEyeIcon = document.createElement("i");
+      newEyeIcon.className = "eye fa-solid fa-eye eye_open";
+      newEyeIcon.style.margin = "0px 10px";
+
+      newEyeIcon.addEventListener("click", () => {
+        eyeToggleFunction(newEyeIcon);
+      });
+
+      let deleteIcon = document.createElement("i");
+      deleteIcon.className = "fas fa-trash-alt delete-field-btn";
+      deleteIcon.style.color = "#0066C9";
+      deleteIcon.setAttribute("link_id", id);
+      deleteIcon.style.cursor = "pointer";
+      deleteIcon.onclick = function () {
+        // Remove the parent container when the trash icon is clicked
+        deleteLinkInDatabase(deleteIcon);
+      };
+
+      let handleIcon = document.createElement("i");
+      handleIcon.className = "handle fa-solid fa-grip-vertical";
+      handleIcon.style.cursor = "grab";
+      handleIcon.style.marginLeft = "10px";
+
+      // Append the new elements to the container
+      newInputContainer.appendChild(newInput);
+      newInputContainer.appendChild(newEyeIcon);
+      newInputContainer.appendChild(deleteIcon);
+      newInputContainer.appendChild(handleIcon);
+
+      div_container.appendChild(newInputContainer);
+      await saveLinkOrder(div_container);
     }
+    populateProfilePreview();
+  }
 
-
-    async function createGalleryFolder(galleryname) {
-        const profile_id = document.getElementById("profile_id").getAttribute("profile_id");
-        const res = await fetch("/api/gallery/create", {
-            method:"POST",
-            headers: {
-                "Content-Type": "application/json"
-            },
-            body: JSON.stringify({id:profile_id, galleryname:galleryname})
-        })
-        const resData = await res.json()
-        if(res.status == 200){
-            return true;
-        }else{
-            Swal.fire({
-                title: resData.message,
-                icon: "error",
-                confirmButtonText: "Ok",
-            });
-            return false;
-        }
+  async function createNewLinkInSection(section_id, type, name, link) {
+    const res = await fetch("/api/link/create", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({ id: section_id, type, name, link }),
+    });
+    const resData = await res.json();
+    if (res.status == 200) {
+      return resData.id;
+    } else {
+      return false;
     }
+  }
 
-
-    async function updateVisibility(eye, isSection) {
-        const profile_id = document.getElementById("profile_id").getAttribute("profile_id");
-        let type = null;
-        if(eye.getAttribute("type")){
-            type = eye.getAttribute("type");
-        }
-        const id = isSection?eye.getAttribute("section_id"):eye.getAttribute("link_id");
-        const hidden = !eye.classList.contains("eye_close");
-        showSaveToast();
-        await fetch(`/api/${isSection?"section":"link"}/update/visibility`, {
-            method:"POST",
-            headers:{
-                "Content-Type":"application/json"
-            },
-            body:JSON.stringify({id, hidden, type, profile_id})
-        })
+  async function createGalleryFolder(galleryname) {
+    const profile_id = document
+      .getElementById("profile_id")
+      .getAttribute("profile_id");
+    const res = await fetch("/api/gallery/create", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({ id: profile_id, galleryname: galleryname }),
+    });
+    const resData = await res.json();
+    if (res.status == 200) {
+      return true;
+    } else {
+      Swal.fire({
+        title: resData.message,
+        icon: "error",
+        confirmButtonText: "Ok",
+      });
+      return false;
     }
+  }
 
-
-    async function updateLinkInDatabase(elem) {
-        const id = elem.getAttribute("link_id");
-        const value = elem.getAttribute("value");
-        const name = elem.getAttribute("name");
-        const type = elem.getAttribute("custom_type");
-        if(["fb", "insta", "linked"].includes(type)){
-            Swal.fire({
-                title: "Link",
-                input: "text",
-                inputAttributes: {
-                    autocapitalize: "off"
-                },
-                showCancelButton: true,
-                inputValue:value,
-                confirmButtonText: "Save",
-                showLoaderOnConfirm: true,
-                inputValidator: (value) => {
-                        if (!value) {
-                        return "You need to Write something!";
-                        }
-                    },
-                preConfirm: async (fieldValue) => {
-                    elem.setAttribute("value", fieldValue);
-                    populateProfilePreview();
-                    // Create a Fetch request
-                    showSaveToast();
-                    await fetch('/api/link/update/valueAndname', {
-                        method: 'POST',
-                        headers: {
-                            'Content-Type': 'application/json',
-                        },
-                        body: JSON.stringify({ id: id, name:name, value: fieldValue }),
-                    })
-                    
-                }
-            });            
-
-        }else{
-            const { value: formValues } = await Swal.fire({
-            title: "Enter Name",
-            html: `
-                <input id="swal-input1" value="${name}" placeholder="Enter Name" class="swal2-input">
-                <input id="swal-input2" ${["call", "whats"].includes(type)?`type="number"`:`type="text"`} value="${value}" Placeholder ="Enter Value" class="swal2-input">
-            `,
-            focusConfirm: false,
-            showCancelButton: true,
-            preConfirm: () => {
-                return [
-                document.getElementById("swal-input1").value,
-                document.getElementById("swal-input2").value
-                ];
-            }
-            });
-            if(!formValues){
-                return;
-            }
-            if(formValues == true || !formValues || formValues[1].length < 3){
-                Swal.fire({
-                    title: "Please fill in all fields properly",
-                    icon: "error",
-                    confirmButtonText: "Ok",
-                }).then((result) => {
-                    if (result.isConfirmed) {
-                        updateLinkInDatabase(elem);
-                    }
-                });
-                return;
-            }
-            const newName = formValues[0];
-            const newValue = formValues[1];
-            elem.setAttribute("name", newName);
-            elem.setAttribute("value", newValue);
-            populateProfilePreview();
-            // Create a Fetch request
-            showSaveToast();
-            await fetch('/api/link/update/valueAndname', {
-    
-    
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
-                },
-                body: JSON.stringify({ id: id, name:newName, value: newValue }),
-            })
-        }
+  async function updateVisibility(eye, isSection) {
+    const profile_id = document
+      .getElementById("profile_id")
+      .getAttribute("profile_id");
+    let type = null;
+    if (eye.getAttribute("type")) {
+      type = eye.getAttribute("type");
     }
+    const id = isSection
+      ? eye.getAttribute("section_id")
+      : eye.getAttribute("link_id");
+    const hidden = !eye.classList.contains("eye_close");
+    showSaveToast();
+    await fetch(`/api/${isSection ? "section" : "link"}/update/visibility`, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({ id, hidden, type, profile_id }),
+    });
+  }
 
-    async function updateProfileInfo(elem) {
-        const name = elem.getAttribute("name");
-        const id = elem.getAttribute("profile_id");
-        const value = elem.value;
-        // Create a Fetch request
-        showSaveToast();
-        await fetch('/api/profile/update/info', {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json',
-            },
-            body: JSON.stringify({name, id: id, value: value }),
-        })
-        const viewBtn = document.getElementById("viewProfileBtn");
-        const profileId = document.getElementById("profile_id").getAttribute("profile_id");
-        viewBtn.href = `/profile/${profileId}/${value}`;
-    }
-  
-    async function deleteLinkInDatabase(elem) {
-        const profile_id = document.getElementById("profile_id").getAttribute("profile_id");
-
-     try {
-        showSaveToast();
-        await fetch('/api/link/delete', {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json',
-            },
-            body: JSON.stringify({ id: elem.getAttribute("link_id"), profile_id:profile_id }),
-        })
-
-        // remove its parentContainer also
-        elem.parentNode.remove();
-     } catch (error) {
-        console.log(error.message);
-     }
-     populateProfilePreview()
-    }
-
-    function showSaveToast() {
-        const Toast = Swal.mixin({
-        toast: true,
-        position: "top-end",
-        showConfirmButton: false,
-        timer: 2000,
-        timerProgressBar: true,
-        didOpen: (toast) => {
-            toast.onmouseenter = Swal.stopTimer;
-            toast.onmouseleave = Swal.resumeTimer;
-        }
-        });
-        Toast.fire({
-        icon: "success",
-        title: "Saving"
-        });
-    }
-
-
-    async function createFormForField(fieldName) {
-        const profile_id = document.getElementById("profile_id").getAttribute("profile_id");
-        const res = await fetch("/api/form/create", {
-            method:"POST",
-            headers: {
-                "Content-Type": "application/json"
-            },
-            body: JSON.stringify({id:profile_id, name:fieldName})
-        })
-        const resData = await res.json()
-        if(res.status == 200){
-            Swal.fire({
-                title: resData.message,
-                icon: "success",
-                confirmButtonText: "Ok",
-            });
-            return true;
-        }else{
-            Swal.fire({
-                title: resData.message,
-                icon: "error",
-                confirmButtonText: "Ok",
-            });
-            return false;
-        }
-
-    }
-
-
-    async function AddnewSection(button) {
-        Swal.fire({
-        title: "Heading of Section",
+  async function updateLinkInDatabase(elem) {
+    const id = elem.getAttribute("link_id");
+    const value = elem.getAttribute("value");
+    const name = elem.getAttribute("name");
+    const type = elem.getAttribute("custom_type");
+    if (["fb", "insta", "linked"].includes(type)) {
+      Swal.fire({
+        title: "Link",
         input: "text",
         inputAttributes: {
-            autocapitalize: "off"
+          autocapitalize: "off",
         },
         showCancelButton: true,
-        confirmButtonText: "Add",
+        inputValue: value,
+        confirmButtonText: "Save",
         showLoaderOnConfirm: true,
         inputValidator: (value) => {
-                if (!value) {
-                return "You need to Write something!";
-                }
+          if (!value) {
+            return "You need to Write something!";
+          }
+        },
+        preConfirm: async (fieldValue) => {
+          elem.setAttribute("value", fieldValue);
+          populateProfilePreview();
+          // Create a Fetch request
+          showSaveToast();
+          await fetch("/api/link/update/valueAndname", {
+            method: "POST",
+            headers: {
+              "Content-Type": "application/json",
             },
-        preConfirm: async (fieldName) => {
-      
-            const id = await createSectionInDB(fieldName);
-            if(!id){
-                return;
-            }
-            const sectionHTML = `
+            body: JSON.stringify({ id: id, name: name, value: fieldValue }),
+          });
+        },
+      });
+    } else {
+      const { value: formValues } = await Swal.fire({
+        title: "Enter Name",
+        html: `
+                <input id="swal-input1" value="${name}" placeholder="Enter Name" class="swal2-input">
+                <input id="swal-input2" ${
+                  ["call", "whats"].includes(type)
+                    ? `type="number"`
+                    : `type="text"`
+                } value="${value}" Placeholder ="Enter Value" class="swal2-input">
+            `,
+        focusConfirm: false,
+        showCancelButton: true,
+        preConfirm: () => {
+          return [
+            document.getElementById("swal-input1").value,
+            document.getElementById("swal-input2").value,
+          ];
+        },
+      });
+      if (!formValues) {
+        return;
+      }
+      if (formValues == true || !formValues || formValues[1].length < 3) {
+        Swal.fire({
+          title: "Please fill in all fields properly",
+          icon: "error",
+          confirmButtonText: "Ok",
+        }).then((result) => {
+          if (result.isConfirmed) {
+            updateLinkInDatabase(elem);
+          }
+        });
+        return;
+      }
+      const newName = formValues[0];
+      const newValue = formValues[1];
+      elem.setAttribute("name", newName);
+      elem.setAttribute("value", newValue);
+      populateProfilePreview();
+      // Create a Fetch request
+      showSaveToast();
+      await fetch("/api/link/update/valueAndname", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ id: id, name: newName, value: newValue }),
+      });
+    }
+  }
+
+  async function updateProfileInfo(elem) {
+    const name = elem.getAttribute("name");
+    const id = elem.getAttribute("profile_id");
+    const value = elem.value;
+    // Create a Fetch request
+    showSaveToast();
+    await fetch("/api/profile/update/info", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({ name, id: id, value: value }),
+    });
+    const viewBtn = document.getElementById("viewProfileBtn");
+    const profileId = document
+      .getElementById("profile_id")
+      .getAttribute("profile_id");
+    viewBtn.href = `/profile/${profileId}/${value}`;
+  }
+
+  async function deleteLinkInDatabase(elem) {
+    const profile_id = document
+      .getElementById("profile_id")
+      .getAttribute("profile_id");
+
+    try {
+      showSaveToast();
+      await fetch("/api/link/delete", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          id: elem.getAttribute("link_id"),
+          profile_id: profile_id,
+        }),
+      });
+
+      // remove its parentContainer also
+      elem.parentNode.remove();
+    } catch (error) {
+      console.log(error.message);
+    }
+    populateProfilePreview();
+  }
+
+  function showSaveToast() {
+    const Toast = Swal.mixin({
+      toast: true,
+      position: "top-end",
+      showConfirmButton: false,
+      timer: 2000,
+      timerProgressBar: true,
+      didOpen: (toast) => {
+        toast.onmouseenter = Swal.stopTimer;
+        toast.onmouseleave = Swal.resumeTimer;
+      },
+    });
+    Toast.fire({
+      icon: "success",
+      title: "Saving",
+    });
+  }
+
+  async function createFormForField(fieldName) {
+    const profile_id = document
+      .getElementById("profile_id")
+      .getAttribute("profile_id");
+    const res = await fetch("/api/form/create", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({ id: profile_id, name: fieldName }),
+    });
+    const resData = await res.json();
+    if (res.status == 200) {
+      Swal.fire({
+        title: resData.message,
+        icon: "success",
+        confirmButtonText: "Ok",
+      });
+      return true;
+    } else {
+      Swal.fire({
+        title: resData.message,
+        icon: "error",
+        confirmButtonText: "Ok",
+      });
+      return false;
+    }
+  }
+
+  async function AddnewSection(button) {
+    Swal.fire({
+      title: "Heading of Section",
+      input: "text",
+      inputAttributes: {
+        autocapitalize: "off",
+      },
+      showCancelButton: true,
+      confirmButtonText: "Add",
+      showLoaderOnConfirm: true,
+      inputValidator: (value) => {
+        if (!value) {
+          return "You need to Write something!";
+        }
+      },
+      preConfirm: async (fieldName) => {
+        const id = await createSectionInDB(fieldName);
+        if (!id) {
+          return;
+        }
+        const sectionHTML = `
                 <div section_id="${id}" style="width: 100%; margin: 20px auto;">    
                     <div style="display: flex;">
                         <p section_id="${id}" style="margin-left: 25px; margin-bottom: 12px;" class="text_style">${fieldName}</p>
@@ -1475,281 +1882,320 @@
                 </div>
             `;
 
-            // Convert the HTML string to a DOM element
-            const tempContainer = document.createElement('div');
-            tempContainer.innerHTML = sectionHTML;
-            const section = tempContainer.firstElementChild;
+        // Convert the HTML string to a DOM element
+        const tempContainer = document.createElement("div");
+        tempContainer.innerHTML = sectionHTML;
+        const section = tempContainer.firstElementChild;
 
-            const container = button.closest('.Add_new_section');
-            const parent = container.parentNode;
-           
-            // Insert the new section after the clicked button's container
-            parent.insertBefore(section, container);
-            const sortableList = section.querySelector(".sortable-list");
-            const sortable = new Sortable(sortableList, {
-                handle:".handle",
-                onEnd:async  function (evt) {
-                    populateProfilePreview();
-                    await saveLinkOrder(sortableList)
-                },
-            });
+        const container = button.closest(".Add_new_section");
+        const parent = container.parentNode;
 
-            await extractAndSaveOrderOFSections();
+        // Insert the new section after the clicked button's container
+        parent.insertBefore(section, container);
+        const sortableList = section.querySelector(".sortable-list");
+        const sortable = new Sortable(sortableList, {
+          handle: ".handle",
+          onEnd: async function (evt) {
             populateProfilePreview();
-        },
-        allowOutsideClick: () => !Swal.isLoading()
-    })
-    }
-
-    async function createSectionInDB(name) {
-        const profile_id = document.getElementById("profile_id").getAttribute("profile_id");
-        const res = await fetch("/api/section/create", {
-            method:"POST",
-            headers: {
-                "Content-Type": "application/json"
-            },
-            body: JSON.stringify({id:profile_id, name})
-        })
-        const resData = await res.json()
-        if(res.status == 200){
-            Swal.fire({
-                title: resData.message,
-                icon: "success",
-                confirmButtonText: "Ok",
-            });
-            return resData.id;
-        }else{
-            Swal.fire({
-                title: resData.message,
-                icon: "error",
-                confirmButtonText: "Ok",
-            });
-            return false;
-        }  
-    }
-
-    async function deleteSection(elem) {
-        const section =   document.querySelector(`[section_id="${elem.getAttribute("section_id")}"]`)
-        const prevAddNewSection = section.previousElementSibling;
-        if(prevAddNewSection && prevAddNewSection.classList.contains("Add_new_section")){
-            prevAddNewSection.remove();
-        }
-        section.remove();
-        const id = elem.getAttribute("section_id");
-        const res = await fetch("/api/section/delete", {
-            method:"POST",
-            headers: {
-                "Content-Type": "application/json"
-            },
-            body: JSON.stringify({id})
-        })
-        const resData = await res.json()
-        if(res.status == 200){
-            Swal.fire({
-                title: resData.message,
-                icon: "success",
-                confirmButtonText: "Ok",
-            });
-        }else{
-            Swal.fire({
-                title: resData.message,
-                icon: "error",
-                confirmButtonText: "Ok",
-            });
-            return false;
-        }
-        populateProfilePreview();
-    }
-
-    function extractDataOfSectionsToPreview() {
-        const container = document.getElementById("dynamic_section_container");
-        const sections = Array.from(container.children).filter(child=>{
-            return !child.classList.contains("Add_new_section");
-        })
-        const sectionsData = [];
-        for (const section of sections) {
-            const sectionhidden =  section.querySelector(".eye").classList.contains("eye_close");
-            const sectionType = section.getAttribute("section_type");
-            if(sectionhidden){
-                continue;
-            }
-            const obj = {heading :section.querySelector("p")?.innerText, type:sectionType};
-            const links = Array.from(section.querySelectorAll(".input_container_with_eye"));
-            const linksData = [];
-            for (const link of links) {
-                const linkObj = {};
-                linkObj.hidden = link.querySelector(".eye").classList.contains("eye_close");
-                if(linkObj.hidden){
-                    continue;
-                }
-
-                const input = link.querySelector("input");
-                linkObj.type = input.getAttribute("custom_type");
-                linkObj.name = input.getAttribute("name");
-                linkObj.link = input.getAttribute("value");
-                linkObj.placeholder = input.getAttribute("placeholder");
-                linksData.push(linkObj);
-            }
-            obj.links = linksData;
-            sectionsData.push(obj);
-        }
-        return sectionsData;
-    }
-
-    async function aboutUsHandler() {
-        const profile_id = document.getElementById("profile_id").getAttribute("profile_id");
-        const res =  await fetch(`/api/profiles/${profile_id}/get/about_us`);
-        const {about_us} = await res.json();
-        const { value: formValues } = await Swal.fire({
-        title: "About Us",
-        html: `
-        <div style="display:flex; flex-direction:column">
-            <input id="swal-input1" value="${about_us?.[0]?about_us?.[0]:""}" class="swal2-input" placeholder="Heading">
-            <input id="swal-input2" value="${about_us?.[1]?about_us?.[1]:""}" class="swal2-input" placeholder="Title">
-            <textarea id="swal-input3" class="swal2-input" placeholder="Description">${about_us?.[2]?about_us?.[2]:""}</textarea>    
-        </div>
-        `,
-        showCancelButton: true,
-        width :700,
-        customClass: 'swal-height',
-        confirmButtonText: "Save",
-        focusConfirm: false,
-        preConfirm: () => {
-            return [
-            document.getElementById("swal-input1").value,
-            document.getElementById("swal-input2").value,
-            document.getElementById("swal-input3").value
-            ];
-        }
+            await saveLinkOrder(sortableList);
+          },
         });
-        if (formValues) {
-        const res = await fetch("/api/profile/update/aboutUs", {
-            method:"POST",
-            headers: {
-                "Content-Type": "application/json"
-            },
-            body: JSON.stringify({id:profile_id, aboutUs:formValues})
-        })
-        const resData = await res.json()
-        if(res.status == 200){
-            Swal.fire({
-                title: resData.message,
-                icon: "success",
-                confirmButtonText: "Next",
-            })
-        }else{
-            Swal.fire({
-                title: resData.message,
-                icon: "error",
-                confirmButtonText: "Ok",
-            });
-            return false;
-        }  
+
+        await extractAndSaveOrderOFSections();
+        populateProfilePreview();
+      },
+      allowOutsideClick: () => !Swal.isLoading(),
+    });
+  }
+
+  async function createSectionInDB(name) {
+    const profile_id = document
+      .getElementById("profile_id")
+      .getAttribute("profile_id");
+    const res = await fetch("/api/section/create", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({ id: profile_id, name }),
+    });
+    const resData = await res.json();
+    if (res.status == 200) {
+      Swal.fire({
+        title: resData.message,
+        icon: "success",
+        confirmButtonText: "Ok",
+      });
+      return resData.id;
+    } else {
+      Swal.fire({
+        title: resData.message,
+        icon: "error",
+        confirmButtonText: "Ok",
+      });
+      return false;
     }
+  }
+
+  async function deleteSection(elem) {
+    const section = document.querySelector(
+      `[section_id="${elem.getAttribute("section_id")}"]`
+    );
+    const prevAddNewSection = section.previousElementSibling;
+    if (
+      prevAddNewSection &&
+      prevAddNewSection.classList.contains("Add_new_section")
+    ) {
+      prevAddNewSection.remove();
+    }
+    section.remove();
+    const id = elem.getAttribute("section_id");
+    const res = await fetch("/api/section/delete", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({ id }),
+    });
+    const resData = await res.json();
+    if (res.status == 200) {
+      Swal.fire({
+        title: resData.message,
+        icon: "success",
+        confirmButtonText: "Ok",
+      });
+    } else {
+      Swal.fire({
+        title: resData.message,
+        icon: "error",
+        confirmButtonText: "Ok",
+      });
+      return false;
+    }
+    populateProfilePreview();
+  }
+
+  function extractDataOfSectionsToPreview() {
+    const container = document.getElementById("dynamic_section_container");
+    const sections = Array.from(container.children).filter((child) => {
+      return !child.classList.contains("Add_new_section");
+    });
+    const sectionsData = [];
+    for (const section of sections) {
+      const sectionhidden = section
+        .querySelector(".eye")
+        .classList.contains("eye_close");
+      const sectionType = section.getAttribute("section_type");
+      if (sectionhidden) {
+        continue;
+      }
+      const obj = {
+        heading: section.querySelector("p")?.innerText,
+        type: sectionType,
+      };
+      const links = Array.from(
+        section.querySelectorAll(".input_container_with_eye")
+      );
+      const linksData = [];
+      for (const link of links) {
+        const linkObj = {};
+        linkObj.hidden = link
+          .querySelector(".eye")
+          .classList.contains("eye_close");
+        if (linkObj.hidden) {
+          continue;
+        }
+
+        const input = link.querySelector("input");
+        linkObj.type = input.getAttribute("custom_type");
+        linkObj.name = input.getAttribute("name");
+        linkObj.link = input.getAttribute("value");
+        linkObj.placeholder = input.getAttribute("placeholder");
+        linksData.push(linkObj);
+      }
+      obj.links = linksData;
+      sectionsData.push(obj);
+    }
+    return sectionsData;
+  }
+
+  async function aboutUsHandler(btn) {
+ try {
+    const profile_id = document.getElementById("profile_id").getAttribute("profile_id");
+    const res = await fetch(`/api/profiles/${profile_id}/get/about_us`);
+    if (!res.ok) throw new Error('Failed to fetch "About Us" data');
+    const { about_us, fieldName } = await res.json();
+
+    const formValues = await Swal.fire({
+      title: "About Us",
+      html: `
+        <div style="display:flex; flex-direction:column">
+            <input id="swal-input0" value="${fieldName}" class="swal2-input" placeholder="Name">
+            <input id="swal-input1" value="${about_us?.[0] ? about_us?.[0] : ""}" class="swal2-input" placeholder="Heading">
+            <input id="swal-input2" value="${about_us?.[1] ? about_us?.[1] : ""}" class="swal2-input" placeholder="Title">
+            <textarea id="swal-input3" class="swal2-input" placeholder="Description">${about_us?.[2] ? about_us?.[2] : ""}</textarea>    
+        </div>
+      `,
+      showCancelButton: true,
+      width: 700,
+      customClass: "swal-height",
+      confirmButtonText: "Save",
+      focusConfirm: false,
+      preConfirm: () => {
+        const nameInput = document.getElementById("swal-input0").value;
+        if (!nameInput) {
+          Swal.showValidationMessage("Name cannot be empty");
+          return;
+        }
+        return [
+          nameInput,
+          document.getElementById("swal-input1").value,
+          document.getElementById("swal-input2").value,
+          document.getElementById("swal-input3").value,
+        ];
+      },
+    });
+
+    if (formValues) {
+      const updateRes = await fetch("/api/profile/update/aboutUs", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ id: profile_id, aboutUs: formValues.value }),
+      });
+      if (!updateRes.ok) throw new Error('Failed to update "About Us" data');
+      const resData = await updateRes.json();
+      btn.setAttribute("name", formValues.value[0]);
+      populateProfilePreview();
+      Swal.fire({
+        title: resData.message,
+        icon: updateRes.status === 200 ? "success" : "error",
+        confirmButtonText: "Next",
+      });
+    }
+ } catch (error) {
+    console.error(error);
+    Swal.fire({
+      title: 'An error occurred',
+      text: error.message,
+      icon: 'error',
+      confirmButtonText: 'Ok',
+    });
+ }
 }
 
-    async function updatetemplate() {
-        const profile_id = document.getElementById("profile_id").getAttribute("profile_id");
-        const res = await fetch("/api/profile/update/template", {
-            method:"POST",
-            headers: {
-                "Content-Type": "application/json"
-            },
-            body: JSON.stringify({id:profile_id, template:profileDataState.templateSelected})
-        })
-        const resData = await res.json()
-        if(res.status == 200){
-            Swal.fire({
-                title: resData.message,
-                icon: "success",
-                confirmButtonText: "Ok",
-            });
-            return true;
-        }else{
-            Swal.fire({
-                title: resData.message,
-                icon: "error",
-                confirmButtonText: "Ok",
-            });
-            return false;
-        }  
+
+  async function updatetemplate() {
+    const profile_id = document
+      .getElementById("profile_id")
+      .getAttribute("profile_id");
+    const res = await fetch("/api/profile/update/template", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        id: profile_id,
+        template: profileDataState.templateSelected,
+      }),
+    });
+    const resData = await res.json();
+    if (res.status == 200) {
+      Swal.fire({
+        title: resData.message,
+        icon: "success",
+        confirmButtonText: "Ok",
+      });
+      return true;
+    } else {
+      Swal.fire({
+        title: resData.message,
+        icon: "error",
+        confirmButtonText: "Ok",
+      });
+      return false;
     }
+  }
 
-    function limitTextarea() {
-        var textarea = document.getElementById("profile_desc");
-        var maxLength = parseInt(textarea.getAttribute("maxlength"));
-        var currentLength = textarea.value.length;
+  function limitTextarea() {
+    var textarea = document.getElementById("profile_desc");
+    var maxLength = parseInt(textarea.getAttribute("maxlength"));
+    var currentLength = textarea.value.length;
 
-        if (currentLength > maxLength) {
-            textarea.value = textarea.value.slice(0, maxLength);
+    if (currentLength > maxLength) {
+      textarea.value = textarea.value.slice(0, maxLength);
+    }
+  }
+
+  function updateCharCount() {
+    var textarea = document.getElementById("profile_desc");
+    var charCount = document.getElementById("charCount");
+    var currentLength = textarea.value.length;
+
+    charCount.textContent =
+      currentLength + "/" + textarea.getAttribute("maxlength");
+  }
+
+  async function extractAndSaveOrderOFSections(params) {
+    const container = document.getElementById("dynamic_section_container");
+    const sections = Array.from(container.children).filter((child) => {
+      return !child.classList.contains("Add_new_section");
+    });
+
+    const sectionsIds = sections.map((section) => {
+      return section.getAttribute("section_id");
+    });
+    const profile_id = document
+      .getElementById("profile_id")
+      .getAttribute("profile_id");
+    await fetch(`/api/profile/update/sectionsOrder`, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({ id: profile_id, sectionsIds }),
+    });
+  }
+
+  async function updatCalculatorName(input) {
+    const name = input.value;
+
+    const { value: newName } = await Swal.fire({
+      title: "Enter Calculator Name",
+      input: "text",
+      inputValue: name,
+      showCancelButton: true,
+      inputValidator: (value) => {
+        if (!value) {
+          return "You need to write something!";
         }
+      },
+    });
+    if (!newName) {
+      return;
     }
 
-    function updateCharCount() {
-        var textarea = document.getElementById("profile_desc");
-        var charCount = document.getElementById("charCount");
-        var currentLength = textarea.value.length;
-
-        charCount.textContent =  currentLength + "/" + textarea.getAttribute("maxlength");
+    const id = input.getAttribute("link_id");
+    const res = await fetch("/api/link/update/link", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({ id, newName }),
+    });
+    const resData = await res.json();
+    if (res.status == 200) {
+      showSaveToast();
+      input.name = newName;
+      input.value = newName;
+      populateProfilePreview();
+    } else {
+      Swal.fire({
+        title: resData.message,
+        icon: "error",
+        confirmButtonText: "Ok",
+      });
     }
-
-    async function extractAndSaveOrderOFSections(params) {
-        const container = document.getElementById("dynamic_section_container");
-        const sections = Array.from(container.children).filter(child=>{
-            return !child.classList.contains("Add_new_section");
-        })
-
-        const sectionsIds = sections.map(section=>{
-            return section.getAttribute("section_id");
-        })
-        const profile_id = document.getElementById("profile_id").getAttribute("profile_id");
-        await fetch(`/api/profile/update/sectionsOrder`, {
-            method:"POST",
-            headers: {
-                "Content-Type": "application/json"
-            },
-            body: JSON.stringify({id:profile_id, sectionsIds})
-        })
-    }
-
-    async function updatCalculatorName(input){
-        const name = input.value;
-
-        const { value: newName } = await Swal.fire({
-            title: "Enter Calculator Name",
-            input: "text",
-            inputValue:name,
-            showCancelButton: true,
-            inputValidator: (value) => {
-                if (!value) {
-                return "You need to write something!";
-                }
-            }
-        });
-        if(!newName){
-            return;
-        }
-
-        const id = input.getAttribute("link_id");
-        const res = await fetch("/api/link/update/link", {
-            method:"POST",
-            headers: {
-                "Content-Type": "application/json"
-            },
-            body: JSON.stringify({id, newName})
-        })
-        const resData = await res.json()
-        if(res.status == 200){
-          showSaveToast();
-            input.name = newName;
-            input.value = newName;
-            populateProfilePreview()
-        }else{
-            Swal.fire({
-                title: resData.message,
-                icon: "error",
-                confirmButtonText: "Ok",
-            });
-        }  
-    }
+  }
 </script>
