@@ -285,7 +285,7 @@ try {
     console.error("Error in fetching profile:", error);
     return res.status(500).json({ message: "Internal Server Error" });
 }
-}).get("/api/linkcount/:linkId",verify, async (req,res)=>{
+}).get("/api/linkcount/:linkId", async (req,res)=>{
     const {linkId} = req.params;
     try {
         const updateQuery = `UPDATE links SET click_count = click_count + 1 WHERE id = ?`;
