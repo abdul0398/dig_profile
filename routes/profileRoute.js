@@ -225,10 +225,10 @@ try {
                 btnColor = "#ff1212";
                 break;
             case 4:
-                btnColor = "#E67227";
+                btnColor = "#896a50";
                 break;
             case 5:
-                btnColor = "#44b6d5";
+                btnColor = "#59a2bf";
                 break;
             case 6:
                 btnColor = "#b1a08d";

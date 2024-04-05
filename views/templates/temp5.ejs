@@ -189,29 +189,29 @@
     <div class="div">
       <div class="overlay" id="overlay"></div>
       <section style="height: 495px;">
-          <div class="child" style="border: 30px solid #44b6d5;"></div>
+          <div class="child" style="border: 30px solid #59a2bf;"></div>
           <div class="group-parent">
             <div class="rectangle-parent">
-                <div class="group-child" style="background-color: #62c8f4 !important;"></div>
-                <div class="group-item" style="background-color: #44b6d5 !important;"></div>
+                <div class="group-child" style="background-color: #a4d2e6 !important;"></div>
+                <div class="group-item" style="background-color: #59a2bf !important;"></div>
             </div>
             <div class="rectangular-parent-right">
-                <div class="group-child-right" style="background-color: #62c8f4 !important;"></div>
-                <div class="group-item-right" style="background-color: #44b6d5 !important;"></div>
+                <div class="group-child-right" style="background-color: #a4d2e6 !important;"></div>
+                <div class="group-item-right" style="background-color: #59a2bf !important;"></div>
             </div>
           </div>
           <div class="rectangle-group">
-            <div class="rectangle-div" style="background-color: #62c8f4;">
+            <div class="rectangle-div" style="background-color: #a4d2e6;">
               <img id="preview_profile_img" class="polygon-icon" alt="" src="/<%=profile.profile_img_path%>" />
             </div>
           </div>
-          <div class="item" style="border: 30px solid #44b6d5;"></div>
+          <div class="item" style="border: 30px solid #59a2bf;"></div>
       </section>
       
       <section id="profile_container">
-          <p class="agent-name" style="color: #44b6d5;"><%=profile.name%></p>
+          <p class="agent-name" style="color: #59a2bf;"><%=profile.name%></p>
           <%if(profile.description !== ""){%>
-          <p style="color: #44b6d5;
+          <p style="color: #59a2bf;
           text-align: center;
           width: 320px;
           margin: auto;
@@ -219,29 +219,29 @@
             <%}%>
           <section id="profile_preview_innercontainer">
             <%for(key in sections){%>
-                <p style="color: #44b6d5; margin: 40px 30px 20px 30px; width: fit-content;" class="profile_heading"><%=key%></p>
+                <p style="color: #59a2bf; margin: 40px 30px 20px 30px; width: fit-content;" class="profile_heading"><%=key%></p>
                 <%for(link of sections[key]?.links){%>
                   <%if(link.type == "link" && !(link.link == "" || link.link == "#")){%>
-                    <li onclick="linkHandler(this)" linkId="<%=link.id%>" redirect_Url="<%=link.link%>" style="cursor: pointer;  margin:10px auto 10px auto; display: flex; justify-content: center; align-items: center; background-color: #62c8f4; width: 330px; border-radius: 35px; height: 50px;">
+                    <li onclick="linkHandler(this)" linkId="<%=link.id%>" redirect_Url="<%=link.link%>" style="cursor: pointer;  margin:10px auto 10px auto; display: flex; justify-content: center; align-items: center; background-color: #a4d2e6; width: 330px; border-radius: 35px; height: 50px;">
                       <a style="text-decoration: none; color: white;"  ><%=link.name%></a>
                     </li>
                   <%}else if(link.type == "form"){%>
-                    <button class="text_style" form_name="<%=link.name%>"  style="position: relative; border: none; cursor: pointer; color: white; margin:10px auto 10px auto; display: flex; justify-content: center; align-items: center; background-color: #62c8f4; width: 330px; border-radius: 35px; height: 50px;" onclick="showForm(this, false)"><%=link.name%></button>
+                    <button class="text_style" form_name="<%=link.name%>"  style="position: relative; border: none; cursor: pointer; color: white; margin:10px auto 10px auto; display: flex; justify-content: center; align-items: center; background-color: #a4d2e6; width: 330px; border-radius: 35px; height: 50px;" onclick="showForm(this, false)"><%=link.name%></button>
                   <%}else if(link.type == "about_us"){%>
-                    <a target="_blank" href="/aboutus/<%=profile.id%>" style="position: relative; cursor: pointer; text-decoration: none; color: white;  margin:10px auto 10px auto; display: flex; justify-content: center; align-items: center; background-color: #62c8f4; width: 330px; border-radius: 35px; height: 50px;" >
+                    <a target="_blank" href="/aboutus/<%=profile.id%>" style="position: relative; cursor: pointer; text-decoration: none; color: white;  margin:10px auto 10px auto; display: flex; justify-content: center; align-items: center; background-color: #a4d2e6; width: 330px; border-radius: 35px; height: 50px;" >
                       <%=link.name%>
                       </a>
                   <%}else if(link.type == "calculator"){%>
-                    <button cal_Link="https://abdul0398.github.io/<%=link.link%>/" style="position: relative; font-size: 16px; border: none; cursor: pointer; color: white; margin:10px auto 10px auto; display: flex; justify-content: center; align-items: center; background-color: #62c8f4; width: 330px; border-radius: 35px; height: 50px;" onclick="openCalculator(this)"><%=link.name%></button>
+                    <button cal_Link="https://abdul0398.github.io/<%=link.link%>/" style="position: relative; font-size: 16px; border: none; cursor: pointer; color: white; margin:10px auto 10px auto; display: flex; justify-content: center; align-items: center; background-color: #a4d2e6; width: 330px; border-radius: 35px; height: 50px;" onclick="openCalculator(this)"><%=link.name%></button>
                     <%}else if(link.type == "gallery"){%>
-                      <li onclick="linkHandler(this)" redirect_Url="/gallery/<%=profile.id%>/<%=link.name%>" style="cursor: pointer;  margin:10px auto 10px auto; display: flex; justify-content: center; align-items: center; background-color: #62c8f4; width: 330px; border-radius: 35px; height: 50px;">
+                      <li onclick="linkHandler(this)" redirect_Url="/gallery/<%=profile.id%>/<%=link.name%>" style="cursor: pointer;  margin:10px auto 10px auto; display: flex; justify-content: center; align-items: center; background-color: #a4d2e6; width: 330px; border-radius: 35px; height: 50px;">
                         <a style="text-decoration: none; color: white;"><%=link.name%></a>
                       </li>                      
                     <%}else if(link.type == "bookform"){%>
-                          <button style="position: relative; font-size: 16px; border: none; cursor: pointer; color: white; margin: 10px auto 10px auto; display: flex; justify-content: center; align-items: center; background-color: #62c8f4; width: 330px; border-radius: 35px; height: 50px;" onclick="showFormwithCalender(this)">Book An Appointment</button>
+                          <button style="position: relative; font-size: 16px; border: none; cursor: pointer; color: white; margin: 10px auto 10px auto; display: flex; justify-content: center; align-items: center; background-color: #a4d2e6; width: 330px; border-radius: 35px; height: 50px;" onclick="showFormwithCalender(this)">Book An Appointment</button>
 
                     <%}else if(link.type == "leadform"){%>
-                      <button form_name="Default" style="position: relative; font-size: 16px; border: none; cursor: pointer; color: white; margin: 10px auto 10px auto; display: flex; justify-content: center; align-items: center; background-color: #62c8f4; width: 330px; border-radius: 35px; height: 50px;" onclick="showForm(this, false)"><%=link.name%></button>
+                      <button form_name="Default" style="position: relative; font-size: 16px; border: none; cursor: pointer; color: white; margin: 10px auto 10px auto; display: flex; justify-content: center; align-items: center; background-color: #a4d2e6; width: 330px; border-radius: 35px; height: 50px;" onclick="showForm(this, false)"><%=link.name%></button>
                     <%}%>
                   <%}%>
 
@@ -254,7 +254,7 @@
             <li>
               <%if(social["fb"] && social["fb"].link != "#"){%>
                 <a style="margin: 0px 10px;" href="#" onclick="openLink('<%=social.fb.link%>')">
-                  <i class="fa-brands fa-2xl fa-facebook" style="color: #62c8f4;"></i>
+                  <i class="fa-brands fa-2xl fa-facebook" style="color: #a4d2e6;"></i>
                 </a>
               <%}%>
             </li>
@@ -262,7 +262,7 @@
             <li>
               <%if(social["linked"] && social["linked"].link != "#"){%>
                 <a style="margin: 0px 10px;" href="#" onclick="openLink('<%=social.linked.link%>')">
-                  <i class="fa-brands fa-linkedin fa-2xl" style="color: #62c8f4;"></i>
+                  <i class="fa-brands fa-linkedin fa-2xl" style="color: #a4d2e6;"></i>
                 </a>
               <%}%>
 
@@ -270,14 +270,14 @@
             <li>
               <%if(social.insta && social.insta.link != "#"){%>
                 <a style="margin: 0px 10px;" href="#" onclick="openLink('<%=social.insta.link%>')">
-                  <i class="fa-brands fa-square-instagram fa-2xl" style="color: #62c8f4;"></i>
+                  <i class="fa-brands fa-square-instagram fa-2xl" style="color: #a4d2e6;"></i>
                 </a>
               <%}%>
             </li>
             <li>
               <%if(social.tiktok && social.tiktok.link != "#"){%>
                 <a style="margin: 0px 10px;" href="#" onclick="openLink('<%=social.tiktok.link%>')">
-                  <i class="fa-brands fa-tiktok fa-2xl" style="color: #62c8f4;"></i>
+                  <i class="fa-brands fa-tiktok fa-2xl" style="color: #a4d2e6;"></i>
                 </a>
               <%}%>
           </div>
@@ -288,13 +288,13 @@
           <%if(social.call || social.whats){%>
             <div style="display: flex; width: 100%; height: 100px; justify-content: space-around;">
               <%if(social.call && (social.call.link != "" || social.call.link != "#")){%>
-                <li onclick="linkHandler(this)" redirect_Url="tel:<%=social.call.link%>" style="cursor: pointer; background-color: #62c8f4; margin:0px auto 5px auto; display: flex; justify-content: center; align-items: center;  width: 165px; border-radius: 35px; height: 50px;">
+                <li onclick="linkHandler(this)" redirect_Url="tel:<%=social.call.link%>" style="cursor: pointer; background-color: #a4d2e6; margin:0px auto 5px auto; display: flex; justify-content: center; align-items: center;  width: 165px; border-radius: 35px; height: 50px;">
                   <i class="fa-solid fa-phone"></i>
                   <a target="_blank" style="text-decoration: none; color: rgb(255, 255, 255);  margin-left: 5px;" ><%=social.call.name%></a>
                 </li>
               <%}%>
               <%if(social.whats && social.whats.link != ""){%>
-                <li onclick="linkHandler(this)" redirect_Url="https://wa.me/<%=social.whats.link%>"  style="cursor: pointer; background-color: #62c8f4; margin:0px auto 5px auto; display: flex; justify-content: center; align-items: center; width: 165px; border-radius: 35px; height: 50px;">
+                <li onclick="linkHandler(this)" redirect_Url="https://wa.me/<%=social.whats.link%>"  style="cursor: pointer; background-color: #a4d2e6; margin:0px auto 5px auto; display: flex; justify-content: center; align-items: center; width: 165px; border-radius: 35px; height: 50px;">
                   <i class="fa-brands fa-whatsapp fa-lg"></i>
                     <a target="_blank" style="text-decoration: none; color: rgb(255, 255, 255); margin-left: 5px;" ><%=social.whats.name%></a>
                 </li>
