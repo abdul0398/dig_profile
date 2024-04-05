@@ -16,6 +16,50 @@
 ></script>
 <!--Sortable Js-->
 <script src="https://cdn.jsdelivr.net/npm/sortablejs@latest/Sortable.min.js"></script>
+<style>
+  .profile-card {
+    display: none;
+    position: absolute;
+    bottom: 312px;
+    left: 50%;
+    background-color: #ffffff;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgb(0 0 0 / 10%);
+    width: 60%;
+    padding: 20px;
+    margin: 20px;
+    font-family: "Arial", sans-serif;
+    translate: -55%;
+    box-shadow: 1px -1px 13px 0px rgba(0, 0, 0, 0.26);
+  }
+  .profile-photo-container {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+  .profile-photo {
+    border-radius: 50%;
+    width: 80px;
+    height: 80px;
+    object-fit: cover;
+    border: 3px solid #000;
+  }
+  .profile-name {
+    font-size: 18px;
+    font-weight: bold;
+    margin: 0;
+  }
+  .profile-title {
+    font-size: 14px;
+    color: #555;
+    margin: 0;
+  }
+  .profile-quote {
+    font-size: 14px;
+    color: #333;
+    margin-top: 15px;
+  }
+</style>
 <body>
   <style>
     * {
@@ -372,6 +416,19 @@
         <div template_id="3" class="image-container">
           <img src="./temp3.jpg" />
         </div>
+        
+        <div template_id="4" class="image-container">
+          <img src="./temp4.jpg" />
+        </div>
+        
+        <div template_id="5" class="image-container">
+          <img src="./temp5.jpg" />
+        </div>
+
+        <div template_id="6" class="image-container">
+          <img src="./temp6.jpg" />
+        </div>
+      
       </div>
       <button id="nextBtn" onclick="showNext(this)" class="continue-button">
         Continue
@@ -530,7 +587,10 @@
                   <div class="group-child"></div>
                   <div class="group-item"></div>
                 </div>
-                <img class="group-inner" alt="" src="./group-47@2x.png" />
+                <div class="rectangle-parent-right">
+                  <div class="group-child-right"></div>
+                  <div class="group-item-right"></div>
+                </div>
               </div>
               <div class="rectangle-group">
                 <div class="rectangle-div">
@@ -605,53 +665,11 @@
                 </div>
               </section>
 
-              <style>
-                .profile-card {
-                  display: none;
-                  position: absolute;
-                  bottom: 312px;
-                  left: 50%;
-                  background-color: #ffffff;
-                  border-radius: 8px;
-                  box-shadow: 0 4px 8px rgb(0 0 0 / 10%);
-                  width: 60%;
-                  padding: 20px;
-                  margin: 20px;
-                  font-family: "Arial", sans-serif;
-                  translate: -55%;
-                  box-shadow: 1px -1px 13px 0px rgba(0, 0, 0, 0.26);
-                }
-                .profile-photo-container {
-                  display: flex;
-                  align-items: center;
-                  justify-content: center;
-                }
-                .profile-photo {
-                  border-radius: 50%;
-                  width: 80px;
-                  height: 80px;
-                  object-fit: cover;
-                  border: 3px solid #000;
-                }
-                .profile-name {
-                  font-size: 18px;
-                  font-weight: bold;
-                  margin: 0;
-                }
-                .profile-title {
-                  font-size: 14px;
-                  color: #555;
-                  margin: 0;
-                }
-                .profile-quote {
-                  font-size: 14px;
-                  color: #333;
-                  margin-top: 15px;
-                }
-              </style>
+              
             </section>
           </div>
         </div>
+
 
         <!-- Start of previewing Template 2 -->
         <div class="temp" id="temp2">
@@ -692,8 +710,8 @@
               class="agent-name"
               style="
                 position: absolute;
-                top: 200px;
-                color: #ffffff;
+                top: 213px;
+                color: #b68e00;
                 width: max-content;
                 left: 50%;
                 transform: translateX(-50%);
@@ -755,8 +773,8 @@
               style="
                 width: max-content;
                 position: absolute;
-                top: 172px;
-                color: black;
+                top: 190px;
+                color: #f10;
                 left: 50%;
                 transform: translateX(-50%);
               "
@@ -781,6 +799,151 @@
             </section>
           </div>
         </div>
+
+
+
+        <div class="temp" id="temp4">
+          <!-- Start of previewing Template 1 -->
+          <link rel="stylesheet" href="/css/profile_small.css" />
+          <div class="div">
+            <section style="height: 250px">
+              <div class="child" style="border: 30px solid #EFBC9B;"></div>
+              <div class="group-parent">
+                <div class="rectangle-parent">
+                  <div class="group-child" style="background-color: #EFBC9B !important;"></div>
+                  <div class="group-item" style="background-color: #ECA577 !important;"></div>
+                </div>
+                <div class="rectangle-parent-right">
+                  <div class="group-child-right" style="background-color: #EFBC9B !important;"></div>
+                  <div class="group-item-right" style="background-color: #ECA577 !important;"></div>
+                </div>
+              </div>
+              <div class="rectangle-group">
+                <div class="rectangle-div" style="background-color: #EFBC9B !important;">
+                  <img
+                    class="preview_profile_img polygon-icon"
+                    alt=""
+                    src="./dp.jpg"
+                  />
+                </div>
+              </div>
+              <div class="item" style="  border: 30px solid #EFBC9B;"></div>
+            </section>
+
+            <section id="profile_preview_container_temp4">
+              <p class="agent-name" style="color: #ECA577 !important;"></p>
+              <p
+                class="desc_aboutUs"
+                style="
+                  padding: 0px 20px;
+                  font-size: 12px;
+                  text-align: center;
+                  color: #ECA577;
+                "
+              ></p>
+              <section id="profile_preview_innercontainer_temp4">
+                
+              </section>
+            </section>
+          </div>
+        </div>
+
+
+        <div class="temp" id="temp5">
+          <!-- Start of previewing Template 1 -->
+          <link rel="stylesheet" href="/css/profile_small.css" />
+          <div class="div">
+            <section style="height: 250px">
+              <div class="child" style="background-color: #a4d2e6 !important;"></div>
+              <div class="group-parent">
+                <div class="rectangle-parent">
+                  <div class="group-child" style="background-color: #a4d2e6 !important;"></div>
+                  <div class="group-item" style="  background-color: #90ccdc !important;"></div>
+                </div>
+                <div class="rectangle-parent-right">
+                  <div class="group-child-right" style="background-color: #a4d2e6 !important;"></div>
+                  <div class="group-item-right" style="  background-color: #90ccdc !important;"></div>
+                </div>
+              </div>
+              <div class="rectangle-group">
+                <div class="rectangle-div" style="background-color: #a4d2e6 !important;">
+                  <img
+                    class="preview_profile_img polygon-icon"
+                    alt=""
+                    src="./dp.jpg"
+                  />
+                </div>
+              </div>
+              <div class="item"></div>
+            </section>
+
+            <section id="profile_preview_container_temp5">
+              <p class="agent-name" style="color: #90ccdc !important;"></p>
+              <p
+                class="desc_aboutUs"
+                style="
+                  padding: 0px 20px;
+                  font-size: 12px;
+                  text-align: center;
+                  color: #90ccdc;
+                "
+              ></p>
+              <section id="profile_preview_innercontainer_temp5">
+                
+              </section>
+            </section>
+          </div>
+        </div>
+
+
+
+        <div class="temp" id="temp6">
+          <!-- Start of previewing Template 1 -->
+          <link rel="stylesheet" href="/css/profile_small.css" />
+          <div class="div">
+            <section style="height: 250px">
+              <div class="child" style="    border: 30px solid #b1a08d;"></div>
+              <div class="group-parent">
+                <div class="rectangle-parent">
+                  <div class="group-child" style="  background-color: #c8b595 !important;"></div>
+                  <div class="group-item" style="  background-color: #b1a08d !important;"></div>
+                </div>
+                <div class="rectangle-parent-right">
+                  <div class="group-child-right" style="  background-color: #c8b595 !important;"></div>
+                  <div class="group-item-right" style="  background-color: #b1a08d !important;"></div>
+                </div>
+              </div>
+              <div class="rectangle-group">
+                <div class="rectangle-div" style="  background-color: #c8b595 !important;">
+                  <img
+                    class="preview_profile_img polygon-icon"
+                    alt=""
+                    src="./dp.jpg"
+                  />
+                </div>
+              </div>
+              <div class="item" style="  border: 30px solid #b1a08d;"></div>
+            </section>
+
+            <section id="profile_preview_container_temp6">
+              <p class="agent-name" style="color: #b1a08d !important;"></p>
+              <p
+                class="desc_aboutUs"
+                style="
+                  padding: 0px 20px;
+                  font-size: 12px;
+                  text-align: center;
+                  color: #b1a08d;
+                "
+              ></p>
+              <section id="profile_preview_innercontainer_temp6">
+               
+              </section>
+            </section>
+          </div>
+        </div>
+
+
       </div>
       <div style="display: flex">
         <button
@@ -798,6 +961,21 @@
   <%- include('ordermodal.ejs') %>
 </body>
 <script>
+
+  let tempInfo = {
+    4:{
+      lightColor: "#EFBC9B",
+      darkColor: "#ECA577"
+    },
+    5:{
+      lightColor: "#a4d2e6",
+      darkColor: "#90ccdc"
+    },
+    6:{
+      lightColor: "#c8b595",
+      darkColor: "#b1a08d"
+    }
+  }
   let profileDataState = {
     templateSelected: 1,
   };
@@ -832,9 +1010,9 @@
       .addEventListener("input", () => {
         const value = document.getElementById("profile_name_edit").value;
         const name = document.querySelectorAll(".agent-name");
-        name[0].innerHTML = value;
-        name[1].innerHTML = value;
-        name[2].innerHTML = value;
+        name.forEach((elem) => {
+          elem.innerText = value;
+        });
       });
   }
 
@@ -1080,7 +1258,7 @@
                             </div>
                         </div>
                         </div>`;
-    } else {
+    } else if(profileDataState.templateSelected == 3){
       const profile_preview_container_temp3 = document.getElementById(
         "profile_preview_container_temp3"
       );
@@ -1185,6 +1363,99 @@
                                     : ""
                                 }
                             </div>
+                        </div>
+                        </div>`;
+    }else{
+      // Poluplating template 4,5,6
+      const profile_preview_container = document.getElementById(
+        `profile_preview_innercontainer_temp${profileDataState.templateSelected}`
+      );
+      profile_preview_container.innerHTML = "";
+      sections.forEach((section) => {
+        if (section.type != "socials") {
+          profile_preview_container.innerHTML += `${
+            section.heading
+              ? `<p style="font-size: 12px; margin-bottom:2px; color: ${tempInfo[profileDataState.templateSelected].darkColor} ;padding-left:10px;" class="profile_heading">${section.heading}</p>`
+              : ""
+          }`;
+          section.links.forEach((link) => {
+            profile_preview_container.innerHTML += `<li style="font-size: 12px; margin:0px auto 5px auto; display: flex; justify-content: center; align-items: center; background-color: ${tempInfo[profileDataState.templateSelected].lightColor}; width: 160px; border-radius: 20px; height: 32px;">
+                        <a style="pointer-events: none; color: white;">${
+                          link.name ? link.name : link.placeholder
+                        }</a>
+                    </li>`;
+          });
+        }
+      });
+      const socials = (socailsection = sections.find(
+        (section) => section.type == "socials"
+      ));
+      if (!socials) {
+        return;
+      }
+      const fb = socials.links.find((link) => link.type == "fb");
+      const insta = socials.links.find((link) => link.type == "insta");
+      const linkedin = socials.links.find((link) => link.type == "linked");
+      const call = socials.links.find((link) => link.type == "call");
+      const whatsapp = socials.links.find((link) => link.type == "whats");
+      const tiktok = socials.links.find((link) => link.type == "tiktok");
+      profile_preview_container.innerHTML += `  <div style="margin-top: 10px;">
+                        <div style="display: flex;
+                        margin-top: 10px;
+                        width: fit-content;
+                        margin: 10px auto;">
+                        ${
+                          fb
+                            ? ` <li style="margin: 0px 10px;text-decoration: none;
+                            list-style: none;">
+                             <i class="fa-brands fa-xl fa-facebook" style="color: ${tempInfo[profileDataState.templateSelected].lightColor};"></i>
+                            </li>`
+                            : ""
+                        }
+                           
+                        ${
+                          linkedin
+                            ? ` <li style="margin: 0px 10px;text-decoration: none;
+                            list-style: none;">
+                             <i class="fa-brands fa-linkedin fa-xl" style="color: ${tempInfo[profileDataState.templateSelected].lightColor};"></i>
+                            </li> `
+                            : ""
+                        }
+                        ${
+                          insta
+                            ? ` <li style="margin: 0px 10px;text-decoration: none;
+                            list-style: none;">
+                             <i class="fa-brands fa-square-instagram fa-xl" style="color: ${tempInfo[profileDataState.templateSelected].lightColor};"></i>
+                            </li> `
+                            : ""
+                        }  
+                        ${
+                          tiktok
+                            ? ` <li style="margin: 0px 10px;text-decoration: none;
+                        list-style: none;">
+                            <i class="fa-brands fa-tiktok fa-xl" style="color:${tempInfo[profileDataState.templateSelected].lightColor};"></i>
+                        </li> `
+                            : ""
+                        }
+                        </div>
+                        <div style="display: flex; width: 100%; height: 100px; justify-content: space-around;">
+                            ${
+                              call && call.link != ""
+                                ? ` <li onclick="linkHandler(this)" redirect_Url="tel:" style="cursor: pointer; background-color: ${tempInfo[profileDataState.templateSelected].lightColor}; margin:0px auto 5px auto; display: flex; justify-content: center; align-items: center;  width: 90px; border-radius: 35px; height: 32px; font-size:12px">
+                                  <i class="fa-solid fa-phone"></i>
+                                  <a target="_blank" style="text-decoration: none; margin-left:4px; pointer-events: none; color: white;" >${call.name}</a>
+                                </li> `
+                                : ""
+                            }
+
+                          ${
+                            whatsapp && whatsapp.link != ""
+                              ? `       <li onclick="linkHandler(this)" redirect_Url="https://wa.me/"  style="cursor: pointer; background-color: ${tempInfo[profileDataState.templateSelected].lightColor}; margin:0px auto 5px auto; display: flex; justify-content: center; align-items: center; width: 90px; border-radius: 35px; height: 32px; font-size:12px">
+                                <i class="fa-brands fa-whatsapp fa-lg"></i>
+                                <a target="_blank" style="text-decoration: none; margin-left:4px; pointer-events: none; color: white;" >${whatsapp.name}</a>
+                                </li> `
+                              : ""
+                          }
                         </div>
                         </div>`;
     }
@@ -1749,9 +2020,9 @@
   }
 
   async function updateProfileInfo(elem) {
-    const name = elem.getAttribute("name");
+    const name = elem.getAttribute("name").trim();
     const id = elem.getAttribute("profile_id");
-    const value = elem.value;
+    const value = elem.value.trim();
     // Create a Fetch request
     showSaveToast();
     await fetch("/api/profile/update/info", {

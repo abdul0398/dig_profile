@@ -132,8 +132,9 @@ try {
     try {
     const {profileId, profilename} = req.params;
 
-        const [rows] = await __pool.query(`SELECT * FROM profiles WHERE id = ? && name = ?`, [profileId, profilename]);
+        const [rows] = await __pool.query(`SELECT * FROM profiles WHERE id = ? && name = ?`, [profileId, profilename.trim()]);
         if(rows.length === 0){
+            console.log("Profile not found");
             return res.redirect("/error");
         }
         // update the view count
@@ -211,7 +212,29 @@ try {
                 };
            })
         }
-        return res.render(`temp${template}.ejs`, {sections:sectionLinkMap, profile:profile[0], social:socialobj});
+
+        let btnColor ;
+        switch (template) {
+            case 1:
+                btnColor = "#0066C9";
+                break;
+            case 2:
+                btnColor = "#B68E00";
+                break;
+            case 3:
+                btnColor = "#ff1212";
+                break;
+            case 4:
+                btnColor = "#ECA577";
+                break;
+            case 5:
+                btnColor = "#90ccdc";
+                break;
+            case 6:
+                btnColor = "#b1a08d";
+                break;
+        }
+        return res.render(`templates/temp${template}.ejs`, {sections:sectionLinkMap, profile:profile[0], social:socialobj, btnColor:btnColor});
     } catch (error) {
         console.error("Error in fetching profile", error.message);
         res.redirect("/error");
@@ -558,7 +581,7 @@ try {
 }).get("/gallery/:profileId/:galleryname", async (req,res)=>{
     const {profileId, galleryname} = req.params;
     try {
-        res.render("showgallery.ejs", {id:profileId, galleryname:galleryname});
+        res.render("showgallery.ejs", {id:profileId, galleryname:galleryname.trim()});
     } catch (error) {
         console.log(error.message);
         res.redirect("/error");

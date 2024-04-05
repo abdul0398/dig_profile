@@ -9,9 +9,10 @@
     <meta property="og:image" content="https://realtyprofilesonline.com/newLogo.png">
     <meta property="og:url" content="https://realtyprofilesonline.com">
     <title><%=profile.name%></title>   
-    <link rel="icon" href="/newLogo.png" /> 
+    <link rel="icon" href="/newLogo.png" />   
 
-    <link rel="stylesheet" href="/css/profile2.css" />
+
+    <link rel="stylesheet" href="/css/profile.css" />
     <link
       rel="stylesheet"
       href="https://fonts.googleapis.com/css2?family=Roboto:wght@700&display=swap"
@@ -20,12 +21,16 @@
       rel="stylesheet"
       href="https://fonts.googleapis.com/css2?family=Quicksand:wght@600;700&display=swap"
     />
+
+    <script src="https://kit.fontawesome.com/658a2960da.js" crossorigin="anonymous"></script>
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous">
     <script src="https://code.jquery.com/jquery-3.7.1.min.js" integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" crossorigin="anonymous"></script>
-    <script src="https://kit.fontawesome.com/658a2960da.js" crossorigin="anonymous"></script>
-  </head>
+  
   <style>
+    *{
+      font-family: quicksand;
+    }
     :root{
       touch-action: pan-x pan-y;
       height: 100%;
@@ -37,7 +42,6 @@
     -ms-overflow-style: none;
     scrollbar-width: none;
     z-index: 999;
-
     }
     .overlay {
       display: none;
@@ -89,6 +93,7 @@
       border-radius: 25px;
       background: linear-gradient(0deg, #002773 0%, #002773 100%), #FF6012;
     }
+
     select {
       height: 49.936px;
       width: 100%;
@@ -97,16 +102,15 @@
       border: none;
       padding: 0px 5px;
     }
-    .close_popup{
-      display: none;
-    }
+
     .close_btn{
       cursor: pointer;
       position: absolute; 
       right: 20px; 
       top: 20px;
     }
-    #popupform,#popupCalender{
+
+    #popupform, #popupCalender{
       position: fixed;
       top: 50%;
       left: 50%;
@@ -115,16 +119,26 @@
       padding: 66px 15px 20px 15px;
       background-color: #FFF;
       border-radius: 10px;
+      z-index: 99;
       width: 40%;
-      z-index: 999;
       max-height: 600px;
       overflow-x: auto;
     }
-    a {
-      text-decoration: none;
-      color: white;
+    .close_popup{
+      display: none;
     }
-    .popup {
+
+    .social_icons{
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      margin: 20px auto 20px auto;
+      width: fit-content;
+      color: #002773;
+      list-style: none;
+    }
+
+.popup {
     display: none;
     position: fixed;
     top: 0;
@@ -156,12 +170,14 @@
     cursor: pointer;
 }
 
+
     @media only screen and (max-width: 1000px) {
       #popupform, #popupCalender{
         width: 90%;
       }
     }
   </style>
+  </head>
   <body>
     <div id="popup" class="popup">
       <div class="popup-content">
@@ -169,235 +185,213 @@
          <iframe style="width: 100%; height: 100%;" src="" frameborder="0"></iframe>
       </div>
   </div>
+    
     <div class="div">
       <div class="overlay" id="overlay"></div>
-        <section style="height:350px;">
-          <div class="inner">
-            <div class="vector-parent">
-              <img class="group-child" alt="" src="/vector-4@2x.png" />
-    
-              <div class="group-item"></div>
+      <section style="height: 495px;">
+          <div class="child" style="border: 30px solid #90ccdc;"></div>
+          <div class="group-parent">
+            <div class="rectangle-parent">
+                <div class="group-child" style="background-color: #a4d2e6 !important;"></div>
+                <div class="group-item" style="background-color: #90ccdc !important;"></div>
+            </div>
+            <div class="rectangular-parent-right">
+                <div class="group-child-right" style="background-color: #a4d2e6 !important;"></div>
+                <div class="group-item-right" style="background-color: #90ccdc !important;"></div>
             </div>
           </div>
-        </section>
-        <p style="color: #f10;
-        text-align: center;
-        font-size: 26px;"><%=profile.name%></p>
-        <%if(profile.description !== ""){%>
-          <p style="color: black;
+          <div class="rectangle-group">
+            <div class="rectangle-div" style="background-color: #a4d2e6;">
+              <img id="preview_profile_img" class="polygon-icon" alt="" src="/<%=profile.profile_img_path%>" />
+            </div>
+          </div>
+          <div class="item" style="border: 30px solid #90ccdc;"></div>
+      </section>
+      
+      <section id="profile_container">
+          <p class="agent-name" style="color: #90ccdc;"><%=profile.name%></p>
+          <%if(profile.description !== ""){%>
+          <p style="color: #90ccdc;
           text-align: center;
           width: 320px;
           margin: auto;
           word-wrap: break-word;"><%=profile.description%></p>
             <%}%>
-        <section style="margin-bottom: 30px;" id="profile_preview_innercontainer">
-          <%for(key in sections){%>
-              <p class="text_style heading_style" style="color: black; margin: 40px 30px 20px 30px; width: fit-content;" class="profile_heading"><%=key%></p>
-              <%for(link of sections[key]?.links){%>
-                <%if(link.type == "link"  && !(link.link == "" || link.link == "#")){%>
-                  
-                  <li onclick="linkHandler(this)" linkId="<%=link.id%>" redirect_Url="<%=link.link%>" style="cursor: pointer; position: relative; margin:10px auto 10px auto; display: flex; justify-content: center; align-items: center; background-image: linear-gradient(178.54deg, #ff1212 7.67%, #ff2c1d); width: 330px; border-radius: 20px; height: 50px;">
-                    <a style="text-decoration: none; color: white;"  ><%=link.name%></a>
-                  </li>
-                <%}else if(link.type == "form"){%>
-                  <button form_name="<%=link.name%>" style="position: relative; font-size: 16px; border: none; cursor: pointer; color: white; margin: 10px auto 10px auto; display: flex; justify-content: center; align-items: center; background-image: linear-gradient(178.54deg, #ff1212 7.67%, #ff2c1d); width: 330px; border-radius: 35px; height: 50px;" onclick="showForm(this, false)"><%=link.name%></button>
+          <section id="profile_preview_innercontainer">
+            <%for(key in sections){%>
+                <p style="color: #90ccdc; margin: 40px 30px 20px 30px; width: fit-content;" class="profile_heading"><%=key%></p>
+                <%for(link of sections[key]?.links){%>
+                  <%if(link.type == "link" && !(link.link == "" || link.link == "#")){%>
+                    <li onclick="linkHandler(this)" linkId="<%=link.id%>" redirect_Url="<%=link.link%>" style="cursor: pointer;  margin:10px auto 10px auto; display: flex; justify-content: center; align-items: center; background-color: #a4d2e6; width: 330px; border-radius: 35px; height: 50px;">
+                      <a style="text-decoration: none; color: white;"  ><%=link.name%></a>
+                    </li>
+                  <%}else if(link.type == "form"){%>
+                    <button class="text_style" form_name="<%=link.name%>"  style="position: relative; border: none; cursor: pointer; color: white; margin:10px auto 10px auto; display: flex; justify-content: center; align-items: center; background-color: #a4d2e6; width: 330px; border-radius: 35px; height: 50px;" onclick="showForm(this, false)"><%=link.name%></button>
                   <%}else if(link.type == "about_us"){%>
-                  <a target="_blank" href="/aboutus/<%=profile.id%>" style="position: relative; cursor: pointer; text-decoration: none; color: white;  margin:10px auto 10px auto; display: flex; justify-content: center; align-items: center; background-image: linear-gradient(178.54deg, #ff1212 7.67%, #ff2c1d); width: 330px; border-radius: 35px; height: 50px;" >
-                    <%=link.name%>
-                    </a>
-                <%}else if(link.type == "calculator"){%>
-                  <button cal_Link="https://abdul0398.github.io/<%=link.link%>/" style="font-size: 16px; border: none; cursor: pointer; color: white; margin:10px auto 10px auto; display: flex; justify-content: center; align-items: center; background-image: linear-gradient(178.54deg, #ff1212 7.67%, #ff2c1d); width: 330px; border-radius: 35px; height: 50px;" onclick="openCalculator(this)"><%=link.name%></button>
-                <%}else if(link.type == "gallery"){%>
-                  <li onclick="linkHandler(this)" redirect_Url="/gallery/<%=profile.id%>/<%=link.name%>" style="cursor: pointer; position: relative; margin:10px auto 10px auto; display: flex; justify-content: center; align-items: center; background-image: linear-gradient(178.54deg, #ff1212 7.67%, #ff2c1d); width: 330px; border-radius: 20px; height: 50px;">
-                    <a style="text-decoration: none; color: white;"><%=link.name%></a>
-                  </li>
-                  <%}else if(link.type == "bookform"){%>
-                    <button style="position: relative; font-size: 16px; border: none; cursor: pointer; color: white; margin: 10px auto 10px auto; display: flex; justify-content: center; align-items: center; background-image: linear-gradient(178.54deg, #ff1212 7.67%, #ff2c1d); width: 330px; border-radius: 35px; height: 50px;" onclick="showFormwithCalender(this)">Book An Appointment</button>
+                    <a target="_blank" href="/aboutus/<%=profile.id%>" style="position: relative; cursor: pointer; text-decoration: none; color: white;  margin:10px auto 10px auto; display: flex; justify-content: center; align-items: center; background-color: #a4d2e6; width: 330px; border-radius: 35px; height: 50px;" >
+                      <%=link.name%>
+                      </a>
+                  <%}else if(link.type == "calculator"){%>
+                    <button cal_Link="https://abdul0398.github.io/<%=link.link%>/" style="position: relative; font-size: 16px; border: none; cursor: pointer; color: white; margin:10px auto 10px auto; display: flex; justify-content: center; align-items: center; background-color: #a4d2e6; width: 330px; border-radius: 35px; height: 50px;" onclick="openCalculator(this)"><%=link.name%></button>
+                    <%}else if(link.type == "gallery"){%>
+                      <li onclick="linkHandler(this)" redirect_Url="/gallery/<%=profile.id%>/<%=link.name%>" style="cursor: pointer;  margin:10px auto 10px auto; display: flex; justify-content: center; align-items: center; background-color: #a4d2e6; width: 330px; border-radius: 35px; height: 50px;">
+                        <a style="text-decoration: none; color: white;"><%=link.name%></a>
+                      </li>                      
+                    <%}else if(link.type == "bookform"){%>
+                          <button style="position: relative; font-size: 16px; border: none; cursor: pointer; color: white; margin: 10px auto 10px auto; display: flex; justify-content: center; align-items: center; background-color: #a4d2e6; width: 330px; border-radius: 35px; height: 50px;" onclick="showFormwithCalender(this)">Book An Appointment</button>
 
-              <%}else if(link.type == "leadform"){%>
-                <button form_name="Default" style="position: relative; font-size: 16px; border: none; cursor: pointer; color: white; margin: 10px auto 10px auto; display: flex; justify-content: center; align-items: center; background-image: linear-gradient(178.54deg, #ff1212 7.67%, #ff2c1d); width: 330px; border-radius: 35px; height: 50px;" onclick="showForm(this, false)"><%=link.name%></button>
+                    <%}else if(link.type == "leadform"){%>
+                      <button form_name="Default" style="position: relative; font-size: 16px; border: none; cursor: pointer; color: white; margin: 10px auto 10px auto; display: flex; justify-content: center; align-items: center; background-color: #a4d2e6; width: 330px; border-radius: 35px; height: 50px;" onclick="showForm(this, false)"><%=link.name%></button>
+                    <%}%>
+                  <%}%>
+
+          <%}%>
+
+
+          </section>
+          <div class="social_icons">
+
+            <li>
+              <%if(social["fb"] && social["fb"].link != "#"){%>
+                <a style="margin: 0px 10px;" href="#" onclick="openLink('<%=social.fb.link%>')">
+                  <i class="fa-brands fa-2xl fa-facebook" style="color: #a4d2e6;"></i>
+                </a>
               <%}%>
-                <%}%>
+            </li>
+           
+            <li>
+              <%if(social["linked"] && social["linked"].link != "#"){%>
+                <a style="margin: 0px 10px;" href="#" onclick="openLink('<%=social.linked.link%>')">
+                  <i class="fa-brands fa-linkedin fa-2xl" style="color: #a4d2e6;"></i>
+                </a>
+              <%}%>
 
-        <%}%>
-
-
-
-
+            </li>
+            <li>
+              <%if(social.insta && social.insta.link != "#"){%>
+                <a style="margin: 0px 10px;" href="#" onclick="openLink('<%=social.insta.link%>')">
+                  <i class="fa-brands fa-square-instagram fa-2xl" style="color: #a4d2e6;"></i>
+                </a>
+              <%}%>
+            </li>
+            <li>
+              <%if(social.tiktok && social.tiktok.link != "#"){%>
+                <a style="margin: 0px 10px;" href="#" onclick="openLink('<%=social.tiktok.link%>')">
+                  <i class="fa-brands fa-tiktok fa-2xl" style="color: #a4d2e6;"></i>
+                </a>
+              <%}%>
+          </div>
 
 
         
           
-            </section>
-        <img class="child" alt="" src="/<%=profile.profile_img_path%>" />
+          <%if(social.call || social.whats){%>
+            <div style="display: flex; width: 100%; height: 100px; justify-content: space-around;">
+              <%if(social.call && (social.call.link != "" || social.call.link != "#")){%>
+                <li onclick="linkHandler(this)" redirect_Url="tel:<%=social.call.link%>" style="cursor: pointer; background-color: #a4d2e6; margin:0px auto 5px auto; display: flex; justify-content: center; align-items: center;  width: 165px; border-radius: 35px; height: 50px;">
+                  <i class="fa-solid fa-phone"></i>
+                  <a target="_blank" style="text-decoration: none; color: rgb(255, 255, 255);  margin-left: 5px;" ><%=social.call.name%></a>
+                </li>
+              <%}%>
+              <%if(social.whats && social.whats.link != ""){%>
+                <li onclick="linkHandler(this)" redirect_Url="https://wa.me/<%=social.whats.link%>"  style="cursor: pointer; background-color: #a4d2e6; margin:0px auto 5px auto; display: flex; justify-content: center; align-items: center; width: 165px; border-radius: 35px; height: 50px;">
+                  <i class="fa-brands fa-whatsapp fa-lg"></i>
+                    <a target="_blank" style="text-decoration: none; color: rgb(255, 255, 255); margin-left: 5px;" ><%=social.whats.name%></a>
+                </li>
+              <%}%>
+            </div>
+          <%}%>
 
-  <div style="max-height: 350px;">
-    <div style="height: 80px;">
-      <div style="width: 20.63rem;
-      margin: auto;
-      height: 2.13rem;
-      display: flex;
-      justify-content: space-around;">
+         
+
+      </section>
+</div>
+   <!-- ######## Form ######## -->
+   <div class="hide_scroll close_popup" id="popupform">
+    <p id="form_id_selected" hidden ></p>
+    <span class="close_btn">
+      <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 16 16" fill="none">
+        <path d="M8.88394 7.98975L15.817 1.0656C16.0611 0.821824 16.0611 0.426583 15.817 0.182835C15.5729 -0.0609137 15.1771 -0.0609449 14.9331 0.182835L8 7.10698L1.06698 0.182835C0.822883 -0.0609449 0.427133 -0.0609449 0.18307 0.182835C-0.0609922 0.426614 -0.0610234 0.821855 0.18307 1.0656L7.1161 7.98971L0.18307 14.9139C-0.0610234 15.1576 -0.0610234 15.5529 0.18307 15.7966C0.241049 15.8547 0.309941 15.9007 0.385789 15.9321C0.461637 15.9634 0.542944 15.9795 0.625039 15.9794C0.707133 15.9795 0.788439 15.9634 0.864287 15.9321C0.940134 15.9007 1.00903 15.8547 1.06701 15.7966L8 8.87251L14.933 15.7966C15.0551 15.9185 15.215 15.9794 15.375 15.9794C15.535 15.9794 15.6949 15.9185 15.817 15.7966C16.0611 15.5528 16.0611 15.1576 15.817 14.9139L8.88394 7.98975Z" fill="black"/>
+      </svg>  
+    </span>
+    <input class="form_input" id="name"  type="text"  placeholder="Full Name">
+      <input class="form_input" id="email" type="text"  placeholder="Email address">
+      <div style="display: flex; justify-content: space-between;">
+        <div style="width: 15%; color:black; font-size: 16px;" class="form_input">+65</div>
+        <input style="width: 83%;" id="phone" class="form_input" type="number"  placeholder="Mobile">
+      </div>
+      <input style="height: 70px;" id="message" class="form_input" placeholder="Message"></input>
+      <!-- Example of dynamic fields -->
+      <div id="questions_container">
         <div>
-
-          <%if(social.fb && social.fb.link != "#"){%>
-            <span style="margin: 0px 10px;">
-              <a href="#" onclick="openLink('<%=social.fb.link%>')">
-                <i class="fa-brands fa-2xl fa-facebook" style="color: #ff1212;"></i>
-              </a>
-            </span>
-          <%}%>
-
-          <%if(social.linked && social.linked.link != "#"){%>
-            <span style="margin: 0px 10px;">
-              <a href="#" onclick="openLink('<%=social.linked.link%>')">
-                <i class="fa-brands fa-linkedin fa-2xl" style="color: #ff1212;"></i>
-              </a>
-            </span>
-          <%}%>
-
-          <%if(social["insta"] && social["insta"].link != "#"){%>
-            <span style="margin: 0px 10px;">
-              <a href="#" onclick="openLink('<%=social.insta.link%>')">
-                <i class="fa-brands fa-square-instagram fa-2xl" style="color: #ff1212;"></i>
-              </a>
-            </span>
-          <%}%>
-          <%if(social["tiktok"] && social["tiktok"].link != "#"){%>
-            <span style="margin: 0px 10px;">
-              <a href="#" onclick="openLink('<%=social.tiktok.link%>')">
-                <i class="fa-brands fa-tiktok fa-2xl" style="color: #ff1212;"></i>
-              </a>
-            </span>
-          <%}%>
-          
-         
+          <p class="text_style" style="color: black">Hello what are you doing </p>
+          <select>
+            <option value="">1</option>
+            <option value="">2</option>
+            <option value="">3</option>
+          </select>
         </div>
-        
-        
-         
-       
-      </div>
-    </div>
-
-    <%if(social["call"] || social["whats"]){%>
-      <div style="position: relative; padding-bottom: 50px;">
-        <div style="display: flex; justify-content: space-around; width: 90%; margin: auto;">
-
-          <%if(social["call"] && social["call"].link != ""){%>
-          <div style="width: 165px;">
-            <a target="_blank" href="tel:<%=social["call"].link%>">
-              <button style="background-color: #ff1212; width: 100%; height: 50px; border:none; border-radius: 35px; color: white;">
-                <i class="fa-solid fa-phone"></i>
-                <%=social["call"].name%>
-              </button>
-            </a>
-          </div>
-          <%}%>
-          <%if(social["whats"] && social["whats"].link != ""){%>
-          <div style="width: 165px;">
-            <a target="_blank" href="https://wa.me/<%=social["whats"].link%>">
-              <button style="background-color: transparent; width: 100%; height: 50px; border:1px solid #ff1212 ; border-radius: 35px; color: black;">
-                <i class="fa-brands fa-whatsapp fa-lg"></i>
-                <%=social["whats"].name%>
-              </button>
-            </a>
-          </div>
-          <%}%>
-
+        <!-- Example of dynamic fields -->
+        <div>
+          <p class="text_style" style="color: black">Hello what are you doing </p>
+        <input class="form_input" placeholder="Example"></input>
         </div>
       </div>
-    <%}%>
-  </div>        
+    
+      <div style="display: flex;">
+        <button style="width: 50%; background: <%=btnColor%> !important;" onclick="btnPreviousHandler()" class="btn_submit btn_prev close_popup">Previous</button>
+        <button style="margin: auto; width: 50%; background: <%=btnColor%> !important;" profile_id="<%=profile.id%>" class="btn_submit btn_form" onclick="submitLead(this)">Send</button>
+      </div>
+  </div>
+  <%- include('../calender.ejs') %>
+</div>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL" crossorigin="anonymous"></script>
+<script>
+    let successMsg = "Lead Send Successfully"
+    let is_Booking = false;
+    const overlay = document.getElementById("overlay");
+    overlay.addEventListener("click", function(){
+      const modal = document.querySelectorAll(".open_popup")
+      for(let index = 0; index < modal.length; index++) {
+        const element = modal[index];
+        element.classList.remove("open_popup");
+        element.classList.add("close_popup")
         
-        <img class="image-11-icon" alt="" src="/image-11@2x.png" />
-      </div>
-      <!-- ######## Form ######## -->
-      <div class="hide_scroll close_popup" id="popupform">
-        <p id="form_id_selected" hidden ></p>
-        <span class="close_btn">
-          <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 16 16" fill="none">
-            <path d="M8.88394 7.98975L15.817 1.0656C16.0611 0.821824 16.0611 0.426583 15.817 0.182835C15.5729 -0.0609137 15.1771 -0.0609449 14.9331 0.182835L8 7.10698L1.06698 0.182835C0.822883 -0.0609449 0.427133 -0.0609449 0.18307 0.182835C-0.0609922 0.426614 -0.0610234 0.821855 0.18307 1.0656L7.1161 7.98971L0.18307 14.9139C-0.0610234 15.1576 -0.0610234 15.5529 0.18307 15.7966C0.241049 15.8547 0.309941 15.9007 0.385789 15.9321C0.461637 15.9634 0.542944 15.9795 0.625039 15.9794C0.707133 15.9795 0.788439 15.9634 0.864287 15.9321C0.940134 15.9007 1.00903 15.8547 1.06701 15.7966L8 8.87251L14.933 15.7966C15.0551 15.9185 15.215 15.9794 15.375 15.9794C15.535 15.9794 15.6949 15.9185 15.817 15.7966C16.0611 15.5528 16.0611 15.1576 15.817 14.9139L8.88394 7.98975Z" fill="black"/>
-          </svg>  
-        </span>
-        <input class="form_input" id="name"  type="text"  placeholder="Full Name">
-          <input class="form_input" id="email" type="text"  placeholder="Email address">
-          <div style="display: flex; justify-content: space-between;">
-            <div style="width: 15%; color:black; font-size: 16px;" class="form_input">+65</div>
-            <input style="width: 83%;" id="phone" class="form_input" type="tel" placeholder="Mobile">
-          </div>
-          <input style="height: 70px;" id="message" class="form_input" placeholder="Message"></input>
-          <!-- Example of dynamic fields -->
-          <div id="questions_container">
-            <div>
-              <p class="text_style" style="color: black">Hello what are you doing </p>
-              <select>
-                <option value="">1</option>
-                <option value="">2</option>
-                <option value="">3</option>
-              </select>
-            </div>
-            <!-- Example of dynamic fields -->
-            <div>
-              <p class="text_style" style="color: black">Hello what are you doing </p>
-            <input class="form_input" placeholder="Example"></input>
-            </div>
-          </div>
-          <div style="display: flex;">
-            <button style="width: 50%;" onclick="btnPreviousHandler()" class="btn_submit btn_prev close_popup">Previous</button>
-            <button style="margin: auto; width: 50%;" profile_id="<%=profile.id%>" class="btn_submit" onclick="submitLead(this)">Send</button>
-          </div>
-
-      </div>
-  <%- include('calender.ejs') %>
-
-    </div>
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL" crossorigin="anonymous"></script>
-    <script>
-      let successMsg = "Lead Send Successfully"
-      let is_Booking = false;
-      const overlay = document.getElementById("overlay");
-      overlay.addEventListener("click", function(){
-    const modal = document.querySelectorAll(".open_popup")
-    for(let index = 0; index < modal.length; index++) {
-      const element = modal[index];
-      element.classList.remove("open_popup");
-      element.classList.add("close_popup")
-      
-    }
-    document.getElementsByClassName("btn_prev")[0].classList.add("close_popup");
-    document.getElementsByClassName("btn_prev")[0].classList.remove("open_popup");
-    document.querySelector("#popupform").style.display = "none";
-
-    overlay.style.display = "none";
-  })
-    document.querySelector(".close_btn").addEventListener("click", function(){
+      }
+      document.getElementsByClassName("btn_prev")[0].classList.add("close_popup");
+      document.getElementsByClassName("btn_prev")[0].classList.remove("open_popup");
       document.querySelector("#popupform").style.display = "none";
+
+
       overlay.style.display = "none";
     })
-  
-    async function showForm(e, isBooking){
-          if(isBooking == true){
-            is_Booking = true;
-            document.querySelector(".btn_prev").style.display = "block";
-          }else{
-            is_Booking = false;
-            document.querySelector(".btn_prev").style.display = "none";
-          }
-          const formName = e.getAttribute("form_name");
-          const {form} = await fetchFormDetail(formName);
-          document.getElementById("form_id_selected").innerText = form.id;
-            populateFormbasedOnBtn(form.questions);
-          document.querySelector("#popupform").style.display = "block";
-          overlay.style.display = "block";
-    }
+    document.querySelector(".close_btn").addEventListener("click", function(){
+    document.querySelector("#popupform").style.display = "none";
+    overlay.style.display = "none";
+  })
+
+  async function showForm(e, isBooking){
+      if(isBooking == true){
+        is_Booking = true;
+        document.querySelector(".btn_prev").style.display = "block";
+      }else{
+        is_Booking = false;
+        document.querySelector(".btn_prev").style.display = "none";
+      }
+      const formName = e.getAttribute("form_name");
+      const {form} = await fetchFormDetail(formName);
+      document.getElementById("form_id_selected").innerText = form.id;
+      populateFormbasedOnBtn(form.questions);
+      document.querySelector("#popupform").style.display = "block";
+      overlay.style.display = "block";
+        }
 
 
     const fetchFormDetail = async (name)=>{
     if(!name){
       return {form:{questions: []}};
     }
-    const res = await fetch(`/api/form/get/${name}/<%=profile.id%>`,{
+      const res = await fetch(`/api/form/get/${name}/<%=profile.id%>`,{
           method:"GET"
       })
       const data = await res.json();
@@ -430,11 +424,8 @@
 
    }) 
   }
-  
-    
-    
-    
-  async function submitLead(elem){
+
+    async function submitLead(elem){
     const profilId = elem.getAttribute("profile_id");
     event.preventDefault();
     if(!validateFields()){
@@ -477,7 +468,7 @@
     }
 }
 
-       function getdata(event) {
+    function getdata(event) {
         event.preventDefault(); // Prevent the default form submission
         const formData = {};
         const form = document.getElementById('popupform');
@@ -505,7 +496,6 @@
               formData["Booking"] = null;
             }
             formData["form_id"] = form_id;
-
         
 
         // Extract mobile number (special case because of the split fields)
@@ -553,7 +543,6 @@
 
         return isValid;
     }
-    
 
     function formatDate(date) {
         let d = new Date(date),
@@ -569,16 +558,13 @@
         return [year, month, day].join('-');
       }
 
-   
-
-
       async function linkHandler(e){
         const linkId = e.getAttribute("linkId");
-        let redirect_Url = e.getAttribute("redirect_Url");
         if(!linkId){
-          window.open(redirect_Url, '_blank');
+          window.open(e.getAttribute("redirect_Url"), '_blank');
           return;
         }
+        let redirect_Url = e.getAttribute("redirect_Url");
         const res = await fetch(`/api/linkcount/${linkId}`,{
           method:"GET"
         })
@@ -590,12 +576,11 @@
           window.open(redirect_Url, '_blank');
         }
       }
-    
-      function closePopup() {
-        document.getElementById("popup").style.display = "none";
-      }
 
-    // To open the popup, you can use a function like this:
+    function closePopup() {
+        document.getElementById("popup").style.display = "none";
+    }
+
     function openPopup() {
         document.getElementById("popup").style.display = "block";
     }
@@ -609,13 +594,15 @@
       <iframe style="width: 100%; height: 100%;" src="${cal_Link}" frameborder="0"></iframe>`
       openPopup();
     }
-    
+
     async function showFormwithCalender(){      
         document.querySelector("#popupCalender").classList.add("open_popup");
         document.querySelector("#popupCalender").classList.remove("close_popup");
 
+
         overlay.style.display = "block";
     }
+
     function btnPreviousHandler(){
       showFormwithCalender();
       document.querySelector("#popupform").style.display = "none";
@@ -623,6 +610,7 @@
 
     function openFormOfBooking(){
       successMsg = "Appointment Scheduled Successfully! <br> You will get a WhatsApp shortly."
+
         const div = document.createElement("div");  
         document.querySelector("#popupCalender").classList.remove("open_popup");
         document.querySelector("#popupCalender").classList.add("close_popup");
@@ -630,7 +618,7 @@
         document.getElementsByClassName("btn_prev")[0].classList.add("open_popup");
         showForm(div, true);
     }
-    
+
     function generateLongStringWithDelimiter(id) {
         // Create a random string
         const randomString = generateRandomHexString(16);
@@ -644,16 +632,17 @@
         return btoa(combinedString);
     }
 
+
     function openLink(url) {
         if (!url.startsWith("http://") && !url.startsWith("https://")) {
             url = "https://" + url; // Prepend 'https://' if it's not already there
         }
         window.open(url, '_blank');
     }
-
-
-
-    </script>
-    
+</script>
   </body>
 </html>
+
+
+
+

@@ -99,13 +99,33 @@ color: #616586;
     
 </div>
     <script>
+        const colors = {
+            2: {
+                lightColor:'#b68e00',
+                darkColor: '#dbab00'
+            },
+            3:{
+                lightColor: '#b9140e',
+                darkColor: '#BD5555'
+            },
+            4:{
+                lightColor: '#EFBC9B',
+                darkColor: '#ECA577'
+            },
+            5:{
+                lightColor: '#a4d2e6',
+                darkColor: '#90ccdc'
+            },
+            6:{
+                lightColor: '#c8b595',
+                darkColor: '#b1a08d'
+            },
+
+        }
         const temp = `<%-temp%>`;
-        if(temp == 2){
-            document.querySelector('body').style.backgroundColor = '#b68e00';
-            document.querySelector('.inner_left_left').style.backgroundColor = '#dbab00';
-        }else if(temp == 3){
-            document.querySelector('body').style.backgroundColor = '#b9140e';
-            document.querySelector('.inner_left_left').style.backgroundColor = '#BD5555';
+        if(temp != 1){
+            document.querySelector('body').style.backgroundColor = colors[temp].darkColor;
+            document.querySelector('.inner_left_left').style.backgroundColor = colors[temp].lightColor;
         }
     </script>
 </body>

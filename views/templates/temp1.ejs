@@ -1,0 +1,648 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+
+    <meta property="og:title" content="<%=profile.name%> | Property Profile">
+    <meta property="og:description" content="Explore comprehensive online digital profiles of property agents on our platform. Discover detailed information and insights about experienced real estate professionals, including their expertise, listings, client testimonials, and more. Find the perfect agent to assist you in your property journey with ease and confidence.">
+    <meta property="og:image" content="https://realtyprofilesonline.com/newLogo.png">
+    <meta property="og:url" content="https://realtyprofilesonline.com">
+    <title><%=profile.name%></title>   
+    <link rel="icon" href="/newLogo.png" />   
+
+
+    <link rel="stylesheet" href="/css/profile.css" />
+    <link
+      rel="stylesheet"
+      href="https://fonts.googleapis.com/css2?family=Roboto:wght@700&display=swap"
+    />
+    <link
+      rel="stylesheet"
+      href="https://fonts.googleapis.com/css2?family=Quicksand:wght@600;700&display=swap"
+    />
+
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous">
+    <script src="https://code.jquery.com/jquery-3.7.1.min.js" integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" crossorigin="anonymous"></script>
+    <script src="https://kit.fontawesome.com/658a2960da.js" crossorigin="anonymous"></script>
+  
+  <style>
+    *{
+      font-family: quicksand;
+    }
+    :root{
+      touch-action: pan-x pan-y;
+      height: 100%;
+    }
+      .hide_scroll::-webkit-scrollbar {
+      display: none;
+    }
+    .hide_scroll {
+    -ms-overflow-style: none;
+    scrollbar-width: none;
+    z-index: 999;
+    }
+    .overlay {
+      display: none;
+      position: fixed;
+      top: 0;
+      opacity: 0.4;
+      background-color: rgb(0, 0, 0);
+      left: 0;
+      width: 100%;
+      height: 100%;
+      z-index: 99;
+    }
+    .text_style{
+      color: #FFF;
+      font-family: Quicksand;
+      font-size: 16px;
+      font-style: normal;
+      font-weight: 600;
+      line-height: normal;
+    }
+    .heading_style{
+      position: relative;
+    }
+    a{
+      text-decoration: none;
+      color: #FFF;
+    }
+    .form_input{
+      border: none;
+      height: 49.936px;
+      width: 100%;
+      flex-shrink: 0; 
+      margin-bottom: 15px;
+      border-radius: 4px;
+      background: #ECECEC; 
+      padding: 15px 0px 15px 20px; 
+      box-sizing: border-box;
+    }
+    .btn_submit{
+      width: 100%;
+      margin: 15px 0px;
+      height: 49.936px;
+      flex-shrink: 0;
+      bottom: 20px;
+      color: white;
+      left: 50%; 
+      border: none;
+      cursor: pointer;
+      border-radius: 25px;
+      background: linear-gradient(0deg, #002773 0%, #002773 100%), #FF6012;
+    }
+
+    select {
+      height: 49.936px;
+      width: 100%;
+      background-color: #ECECEC;
+      border-radius: 4px;
+      border: none;
+      padding: 0px 5px;
+    }
+
+    .close_btn{
+      cursor: pointer;
+      position: absolute; 
+      right: 20px; 
+      top: 20px;
+    }
+
+    #popupform, #popupCalender{
+      position: fixed;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      box-sizing: border-box;
+      padding: 66px 15px 20px 15px;
+      background-color: #FFF;
+      border-radius: 10px;
+      z-index: 99;
+      width: 40%;
+      max-height: 600px;
+      overflow-x: auto;
+    }
+    .close_popup{
+      display: none;
+    }
+
+    .social_icons{
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      margin: 20px auto 20px auto;
+      width: fit-content;
+      color: #002773;
+      list-style: none;
+    }
+
+.popup {
+    display: none;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.7);
+    z-index: 1000;
+}
+
+.popup-content {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 90%;
+    height: 90%;
+    transform: translate(-50%, -50%);
+    padding: 20px;
+    background: white;
+    box-shadow: 0px 0px 15px 5px rgba(0, 0, 0, 0.3);
+    z-index: 1001;
+}
+
+.close-btn {
+    position: absolute;
+    top: 10px;
+    right: 15px;
+    font-size: 30px;
+    cursor: pointer;
+}
+
+
+    @media only screen and (max-width: 1000px) {
+      #popupform, #popupCalender{
+        width: 90%;
+      }
+    }
+  </style>
+  </head>
+  <body>
+    <div id="popup" class="popup">
+      <div class="popup-content">
+          <span class="close-btn" onclick="closePopup()">&times;</span>
+         <iframe style="width: 100%; height: 100%;" src="" frameborder="0"></iframe>
+      </div>
+  </div>
+    
+    <div class="div">
+      <div class="overlay" id="overlay"></div>
+      <section style="height: 495px;">
+          <div class="child"></div>
+          <div class="group-parent">
+            <div class="rectangle-parent">
+              <div class="group-child"></div>
+              <div class="group-item"></div>
+            </div>
+            <div class="rectangular-parent-right">
+              <div class="group-child-right"></div>
+              <div class="group-item-right"></div>
+          </div>
+          </div>
+          <div class="rectangle-group">
+            <div class="rectangle-div">
+              <img id="preview_profile_img" class="polygon-icon" alt="" src="/<%=profile.profile_img_path%>" />
+            </div>
+          </div>
+          <div class="item"></div>
+      </section>
+      
+      <section id="profile_container">
+          <p class="agent-name"><%=profile.name%></p>
+          <%if(profile.description !== ""){%>
+          <p style="color: black;
+          text-align: center;
+          width: 320px;
+          margin: auto;
+          word-wrap: break-word;"><%=profile.description%></p>
+            <%}%>
+          <section id="profile_preview_innercontainer">
+            <%for(key in sections){%>
+                <p style="color: #000; margin: 40px 30px 20px 30px; width: fit-content;" class="profile_heading"><%=key%></p>
+                <%for(link of sections[key]?.links){%>
+                  <%if(link.type == "link" && !(link.link == "" || link.link == "#")){%>
+                    <li onclick="linkHandler(this)" linkId="<%=link.id%>" redirect_Url="<%=link.link%>" style="cursor: pointer;  margin:10px auto 10px auto; display: flex; justify-content: center; align-items: center; background-color: #0066C9; width: 330px; border-radius: 35px; height: 50px;">
+                      <a style="text-decoration: none; color: white;"  ><%=link.name%></a>
+                    </li>
+                  <%}else if(link.type == "form"){%>
+                    <button class="text_style" form_name="<%=link.name%>"  style="position: relative; border: none; cursor: pointer; color: white; margin:10px auto 10px auto; display: flex; justify-content: center; align-items: center; background-color: #0066C9; width: 330px; border-radius: 35px; height: 50px;" onclick="showForm(this, false)"><%=link.name%></button>
+                  <%}else if(link.type == "about_us"){%>
+                    <a target="_blank" href="/aboutus/<%=profile.id%>" style="position: relative; cursor: pointer; text-decoration: none; color: white;  margin:10px auto 10px auto; display: flex; justify-content: center; align-items: center; background-color: #0066C9; width: 330px; border-radius: 35px; height: 50px;" >
+                      <%=link.name%>
+                      </a>
+                  <%}else if(link.type == "calculator"){%>
+                    <button cal_Link="https://abdul0398.github.io/<%=link.link%>/" style="position: relative; font-size: 16px; border: none; cursor: pointer; color: white; margin:10px auto 10px auto; display: flex; justify-content: center; align-items: center; background-color: #0066C9; width: 330px; border-radius: 35px; height: 50px;" onclick="openCalculator(this)"><%=link.name%></button>
+                    <%}else if(link.type == "gallery"){%>
+                      <li onclick="linkHandler(this)" redirect_Url="/gallery/<%=profile.id%>/<%=link.name%>" style="cursor: pointer;  margin:10px auto 10px auto; display: flex; justify-content: center; align-items: center; background-color: #0066C9; width: 330px; border-radius: 35px; height: 50px;">
+                        <a style="text-decoration: none; color: white;"><%=link.name%></a>
+                      </li>                      
+                    <%}else if(link.type == "bookform"){%>
+                          <button style="position: relative; font-size: 16px; border: none; cursor: pointer; color: white; margin: 10px auto 10px auto; display: flex; justify-content: center; align-items: center; background-color: #0066C9; width: 330px; border-radius: 35px; height: 50px;" onclick="showFormwithCalender(this)">Book An Appointment</button>
+
+                    <%}else if(link.type == "leadform"){%>
+                      <button form_name="Default" style="position: relative; font-size: 16px; border: none; cursor: pointer; color: white; margin: 10px auto 10px auto; display: flex; justify-content: center; align-items: center; background-color: #0066C9; width: 330px; border-radius: 35px; height: 50px;" onclick="showForm(this, false)"><%=link.name%></button>
+                    <%}%>
+                  <%}%>
+
+          <%}%>
+
+
+          </section>
+          <div class="social_icons">
+
+            <li>
+              <%if(social["fb"] && social["fb"].link != "#"){%>
+                <a style="margin: 0px 10px;" href="#" onclick="openLink('<%=social.fb.link%>')">
+                  <i class="fa-brands fa-2xl fa-facebook" style="color: #0066C9;"></i>
+                </a>
+              <%}%>
+            </li>
+           
+            <li>
+              <%if(social["linked"] && social["linked"].link != "#"){%>
+                <a style="margin: 0px 10px;" href="#" onclick="openLink('<%=social.linked.link%>')">
+                  <i class="fa-brands fa-linkedin fa-2xl" style="color: #0066C9;"></i>
+                </a>
+              <%}%>
+
+            </li>
+            <li>
+              <%if(social.insta && social.insta.link != "#"){%>
+                <a style="margin: 0px 10px;" href="#" onclick="openLink('<%=social.insta.link%>')">
+                  <i class="fa-brands fa-square-instagram fa-2xl" style="color: #0066C9;"></i>
+                </a>
+              <%}%>
+            </li>
+            <li>
+              <%if(social.tiktok && social.tiktok.link != "#"){%>
+                <a style="margin: 0px 10px;" href="#" onclick="openLink('<%=social.tiktok.link%>')">
+                  <i class="fa-brands fa-tiktok fa-2xl" style="color: #0066C9;"></i>
+                </a>
+              <%}%>
+          </div>
+
+
+        
+          
+          <%if(social.call || social.whats){%>
+            <div style="display: flex; width: 100%; height: 100px; justify-content: space-around;">
+              <%if(social.call && (social.call.link != "" || social.call.link != "#")){%>
+                <li onclick="linkHandler(this)" redirect_Url="tel:<%=social.call.link%>" style="cursor: pointer; background-color: #0066C9; margin:0px auto 5px auto; display: flex; justify-content: center; align-items: center;  width: 165px; border-radius: 35px; height: 50px;">
+                  <i class="fa-solid fa-phone"></i>
+                  <a target="_blank" style="text-decoration: none; color: rgb(255, 255, 255);  margin-left: 5px;" ><%=social.call.name%></a>
+                </li>
+              <%}%>
+              <%if(social.whats && social.whats.link != ""){%>
+                <li onclick="linkHandler(this)" redirect_Url="https://wa.me/<%=social.whats.link%>"  style="cursor: pointer; background-color: #0066C9; margin:0px auto 5px auto; display: flex; justify-content: center; align-items: center; width: 165px; border-radius: 35px; height: 50px;">
+                  <i class="fa-brands fa-whatsapp fa-lg"></i>
+                    <a target="_blank" style="text-decoration: none; color: rgb(255, 255, 255); margin-left: 5px;" ><%=social.whats.name%></a>
+                </li>
+              <%}%>
+            </div>
+          <%}%>
+
+         
+
+      </section>
+</div>
+   <!-- ######## Form ######## -->
+   <div class="hide_scroll close_popup" id="popupform">
+    <p id="form_id_selected" hidden ></p>
+    <span class="close_btn">
+      <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 16 16" fill="none">
+        <path d="M8.88394 7.98975L15.817 1.0656C16.0611 0.821824 16.0611 0.426583 15.817 0.182835C15.5729 -0.0609137 15.1771 -0.0609449 14.9331 0.182835L8 7.10698L1.06698 0.182835C0.822883 -0.0609449 0.427133 -0.0609449 0.18307 0.182835C-0.0609922 0.426614 -0.0610234 0.821855 0.18307 1.0656L7.1161 7.98971L0.18307 14.9139C-0.0610234 15.1576 -0.0610234 15.5529 0.18307 15.7966C0.241049 15.8547 0.309941 15.9007 0.385789 15.9321C0.461637 15.9634 0.542944 15.9795 0.625039 15.9794C0.707133 15.9795 0.788439 15.9634 0.864287 15.9321C0.940134 15.9007 1.00903 15.8547 1.06701 15.7966L8 8.87251L14.933 15.7966C15.0551 15.9185 15.215 15.9794 15.375 15.9794C15.535 15.9794 15.6949 15.9185 15.817 15.7966C16.0611 15.5528 16.0611 15.1576 15.817 14.9139L8.88394 7.98975Z" fill="black"/>
+      </svg>  
+    </span>
+    <input class="form_input" id="name"  type="text"  placeholder="Full Name">
+      <input class="form_input" id="email" type="text"  placeholder="Email address">
+      <div style="display: flex; justify-content: space-between;">
+        <div style="width: 15%; color:black; font-size: 16px;" class="form_input">+65</div>
+        <input style="width: 83%;" id="phone" class="form_input" type="number"  placeholder="Mobile">
+      </div>
+      <input style="height: 70px;" id="message" class="form_input" placeholder="Message"></input>
+      <!-- Example of dynamic fields -->
+      <div id="questions_container">
+        <div>
+          <p class="text_style" style="color: black">Hello what are you doing </p>
+          <select>
+            <option value="">1</option>
+            <option value="">2</option>
+            <option value="">3</option>
+          </select>
+        </div>
+        <!-- Example of dynamic fields -->
+        <div>
+          <p class="text_style" style="color: black">Hello what are you doing </p>
+        <input class="form_input" placeholder="Example"></input>
+        </div>
+      </div>
+    
+      <div style="display: flex;">
+        <button style="width: 50%; background: <%=btnColor%> !important;" onclick="btnPreviousHandler()" class="btn_submit btn_prev close_popup">Previous</button>
+        <button style="margin: auto; width: 50%; background: <%=btnColor%> !important;" profile_id="<%=profile.id%>" class="btn_submit btn_form" onclick="submitLead(this)">Send</button>
+      </div>
+  </div>
+  <%- include('../calender.ejs') %>
+</div>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL" crossorigin="anonymous"></script>
+<script>
+    let successMsg = "Lead Send Successfully"
+    let is_Booking = false;
+    const overlay = document.getElementById("overlay");
+    overlay.addEventListener("click", function(){
+      const modal = document.querySelectorAll(".open_popup")
+      for(let index = 0; index < modal.length; index++) {
+        const element = modal[index];
+        element.classList.remove("open_popup");
+        element.classList.add("close_popup")
+        
+      }
+      document.getElementsByClassName("btn_prev")[0].classList.add("close_popup");
+      document.getElementsByClassName("btn_prev")[0].classList.remove("open_popup");
+      document.querySelector("#popupform").style.display = "none";
+
+
+      overlay.style.display = "none";
+    })
+    document.querySelector(".close_btn").addEventListener("click", function(){
+    document.querySelector("#popupform").style.display = "none";
+    overlay.style.display = "none";
+  })
+
+  async function showForm(e, isBooking){
+      if(isBooking == true){
+        is_Booking = true;
+        document.querySelector(".btn_prev").style.display = "block";
+      }else{
+        is_Booking = false;
+        document.querySelector(".btn_prev").style.display = "none";
+      }
+      const formName = e.getAttribute("form_name");
+      const {form} = await fetchFormDetail(formName);
+      document.getElementById("form_id_selected").innerText = form.id;
+      populateFormbasedOnBtn(form.questions);
+      document.querySelector("#popupform").style.display = "block";
+      overlay.style.display = "block";
+        }
+
+
+    const fetchFormDetail = async (name)=>{
+    if(!name){
+      return {form:{questions: []}};
+    }
+      const res = await fetch(`/api/form/get/${name}/<%=profile.id%>`,{
+          method:"GET"
+      })
+      const data = await res.json();
+      return data;
+  }
+
+    function populateFormbasedOnBtn(questions) {
+   const questions_container =  document.getElementById("questions_container");
+   questions_container.innerHTML = "";
+   questions.forEach(question=>{
+    if(question.options.length == 0 || question.options[0] == ""){
+      questions_container.innerHTML += `
+        <div>
+          <p class="text_style" style="color: black">${question.question}</p>
+          <input class="form_input" placeholder="type here"></input>
+        </div>`
+    }else{
+      const options = question.options.map(option=>{
+        return `<option value="${option}">${option}</option>`
+      })
+      questions_container.innerHTML += ` <div>
+          <p class="text_style" style="color: black">${question.question}</p>
+          <select>
+            ${options.join("")}
+          </select>
+        </div>
+      `
+    }  
+
+
+   }) 
+  }
+
+    async function submitLead(elem){
+    const profilId = elem.getAttribute("profile_id");
+    event.preventDefault();
+    if(!validateFields()){
+      Swal.fire({
+        title: 'Error!',
+        text: 'missing fields',
+        icon: 'error',
+        confirmButtonText: 'Okay'
+      })
+      return;
+    };
+    const data = getdata(event);
+    const res = await fetch(`/api/submitLead/${profilId}`,{
+      method:"POST",
+      headers:{
+        "Content-Type":"application/json"
+      },
+      body:JSON.stringify(data)
+    })
+    const resData = await res.json();
+    if(res.status == 200){
+      Swal.fire({
+        title: 'Success!',
+        html: successMsg,
+        icon: 'success',
+        confirmButtonText: 'Okay'
+      }).then(result=>{
+        if(result.isConfirmed){
+          document.querySelector("#popupform").style.display = "none";
+          overlay.style.display = "none";
+        }
+      })
+    }else{
+      Swal.fire({
+        title: 'Error!',
+        text: 'Something went wrong',
+        icon: 'error',
+        confirmButtonText: 'Okay'
+      })
+    }
+}
+
+    function getdata(event) {
+        event.preventDefault(); // Prevent the default form submission
+        const formData = {};
+        const form = document.getElementById('popupform');
+        // Extract data from each question group
+        const questionGroups = form.querySelectorAll('#questions_container > div');
+        questionGroups.forEach(group => {
+            const question = group.querySelector('p.text_style').textContent.trim();
+            const answer = group.querySelector('select, input')?.value;
+            formData[question] = answer;
+        });
+
+        // Get the Form id
+        const form_id = document.getElementById("form_id_selected").innerText;
+
+        // Extract data from other inputs
+        const name = document.getElementById("name").value;
+        const email = document.getElementById("email").value;
+        const message = document.getElementById("message").value;
+            formData["Name"] = name;
+            formData["Email"] = email;
+            formData["Message"] = message;
+            if(is_Booking){
+              formData["Booking"] = selectedDate;
+            }else{
+              formData["Booking"] = null;
+            }
+            formData["form_id"] = form_id;
+        
+
+        // Extract mobile number (special case because of the split fields)
+        const mobile = document.getElementById('phone').value;
+        const countryCode = form.querySelector('.form_input[style*="width: 15%"]').textContent.trim();
+        formData['Mobile'] = countryCode + mobile;
+
+        // Log or handle the formData object
+        return formData;
+    }
+
+    function validateFields() {
+        let isValid = true;
+
+        // Validate text inputs
+        const textInputs = document.querySelectorAll('.form_input[type="text"], .form_input[type="tel"], .form_input[style*="height"]');
+        textInputs.forEach(input => {
+            if (!input.value.trim()) {
+                isValid = false;
+                input.style.borderColor = 'red'; // Highlight in red
+            } else {
+                input.style.borderColor = ''; // Reset style
+            }
+        });
+
+        // Validate email
+        const emailInput = document.querySelector('.form_input[type="text"][placeholder="Email address"]');
+        if (emailInput && !emailInput.value.match(/^\S+@\S+\.\S+$/)) {
+            isValid = false;
+            emailInput.style.borderColor = 'red';
+        } else if (emailInput) {
+            emailInput.style.borderColor = '';
+        }
+
+        // Validate selects
+        const selects = document.querySelectorAll('#questions_container select');
+        selects.forEach(select => {
+            if (select.value === '') {
+                isValid = false;
+                select.style.borderColor = 'red'; // Highlight in red
+            } else {
+                select.style.borderColor = ''; // Reset style
+            }
+        });
+
+        return isValid;
+    }
+
+    function formatDate(date) {
+        let d = new Date(date),
+            month = '' + (d.getMonth() + 1),
+            day = '' + d.getDate(),
+            year = d.getFullYear();
+
+        if (month.length < 2) 
+            month = '0' + month;
+        if (day.length < 2) 
+            day = '0' + day;
+
+        return [year, month, day].join('-');
+      }
+
+      async function linkHandler(e){
+        const linkId = e.getAttribute("linkId");
+        if(!linkId){
+          window.open(e.getAttribute("redirect_Url"), '_blank');
+          return;
+        }
+        let redirect_Url = e.getAttribute("redirect_Url");
+        const res = await fetch(`/api/linkcount/${linkId}`,{
+          method:"GET"
+        })
+        const resData = await res.json();
+        if(res.status == 200){
+          if (!redirect_Url.startsWith("http://") && !redirect_Url.startsWith("https://")) {
+            redirect_Url = "https://" + redirect_Url; // Prepend 'https://' if it's not already there
+        }
+          window.open(redirect_Url, '_blank');
+        }
+      }
+
+    function closePopup() {
+        document.getElementById("popup").style.display = "none";
+    }
+
+    function openPopup() {
+        document.getElementById("popup").style.display = "block";
+    }
+
+    function openCalculator(e){
+      const cal_Link = e.getAttribute("cal_Link");
+      const popup_container = document.querySelector(".popup-content");
+      popup_container.innerHTML = ""
+      popup_container.innerHTML = `
+      <span class="close-btn" onclick="closePopup()">&times;</span>
+      <iframe style="width: 100%; height: 100%;" src="${cal_Link}" frameborder="0"></iframe>`
+      openPopup();
+    }
+
+    async function showFormwithCalender(){      
+        document.querySelector("#popupCalender").classList.add("open_popup");
+        document.querySelector("#popupCalender").classList.remove("close_popup");
+
+
+        overlay.style.display = "block";
+    }
+
+    function btnPreviousHandler(){
+      showFormwithCalender();
+      document.querySelector("#popupform").style.display = "none";
+    }
+
+    function openFormOfBooking(){
+      successMsg = "Appointment Scheduled Successfully! <br> You will get a WhatsApp shortly."
+
+        const div = document.createElement("div");  
+        document.querySelector("#popupCalender").classList.remove("open_popup");
+        document.querySelector("#popupCalender").classList.add("close_popup");
+        document.getElementsByClassName("btn_prev")[0].classList.remove("close_popup");
+        document.getElementsByClassName("btn_prev")[0].classList.add("open_popup");
+        showForm(div, true);
+    }
+
+    function generateLongStringWithDelimiter(id) {
+        // Create a random string
+        const randomString = generateRandomHexString(16);
+
+        // Combine the ID with the random string, separated by a delimiter
+        // Use a delimiter that won't appear in the ID or random string
+        const delimiter = "--"; // Make sure this doesn't conflict with ID or random string characters
+        const combinedString = id + delimiter + randomString;
+
+        // Return the Base64 encoded result
+        return btoa(combinedString);
+    }
+
+
+    function openLink(url) {
+        if (!url.startsWith("http://") && !url.startsWith("https://")) {
+            url = "https://" + url; // Prepend 'https://' if it's not already there
+        }
+        window.open(url, '_blank');
+    }
+</script>
+  </body>
+</html>
+
+
+
+

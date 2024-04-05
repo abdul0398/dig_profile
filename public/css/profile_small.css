@@ -1,31 +1,31 @@
 body {
-    margin: 0;
-    line-height: normal;
-    background: #f4f4f4;
-    padding: 10px;
-  }
-  
-  :root {
-    /* fonts */
-    --font-quicksand: Quicksand;
-    --font-roboto: Roboto;
-  
-    /* font sizes */
-    --font-size-2xl: 21px;
-    --font-size-base: 16px;
-  
-    /* Colors */
-    --color-white: #fff;
-    --color-black: #000;
-    --color-royalblue-100: #0066c9;
-    --color-darkturquoise: #00d1dd;
-    --color-tomato: #f86954;
-  
-    /* Border radiuses */
-    --br-6xl: 25px;
-    --br-xl: 20px;
-    --br-sm: 14px;
-  }
+  margin: 0;
+  line-height: normal;
+  background: #f4f4f4;
+  padding: 10px;
+}
+
+:root {
+  /* fonts */
+  --font-quicksand: Quicksand;
+  --font-roboto: Roboto;
+
+  /* font sizes */
+  --font-size-2xl: 21px;
+  --font-size-base: 16px;
+
+  /* Colors */
+  --color-white: #fff;
+  --color-black: #000;
+  --color-royalblue-100: #0066c9;
+  --color-darkturquoise: #00d1dd;
+  --color-tomato: #f86954;
+
+  /* Border radiuses */
+  --br-6xl: 25px;
+  --br-xl: 20px;
+  --br-sm: 14px;
+}
 .child,
 .group-child,
 .group-item {
@@ -33,48 +33,76 @@ body {
   transform-origin: 0 0;
 }
 .child {
-    top: -113.36px;
-    left: calc(50% - 236px);
-    border-radius: var(--br-sm);
-    border: 18px solid var(--color-darkturquoise);
-    box-sizing: border-box;
-    width: 347.85px;
-    height: 347.85px;
-    transform: rotate(-44deg);
-    opacity: 0.1;
+  top: -113.36px;
+  left: calc(50% - 243px);
+  border-radius: var(--br-sm);
+  border: 18px solid var(--color-darkturquoise);
+  box-sizing: border-box;
+  width: 347.85px;
+  height: 347.85px;
+  transform: rotate(-44deg);
+  opacity: 0.1;
 }
 .group-child,
 .group-item {
-    width: 195.83px;
-    height: 18.84px;
-    transform: rotate(43.74deg);
+  width: 195.83px;
+  height: 18.84px;
+  transform: rotate(43.74deg);
 }
 .group-child {
-    top: -14px;
-    left: 69.25px;
-    background-color: var(--color-royalblue-100);
+  top: -14px;
+  left: 69.25px;
+  background-color: var(--color-royalblue-100);
 }
 .group-item {
-    top: -39.04px;
-    left: 17.26px;
-    background-color: #002773;
+  top: -39.04px;
+  left: 17.26px;
+  background-color: #002773;
 }
 .rectangle-parent {
   top: 0;
   left: 0;
   width: 251.18px;
 }
+.group-child-right {
+  top: 41px;
+  left: 74.25px;
+  background-color: var(--color-royalblue-100);
+  width: 195.83px;
+  height: 18.84px;
+  transform: rotate(-48.26deg);
+  position: absolute;
+  transform-origin: 0 0;
+}
+.group-item-right {
+  top: 80.96px;
+  left: 63.26px;
+  background-color: #002773;
+  width: 195.83px;
+  height: 18.84px;
+  transform: rotate(-48.26deg);
+  position: absolute;
+  transform-origin: 0 0;
+}
+.rectangle-parent-right {
+  top: 34px;
+  left: 132px;
+  width: 251.18px;
+  position: absolute;
+  height: 100px;
+}
+
 .group-inner,
 .group-parent,
 .rectangle-parent {
-    position: absolute;
-    height: 100px;
+  position: absolute;
+  height: 100px;
 }
 .group-inner {
-    top: 0;
-    left: 156.81px;
-    width: 194.18px;
-    object-fit: contain;
+  top: 0;
+  left: 156.81px;
+  width: 194.18px;
+  object-fit: contain;
 }
 .group-parent {
   top: 53.39px;
@@ -87,29 +115,28 @@ body {
   border-radius: var(--br-sm);
 }
 .rectangle-div {
-    position: absolute;
-    top: 78.58px;
-    left: calc(50% - 79.63px);
-    background-color: #0061d0;
-    width: 109px;
-    height: 111px;
-    transform: rotate(-44deg);
-    transform-origin: 0 0;
-    overflow: hidden;
+  position: absolute;
+  top: 78.58px;
+  left: calc(50% - 79.63px);
+  background-color: #0061d0;
+  width: 109px;
+  height: 111px;
+  transform: rotate(-44deg);
+  transform-origin: 0 0;
+  overflow: hidden;
 }
 
 .polygon-icon {
   position: absolute;
-    top: 50%;
-    left: 50%;
-    width: 126%;
-    height: 164%;
-    object-fit: contain;
-    transform: translate(-50%, -50%) rotate(44deg);
-    transform-origin: center;
-    clip-path: polygon(50% 12%, 100% 51%, 49% 88%, -1% 49%);
+  top: 50%;
+  left: 50%;
+  width: 126%;
+  height: 164%;
+  object-fit: contain;
+  transform: translate(-50%, -50%) rotate(44deg);
+  transform-origin: center;
+  clip-path: polygon(50% 12%, 100% 51%, 49% 88%, -1% 49%);
 }
-
 
 .item,
 .rectangle-group {
@@ -120,34 +147,34 @@ body {
   height: 349.26px;
 }
 .item {
-    top: 276.09px;
-    left: calc(50% - 461px);
-    border-radius: var(--br-xl);
-    border: 30px solid var(--color-darkturquoise);
-    box-sizing: border-box;
-    width: 302.61px;
-    height: 302.61px;
-    transform: rotate(-50.98deg);
-    transform-origin: 0 0;
-    opacity: 0.07;
+  top: 276.09px;
+  left: calc(50% - 461px);
+  border-radius: var(--br-xl);
+  border: 30px solid var(--color-darkturquoise);
+  box-sizing: border-box;
+  width: 302.61px;
+  height: 302.61px;
+  transform: rotate(-50.98deg);
+  transform-origin: 0 0;
+  opacity: 0.07;
 }
 .agent-name {
-    margin: 0px auto 20px auto;
-    width: fit-content;
-    font-size: 12px;
-    font-weight:900;
-    font-family: var(--font-roboto);
-    color: var(--color-royalblue-100);
+  margin: 0px auto 20px auto;
+  width: fit-content;
+  font-size: 12px;
+  font-weight: 900;
+  font-family: var(--font-roboto);
+  color: var(--color-royalblue-100);
 }
 .digital-profile,
 .free-tools,
 .my-active-listings {
-    position: absolute;
-    top: 328px;
-    left: calc(50% - 96px);
-    font-size: 12px;
-    font-weight: 300;
-    color: var(--color-black);
+  position: absolute;
+  top: 328px;
+  left: calc(50% - 96px);
+  font-size: 12px;
+  font-weight: 300;
+  color: var(--color-black);
 }
 .digital-profile,
 .free-tools {
@@ -159,15 +186,15 @@ body {
   left: calc(50% - 163px);
 }
 .component-2-child {
-    position: absolute;
-    height: 70%;
-    width: 52%;
-    top: 0;
-    right: 0;
-    bottom: 0;
-    left: 83px;
-    border-radius: var(--br-6xl);
-    background-color: var(--color-royalblue-100);
+  position: absolute;
+  height: 70%;
+  width: 52%;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 83px;
+  border-radius: var(--br-6xl);
+  background-color: var(--color-royalblue-100);
 }
 .co {
   position: absolute;
@@ -286,15 +313,15 @@ body {
   font-family: var(--font-roboto);
 }
 .inner {
-    position: absolute;
-    top: 207.78px;
-    left: calc(50% + 50.19px);
-    border-radius: var(--br-xl);
-    background: linear-gradient(136.09deg, #003eb6 20.73%, #00d4f3 77.92%);
-    width: 89.83px;
-    height: 94.83px;
-    transform: rotate(-43.84deg);
-    transform-origin: 0 0;
+  position: absolute;
+  top: 207.78px;
+  left: calc(50% + 50.19px);
+  border-radius: var(--br-xl);
+  background: linear-gradient(136.09deg, #003eb6 20.73%, #00d4f3 77.92%);
+  width: 89.83px;
+  height: 94.83px;
+  transform: rotate(-43.84deg);
+  transform-origin: 0 0;
 }
 .vector-icon {
   position: absolute;
@@ -446,7 +473,7 @@ body {
 .div {
   position: sticky;
   top: 30px;
-  box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
   border-radius: 30px;
   background-color: var(--color-white);
   width: 220px;

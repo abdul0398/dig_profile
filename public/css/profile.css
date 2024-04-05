@@ -34,7 +34,7 @@ body {
 }
 .child {
   top: -1.36px;
-  left: calc(50% - 235px);
+  left: calc(50% - 243px);
   border-radius: var(--br-sm);
   border: 30px solid var(--color-darkturquoise);
   box-sizing: border-box;
@@ -59,10 +59,38 @@ body {
   left: 17.26px;
   background-color: #002773;
 }
-.rectangle-parent {
+.group-child-right {
+  top: 0;
+  left: 45.25px;
+  background-color: var(--color-royalblue-100);
+}
+.group-item-right {
+  top: 28.96px;
+  left: 73.26px;
+  background-color: #002773;
+}
+.group-child-right,
+.group-item-right {
+  width: 269.83px;
+  height: 40.84px;
+  transform: rotate(-45.26deg);
+  position: absolute;
+  transform-origin: 0 0;
+}
+
+
+
+.rectangle-parent  {
   top: 0;
   left: 0;
   width: 251.18px;
+}
+.rectangular-parent-right{
+  top: 128px;
+  right: 0;
+  width: 251.18px;
+  position: absolute;
+  height: 245px;
 }
 .group-inner,
 .group-parent,

@@ -723,9 +723,10 @@
                 document.getElementById("profile_id").setAttribute("profile_id",id);
                 
                 const name = document.querySelectorAll(".agent-name")
-                name[0].innerHTML = profile.name;
-                name[1].innerHTML = profile.name;
-                name[2].innerHTML = profile.name;
+                name.forEach(elem=>{
+                    console.log(elem);
+                    elem.innerText = profile.name;
+                })
                
                 const preview_profile_img = document.getElementsByClassName("preview_profile_img");
                     
@@ -1713,7 +1714,7 @@
                     const divs = document.querySelectorAll(".editable_div");
                     divs.forEach(div=>{
                         div.addEventListener("blur", async ()=>{
-                          const name = div.textContent; 
+                          const name = div.textContent.trim(); 
                           const id = div.getAttribute("profile_id");
                           const res = await fetch(`api/profile/edit/profileName/${id}`, {
                             method: 'POST',
