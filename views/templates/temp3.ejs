@@ -180,7 +180,7 @@
             </div>
           </div>
         </section>
-        <p style="color: #f10;
+        <p style="color: #e80023;
         text-align: center;
         font-size: 26px;"><%=profile.name%></p>
         <%if(profile.description !== ""){%>
@@ -196,26 +196,26 @@
               <%for(link of sections[key]?.links){%>
                 <%if(link.type == "link"  && !(link.link == "" || link.link == "#")){%>
                   
-                  <li onclick="linkHandler(this)" linkId="<%=link.id%>" redirect_Url="<%=link.link%>" style="cursor: pointer; position: relative; margin:10px auto 10px auto; display: flex; justify-content: center; align-items: center; background-image: linear-gradient(178.54deg, #ff1212 7.67%, #ff2c1d); width: 330px; border-radius: 20px; height: 50px;">
+                  <li onclick="linkHandler(this)" linkId="<%=link.id%>" redirect_Url="<%=link.link%>" style="cursor: pointer; position: relative; margin:10px auto 10px auto; display: flex; justify-content: center; align-items: center; background:#e80023; width: 330px; border-radius: 20px; height: 50px;">
                     <a style="text-decoration: none; color: white;"  ><%=link.name%></a>
                   </li>
                 <%}else if(link.type == "form"){%>
-                  <button form_name="<%=link.name%>" style="position: relative; font-size: 16px; border: none; cursor: pointer; color: white; margin: 10px auto 10px auto; display: flex; justify-content: center; align-items: center; background-image: linear-gradient(178.54deg, #ff1212 7.67%, #ff2c1d); width: 330px; border-radius: 35px; height: 50px;" onclick="showForm(this, false)"><%=link.name%></button>
+                  <button form_name="<%=link.name%>" style="position: relative; font-size: 16px; border: none; cursor: pointer; color: white; margin: 10px auto 10px auto; display: flex; justify-content: center; align-items: center; background:#e80023; width: 330px; border-radius: 35px; height: 50px;" onclick="showForm(this, false)"><%=link.name%></button>
                   <%}else if(link.type == "about_us"){%>
-                  <a target="_blank" href="/aboutus/<%=profile.id%>" style="position: relative; cursor: pointer; text-decoration: none; color: white;  margin:10px auto 10px auto; display: flex; justify-content: center; align-items: center; background-image: linear-gradient(178.54deg, #ff1212 7.67%, #ff2c1d); width: 330px; border-radius: 35px; height: 50px;" >
+                  <a target="_blank" href="/aboutus/<%=profile.id%>" style="position: relative; cursor: pointer; text-decoration: none; color: white;  margin:10px auto 10px auto; display: flex; justify-content: center; align-items: center; background:#e80023; width: 330px; border-radius: 35px; height: 50px;" >
                     <%=link.name%>
                     </a>
                 <%}else if(link.type == "calculator"){%>
-                  <button cal_Link="https://abdul0398.github.io/<%=link.link%>/" style="font-size: 16px; border: none; cursor: pointer; color: white; margin:10px auto 10px auto; display: flex; justify-content: center; align-items: center; background-image: linear-gradient(178.54deg, #ff1212 7.67%, #ff2c1d); width: 330px; border-radius: 35px; height: 50px;" onclick="openCalculator(this)"><%=link.name%></button>
+                  <button cal_Link="https://abdul0398.github.io/<%=link.link%>/" style="font-size: 16px; border: none; cursor: pointer; color: white; margin:10px auto 10px auto; display: flex; justify-content: center; align-items: center; background:#e80023; width: 330px; border-radius: 35px; height: 50px;" onclick="openCalculator(this)"><%=link.name%></button>
                 <%}else if(link.type == "gallery"){%>
-                  <li onclick="linkHandler(this)" redirect_Url="/gallery/<%=profile.id%>/<%=link.name%>" style="cursor: pointer; position: relative; margin:10px auto 10px auto; display: flex; justify-content: center; align-items: center; background-image: linear-gradient(178.54deg, #ff1212 7.67%, #ff2c1d); width: 330px; border-radius: 20px; height: 50px;">
+                  <li onclick="linkHandler(this)" redirect_Url="/gallery/<%=profile.id%>/<%=link.name%>" style="cursor: pointer; position: relative; margin:10px auto 10px auto; display: flex; justify-content: center; align-items: center; background:#e80023; width: 330px; border-radius: 20px; height: 50px;">
                     <a style="text-decoration: none; color: white;"><%=link.name%></a>
                   </li>
                   <%}else if(link.type == "bookform"){%>
-                    <button style="position: relative; font-size: 16px; border: none; cursor: pointer; color: white; margin: 10px auto 10px auto; display: flex; justify-content: center; align-items: center; background-image: linear-gradient(178.54deg, #ff1212 7.67%, #ff2c1d); width: 330px; border-radius: 35px; height: 50px;" onclick="showFormwithCalender(this)">Book An Appointment</button>
+                    <button style="position: relative; font-size: 16px; border: none; cursor: pointer; color: white; margin: 10px auto 10px auto; display: flex; justify-content: center; align-items: center; background:#e80023; width: 330px; border-radius: 35px; height: 50px;" onclick="showFormwithCalender(this)">Book An Appointment</button>
 
               <%}else if(link.type == "leadform"){%>
-                <button form_name="Default" style="position: relative; font-size: 16px; border: none; cursor: pointer; color: white; margin: 10px auto 10px auto; display: flex; justify-content: center; align-items: center; background-image: linear-gradient(178.54deg, #ff1212 7.67%, #ff2c1d); width: 330px; border-radius: 35px; height: 50px;" onclick="showForm(this, false)"><%=link.name%></button>
+                <button form_name="Default" style="position: relative; font-size: 16px; border: none; cursor: pointer; color: white; margin: 10px auto 10px auto; display: flex; justify-content: center; align-items: center; background:#e80023; width: 330px; border-radius: 35px; height: 50px;" onclick="showForm(this, false)"><%=link.name%></button>
               <%}%>
                 <%}%>
 
@@ -235,7 +235,7 @@
           <%if(social.fb && social.fb.link != "#"){%>
             <span style="margin: 0px 10px;">
               <a href="#" onclick="openLink('<%=social.fb.link%>')">
-                <i class="fa-brands fa-2xl fa-facebook" style="color: #ff1212;"></i>
+                <i class="fa-brands fa-2xl fa-facebook" style="color: #e80023;"></i>
               </a>
             </span>
           <%}%>
@@ -243,7 +243,7 @@
           <%if(social.linked && social.linked.link != "#"){%>
             <span style="margin: 0px 10px;">
               <a href="#" onclick="openLink('<%=social.linked.link%>')">
-                <i class="fa-brands fa-linkedin fa-2xl" style="color: #ff1212;"></i>
+                <i class="fa-brands fa-linkedin fa-2xl" style="color: #e80023;"></i>
               </a>
             </span>
           <%}%>
@@ -251,14 +251,14 @@
           <%if(social["insta"] && social["insta"].link != "#"){%>
             <span style="margin: 0px 10px;">
               <a href="#" onclick="openLink('<%=social.insta.link%>')">
-                <i class="fa-brands fa-square-instagram fa-2xl" style="color: #ff1212;"></i>
+                <i class="fa-brands fa-square-instagram fa-2xl" style="color: #e80023;"></i>
               </a>
             </span>
           <%}%>
           <%if(social["tiktok"] && social["tiktok"].link != "#"){%>
             <span style="margin: 0px 10px;">
               <a href="#" onclick="openLink('<%=social.tiktok.link%>')">
-                <i class="fa-brands fa-tiktok fa-2xl" style="color: #ff1212;"></i>
+                <i class="fa-brands fa-tiktok fa-2xl" style="color: #e80023;"></i>
               </a>
             </span>
           <%}%>
@@ -279,7 +279,7 @@
           <%if(social["call"] && social["call"].link != ""){%>
           <div style="width: 165px;">
             <a target="_blank" href="tel:<%=social["call"].link%>">
-              <button style="background-color: #ff1212; width: 100%; height: 50px; border:none; border-radius: 35px; color: white;">
+              <button style="background-color: #e80023; width: 100%; height: 50px; border:none; border-radius: 35px; color: white;">
                 <i class="fa-solid fa-phone"></i>
                 <%=social["call"].name%>
               </button>
@@ -289,7 +289,7 @@
           <%if(social["whats"] && social["whats"].link != ""){%>
           <div style="width: 165px;">
             <a target="_blank" href="https://wa.me/<%=social["whats"].link%>">
-              <button style="background-color: transparent; width: 100%; height: 50px; border:1px solid #ff1212 ; border-radius: 35px; color: black;">
+              <button style="background-color: transparent; width: 100%; height: 50px; border:1px solid #e80023 ; border-radius: 35px; color: black;">
                 <i class="fa-brands fa-whatsapp fa-lg"></i>
                 <%=social["whats"].name%>
               </button>

@@ -35,7 +35,7 @@ body {
     top: 11.42rem;
     left: -23px;
     border-radius: 170px;
-    background: linear-gradient(178.54deg, red 7.67%, #f10);
+    background: #e80023;
     width: 17.34rem;
     height: 34.05rem;
     transform: rotate(-41.2deg);
@@ -230,7 +230,7 @@ body {
     top: 0;
     left: calc(50% - 165px);
     border-radius: var(--br-6xl);
-    background: linear-gradient(178.54deg, #ff1212 7.67%, #ff2c1d);
+    background-color: #e70025;
     width: 9.63rem;
     height: 3.13rem;
   }
