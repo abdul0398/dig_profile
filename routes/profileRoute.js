@@ -41,7 +41,7 @@ try {
     // Check if a profile already exists with the same name for the client
     const [existingProfiles] = await __pool.query(
         'SELECT * FROM profiles WHERE name = ? AND client_id = ?',
-        [name, clientID]
+        [name.trim(), clientID]
     );
     if (existingProfiles.length > 0) {
         return res.status(400).json({ message: 'Profile with this name already exists for the client.' });
@@ -49,7 +49,7 @@ try {
 
     const [rows] = await __pool.query(
         'INSERT INTO profiles (name, client_id, about_us) VALUES (?, ?, ?)',
-        [name, clientID, JSON.stringify([])]
+        [name.trim(), clientID, JSON.stringify([])]
     );
 
     if (rows.insertId) {
