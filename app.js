@@ -11,7 +11,7 @@ async function start() {
     app.use((req,res)=>{
         res.render("error.ejs");
     })
-    app.listen(3000, async ()=>{
+    app.listen(4000, async ()=>{
         console.log("##### Express Server Started at port 3000 #####");
     })
     // await addTiktok();
