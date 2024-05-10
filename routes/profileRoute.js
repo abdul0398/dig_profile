@@ -320,7 +320,7 @@ try {
     }
 }).post("/upload/gallery/:id",verify, upload.single('image'), (req,res)=>{
     res.status(200).json({message:"Image uploaded successfully", file:req.file.filename});
-}).get("/api/get/gallery/:id/:galleryname",verify, (req,res)=>{
+}).get("/api/get/gallery/:id/:galleryname", (req,res)=>{
     const {id, galleryname} = req.params;
     const galleryPath = path.join("uploads", id, "gallery", galleryname);
 
