@@ -53,6 +53,9 @@
         .heading_gallery{
             margin-bottom: 20px;
         }
+        .review-text{
+            height: auto !important;
+        }
     }
 </style>
 <body>
@@ -124,7 +127,7 @@
                 container.innerHTML += `
                       
                     <div class="col-md-6 my-2 col-lg-4">
-                        <div class="card border-light bg-light text-center" style="height: 380px;">
+                        <div class="review-text card border-light bg-light text-center" style="height: 380px;">
                             <div class="d-flex justify-content-center pt-2 pb-2"><img style="100px; height:100px" class="tm-people" src="/${elem.image}" alt=""></div>
                             <div class="card-body blockquote">
                                 <p class="card-text" style="font-size:16px">${elem.desc}</p>
