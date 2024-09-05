@@ -318,7 +318,15 @@ try {
         console.log("Error in updating link count", error.message);
         res.status(500).json({message:"Internal Server Error"});
     }
-}).post("/upload/gallery/:id",verify, upload.single('image'), (req,res)=>{
+}).post("/upload/gallery/:id",verify, upload.single('image'), async (req,res)=>{
+    const {profile_id} = req.body;
+    try {
+        await __pool.query('UPDATE profiles SET is_testimonial_text = false WHERE id = ?', [profile_id]);
+    } catch (error) {
+        
+    }
+
+
     res.status(200).json({message:"Image uploaded successfully", file:req.file.filename});
 }).get("/api/get/gallery/:id/:galleryname", (req,res)=>{
     const {id, galleryname} = req.params;
@@ -581,7 +589,10 @@ try {
 }).get("/gallery/:profileId/:galleryname", async (req,res)=>{
     const {profileId, galleryname} = req.params;
     try {
-        res.render("showgallery.ejs", {id:profileId, galleryname:galleryname.trim()});
+
+        const [row] = await __pool.query(`SELECT is_testimonial_text, testimonial_text FROM profiles WHERE id = ?`, [profileId]);
+
+        res.render("showgallery.ejs", {id:profileId, galleryname:galleryname.trim(), obj:row[0]});
     } catch (error) {
         console.log(error.message);
         res.redirect("/error");
@@ -640,6 +651,43 @@ try {
         console.log(error.message);
         res.redirect("/error");
     }
+}).post("/api/upload-testimonial", verify, upload.array('images[]', 10), async (req,res)=>{
+     try {
+        // Validate presence of required fields
+        const { titles = [], descriptions = [], profile_id: id } = req.body;
+        const files = req.files;
+
+        if (!id) {
+            return res.status(400).json({ error: 'Profile ID is required' });
+        }
+
+        if (titles.length === 0 || descriptions.length === 0 || files.length === 0) {
+            return res.status(400).json({ error: 'Titles, descriptions, and images are required' });
+        }
+
+        if (titles.length !== descriptions.length || titles.length !== files.length) {
+            return res.status(400).json({ error: 'Mismatch between titles, descriptions, and images count' });
+        }
+
+        const obj = titles.map((title, index) => {
+            return {
+                title: title,
+                desc: descriptions[index] || '',
+                image: files[index] ? files[index].path : ''
+            };
+        });
+
+        const jsonObj = JSON.stringify(obj);
+
+        await __pool.query('UPDATE profiles SET testimonial_text = ?, is_testimonial_text = true WHERE id = ?', [jsonObj, id]);
+
+        res.json({ message: 'Testimonial updated successfully' });
+
+    } catch (error) {
+        console.error('Error uploading testimonial:', error);
+        res.status(500).json({ error: 'Internal Server Error' });
+    }
+
 })
 
 

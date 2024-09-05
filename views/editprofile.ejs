@@ -1609,7 +1609,7 @@
     };
   }
 
-  async function editGalleryOpenPopUp(input) {
+  async function editGalleryOpenPopUp(input, link) {
     const galleryname = input.getAttribute("name");
     const { value: newGalleryname } = await Swal.fire({
       title: "Enter Gallery Name",
@@ -1626,7 +1626,11 @@
     if (!newGalleryname) {
       return;
     } else if (newGalleryname == galleryname) {
-      openGalleryPopup(newGalleryname);
+      if(link == '##testimonial##'){
+        chooseTestimonial(newGalleryname);
+      }else{
+        openGalleryPopup(newGalleryname);
+      }
       return;
     }
 
@@ -1657,18 +1661,22 @@
       input.name = newGalleryname;
       showSaveToast();
       populateProfilePreview();
-      openGalleryPopup(newGalleryname);
+      if(link == '##testimonial##'){
+        chooseTestimonial(newGalleryname);
+      }else{
+        openGalleryPopup(newGalleryname);
+      }
     }
 
-    async function openGalleryPopup(newGalleryname) {
-      const modal_gallery = document.getElementById("imageUploadModal-gallery");
-      showLoadingOverlay();
-      await fetchImagesPathAndPopulate(newGalleryname);
-      modal_gallery.style.display = "block";
-      modal_gallery.setAttribute("gallery-name", newGalleryname);
-      hideLoadingOverlay();
-      document.getElementsByTagName("body")[0].style.overflow = "hidden";
-    }
+  }
+  async function openGalleryPopup(newGalleryname) {
+    const modal_gallery = document.getElementById("imageUploadModal-gallery");
+    showLoadingOverlay();
+    await fetchImagesPathAndPopulate(newGalleryname);
+    modal_gallery.style.display = "block";
+    modal_gallery.setAttribute("gallery-name", newGalleryname);
+    hideLoadingOverlay();
+    document.getElementsByTagName("body")[0].style.overflow = "hidden";
   }
 
   async function fetchImagesPathAndPopulate(galleryname) {
@@ -1681,24 +1689,26 @@
       const imgContainer = document.createElement("div");
       imgContainer.classList.add("image-container-gallery");
 
-      const image = document.createElement("img");
-      image.src = `uploads/${id}/gallery/${galleryname}/${img_link}`;
-      image.alt = "Uploaded Image";
-      image.setAttribute("path", img_link);
-
-      const deleteButton = document.createElement("button");
-      deleteButton.classList.add("delete-gallery-button");
-      deleteButton.innerHTML = `&times;`;
-      deleteButton.onclick = async function () {
-        showLoadingOverlay();
-        await deleteImage(image.getAttribute("path"));
-        hideLoadingOverlay();
-        imageList.removeChild(imgContainer);
-      };
-
-      imgContainer.appendChild(image);
-      imgContainer.appendChild(deleteButton);
-      imageList.appendChild(imgContainer);
+      if(!img_link.includes('images[]')){
+        const image = document.createElement("img");
+        image.src = `uploads/${id}/gallery/${galleryname}/${img_link}`;
+        image.alt = "Uploaded Image";
+        image.setAttribute("path", img_link);
+        
+        const deleteButton = document.createElement("button");
+        deleteButton.classList.add("delete-gallery-button");
+        deleteButton.innerHTML = `&times;`;
+        deleteButton.onclick = async function () {
+          showLoadingOverlay();
+          await deleteImage(image.getAttribute("path"));
+          hideLoadingOverlay();
+          imageList.removeChild(imgContainer);
+        };
+        
+        imgContainer.appendChild(image);
+        imgContainer.appendChild(deleteButton);
+        imageList.appendChild(imgContainer);
+      }
     });
   }
 
@@ -2526,5 +2536,50 @@
         confirmButtonText: "Ok",
       });
     }
+  }
+
+
+  function chooseTestimonial(newGalleryName){
+    Swal.fire({
+        title: 'Choose Testimonial Type',
+        html: `
+            <div style="text-align: left;">
+                <input type="radio" id="option1" name="swal-radio" value="text">
+                <label for="option1">Text</label><br><br>
+                <input type="radio" id="option2" name="swal-radio" value="image">
+                <label for="option2">Images</label>
+            </div>
+        `,
+        showCancelButton: true,
+        confirmButtonText: 'Submit',
+        preConfirm: () => {
+            const selectedOption = document.querySelector('input[name="swal-radio"]:checked');
+            if (selectedOption) {
+                return selectedOption.value;
+            } else {
+                Swal.showValidationMessage('Please select an option');
+            }
+        }
+    }).then((result) => {
+        if (result.isConfirmed) {
+            const val = result.value;
+            if(val == 'image'){
+              openGalleryPopup(newGalleryName);
+            }else{
+              openImageTextPopup(newGalleryName);
+            }
+        }else{
+        }
+    });
+  }
+
+  async function openImageTextPopup(newGalleryname) {
+    const modal_gallery = document.getElementById("imageUploadModalText-gallery");
+    // showLoadingOverlay();
+    // await fetchImagesPathAndPopulate(newGalleryname);
+    modal_gallery.style.display = "block";
+    modal_gallery.setAttribute("gallery-name", newGalleryname);
+    // hideLoadingOverlay();
+    document.getElementsByTagName("body")[0].style.overflow = "hidden";
   }
 </script>

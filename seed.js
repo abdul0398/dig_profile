@@ -44,7 +44,7 @@ module.exports.sections = [
             {
                 type: "gallery",
                 name: "Testimonials",
-                link: null
+                link: "##testimonial##"
             },
             {
                 type: "about_us",

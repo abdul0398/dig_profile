@@ -81,17 +81,35 @@
 
 </style>
 <div id="imageUploadModal-gallery" class="modal-gallery">
-        <div class="modal-gallery-content">
-            <span class="close-button">&times;</span>
-            <h2>Upload Images</h2>
-            <div class="upload-area">
-                <input accept="image/png, image/jpeg, image/jpg" type="file" id="imageInput" multiple>
-                <label for="imageInput">Choose Images</label>
-            </div>
-            <div id="imageList" class="image-list">
-
-            </div>
+    <div class="modal-gallery-content">
+        <span class="close-button">&times;</span>
+        <h2>Upload Images</h2>
+        <div class="upload-area">
+            <input accept="image/png, image/jpeg, image/jpg" type="file" id="imageInput" multiple>
+            <label for="imageInput">Choose Images</label>
         </div>
+        <div id="imageList" class="image-list">
+
+        </div>
+    </div>
+</div>
+
+<div id="imageUploadModalText-gallery" class="modal-gallery" >
+    <div class="modal-gallery-content ">
+        <span class="close-button" onclick="closeImageTextModal()">&times;</span>
+        <h2>Upload Images</h2>
+        <div class="upload-area">
+            <input accept="image/png, image/jpeg, image/jpg" type="file" id="imageTextInput" multiple>
+            <label for="imageInput">Choose Images</label>
+        </div>
+        <div id="imageTextList" class="image-list " style="grid-template-columns: repeat(4, 1fr); display: grid;">
+
+        </div>
+
+        <div class="d-flex justify-content-center mt-2">
+            <button class="btn" onclick="submitImages()">Save</button>
+        </div>
+    </div>
 </div>
     <script>
     document.addEventListener('DOMContentLoaded', function () {
@@ -238,4 +256,163 @@
         }
 }
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    const imageTextInput = document.getElementById('imageTextInput');
+    const imageTextList = document.getElementById('imageTextList');
+    const uploadedFiles = [];
+
+    imageTextInput.addEventListener('change', handleImageUpload);
+
+    function handleImageUpload(event) {
+        const files = event.target.files;
+
+        console.log(files);
+        for (let i = 0; i < files.length; i++) {
+            const file = files[i];
+            const reader = new FileReader();
+            uploadedFiles.push(file);
+
+            reader.onload = function (e) {
+                const imagePreview = document.createElement('div');
+                imagePreview.classList.add("d-flex", "flex-column", "align-items-center", "justify-content-center", "mx-2", "position-relative")
+                imagePreview.classList.add('image-item');
+                imagePreview.innerHTML = `
+                    <img src="${e.target.result}" style="width:100px; height:100px" class="mb-2" alt="Image Preview">
+                    <input type="text" placeholder="Enter Title" style="padding: 5px; border: 1px solid #c6c6c6;" name="title-${i}" class="mb-2 image-title form-control">
+                    <input type="text" placeholder="Enter Description" style="padding: 5px; border: 1px solid #c6c6c6;" name="desc-${i}" class="image-desc form-control">
+                    <input type="hidden" value="${file.name}" class="image-name">
+                    <button style="position: absolute;top: 10px; right: 10px;" class="delete-button" onclick="deleteTextImage(this, ${i})">X</button>
+                `;
+                imageTextList.appendChild(imagePreview);
+            };
+
+            reader.readAsDataURL(file);
+        }
+    }
+
+    function deleteTextImage(button, index) {
+        const imageItem = button.parentElement
+        imageItem.remove();
+        uploadedFiles.splice(index, 1)
+    }
+
+    async function submitImages() {
+        const imageItems = document.querySelectorAll('.image-item');
+    
+    if (imageItems.length === 0) {
+        Swal.fire('Error!', 'Please upload at least one image.', 'error');
+        return;
+    }
+
+    // Validation to check if any title or description is missing for uploaded images
+    let hasMissingFields = false;
+
+    imageItems.forEach((item, index) => {
+        const title = item.querySelector('.image-title').value || '';
+        const description = item.querySelector('.image-desc').value || '';
+
+        if (title.trim() === '' || description.trim() === '') {
+            hasMissingFields = true;
+        }
+    });
+
+    if (hasMissingFields) {
+        Swal.fire('Error!', 'Please provide a title and description for each image.', 'error');
+        return;
+    }
+
+    // Show confirmation dialog using SweetAlert
+    const { isConfirmed } = await Swal.fire({
+        title: 'Confirm Upload',
+        text: 'Are you sure you want to upload these images with their titles and descriptions?',
+        icon: 'question',
+        showCancelButton: true,
+        confirmButtonText: 'Yes, upload!',
+        cancelButtonText: 'No, cancel'
+    });
+
+
+
+
+
+    if (isConfirmed) {
+
+
+
+
+
+
+
+        const formData = new FormData();
+        const galleryName = document.getElementById("imageUploadModalText-gallery").getAttribute("gallery-name");
+        const id = document.getElementById("profile_id").getAttribute("profile_id");
+
+        formData.append('gallery_name', galleryName);
+        formData.append('profile_id', id);
+        formData.append('dp', false);
+
+        // Append each image file and its title/description to FormData
+        const imageItems = document.querySelectorAll('.image-item');
+
+        imageItems.forEach((item, index) => {
+            const title = item.querySelector('.image-title').value || '';
+            const description = item.querySelector('.image-desc').value || '';
+            const file = uploadedFiles[index]; // Assuming `uploadedFiles` is an array of File objects
+
+            if (file) {
+                formData.append('titles[]', title);  // Append title
+                formData.append('descriptions[]', description);  // Append description
+                formData.append('images[]', file);  // Append image file
+            }
+        });
+
+        try {
+            const response = await fetch('/api/upload-testimonial', {
+                method: 'POST',
+                body: formData
+            });
+
+            if (!response.ok) {
+                throw new Error('Network response was not ok.');
+            }
+
+            const result = await response.json();
+            console.log('Upload success:', result);
+            Swal.fire('Success!', 'Your images and details have been uploaded.', 'success');
+            // Handle success (e.g., show a success message, update UI)
+        } catch (error) {
+            console.error('Upload failed:', error);
+            Swal.fire('Error!', 'There was a problem uploading your images. Please try again.', 'error');
+            // Handle error (e.g., show an error message to the user)
+        }
+    } else {
+        // Handle case where user cancels the action
+        Swal.fire('Cancelled', 'Your images were not uploaded.', 'info');
+    }
+}
+
+
+    function closeImageTextModal(){
+        const modal = document.getElementById("imageUploadModalText-gallery");
+        modal.style.display = "none";
+        document.getElementsByTagName("body")[0].style.overflow = "auto";
+        if (imageTextInput) {
+            imageTextInput.value = '';
+        }
+        imageTextList.innerHTML = "";
+    }
     </script>
