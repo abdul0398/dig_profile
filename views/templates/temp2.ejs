@@ -206,7 +206,7 @@
                         <%}else if(link.type == "calculator"){%>
                           <button cal_Link="https://abdul0398.github.io/<%=link.link%>/" style="position: relative; font-size: 16px; border: none; cursor: pointer; color: white; margin:10px auto 10px auto; display: flex; justify-content: center; align-items: center; background-color: #B68E00; width: 330px; border-radius: 35px; height: 50px;" onclick="openCalculator(this)"><%=link.name%></button>
                         <%}else if(link.type == "gallery"){%>
-                          <li onclick="linkHandler(this)" redirect_Url="/gallery/<%=profile.id%>/<%=link.name%>" style="cursor: pointer; position: relative; margin:10px auto 10px auto; display: flex; justify-content: center; align-items: center; background-color: #B68E00; width: 330px; border-radius: 20px; height: 50px;">
+                          <li onclick="linkHandler(this)" redirect_Url="/gallery/<%=profile.id%>/<%=link.name%>/?isTest=<%= link.link == '##testimonial##' ? 'true' : 'false' %>" style="cursor: pointer; position: relative; margin:10px auto 10px auto; display: flex; justify-content: center; align-items: center; background-color: #B68E00; width: 330px; border-radius: 20px; height: 50px;">
                             <a style=" text-decoration: none; color: white;" ><%=link.name%></a>
                           </li>                     
                           <%}else if(link.type == "bookform"){%>
