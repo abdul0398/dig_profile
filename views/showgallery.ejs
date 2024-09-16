@@ -73,7 +73,8 @@
     const profile_id = `<%=id%>`
     const galleryname = `<%=galleryname%>`
 
-    if(is_testimonial_text){
+    console.log(`<%=isTest%>`);
+    if(`<%=isTest%>` == 'true' && is_testimonial_text){
         populateTestimonials()
     }else{
         puplateGalleryImages();

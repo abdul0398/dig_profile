@@ -189,7 +189,7 @@ try {
     
                 sectionLinkMap[sectionHeading] = {
                     links: sortedLinks,
-                    type: sectionType
+                    type: sectionType,
                   };
 
             }else{
@@ -588,11 +588,13 @@ try {
 
 }).get("/gallery/:profileId/:galleryname", async (req,res)=>{
     const {profileId, galleryname} = req.params;
+    const {isTest} = req.query;
     try {
 
         const [row] = await __pool.query(`SELECT is_testimonial_text, testimonial_text FROM profiles WHERE id = ?`, [profileId]);
 
-        res.render("showgallery.ejs", {id:profileId, galleryname:galleryname.trim(), obj:row[0]});
+
+        res.render("showgallery.ejs", {id:profileId, galleryname:galleryname.trim(), obj:row[0], isTest: isTest});
     } catch (error) {
         console.log(error.message);
         res.redirect("/error");
