@@ -83,7 +83,7 @@
 
     async function puplateGalleryImages(params) {
         const data = await fetchgalleryImages();
-        
+        console.log(data);
         document.getElementsByTagName("body")[0].innerHTML += `<div id="animated-thumbnails-gallery" class="inline-gallery-container">
             
             </div>`
@@ -111,7 +111,7 @@
 
     async function populateTestimonials(){
         const data = obj?.testimonial_text || [];
-
+        console.log(data);
 
         document.getElementsByTagName("body")[0].innerHTML += `<div id="animated-thumbnails-gallery" class="inline-gallery-container">
             
